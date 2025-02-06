@@ -1,0 +1,116 @@
+const router = require("express").Router()
+const axios = require("axios")
+const OpenAI = require("openai")
+
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY,
+})
+
+router.post("/generate-skills", async (req, res) => {
+	try {
+		const { jobTitle } = req.body
+		let response
+
+		if (jobTitle) {
+			console.log("Ai generation...")
+			response = await openai.chat.completions.create({
+				model: "gpt-4o",
+				messages: [
+					{
+						role: "user",
+						content: `Generate 6 words related to this job title: ${jobTitle} which will be used on a resume. Format the response as JSON with this key: "skills"`,
+					},
+				],
+				response_format: { type: "json_object" },
+			})
+		} else {
+			console.log("Sending default...")
+			response = {
+				skills: [
+					"Communication",
+					"Problem-Solving",
+					"Adaptability",
+					"Collaboration",
+					"Time Management",
+					"Creativity",
+				],
+			}
+		}
+
+		console.log(response)
+
+		const resumeData = jobTitle
+			? JSON.parse(response.choices[0].message.content)
+			: response
+
+		res.json({ resume: resumeData })
+	} catch (error) {
+		console.error("Error generating objective:", error)
+		res.status(500).json({ error: "Error generating objective" })
+	}
+})
+
+router.post("/generate-objective", async (req, res) => {
+	console.log("Generating objective...")
+
+	try {
+		const { jobTitle, skills, objective } = req.body
+
+		const response = await openai.chat.completions.create({
+			model: "gpt-4o",
+			messages: [
+				{
+					role: "user",
+					content: `Generate a summary for a resume, with no more than 100 words, using this job title and skills: ${skills}, and this experience: ${objective}. In addition, generate 6 separate words related to this job title: ${jobTitle}, which will be used on the resume as well. Format the response as JSON with these keys: "objective" and "skills" accordingly`,
+				},
+			],
+			response_format: { type: "json_object" },
+		})
+
+		console.log(response)
+
+		const resumeData = JSON.parse(response.choices[0].message.content)
+
+		res.json({ resume: resumeData })
+	} catch (error) {
+		console.error("Error generating objective:", error)
+		res.status(500).json({ error: "Error generating objective" })
+	}
+
+	// Uncomment if you need to use DeepSeek API via OpenRouter
+	/*
+	try {
+		const requestData = {
+			model: "deepseek/deepseek-r1:free",
+			messages: [
+				{
+					role: "user",
+					content: `Generate a professional resume for ${name}, who is applying for a ${jobTitle} position. Skills: ${skills}. Experience: ${experience}.`,
+				},
+			],
+			max_tokens: 4000,
+		};
+
+		const response = await axios.post(
+			"https://openrouter.ai/api/v1/chat/completions",
+			requestData,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+					"HTTP-Referer": process.env.SITE_URL || "http://localhost:3000",
+					"X-Title": process.env.SITE_NAME || "My Resume Generator",
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const resume = response.data.choices[0].message.content;
+		res.json({ resume });
+	} catch (error) {
+		console.error("Error generating resume:", error.response?.data || error.message);
+		res.status(500).json({ error: "Error generating resume" });
+	}
+	*/
+})
+
+module.exports = router
