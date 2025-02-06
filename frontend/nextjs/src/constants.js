@@ -1,0 +1,7 @@
+export const PERSONAL_DETAILS = "Personal details"
+export const CONTACT_INFORMATION = "Contact information"
+export const PROFESSIONAL_SUMMARY = "Professional summary"
+export const EMPLOYMENT_HISTORY = "Employment History"
+export const SKILLS = "Skills"
+export const EDUCATION = "Education"
+export const REFERENCES = "References"
