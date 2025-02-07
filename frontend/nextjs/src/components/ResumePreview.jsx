@@ -22,6 +22,9 @@ export default function ResumePreview({
 	certifications,
 	educations,
 	references,
+	links,
+	hobbies,
+	customSections,
 }) {
 	const [template, setTemplate] = useState("classic") // Default template
 
@@ -58,6 +61,9 @@ export default function ResumePreview({
 							certifications={certifications}
 							educations={educations}
 							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
 						/>
 					)}
 					{template === "elegant" && (
@@ -77,6 +83,9 @@ export default function ResumePreview({
 							certifications={certifications}
 							educations={educations}
 							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
 						/>
 					)}
 					{template === "modern" && (
@@ -96,6 +105,9 @@ export default function ResumePreview({
 							certifications={certifications}
 							educations={educations}
 							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
 						/>
 					)}
 					{template === "creative" && (
@@ -114,6 +126,9 @@ export default function ResumePreview({
 							certifications={certifications}
 							educations={educations}
 							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
 						/>
 					)}
 				</div>

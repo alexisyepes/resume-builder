@@ -38,6 +38,9 @@ const ResumeGenerator = () => {
 	const [certifications, setCertifications] = useState([])
 	const [references, setReferences] = useState([])
 	const [educations, setEducations] = useState([])
+	const [links, setLinks] = useState([])
+	const [hobbies, setHobbies] = useState([])
+	const [customSections, setCustomSections] = useState([])
 	const [objective, setObjective] = useState("")
 	const [generatedResume, setGeneratedResume] = useState(defaultResume)
 	const [activeTab, setActiveTab] = useState(tabs[0])
@@ -172,6 +175,12 @@ const ResumeGenerator = () => {
 					setEducations={setEducations}
 					references={references}
 					setReferences={setReferences}
+					links={links}
+					setLinks={setLinks}
+					hobbies={hobbies}
+					setHobbies={setHobbies}
+					customSections={customSections}
+					setCustomSections={setCustomSections}
 				/>
 				<ResumePreview
 					resumeRef={resumeRef}
@@ -191,6 +200,9 @@ const ResumeGenerator = () => {
 					certifications={certifications}
 					educations={educations}
 					references={references}
+					links={links}
+					hobbies={hobbies}
+					customSections={customSections}
 				/>
 			</div>
 		</div>

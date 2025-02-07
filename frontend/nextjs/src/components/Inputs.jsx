@@ -6,8 +6,11 @@ import SkillsInput from "./InputSections/SkillsInput"
 import {
 	CERTIFICATIONS,
 	CONTACT_INFORMATION,
+	CUSTOM_SECTION,
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
+	HOBBIES,
+	LINKS,
 	PERSONAL_DETAILS,
 	PROFESSIONAL_SUMMARY,
 	REFERENCES,
@@ -30,10 +33,12 @@ export default function Inputs({
 	experience = [],
 	suggestedSkills = [],
 	skills = [],
+	links = [],
 	handleGenerateResume,
 	selectedTab,
 	setJobTitle,
 	setSkills,
+	setLinks,
 	setExperience,
 	setEmail,
 	setPhone,
@@ -49,6 +54,10 @@ export default function Inputs({
 	setEducations,
 	references,
 	setReferences,
+	hobbies,
+	setHobbies,
+	customSections,
+	setCustomSections,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -174,6 +183,47 @@ export default function Inputs({
 						setData={setExperience}
 					/>
 				)
+			case LINKS:
+				return (
+					<UniversalInput
+						title="Links"
+						fields={[
+							{
+								name: "name",
+								label: "Name (e.g., Portfolio)",
+								placeholder: "Name (e.g., Portfolio)",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "link",
+								placeholder: "Url (e.g., https://www.yourwebsite.com)",
+								label: "Url (e.g., https://www.yourwebsite.com)",
+								type: "text",
+								required: true,
+							},
+						]}
+						data={links}
+						setData={setLinks}
+					/>
+				)
+			case HOBBIES:
+				return (
+					<UniversalInput
+						title="Hobbies"
+						fields={[
+							{
+								name: "hobbies",
+								label: "Hobbies",
+								placeholder: "Hobbies",
+								type: "text",
+								required: true,
+							},
+						]}
+						data={hobbies}
+						setData={setHobbies}
+					/>
+				)
 			case CERTIFICATIONS:
 				return (
 					<UniversalInput
@@ -279,6 +329,38 @@ export default function Inputs({
 						setData={setReferences}
 					/>
 				)
+			case CUSTOM_SECTION:
+				return (
+					<UniversalInput
+						title="Custom Section"
+						fields={[
+							{
+								name: "header",
+								label: "Header",
+								placeholder: "Header",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "subHeader",
+								label: "Sub Header",
+								placeholder: "Sub Header",
+								type: "text",
+								required: false,
+							},
+							{
+								name: "content",
+								label: "Content",
+								placeholder: "Content",
+								type: "richtextarea",
+								required: false,
+							},
+						]}
+						data={customSections}
+						setData={setCustomSections}
+					/>
+				)
+
 			default:
 				return (
 					<PersonalInformation

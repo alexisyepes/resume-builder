@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react"
 import {
 	CERTIFICATIONS,
+	CUSTOM_SECTION,
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
+	HOBBIES,
+	LINKS,
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
 import SectionDoubleLineDivider from "../SectionDoubleLineDivider"
+import "react-quill/dist/quill.snow.css"
 
 export default function ClassicTemaplate({
 	resume,
@@ -20,11 +24,13 @@ export default function ClassicTemaplate({
 	objective,
 	experience,
 	skills,
-	tabs,
 	orderedTabs,
 	certifications,
 	educations,
 	references,
+	links,
+	hobbies,
+	customSections,
 }) {
 	const [scale, setScale] = useState(1)
 
@@ -43,7 +49,7 @@ export default function ClassicTemaplate({
 		[EMPLOYMENT_HISTORY]: (
 			<section className="mb-4">
 				<h2 className="text-lg relative font-semibold pb-1 mb-2">
-					Employment History
+					{EMPLOYMENT_HISTORY}
 					<SectionDoubleLineDivider />
 				</h2>
 
@@ -69,7 +75,7 @@ export default function ClassicTemaplate({
 		[EDUCATION]: (
 			<section className="mb-4">
 				<h2 className="text-lg font-semibold relative pb-1 mb-2">
-					Education
+					{EDUCATION}
 					<SectionDoubleLineDivider />
 				</h2>
 				{educations.map((edu, index) => (
@@ -90,7 +96,7 @@ export default function ClassicTemaplate({
 				{skills.length ? (
 					<>
 						<h2 className="text-lg font-semibold relative pb-1 mt-2">
-							Skills
+							{SKILLS}
 							<SectionDoubleLineDivider />
 						</h2>
 						{skills.map((skill, index) => {
@@ -111,7 +117,7 @@ export default function ClassicTemaplate({
 		[CERTIFICATIONS]: (
 			<section>
 				<h2 className="text-lg font-semibold relative pb-1 mb-2">
-					Certifications
+					{CERTIFICATIONS}
 					<SectionDoubleLineDivider />
 				</h2>
 				{certifications &&
@@ -127,7 +133,7 @@ export default function ClassicTemaplate({
 		[REFERENCES]: (
 			<section>
 				<h2 className="text-lg font-semibold relative pb-1 mb-2">
-					References
+					{REFERENCES}
 					<SectionDoubleLineDivider />
 				</h2>
 				{references &&
@@ -138,6 +144,65 @@ export default function ClassicTemaplate({
 							</li>
 						</ul>
 					))}
+			</section>
+		),
+		[LINKS]: (
+			<section>
+				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+					{LINKS}
+					<SectionDoubleLineDivider />
+				</h2>
+				{links &&
+					links.map((link, index) => (
+						<ul className="list-disc pl-5 text-sm text-gray-700">
+							<li className="capitalize" key={index}>
+								{link.name}: {link.link}
+							</li>
+						</ul>
+					))}
+			</section>
+		),
+		[HOBBIES]: (
+			<section>
+				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+					{HOBBIES}
+					<SectionDoubleLineDivider />
+				</h2>
+				{hobbies &&
+					hobbies.map((hobby, index) => (
+						<span className="capitalize text-sm mr-1" key={index}>
+							{hobby.hobbies}
+							{index === hobbies.length - 1 ? "." : ","}
+						</span>
+					))}
+			</section>
+		),
+		[CUSTOM_SECTION]: (
+			<section>
+				{customSections &&
+					customSections.map((section, index) => {
+						console.log(section)
+						return (
+							<div className="capitalize text-sm mt-2" key={index}>
+								{section.header && (
+									<h2 className="text-lg font-semibold relative pb-1 ">
+										{section.header}
+									</h2>
+								)}
+								{section.subHeader && (
+									<h3 className="text-md font-semibold relative pb-1">
+										{section.subHeader}
+									</h3>
+								)}
+								{section.content && (
+									<div
+										className="ql-editor text-gray-700 cursor-pointer"
+										dangerouslySetInnerHTML={{ __html: section.content }}
+									/>
+								)}
+							</div>
+						)
+					})}
 			</section>
 		),
 	}

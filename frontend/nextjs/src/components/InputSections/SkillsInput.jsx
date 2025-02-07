@@ -17,7 +17,10 @@ export default function SkillsInput({
 }) {
 	const [skillToAdd, setSkillToAdd] = useState("")
 	return (
-		<div className="w-full p-2">
+		<div className="w-full border p-4 rounded-md">
+			<h4 className="block text-sm font-medium text-gray-700 mb-1">
+				Add skill below
+			</h4>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault()
@@ -27,11 +30,12 @@ export default function SkillsInput({
 				className="flex mb-2 justify-between"
 			>
 				<input
+					id="skill"
 					type="text"
 					value={skillToAdd}
 					onChange={(e) => setSkillToAdd(e.target.value)}
 					placeholder="Attention to detail..."
-					className="w-2/3 p-2 border border-gray-300 rounded"
+					className="p-2 w-2/3 border border-gray-300 rounded"
 				/>
 				<button className="bg-cyan-500 rounded-r-md text-white w-1/3">
 					+ Add Skill

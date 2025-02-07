@@ -37,3 +37,18 @@ body {
 		transform: scale(0.5);
 	}
 }
+
+/* Ensure ordered lists display properly */
+.ql-editor ol {
+	list-style-type: decimal; /* Show numbers */
+	padding-left: 20px;
+}
+
+.ql-editor ul {
+	list-style-type: disc; /* Show bullet points */
+	padding-left: 20px;
+}
+
+.ql-editor li {
+	margin-bottom: 4px;
+}

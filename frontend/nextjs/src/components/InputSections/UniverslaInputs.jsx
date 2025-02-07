@@ -1,5 +1,18 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
+import dynamic from "next/dynamic"
+import "react-quill/dist/quill.snow.css"
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
+
+const modules = {
+	toolbar: [
+		[{ header: [1, 2, false] }],
+		["bold", "italic", "underline", "strike"],
+		[{ list: "ordered" }, { list: "bullet" }],
+		[{ color: [] }, { background: [] }],
+	],
+}
 
 export default function UniversalInput({ title, fields, data, setData }) {
 	const initialState = fields.reduce((acc, field) => {
@@ -9,31 +22,27 @@ export default function UniversalInput({ title, fields, data, setData }) {
 
 	const [formData, setFormData] = useState(initialState)
 	const [editingIndex, setEditingIndex] = useState(null)
-	const [editingField, setEditingField] = useState(null) // Track which field is being edited
+	const [editingField, setEditingField] = useState(null)
+
+	const quillRef = useRef(null)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
-		setFormData({ ...formData, [name]: value })
+		setFormData((prev) => ({ ...prev, [name]: value }))
+	}
+
+	const handleRichTextChange = (value, fieldName) => {
+		setFormData((prev) => ({ ...prev, [fieldName]: value }))
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-
 		const isValid = fields.every(
 			(field) => !field.required || formData[field.name]
 		)
 		if (!isValid) return
 
-		const formattedData = { ...formData }
-		fields.forEach((field) => {
-			if (field.type === "textarea") {
-				formattedData[field.name] = formData[field.name]
-					.split("\n")
-					.filter(Boolean)
-			}
-		})
-
-		setData([...data, formattedData])
+		setData([...data, formData])
 		setFormData(initialState)
 	}
 
@@ -52,9 +61,27 @@ export default function UniversalInput({ title, fields, data, setData }) {
 		setData(updatedData)
 	}
 
-	const handleBlur = () => {
+	const handleRichTextEditChange = (value, index, field) => {
+		const updatedData = [...data]
+		updatedData[index] = { ...updatedData[index], [field]: value }
+		setData(updatedData)
+	}
+
+	// 🟢 Handles blur for text inputs only
+	const handleInputBlur = () => {
 		setEditingIndex(null)
 		setEditingField(null)
+	}
+
+	// 🟢 Handles blur for ReactQuill only when clicking outside of it
+	const handleRichTextBlur = (e) => {
+		if (
+			quillRef.current &&
+			!quillRef.current.contains(e.relatedTarget) // Prevent blur if clicking inside the editor
+		) {
+			setEditingIndex(null)
+			setEditingField(null)
+		}
 	}
 
 	return (
@@ -63,24 +90,26 @@ export default function UniversalInput({ title, fields, data, setData }) {
 			<form onSubmit={handleSubmit} className="space-y-4">
 				{fields.map((field) => (
 					<div key={field.name}>
-						<label
-							htmlFor={field.name}
-							className="block text-sm font-medium text-gray-700 mb-1"
-						>
+						<label className="block text-sm font-medium text-gray-700 mb-1">
 							{field.label}
 						</label>
 						{field.type === "textarea" ? (
 							<textarea
-								id={field.name}
 								name={field.name}
 								placeholder={field.placeholder}
 								value={formData[field.name]}
 								onChange={handleChange}
 								className="w-full p-2 border rounded h-24"
 							/>
+						) : field.type === "richtextarea" ? (
+							<ReactQuill
+								value={formData[field.name]}
+								onChange={(value) => handleRichTextChange(value, field.name)}
+								modules={modules}
+								className="h-40 mb-20 mt-4"
+							/>
 						) : (
 							<input
-								id={field.name}
 								type={field.type}
 								name={field.name}
 								placeholder={field.placeholder}
@@ -117,13 +146,38 @@ export default function UniversalInput({ title, fields, data, setData }) {
 									/>
 								)}
 								{editingIndex === index && editingField === field.name ? (
-									<input
-										type="text"
-										value={item[field.name]}
-										onChange={(e) => handleEditChange(e, index, field.name)}
-										onBlur={handleBlur}
-										className="w-full px-2 py-1 border rounded"
-										autoFocus
+									field.type === "richtextarea" ? (
+										// 🟢 Rich Text Editor with proper blur handling
+										<div
+											ref={quillRef}
+											onBlur={handleRichTextBlur}
+											tabIndex={0} // Required to make it focusable
+											className="relative"
+										>
+											<ReactQuill
+												value={item[field.name] || ""}
+												onChange={(value) =>
+													handleRichTextEditChange(value, index, field.name)
+												}
+												modules={modules}
+												className="h-40 mb-20 mt-4"
+											/>
+										</div>
+									) : (
+										<input
+											type="text"
+											value={item[field.name]}
+											onChange={(e) => handleEditChange(e, index, field.name)}
+											onBlur={handleInputBlur} // 🟢 Text inputs have a separate blur function
+											className="w-full px-2 py-1 border rounded"
+											autoFocus
+										/>
+									)
+								) : field.type === "richtextarea" ? (
+									<div
+										className="text-gray-700 cursor-pointer"
+										onClick={() => handleEditClick(index, field.name)}
+										dangerouslySetInnerHTML={{ __html: item[field.name] || "" }} // Safe rendering
 									/>
 								) : (
 									<span
