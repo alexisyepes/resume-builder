@@ -4,6 +4,7 @@ import ContactInput from "./InputSections/ContactInput"
 import ProfessionalSummaryInput from "./InputSections/ProfessionalSummaryInput"
 import SkillsInput from "./InputSections/SkillsInput"
 import {
+	CERTIFICATIONS,
 	CONTACT_INFORMATION,
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
@@ -12,7 +13,7 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
-import EmploymentHistory from "./InputSections/EmploymentHistoryInput"
+import UniversalInput from "./InputSections/UniverslaInputs"
 
 export default function Inputs({
 	firstName = "",
@@ -42,6 +43,12 @@ export default function Inputs({
 	nextTabHandler,
 	isLoading,
 	regenerateSkillsSuggestions,
+	certifications,
+	setCertifications,
+	educations,
+	setEducations,
+	references,
+	setReferences,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -132,9 +139,69 @@ export default function Inputs({
 				)
 			case EMPLOYMENT_HISTORY:
 				return (
-					<EmploymentHistory
-						experience={experience}
-						setExperience={setExperience}
+					<UniversalInput
+						title="Employment History"
+						fields={[
+							{
+								name: "company",
+								placeholder: "Company",
+								label: "Company",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "role",
+								label: "Role",
+								placeholder: "Role",
+								type: "text",
+								required: true,
+							},
+							{
+								label: "Year (e.g., 2020 - Present)",
+								name: "year",
+								placeholder: "Year (e.g., 2020 - Present)",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "responsibilities",
+								label: "Responsibilities (each on a new line)",
+								placeholder: "Responsibilities (each on a new line)",
+								type: "textarea",
+							},
+						]}
+						data={experience}
+						setData={setExperience}
+					/>
+				)
+			case CERTIFICATIONS:
+				return (
+					<UniversalInput
+						title="Certifications"
+						fields={[
+							{
+								name: "institution",
+								placeholder: "Institution",
+								label: "Institution",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "certificationName",
+								placeholder: "Certification Name",
+								label: "Certification Name",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "year",
+								placeholder: "Year / Date",
+								label: "Year / Date",
+								type: "text",
+							},
+						]}
+						data={certifications}
+						setData={setCertifications}
 					/>
 				)
 			case SKILLS:
@@ -154,27 +221,63 @@ export default function Inputs({
 				)
 			case EDUCATION:
 				return (
-					<div className="w-full p-2">
-						Education
-						<button
-							onClick={nextTabHandler}
-							className="w-full bg-blue-500 text-white p-2 rounded"
-						>
-							Next
-						</button>
-					</div>
+					<UniversalInput
+						title="Education"
+						fields={[
+							{
+								name: "institution",
+								placeholder: "Institution",
+								label: "Institution",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "degree",
+								placeholder: "Degree",
+								label: "Degree",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "year",
+								placeholder: "Year / Date",
+								label: "Year / Date",
+								type: "text",
+							},
+						]}
+						data={educations}
+						setData={setEducations}
+					/>
 				)
 			case REFERENCES:
 				return (
-					<div className="w-full p-2">
-						References
-						<button
-							onClick={nextTabHandler}
-							className="w-full bg-green-500 mt-2 text-white p-2 rounded"
-						>
-							Finish
-						</button>
-					</div>
+					<UniversalInput
+						title="References"
+						fields={[
+							{
+								name: "name",
+								placeholder: "Reference Full Name",
+								label: "Reference Full Name",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "company",
+								placeholder: "Company Name",
+								label: "Company Name",
+								type: "text",
+								required: true,
+							},
+							{
+								name: "email_phone",
+								placeholder: "Email / Phone-number",
+								label: "Email / Phone-number",
+								type: "email",
+							},
+						]}
+						data={references}
+						setData={setReferences}
+					/>
 				)
 			default:
 				return (

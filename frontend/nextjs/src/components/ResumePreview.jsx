@@ -18,6 +18,10 @@ export default function ResumePreview({
 	experience,
 	objective,
 	jobTitle,
+	tabs,
+	certifications,
+	educations,
+	references,
 }) {
 	const [template, setTemplate] = useState("classic") // Default template
 
@@ -38,6 +42,7 @@ export default function ResumePreview({
 				<div ref={resumeRef} className="bg-white  p-4 rounded shadow">
 					{template === "classic" && (
 						<ClassicTemplate
+							tabs={tabs}
 							email={email}
 							firstName={firstName}
 							lastName={lastName}
@@ -49,10 +54,14 @@ export default function ResumePreview({
 							experience={experience}
 							resume={generatedResume}
 							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
 						/>
 					)}
 					{template === "elegant" && (
 						<ElegantTemplate
+							tabs={tabs}
 							email={email}
 							firstName={firstName}
 							lastName={lastName}
@@ -64,10 +73,14 @@ export default function ResumePreview({
 							experience={experience}
 							resume={generatedResume}
 							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
 						/>
 					)}
 					{template === "modern" && (
 						<ModernTemplate
+							tabs={tabs}
 							email={email}
 							firstName={firstName}
 							lastName={lastName}
@@ -79,10 +92,14 @@ export default function ResumePreview({
 							experience={experience}
 							resume={generatedResume}
 							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
 						/>
 					)}
 					{template === "creative" && (
 						<CreativeTemplate
+							tabs={tabs}
 							email={email}
 							firstName={firstName}
 							lastName={lastName}
@@ -93,6 +110,9 @@ export default function ResumePreview({
 							objective={objective}
 							resume={generatedResume}
 							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
 						/>
 					)}
 				</div>

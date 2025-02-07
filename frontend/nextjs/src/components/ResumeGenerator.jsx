@@ -6,6 +6,7 @@ import TabSelector from "./TabSelector"
 import { defaultResume } from "@/utils"
 import Inputs from "./Inputs"
 import {
+	CERTIFICATIONS,
 	CONTACT_INFORMATION,
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
@@ -20,10 +21,9 @@ const ResumeGenerator = () => {
 		PERSONAL_DETAILS,
 		CONTACT_INFORMATION,
 		PROFESSIONAL_SUMMARY,
-		EMPLOYMENT_HISTORY,
 		SKILLS,
+		EMPLOYMENT_HISTORY,
 		EDUCATION,
-		REFERENCES,
 	])
 	const [email, setEmail] = useState("")
 	const [phone, setPhone] = useState("")
@@ -35,6 +35,9 @@ const ResumeGenerator = () => {
 	const [skills, setSkills] = useState([])
 	const [suggestedSkills, setSuggestedSkills] = useState([])
 	const [experience, setExperience] = useState([])
+	const [certifications, setCertifications] = useState([])
+	const [references, setReferences] = useState([])
+	const [educations, setEducations] = useState([])
 	const [objective, setObjective] = useState("")
 	const [generatedResume, setGeneratedResume] = useState(defaultResume)
 	const [activeTab, setActiveTab] = useState(tabs[0])
@@ -45,7 +48,6 @@ const ResumeGenerator = () => {
 		if (defaultResume) {
 			setFirstName(generatedResume.name)
 			setJobTitle(generatedResume.jobTitle)
-			setExperience(generatedResume.experience)
 			setJobTitle(generatedResume.jobTitle)
 		}
 		setGeneratedResume(defaultResume)
@@ -60,6 +62,13 @@ const ResumeGenerator = () => {
 		if (currentIndex < tabs.length - 1) {
 			setActiveTab(tabs[currentIndex + 1])
 		}
+	}
+
+	const moveTabHandler = (fromIndex, toIndex) => {
+		const updatedTabs = [...tabs]
+		const [movedTab] = updatedTabs.splice(fromIndex, 1)
+		updatedTabs.splice(toIndex, 0, movedTab)
+		setTabs(updatedTabs)
 	}
 
 	const regenerateSkillsSuggestions = async () => {
@@ -110,6 +119,10 @@ const ResumeGenerator = () => {
 		setTabs(newTabs)
 	}
 
+	const addTabHandler = (newTab) => {
+		setTabs((prevTabs) => [...prevTabs, newTab])
+	}
+
 	return (
 		<div className="w-full p-2 mx-auto bg-white shadow-md rounded-md">
 			<h2 className="text-2xl font-bold mb-4">Resume Builder</h2>
@@ -120,6 +133,8 @@ const ResumeGenerator = () => {
 					activeTab={activeTab}
 					onTabChange={handleTabChange}
 					removeTabHandler={removeTabHandler}
+					addTabHandler={addTabHandler}
+					moveTabHandler={moveTabHandler}
 				/>
 				<Inputs
 					nextTabHandler={nextTab}
@@ -138,6 +153,8 @@ const ResumeGenerator = () => {
 					setJobTitle={setJobTitle}
 					setSkills={setSkills}
 					setExperience={setExperience}
+					certifications={certifications}
+					setCertifications={setCertifications}
 					jobTitle={jobTitle}
 					skills={skills}
 					suggestedSkills={suggestedSkills}
@@ -149,6 +166,10 @@ const ResumeGenerator = () => {
 					objective={objective}
 					isLoading={isLoading}
 					regenerateSkillsSuggestions={regenerateSkillsSuggestions}
+					educations={educations}
+					setEducations={setEducations}
+					references={references}
+					setReferences={setReferences}
 				/>
 				<ResumePreview
 					resumeRef={resumeRef}
@@ -164,6 +185,10 @@ const ResumeGenerator = () => {
 					experience={experience}
 					objective={objective}
 					jobTitle={jobTitle}
+					tabs={tabs}
+					certifications={certifications}
+					educations={educations}
+					references={references}
 				/>
 			</div>
 		</div>

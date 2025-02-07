@@ -1,6 +1,7 @@
 import RingLoader from "react-spinners/RingLoader"
 import dynamic from "next/dynamic"
 import "react-quill/dist/quill.snow.css"
+import { RxReload } from "react-icons/rx"
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 
@@ -64,17 +65,18 @@ export default function ProfessionalSummaryInput({
 						}}
 						className={`w-full ${
 							isLoading || objective.length < 10 || counter === 5
-								? "bg-cyan-400"
-								: "bg-cyan-500"
+								? "bg-purple-400"
+								: "bg-purple-500"
 						}  text-white p-2 rounded`}
 					>
+						<RxReload color="" className="inline mr-2" />
 						{isLoading ? "Generating..." : "Generate with AI"}
 					</button>
 					<button
 						disabled={!objective}
 						onClick={nextTabHandler}
 						className={`w-full ${
-							!objective ? "bg-blue-300" : "bg-blue-500"
+							!objective ? "bg-cyan-300" : "bg-cyan-500"
 						}  text-white p-2 rounded`}
 					>
 						Next

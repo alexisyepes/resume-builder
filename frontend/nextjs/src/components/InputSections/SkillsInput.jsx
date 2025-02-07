@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import { RxReload } from "react-icons/rx"
 import RingLoader from "react-spinners/RingLoader"
@@ -14,15 +15,36 @@ export default function SkillsInput({
 	handleEditClick,
 	nextTabHandler,
 }) {
+	const [skillToAdd, setSkillToAdd] = useState("")
 	return (
 		<div className="w-full p-2">
+			<form
+				onSubmit={(e) => {
+					e.preventDefault()
+					setSkills([...skills, skillToAdd])
+					setSkillToAdd("")
+				}}
+				className="flex mb-2 justify-between"
+			>
+				<input
+					type="text"
+					value={skillToAdd}
+					onChange={(e) => setSkillToAdd(e.target.value)}
+					placeholder="Attention to detail..."
+					className="w-2/3 p-2 border border-gray-300 rounded"
+				/>
+				<button className="bg-cyan-500 rounded-r-md text-white w-1/3">
+					+ Add Skill
+				</button>
+			</form>
 			<div className="border p-2 rounded-md mb-2">
-				<h5 className="font-bold mb-2 text-center">
-					Choose from the options below (based on your job title)
+				<h5 className="text-sm mb-2 text-center">
+					Choose from the options below (based on your job title) <br /> or add
+					your own above
 				</h5>
 				<button
 					onClick={regenerateSkillsSuggestions}
-					className="bg-purple-500 rounded-lg px-2 py-1 text-white w-full inline-block"
+					className="bg-purple-500 rounded-md px-2 py-1 text-white w-full inline-block"
 				>
 					<RxReload color="" className="inline mr-2" />
 					{!suggestedSkills.length ? "Generate" : "Regenerate"} Suggestions
@@ -49,7 +71,7 @@ export default function SkillsInput({
 				? skills.map((skill, index) => (
 						<div
 							key={index}
-							className="cursor-pointer justify-between flex bg-slate-700 rounded-md px-2 py-1 my-2 text-white"
+							className="cursor-pointer justify-between flex bg-blue-100 rounded-md px-2 py-1 my-2"
 						>
 							{editingId === index ? (
 								<input
@@ -82,7 +104,7 @@ export default function SkillsInput({
 				: null}
 			<button
 				onClick={nextTabHandler}
-				className="w-full bg-blue-500 text-white p-2 rounded"
+				className="w-full bg-cyan-500 text-white p-2 rounded"
 			>
 				Next
 			</button>

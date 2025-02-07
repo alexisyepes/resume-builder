@@ -1,8 +1,8 @@
 export const defaultResume = {
 	resume: {
 		firstName: "john",
-		lastName: "smith",
-		jobTitle: "Full stack developer",
+		lastName: "connor",
+		jobTitle: "project manager",
 		contact: {
 			email: "john.smith@example.com",
 			phone: "+1-234-567-8901",

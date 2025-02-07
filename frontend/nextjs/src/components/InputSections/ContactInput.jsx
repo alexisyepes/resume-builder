@@ -41,7 +41,7 @@ export default function ContactInput({
 			/>
 			<button
 				onClick={nextTabHandler}
-				className="w-full bg-blue-500 text-white p-2 rounded"
+				className="w-full bg-cyan-500 text-white p-2 rounded"
 			>
 				Next
 			</button>
