@@ -21,6 +21,7 @@ export default function ClassicTemaplate({
 	experience,
 	skills,
 	tabs,
+	orderedTabs,
 	certifications,
 	educations,
 	references,
@@ -37,6 +38,109 @@ export default function ClassicTemaplate({
 
 		return () => window.removeEventListener("resize", updateScale)
 	}, [])
+
+	const sectionMap = {
+		[EMPLOYMENT_HISTORY]: (
+			<section className="mb-4">
+				<h2 className="text-lg relative font-semibold pb-1 mb-2">
+					Employment History
+					<SectionDoubleLineDivider />
+				</h2>
+
+				{experience.map((exp, index) => (
+					<div key={index} className="mb-3">
+						<h3 className="capitalize flex justify-between text-sm font-semibold">
+							<span>
+								{exp.company} - {exp.role}
+							</span>
+							<span>{exp.year}</span>
+						</h3>
+						<ul className="list-disc pl-5 text-sm text-gray-700">
+							{exp.responsibilities.map((task, i) => (
+								<li className="capitalize" key={i}>
+									{task}
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</section>
+		),
+		[EDUCATION]: (
+			<section className="mb-4">
+				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+					Education
+					<SectionDoubleLineDivider />
+				</h2>
+				{educations.map((edu, index) => (
+					<h3
+						key={index}
+						className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
+					>
+						<span>
+							{edu.degree} - {edu.institution}
+						</span>
+						<span>{edu.year}</span>
+					</h3>
+				))}
+			</section>
+		),
+		[SKILLS]: (
+			<section className="mb-4">
+				{skills.length ? (
+					<>
+						<h2 className="text-lg font-semibold relative pb-1 mt-2">
+							Skills
+							<SectionDoubleLineDivider />
+						</h2>
+						{skills.map((skill, index) => {
+							return (
+								<span
+									key={index}
+									className="text-sm mr-1 capitalize text-gray-700"
+								>
+									{skill}
+									{index === skills.length - 1 ? "." : ","}
+								</span>
+							)
+						})}
+					</>
+				) : null}
+			</section>
+		),
+		[CERTIFICATIONS]: (
+			<section>
+				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+					Certifications
+					<SectionDoubleLineDivider />
+				</h2>
+				{certifications &&
+					certifications.map((cert, index) => (
+						<ul className="list-disc pl-5 text-sm text-gray-700">
+							<li className="capitalize" key={index}>
+								{cert.institution} {cert.year}
+							</li>
+						</ul>
+					))}
+			</section>
+		),
+		[REFERENCES]: (
+			<section>
+				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+					References
+					<SectionDoubleLineDivider />
+				</h2>
+				{references &&
+					references.map((reference, index) => (
+						<ul className="list-disc pl-5 text-sm text-gray-700">
+							<li className="capitalize" key={index}>
+								{reference.name} {reference.company} {reference.email_phone}
+							</li>
+						</ul>
+					))}
+			</section>
+		),
+	}
 
 	if (!resume) return <p>Loading resume data...</p>
 
@@ -77,124 +181,7 @@ export default function ClassicTemaplate({
 				</p>
 			</section>
 
-			{/* Experience Section */}
-			{experience.length
-				? tabs.includes(EMPLOYMENT_HISTORY) && (
-						<section className="mb-4">
-							<h2 className="text-lg relative font-semibold pb-1 mb-2">
-								Employment History
-								<SectionDoubleLineDivider />
-							</h2>
-
-							{experience.map((exp, index) => (
-								<div key={index} className="mb-3">
-									<h3 className="capitalize flex justify-between text-sm font-semibold">
-										<span>
-											{exp.company} - {exp.role}
-										</span>
-										<span>{exp.year}</span>
-									</h3>
-									<ul className="list-disc pl-5 text-sm text-gray-700">
-										{exp.responsibilities.map((task, i) => (
-											<li className="capitalize" key={i}>
-												{task}
-											</li>
-										))}
-									</ul>
-								</div>
-							))}
-						</section>
-				  )
-				: null}
-
-			{/* Education Section */}
-			{educations && educations.length
-				? tabs.includes(EDUCATION) && (
-						<section className="mb-4">
-							<h2 className="text-lg font-semibold relative pb-1 mb-2">
-								Education
-								<SectionDoubleLineDivider />
-							</h2>
-							{educations.map((edu, index) => (
-								<h3
-									key={index}
-									className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
-								>
-									<span>
-										{edu.degree} - {edu.institution}
-									</span>
-									<span>{edu.year}</span>
-								</h3>
-							))}
-						</section>
-				  )
-				: null}
-
-			{/* Skills Section */}
-			{tabs.includes(SKILLS) && (
-				<section className="mb-4">
-					{skills.length ? (
-						<>
-							<h2 className="text-lg font-semibold relative pb-1 mb-2">
-								Skills
-								<SectionDoubleLineDivider />
-							</h2>
-							{skills.map((skill, index) => {
-								return (
-									<span
-										key={index}
-										className="text-sm mr-1 capitalize text-gray-700"
-									>
-										{skill}
-										{index === skills.length - 1 ? "." : ","}
-									</span>
-								)
-							})}
-						</>
-					) : null}
-				</section>
-			)}
-
-			{/* Certification Section */}
-			{certifications.length
-				? tabs.includes(CERTIFICATIONS) && (
-						<section>
-							<h2 className="text-lg font-semibold relative pb-1 mb-2">
-								Certifications
-								<SectionDoubleLineDivider />
-							</h2>
-							{certifications &&
-								certifications.map((cert, index) => (
-									<ul className="list-disc pl-5 text-sm text-gray-700">
-										<li className="capitalize" key={index}>
-											{cert.institution} {cert.year}
-										</li>
-									</ul>
-								))}
-						</section>
-				  )
-				: null}
-
-			{/* References Section */}
-			{references.length
-				? tabs.includes(REFERENCES) && (
-						<section>
-							<h2 className="text-lg font-semibold relative pb-1 mb-2">
-								References
-								<SectionDoubleLineDivider />
-							</h2>
-							{references &&
-								references.map((reference, index) => (
-									<ul className="list-disc pl-5 text-sm text-gray-700">
-										<li className="capitalize" key={index}>
-											{reference.name} {reference.company}{" "}
-											{reference.email_phone}
-										</li>
-									</ul>
-								))}
-						</section>
-				  )
-				: null}
+			{orderedTabs.map((tab) => sectionMap[tab])}
 		</div>
 	)
 }

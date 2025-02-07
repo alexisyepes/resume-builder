@@ -83,13 +83,13 @@ const DraggableTab = ({
 				activeTab === tab
 					? "bg-cyan-500 text-white"
 					: "bg-cyan-100 text-gray-700 hover:bg-blue-100"
-			} flex justify-between items-center rounded-lg px-4 py-2 cursor-${
+			} flex justify-between items-center rounded-sm px-4 py-2 cursor-${
 				isReadOnly ? "default" : "grab"
 			} ${isDragging ? "opacity-50" : ""}`}
 		>
 			<button className="w-full text-left" onClick={() => onTabChange(tab)}>
 				{!READ_ONLY_TABS.includes(tab) && (
-					<MdOutlineDragIndicator className="inline mr-2" />
+					<MdOutlineDragIndicator className="cursor-move inline mr-2" />
 				)}
 				{tab === PERSONAL_DETAILS && (
 					<IoPerson size={20} className="inline mr-2" />

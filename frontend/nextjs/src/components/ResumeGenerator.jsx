@@ -65,10 +65,12 @@ const ResumeGenerator = () => {
 	}
 
 	const moveTabHandler = (fromIndex, toIndex) => {
-		const updatedTabs = [...tabs]
-		const [movedTab] = updatedTabs.splice(fromIndex, 1)
-		updatedTabs.splice(toIndex, 0, movedTab)
-		setTabs(updatedTabs)
+		setTabs((prevTabs) => {
+			const updatedTabs = [...prevTabs]
+			const [movedTab] = updatedTabs.splice(fromIndex, 1)
+			updatedTabs.splice(toIndex, 0, movedTab)
+			return updatedTabs
+		})
 	}
 
 	const regenerateSkillsSuggestions = async () => {

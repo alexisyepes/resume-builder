@@ -42,6 +42,7 @@ export default function ResumePreview({
 				<div ref={resumeRef} className="bg-white  p-4 rounded shadow">
 					{template === "classic" && (
 						<ClassicTemplate
+							orderedTabs={tabs}
 							tabs={tabs}
 							email={email}
 							firstName={firstName}
