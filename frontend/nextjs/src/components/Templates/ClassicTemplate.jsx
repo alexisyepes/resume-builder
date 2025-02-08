@@ -32,19 +32,6 @@ export default function ClassicTemaplate({
 	hobbies,
 	customSections,
 }) {
-	const [scale, setScale] = useState(1)
-
-	useEffect(() => {
-		const updateScale = () => {
-			setScale(Math.min(1, window.innerWidth / 1200))
-		}
-
-		updateScale()
-		window.addEventListener("resize", updateScale)
-
-		return () => window.removeEventListener("resize", updateScale)
-	}, [])
-
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
 			<section className="mb-4">
@@ -53,23 +40,24 @@ export default function ClassicTemaplate({
 					<SectionDoubleLineDivider />
 				</h2>
 
-				{experience.map((exp, index) => (
-					<div key={index} className="mb-3">
-						<h3 className="capitalize flex justify-between text-sm font-semibold">
-							<span>
-								{exp.company} - {exp.role}
-							</span>
-							<span>{exp.year}</span>
-						</h3>
-						<ul className="list-disc pl-5 text-sm text-gray-700">
-							{exp.responsibilities.map((task, i) => (
-								<li className="capitalize" key={i}>
-									{task}
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
+				{experience &&
+					experience.map((exp, index) => (
+						<div key={index} className="mb-3">
+							<h3 className="capitalize flex justify-between text-sm font-semibold">
+								<span>
+									{exp.company} - {exp.role}
+								</span>
+								<span>{exp.year}</span>
+							</h3>
+							<ul className="list-disc pl-5 text-sm text-gray-700">
+								{exp.responsibilities.map((task, i) => (
+									<li className="capitalize" key={`${exp.company}-${i}`}>
+										{task}
+									</li>
+								))}
+							</ul>
+						</div>
+					))}
 			</section>
 		),
 		[EDUCATION]: (
@@ -80,7 +68,7 @@ export default function ClassicTemaplate({
 				</h2>
 				{educations.map((edu, index) => (
 					<h3
-						key={index}
+						key={`${edu.institution}-${edu.degree}`}
 						className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
 					>
 						<span>
@@ -122,8 +110,11 @@ export default function ClassicTemaplate({
 				</h2>
 				{certifications &&
 					certifications.map((cert, index) => (
-						<ul className="list-disc pl-5 text-sm text-gray-700">
-							<li className="capitalize" key={index}>
+						<ul
+							key={`${cert.institution}-${cert.year}`}
+							className="list-disc pl-5 text-sm text-gray-700"
+						>
+							<li className="capitalize">
 								{cert.institution} {cert.year}
 							</li>
 						</ul>
@@ -138,8 +129,8 @@ export default function ClassicTemaplate({
 				</h2>
 				{references &&
 					references.map((reference, index) => (
-						<ul className="list-disc pl-5 text-sm text-gray-700">
-							<li className="capitalize" key={index}>
+						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
+							<li className="capitalize">
 								{reference.name} {reference.company} {reference.email_phone}
 							</li>
 						</ul>
@@ -154,8 +145,8 @@ export default function ClassicTemaplate({
 				</h2>
 				{links &&
 					links.map((link, index) => (
-						<ul className="list-disc pl-5 text-sm text-gray-700">
-							<li className="capitalize" key={index}>
+						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
+							<li className="capitalize">
 								{link.name}: {link.link}
 							</li>
 						</ul>
@@ -170,7 +161,10 @@ export default function ClassicTemaplate({
 				</h2>
 				{hobbies &&
 					hobbies.map((hobby, index) => (
-						<span className="capitalize text-sm mr-1" key={index}>
+						<span
+							className="capitalize text-sm mr-1"
+							key={`${hobby.hobbies}-${index}`}
+						>
 							{hobby.hobbies}
 							{index === hobbies.length - 1 ? "." : ","}
 						</span>
@@ -183,7 +177,10 @@ export default function ClassicTemaplate({
 					customSections.map((section, index) => {
 						console.log(section)
 						return (
-							<div className="capitalize text-sm mt-2" key={index}>
+							<div
+								className="capitalize text-sm mt-2"
+								key={`${section.header}-${index}`}
+							>
 								{section.header && (
 									<h2 className="text-lg font-semibold relative pb-1 ">
 										{section.header}
@@ -210,10 +207,7 @@ export default function ClassicTemaplate({
 	if (!resume) return <p>Loading resume data...</p>
 
 	return (
-		<div
-			className="resume-template w-[8.5in] h-[11in] bg-white shadow-lg rounded-md p-12 mx-auto border overflow-auto origin-top"
-			style={{ transform: `scale(${scale})` }}
-		>
+		<div className="p-6">
 			{/* Header Section */}
 			<div className="relative text-center pb-4 mb-4">
 				<h1 className="text-2xl capitalize font-bold">
@@ -246,7 +240,9 @@ export default function ClassicTemaplate({
 				</p>
 			</section>
 
-			{orderedTabs.map((tab) => sectionMap[tab])}
+			{orderedTabs.map((tab, i) => (
+				<div key={i}>{sectionMap[tab]}</div>
+			))}
 		</div>
 	)
 }

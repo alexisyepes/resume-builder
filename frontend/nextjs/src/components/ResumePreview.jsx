@@ -1,13 +1,13 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import ElegantTemplate from "./Templates/ElegantTemplate"
 
 export default function ResumePreview({
-	resumeRef,
 	generatedResume,
-	handleDownloadPDF,
 	email,
 	phone,
 	address,
@@ -26,7 +26,35 @@ export default function ResumePreview({
 	hobbies,
 	customSections,
 }) {
-	const [template, setTemplate] = useState("classic") // Default template
+	const resumeRef = useRef(null)
+	const [template, setTemplate] = useState("classic")
+	const [scale, setScale] = useState(1)
+
+	useEffect(() => {
+		const updateScale = () => {
+			setScale(Math.min(1, window.innerWidth / 1200))
+		}
+
+		updateScale()
+		window.addEventListener("resize", updateScale)
+
+		return () => window.removeEventListener("resize", updateScale)
+	}, [])
+
+	// Function to download PDF
+	const handleDownloadPDF = async () => {
+		if (!resumeRef.current) return
+
+		const canvas = await html2canvas(resumeRef.current, { scale: 2 })
+		const imgData = canvas.toDataURL("image/png")
+		const pdf = new jsPDF("p", "mm", "a4")
+
+		const pdfWidth = pdf.internal.pageSize.getWidth()
+		const pdfHeight = (canvas.height * pdfWidth) / canvas.width
+
+		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
+		pdf.save(`${firstName || "resume"}.pdf`)
+	}
 
 	return (
 		<div className="w-full sm:w-1/2 p-2">
@@ -42,7 +70,11 @@ export default function ResumePreview({
 					<option value="modern">Modern</option>
 					<option value="creative">Creative</option>
 				</select>
-				<div ref={resumeRef} className="bg-white  p-4 rounded shadow">
+				<div
+					ref={resumeRef}
+					className="bg-white shadow-lg resume-template w-[8.5in] mx-auto overflow-auto origin-top h-[11in] p-4 rounded"
+					style={{ transform: `scale(${scale})` }}
+				>
 					{template === "classic" && (
 						<ClassicTemplate
 							orderedTabs={tabs}
@@ -68,67 +100,74 @@ export default function ResumePreview({
 					)}
 					{template === "elegant" && (
 						<ElegantTemplate
-							tabs={tabs}
-							email={email}
-							firstName={firstName}
-							lastName={lastName}
-							jobTitle={jobTitle}
-							phone={phone}
-							address={address}
-							cityPostCode={cityPostCode}
-							objective={objective}
-							experience={experience}
-							resume={generatedResume}
-							skills={skills}
-							certifications={certifications}
-							educations={educations}
-							references={references}
-							links={links}
-							hobbies={hobbies}
-							customSections={customSections}
+							{...{
+								tabs,
+								email,
+								firstName,
+								lastName,
+								jobTitle,
+								phone,
+								address,
+								cityPostCode,
+								objective,
+								experience,
+								generatedResume,
+								skills,
+								certifications,
+								educations,
+								references,
+								links,
+								hobbies,
+								customSections,
+							}}
 						/>
 					)}
 					{template === "modern" && (
 						<ModernTemplate
-							tabs={tabs}
-							email={email}
-							firstName={firstName}
-							lastName={lastName}
-							jobTitle={jobTitle}
-							phone={phone}
-							address={address}
-							cityPostCode={cityPostCode}
-							objective={objective}
-							experience={experience}
-							resume={generatedResume}
-							skills={skills}
-							certifications={certifications}
-							educations={educations}
-							references={references}
-							links={links}
-							hobbies={hobbies}
-							customSections={customSections}
+							{...{
+								tabs,
+								email,
+								firstName,
+								lastName,
+								jobTitle,
+								phone,
+								address,
+								cityPostCode,
+								objective,
+								experience,
+								generatedResume,
+								skills,
+								certifications,
+								educations,
+								references,
+								links,
+								hobbies,
+								customSections,
+							}}
 						/>
 					)}
 					{template === "creative" && (
 						<CreativeTemplate
-							tabs={tabs}
-							email={email}
-							firstName={firstName}
-							lastName={lastName}
-							jobTitle={jobTitle}
-							phone={phone}
-							address={address}
-							cityPostCode={cityPostCode}
-							objective={objective}
-							resume={generatedResume}
-							skills={skills}
-							certifications={certifications}
-							educations={educations}
-							references={references}
-							links={links}
-							hobbies={hobbies}
-							customSections={customSections}
+							{...{
+								tabs,
+								email,
+								firstName,
+								lastName,
+								jobTitle,
+								phone,
+								address,
+								cityPostCode,
+								objective,
+								experience,
+								generatedResume,
+								skills,
+								certifications,
+								educations,
+								references,
+								links,
+								hobbies,
+								customSections,
+							}}
 						/>
 					)}
 				</div>

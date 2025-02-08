@@ -28,7 +28,7 @@ export default function UniversalInput({ title, fields, data, setData }) {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
-		setFormData((prev) => ({ ...prev, [name]: value }))
+		setFormData({ ...formData, [name]: value })
 	}
 
 	const handleRichTextChange = (value, fieldName) => {
@@ -37,10 +37,18 @@ export default function UniversalInput({ title, fields, data, setData }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		console.log(formData)
 		const isValid = fields.every(
 			(field) => !field.required || formData[field.name]
 		)
 		if (!isValid) return
+
+		if (formData.responsibilities) {
+			console.log(formData.responsibilities)
+			formData.responsibilities = formData.responsibilities
+				.split("\n")
+				.filter(Boolean) // Converts to an array & removes empty lines
+		}
 
 		setData([...data, formData])
 		setFormData(initialState)
@@ -56,11 +64,16 @@ export default function UniversalInput({ title, fields, data, setData }) {
 	}
 
 	const handleEditChange = (e, index, field) => {
+		const { value } = e.target
 		const updatedData = [...data]
-		updatedData[index] = { ...updatedData[index], [field]: e.target.value }
+
+		updatedData[index] = {
+			...updatedData[index],
+			[field]: field === "responsibilities" ? value.split("\n") : value, // Ensure responsibilities stay as an array
+		}
+
 		setData(updatedData)
 	}
-
 	const handleRichTextEditChange = (value, index, field) => {
 		const updatedData = [...data]
 		updatedData[index] = { ...updatedData[index], [field]: value }
@@ -146,12 +159,23 @@ export default function UniversalInput({ title, fields, data, setData }) {
 									/>
 								)}
 								{editingIndex === index && editingField === field.name ? (
-									field.type === "richtextarea" ? (
-										// 🟢 Rich Text Editor with proper blur handling
+									field.type === "textarea" ? (
+										<textarea
+											value={
+												Array.isArray(item[field.name])
+													? item[field.name].join("\n")
+													: item[field.name]
+											} // Ensure it's a string for textarea
+											onChange={(e) => handleEditChange(e, index, field.name)}
+											onBlur={handleInputBlur}
+											className="w-full px-2 py-1 border rounded h-24"
+											autoFocus
+										/>
+									) : field.type === "richtextarea" ? (
 										<div
 											ref={quillRef}
 											onBlur={handleRichTextBlur}
-											tabIndex={0} // Required to make it focusable
+											tabIndex={0}
 											className="relative"
 										>
 											<ReactQuill
@@ -168,7 +192,7 @@ export default function UniversalInput({ title, fields, data, setData }) {
 											type="text"
 											value={item[field.name]}
 											onChange={(e) => handleEditChange(e, index, field.name)}
-											onBlur={handleInputBlur} // 🟢 Text inputs have a separate blur function
+											onBlur={handleInputBlur}
 											className="w-full px-2 py-1 border rounded"
 											autoFocus
 										/>
@@ -177,14 +201,17 @@ export default function UniversalInput({ title, fields, data, setData }) {
 									<div
 										className="text-gray-700 cursor-pointer"
 										onClick={() => handleEditClick(index, field.name)}
-										dangerouslySetInnerHTML={{ __html: item[field.name] || "" }} // Safe rendering
+										dangerouslySetInnerHTML={{ __html: item[field.name] || "" }}
 									/>
 								) : (
 									<span
 										className="text-gray-700 cursor-pointer"
 										onClick={() => handleEditClick(index, field.name)}
 									>
-										<strong>{field.label}:</strong> {item[field.name]}
+										<strong>{field.label}:</strong>{" "}
+										{Array.isArray(item[field.name])
+											? item[field.name].join(", ")
+											: item[field.name]}
 									</span>
 								)}
 							</div>
