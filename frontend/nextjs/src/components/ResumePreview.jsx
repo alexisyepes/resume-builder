@@ -25,6 +25,7 @@ export default function ResumePreview({
 	links,
 	hobbies,
 	customSections,
+	photo,
 }) {
 	const resumeRef = useRef(null)
 	const [template, setTemplate] = useState("classic")
@@ -96,6 +97,7 @@ export default function ResumePreview({
 							links={links}
 							hobbies={hobbies}
 							customSections={customSections}
+							photo={photo}
 						/>
 					)}
 					{template === "elegant" && (
@@ -119,6 +121,7 @@ export default function ResumePreview({
 								links,
 								hobbies,
 								customSections,
+								photo,
 							}}
 						/>
 					)}
@@ -143,6 +146,7 @@ export default function ResumePreview({
 								links,
 								hobbies,
 								customSections,
+								photo,
 							}}
 						/>
 					)}
@@ -167,6 +171,7 @@ export default function ResumePreview({
 								links,
 								hobbies,
 								customSections,
+								photo,
 							}}
 						/>
 					)}

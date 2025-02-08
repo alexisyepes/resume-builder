@@ -25,6 +25,7 @@ const ResumeGenerator = () => {
 		EMPLOYMENT_HISTORY,
 		EDUCATION,
 	])
+	const [photo, setPhoto] = useState("")
 	const [email, setEmail] = useState("")
 	const [phone, setPhone] = useState("")
 	const [address, setAddress] = useState("")
@@ -55,6 +56,18 @@ const ResumeGenerator = () => {
 		}
 		setGeneratedResume(defaultResume)
 	}, [])
+
+	const handleImageUpload = (event) => {
+		console.log(event.target.files[0])
+		const file = event.target.files[0]
+		if (file) {
+			const reader = new FileReader()
+			reader.onloadend = () => {
+				setPhoto(reader.result)
+			}
+			reader.readAsDataURL(file)
+		}
+	}
 
 	const handleTabChange = (tab) => {
 		setActiveTab(tab)
@@ -181,6 +194,8 @@ const ResumeGenerator = () => {
 					setHobbies={setHobbies}
 					customSections={customSections}
 					setCustomSections={setCustomSections}
+					handleImageUpload={handleImageUpload}
+					photo={photo}
 				/>
 				<ResumePreview
 					resumeRef={resumeRef}
@@ -203,6 +218,7 @@ const ResumeGenerator = () => {
 					links={links}
 					hobbies={hobbies}
 					customSections={customSections}
+					photo={photo}
 				/>
 			</div>
 		</div>

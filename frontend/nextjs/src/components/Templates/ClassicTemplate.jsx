@@ -31,6 +31,7 @@ export default function ClassicTemaplate({
 	links,
 	hobbies,
 	customSections,
+	photo,
 }) {
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
@@ -210,6 +211,19 @@ export default function ClassicTemaplate({
 		<div className="p-6">
 			{/* Header Section */}
 			<div className="relative text-center pb-4 mb-4">
+				{photo && (
+					<div
+						className="w-24 h-auto mx-auto my-4 overflow-hidden rounded-lg"
+						// style={{ aspectRatio: "1 / 1" }}
+					>
+						<img
+							src={photo}
+							alt="Uploaded preview"
+							className="w-full h-auto object-cover"
+						/>
+					</div>
+				)}
+
 				<h1 className="text-2xl capitalize font-bold">
 					{firstName || resume.firstName} {lastName || resume.lastName}
 				</h1>

@@ -58,6 +58,8 @@ export default function Inputs({
 	setHobbies,
 	customSections,
 	setCustomSections,
+	handleImageUpload,
+	photo,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -113,6 +115,8 @@ export default function Inputs({
 						setJobTitle={setJobTitle}
 						jobTitle={jobTitle}
 						nextTabHandler={nextTabHandler}
+						handleImageUpload={handleImageUpload}
+						photo={photo}
 					/>
 				)
 			case CONTACT_INFORMATION:
@@ -144,6 +148,8 @@ export default function Inputs({
 						setObjective={setObjective}
 						objectiveSummary={objectiveSummary}
 						nextTabHandler={nextTabHandler}
+						handleImageUpload={handleImageUpload}
+						photo={photo}
 					/>
 				)
 			case EMPLOYMENT_HISTORY:
