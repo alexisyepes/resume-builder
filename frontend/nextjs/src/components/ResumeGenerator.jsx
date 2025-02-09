@@ -155,6 +155,7 @@ const ResumeGenerator = () => {
 					moveTabHandler={moveTabHandler}
 					setActiveTab={setActiveTab}
 				/>
+
 				<Inputs
 					nextTabHandler={nextTab}
 					email={email}
@@ -202,7 +203,9 @@ const ResumeGenerator = () => {
 					setActiveTab={setActiveTab}
 					tabs={tabs}
 					setTabs={setTabs}
+					setPhoto={setPhoto}
 				/>
+
 				<ResumePreview
 					resumeRef={resumeRef}
 					generatedResume={generatedResume.resume}

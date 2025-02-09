@@ -8,10 +8,11 @@ export default function PersonalInformation({
 	nextTabHandler,
 	handleImageUpload,
 	photo,
+	setPhoto,
 }) {
 	return (
 		<div className="w-full p-2">
-			<div className="border w-full p-4">
+			<div className="border rounded-md w-full mb-2 p-4">
 				{photo && (
 					<img
 						src={photo}
@@ -19,9 +20,19 @@ export default function PersonalInformation({
 						className="mt-4 mx-auto h-32 w-32 rounded-lg object-cover"
 					/>
 				)}
-				<label className="block text-sm font-medium text-gray-700">
-					Upload Photo
-				</label>
+				<div className="flex mb-2 justify-between items-center">
+					<label className="block text-sm font-medium text-gray-700">
+						Upload Photo
+					</label>
+					{photo && (
+						<button
+							className="bg-red-200 rounded-md px-2 inline-block text-sm"
+							onClick={() => setPhoto("")}
+						>
+							Remove Photo
+						</button>
+					)}
+				</div>
 				<input
 					type="file"
 					accept="image/*"

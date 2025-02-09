@@ -117,7 +117,7 @@ export default function UniversalInput({
 	}
 
 	return (
-		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-xl">
+		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-md">
 			<div className="flex justify-between border-b-2 pb-4 mb-2">
 				<h2 className="text-xl font-bold">{title}</h2>
 				<RiDeleteBin5Line
@@ -227,7 +227,9 @@ export default function UniversalInput({
 									<div
 										className="text-gray-700 cursor-pointer"
 										onClick={() => handleEditClick(index, field.name)}
-										dangerouslySetInnerHTML={{ __html: item[field.name] || "" }}
+										dangerouslySetInnerHTML={{
+											__html: item[field.name] || "",
+										}}
 									/>
 								) : (
 									<span

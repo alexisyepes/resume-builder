@@ -141,7 +141,7 @@ export default function TabSelector({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div className="w-full sm:w-1/5 bg-white p-4 border rounded-lg shadow-md">
+			<div className="w-full sm:w-1/5 bg-white p-4 border rounded-md shadow-md">
 				<ul className="space-y-2">
 					{tabs.map((tab, index) => (
 						<DraggableTab
@@ -176,6 +176,7 @@ export default function TabSelector({
 								onClick={() => {
 									addTabHandler(section)
 									setActiveTab(section)
+									setIsAddSectionOpen(!isAddSectionOpen)
 								}}
 								disabled={tabs.includes(section)}
 								className={`${

@@ -17,6 +17,7 @@ import {
 	SKILLS,
 } from "@/constants"
 import UniversalInput from "./InputSections/UniverslaInputs"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Inputs({
 	firstName = "",
@@ -65,6 +66,7 @@ export default function Inputs({
 	tabs,
 	setTabs,
 	setActiveTab,
+	setPhoto,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -112,314 +114,425 @@ export default function Inputs({
 		switch (selectedTab) {
 			case PERSONAL_DETAILS:
 				return (
-					<PersonalInformation
-						firstName={firstName}
-						setFirstName={setFirstName}
-						lastName={lastName}
-						setLastName={setLastName}
-						setJobTitle={setJobTitle}
-						jobTitle={jobTitle}
-						nextTabHandler={nextTabHandler}
-						handleImageUpload={handleImageUpload}
-						photo={photo}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<PersonalInformation
+								firstName={firstName}
+								setFirstName={setFirstName}
+								lastName={lastName}
+								setLastName={setLastName}
+								setJobTitle={setJobTitle}
+								jobTitle={jobTitle}
+								nextTabHandler={nextTabHandler}
+								handleImageUpload={handleImageUpload}
+								photo={photo}
+								setPhoto={setPhoto}
+							/>
+						</motion.div>{" "}
+					</AnimatePresence>
 				)
 			case CONTACT_INFORMATION:
 				return (
-					<ContactInput
-						email={email}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						setEmail={setEmail}
-						setPhone={setPhone}
-						setAddress={setAddress}
-						setCityPostCode={setCityPostCode}
-						nextTabHandler={nextTabHandler}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<ContactInput
+								email={email}
+								phone={phone}
+								address={address}
+								cityPostCode={cityPostCode}
+								setEmail={setEmail}
+								setPhone={setPhone}
+								setAddress={setAddress}
+								setCityPostCode={setCityPostCode}
+								nextTabHandler={nextTabHandler}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case PROFESSIONAL_SUMMARY:
 				return (
-					<ProfessionalSummaryInput
-						setCounter={setCounter}
-						counter={counter}
-						experience={experience}
-						setExperience={setExperience}
-						handleGenerateResume={handleGenerateResume}
-						isLoading={isLoading}
-						minutes={minutes}
-						seconds={seconds}
-						objective={objective}
-						setObjective={setObjective}
-						objectiveSummary={objectiveSummary}
-						nextTabHandler={nextTabHandler}
-						handleImageUpload={handleImageUpload}
-						photo={photo}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<ProfessionalSummaryInput
+								setCounter={setCounter}
+								counter={counter}
+								experience={experience}
+								setExperience={setExperience}
+								handleGenerateResume={handleGenerateResume}
+								isLoading={isLoading}
+								minutes={minutes}
+								seconds={seconds}
+								objective={objective}
+								setObjective={setObjective}
+								objectiveSummary={objectiveSummary}
+								nextTabHandler={nextTabHandler}
+								handleImageUpload={handleImageUpload}
+								photo={photo}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case EMPLOYMENT_HISTORY:
 				return (
-					<UniversalInput
-						title="Employment History"
-						fields={[
-							{
-								name: "company",
-								placeholder: "Company",
-								label: "Company",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "role",
-								label: "Role",
-								placeholder: "Role",
-								type: "text",
-								required: true,
-							},
-							{
-								label: "Year (e.g., 2020 - Present)",
-								name: "year",
-								placeholder: "Year (e.g., 2020 - Present)",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "responsibilities",
-								label: "Responsibilities (each on a new line)",
-								placeholder: "Responsibilities (each on a new line)",
-								type: "textarea",
-							},
-						]}
-						data={experience}
-						setData={setExperience}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Employment History"
+								fields={[
+									{
+										name: "company",
+										placeholder: "Company",
+										label: "Company",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "role",
+										label: "Role",
+										placeholder: "Role",
+										type: "text",
+										required: true,
+									},
+									{
+										label: "Year (e.g., 2020 - Present)",
+										name: "year",
+										placeholder: "Year (e.g., 2020 - Present)",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "responsibilities",
+										label: "Responsibilities (each on a new line)",
+										placeholder: "Responsibilities (each on a new line)",
+										type: "textarea",
+									},
+								]}
+								data={experience}
+								setData={setExperience}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case LINKS:
 				return (
-					<UniversalInput
-						title="Links"
-						fields={[
-							{
-								name: "name",
-								label: "Name (e.g., Portfolio)",
-								placeholder: "Name (e.g., Portfolio)",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "link",
-								placeholder: "Url (e.g., https://www.yourwebsite.com)",
-								label: "Url (e.g., https://www.yourwebsite.com)",
-								type: "text",
-								required: true,
-							},
-						]}
-						data={links}
-						setData={setLinks}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Links"
+								fields={[
+									{
+										name: "name",
+										label: "Name (e.g., Portfolio)",
+										placeholder: "Name (e.g., Portfolio)",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "link",
+										placeholder: "Url (e.g., https://www.yourwebsite.com)",
+										label: "Url (e.g., https://www.yourwebsite.com)",
+										type: "text",
+										required: true,
+									},
+								]}
+								data={links}
+								setData={setLinks}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case HOBBIES:
 				return (
-					<UniversalInput
-						title="Hobbies"
-						fields={[
-							{
-								name: "hobbies",
-								label: "Hobbies",
-								placeholder: "Hobbies",
-								type: "text",
-								required: true,
-							},
-						]}
-						data={hobbies}
-						setData={setHobbies}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Hobbies"
+								fields={[
+									{
+										name: "hobbies",
+										label: "Hobbies",
+										placeholder: "Hobbies",
+										type: "text",
+										required: true,
+									},
+								]}
+								data={hobbies}
+								setData={setHobbies}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case CERTIFICATIONS:
 				return (
-					<UniversalInput
-						title="Certifications"
-						fields={[
-							{
-								name: "institution",
-								placeholder: "Institution",
-								label: "Institution",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "certificationName",
-								placeholder: "Certification Name",
-								label: "Certification Name",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "year",
-								placeholder: "Year / Date",
-								label: "Year / Date",
-								type: "text",
-							},
-						]}
-						data={certifications}
-						setData={setCertifications}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Certifications"
+								fields={[
+									{
+										name: "institution",
+										placeholder: "Institution",
+										label: "Institution",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "certificationName",
+										placeholder: "Certification Name",
+										label: "Certification Name",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "year",
+										placeholder: "Year / Date",
+										label: "Year / Date",
+										type: "text",
+									},
+								]}
+								data={certifications}
+								setData={setCertifications}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case SKILLS:
 				return (
-					<SkillsInput
-						regenerateSkillsSuggestions={regenerateSkillsSuggestions}
-						suggestedSkills={suggestedSkills}
-						isLoading={isLoading}
-						skills={skills}
-						setSkills={setSkills}
-						editingId={editingId}
-						setEditingId={setEditingId}
-						handleChange={handleChange}
-						handleEditClick={handleEditClick}
-						nextTabHandler={nextTabHandler}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<SkillsInput
+								regenerateSkillsSuggestions={regenerateSkillsSuggestions}
+								suggestedSkills={suggestedSkills}
+								isLoading={isLoading}
+								skills={skills}
+								setSkills={setSkills}
+								editingId={editingId}
+								setEditingId={setEditingId}
+								handleChange={handleChange}
+								handleEditClick={handleEditClick}
+								nextTabHandler={nextTabHandler}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case EDUCATION:
 				return (
-					<UniversalInput
-						title="Education"
-						fields={[
-							{
-								name: "institution",
-								placeholder: "Institution",
-								label: "Institution",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "degree",
-								placeholder: "Degree",
-								label: "Degree",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "year",
-								placeholder: "Year / Date",
-								label: "Year / Date",
-								type: "text",
-							},
-						]}
-						data={educations}
-						setData={setEducations}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Education"
+								fields={[
+									{
+										name: "institution",
+										placeholder: "Institution",
+										label: "Institution",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "degree",
+										placeholder: "Degree",
+										label: "Degree",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "year",
+										placeholder: "Year / Date",
+										label: "Year / Date",
+										type: "text",
+									},
+								]}
+								data={educations}
+								setData={setEducations}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>{" "}
+					</AnimatePresence>
 				)
 			case REFERENCES:
 				return (
-					<UniversalInput
-						title="References"
-						fields={[
-							{
-								name: "name",
-								placeholder: "Reference Full Name",
-								label: "Reference Full Name",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "company",
-								placeholder: "Company Name",
-								label: "Company Name",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "email_phone",
-								placeholder: "Email / Phone-number",
-								label: "Email / Phone-number",
-								type: "email",
-							},
-						]}
-						data={references}
-						setData={setReferences}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="References"
+								fields={[
+									{
+										name: "name",
+										placeholder: "Reference Full Name",
+										label: "Reference Full Name",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "company",
+										placeholder: "Company Name",
+										label: "Company Name",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "email_phone",
+										placeholder: "Email / Phone-number",
+										label: "Email / Phone-number",
+										type: "email",
+									},
+								]}
+								data={references}
+								setData={setReferences}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 			case CUSTOM_SECTION:
 				return (
-					<UniversalInput
-						title="Custom Section"
-						fields={[
-							{
-								name: "header",
-								label: "Header",
-								placeholder: "Header",
-								type: "text",
-								required: true,
-							},
-							{
-								name: "subHeader",
-								label: "Sub Header",
-								placeholder: "Sub Header",
-								type: "text",
-								required: false,
-							},
-							{
-								name: "content",
-								label: "Content",
-								placeholder: "Content",
-								type: "richtextarea",
-								required: false,
-							},
-						]}
-						data={customSections}
-						setData={setCustomSections}
-						removeTabHandler={removeTabHandler}
-						activeTab={activeTab}
-						tabs={tabs}
-						setTabs={setTabs}
-						nextTabHandler={nextTabHandler}
-						setActiveTab={setActiveTab}
-					/>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Custom Section"
+								fields={[
+									{
+										name: "header",
+										label: "Header",
+										placeholder: "Header",
+										type: "text",
+										required: true,
+									},
+									{
+										name: "subHeader",
+										label: "Sub Header",
+										placeholder: "Sub Header",
+										type: "text",
+										required: false,
+									},
+									{
+										name: "content",
+										label: "Content",
+										placeholder: "Content",
+										type: "richtextarea",
+										required: false,
+									},
+								]}
+								data={customSections}
+								setData={setCustomSections}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
 				)
 
 			default:
