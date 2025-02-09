@@ -153,6 +153,7 @@ const ResumeGenerator = () => {
 					removeTabHandler={removeTabHandler}
 					addTabHandler={addTabHandler}
 					moveTabHandler={moveTabHandler}
+					setActiveTab={setActiveTab}
 				/>
 				<Inputs
 					nextTabHandler={nextTab}

@@ -135,6 +135,7 @@ export default function TabSelector({
 	removeTabHandler,
 	addTabHandler,
 	moveTabHandler,
+	setActiveTab,
 }) {
 	const [isAddSectionOpen, setIsAddSectionOpen] = useState(false)
 
@@ -161,7 +162,7 @@ export default function TabSelector({
 						onClick={() => setIsAddSectionOpen(!isAddSectionOpen)}
 						className="text-gray-600 text-md text-center mb-1 cursor-pointer"
 					>
-						+ Add a Section
+						+ Add more Sections
 						{isAddSectionOpen ? (
 							<FaChevronDown className="inline ml-2" />
 						) : (
@@ -172,7 +173,10 @@ export default function TabSelector({
 						AVAILABLE_SECTIONS.map((section) => (
 							<button
 								key={section}
-								onClick={() => addTabHandler(section)}
+								onClick={() => {
+									addTabHandler(section)
+									setActiveTab(section)
+								}}
 								disabled={tabs.includes(section)}
 								className={`${
 									tabs.includes(section)
