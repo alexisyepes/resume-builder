@@ -196,6 +196,11 @@ const ResumeGenerator = () => {
 					setCustomSections={setCustomSections}
 					handleImageUpload={handleImageUpload}
 					photo={photo}
+					removeTabHandler={removeTabHandler}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
+					tabs={tabs}
+					setTabs={setTabs}
 				/>
 				<ResumePreview
 					resumeRef={resumeRef}

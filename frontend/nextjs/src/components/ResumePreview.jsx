@@ -102,77 +102,74 @@ export default function ResumePreview({
 					)}
 					{template === "elegant" && (
 						<ElegantTemplate
-							{...{
-								tabs,
-								email,
-								firstName,
-								lastName,
-								jobTitle,
-								phone,
-								address,
-								cityPostCode,
-								objective,
-								experience,
-								generatedResume,
-								skills,
-								certifications,
-								educations,
-								references,
-								links,
-								hobbies,
-								customSections,
-								photo,
-							}}
+							orderedTabs={tabs}
+							tabs={tabs}
+							email={email}
+							firstName={firstName}
+							lastName={lastName}
+							jobTitle={jobTitle}
+							phone={phone}
+							address={address}
+							cityPostCode={cityPostCode}
+							objective={objective}
+							experience={experience}
+							resume={generatedResume}
+							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
+							photo={photo}
 						/>
 					)}
 					{template === "modern" && (
 						<ModernTemplate
-							{...{
-								tabs,
-								email,
-								firstName,
-								lastName,
-								jobTitle,
-								phone,
-								address,
-								cityPostCode,
-								objective,
-								experience,
-								generatedResume,
-								skills,
-								certifications,
-								educations,
-								references,
-								links,
-								hobbies,
-								customSections,
-								photo,
-							}}
+							orderedTabs={tabs}
+							tabs={tabs}
+							email={email}
+							firstName={firstName}
+							lastName={lastName}
+							jobTitle={jobTitle}
+							phone={phone}
+							address={address}
+							cityPostCode={cityPostCode}
+							objective={objective}
+							experience={experience}
+							resume={generatedResume}
+							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
+							photo={photo}
 						/>
 					)}
 					{template === "creative" && (
 						<CreativeTemplate
-							{...{
-								tabs,
-								email,
-								firstName,
-								lastName,
-								jobTitle,
-								phone,
-								address,
-								cityPostCode,
-								objective,
-								experience,
-								generatedResume,
-								skills,
-								certifications,
-								educations,
-								references,
-								links,
-								hobbies,
-								customSections,
-								photo,
-							}}
+							orderedTabs={tabs}
+							tabs={tabs}
+							email={email}
+							firstName={firstName}
+							lastName={lastName}
+							jobTitle={jobTitle}
+							phone={phone}
+							address={address}
+							cityPostCode={cityPostCode}
+							objective={objective}
+							experience={experience}
+							resume={generatedResume}
+							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
+							photo={photo}
 						/>
 					)}
 				</div>

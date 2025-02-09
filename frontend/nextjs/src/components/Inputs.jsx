@@ -60,6 +60,11 @@ export default function Inputs({
 	setCustomSections,
 	handleImageUpload,
 	photo,
+	removeTabHandler,
+	activeTab,
+	tabs,
+	setTabs,
+	setActiveTab,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -150,6 +155,9 @@ export default function Inputs({
 						nextTabHandler={nextTabHandler}
 						handleImageUpload={handleImageUpload}
 						photo={photo}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
 					/>
 				)
 			case EMPLOYMENT_HISTORY:
@@ -187,6 +195,12 @@ export default function Inputs({
 						]}
 						data={experience}
 						setData={setExperience}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case LINKS:
@@ -211,6 +225,12 @@ export default function Inputs({
 						]}
 						data={links}
 						setData={setLinks}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case HOBBIES:
@@ -228,6 +248,12 @@ export default function Inputs({
 						]}
 						data={hobbies}
 						setData={setHobbies}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case CERTIFICATIONS:
@@ -258,6 +284,12 @@ export default function Inputs({
 						]}
 						data={certifications}
 						setData={setCertifications}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case SKILLS:
@@ -273,6 +305,11 @@ export default function Inputs({
 						handleChange={handleChange}
 						handleEditClick={handleEditClick}
 						nextTabHandler={nextTabHandler}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case EDUCATION:
@@ -303,6 +340,12 @@ export default function Inputs({
 						]}
 						data={educations}
 						setData={setEducations}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case REFERENCES:
@@ -333,6 +376,12 @@ export default function Inputs({
 						]}
 						data={references}
 						setData={setReferences}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 			case CUSTOM_SECTION:
@@ -364,6 +413,12 @@ export default function Inputs({
 						]}
 						data={customSections}
 						setData={setCustomSections}
+						removeTabHandler={removeTabHandler}
+						activeTab={activeTab}
+						tabs={tabs}
+						setTabs={setTabs}
+						nextTabHandler={nextTabHandler}
+						setActiveTab={setActiveTab}
 					/>
 				)
 
@@ -377,6 +432,7 @@ export default function Inputs({
 						setJobTitle={setJobTitle}
 						jobTitle={jobTitle}
 						nextTabHandler={nextTabHandler}
+						removeTabHandler={removeTabHandler}
 					/>
 				)
 		}

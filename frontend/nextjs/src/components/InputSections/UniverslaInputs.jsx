@@ -1,9 +1,10 @@
 import { useState, useRef } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import dynamic from "next/dynamic"
-import "react-quill/dist/quill.snow.css"
+import { RiDeleteBin5Line } from "react-icons/ri"
+import "react-quill-new/dist/quill.snow.css"
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
 const modules = {
 	toolbar: [
@@ -14,16 +15,23 @@ const modules = {
 	],
 }
 
-export default function UniversalInput({ title, fields, data, setData }) {
+export default function UniversalInput({
+	title,
+	fields,
+	data,
+	setData,
+	removeTabHandler,
+	activeTab,
+	tabs,
+	setActiveTab,
+}) {
 	const initialState = fields.reduce((acc, field) => {
 		acc[field.name] = ""
 		return acc
 	}, {})
-
 	const [formData, setFormData] = useState(initialState)
 	const [editingIndex, setEditingIndex] = useState(null)
 	const [editingField, setEditingField] = useState(null)
-
 	const quillRef = useRef(null)
 
 	const handleChange = (e) => {
@@ -47,7 +55,7 @@ export default function UniversalInput({ title, fields, data, setData }) {
 			console.log(formData.responsibilities)
 			formData.responsibilities = formData.responsibilities
 				.split("\n")
-				.filter(Boolean) // Converts to an array & removes empty lines
+				.filter(Boolean)
 		}
 
 		setData([...data, formData])
@@ -97,9 +105,23 @@ export default function UniversalInput({ title, fields, data, setData }) {
 		}
 	}
 
+	const handleRemoveSection = () => {
+		removeTabHandler(tabs.indexOf(activeTab))
+		const nextTabIndex = tabs.indexOf(activeTab) + 1
+		const nextActiveTab = tabs[nextTabIndex]
+		setActiveTab(nextActiveTab)
+	}
+
 	return (
 		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-xl">
-			<h2 className="text-xl font-bold mb-4">{title}</h2>
+			<div className="flex justify-between border-b-2 pb-4 mb-2">
+				<h2 className="text-xl font-bold">{title}</h2>
+				<RiDeleteBin5Line
+					onClick={handleRemoveSection}
+					className="cursor-pointer"
+					size={24}
+				/>
+			</div>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				{fields.map((field) => (
 					<div key={field.name}>

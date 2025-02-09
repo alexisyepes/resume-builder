@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import {
 	CERTIFICATIONS,
 	CUSTOM_SECTION,
@@ -10,7 +9,6 @@ import {
 	SKILLS,
 } from "@/constants"
 import SectionDoubleLineDivider from "../SectionDoubleLineDivider"
-import "react-quill/dist/quill.snow.css"
 
 export default function ClassicTemaplate({
 	resume,
