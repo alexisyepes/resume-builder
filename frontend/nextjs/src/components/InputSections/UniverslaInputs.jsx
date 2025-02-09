@@ -106,10 +106,14 @@ export default function UniversalInput({
 	}
 
 	const handleRemoveSection = () => {
-		removeTabHandler(tabs.indexOf(activeTab))
-		const nextTabIndex = tabs.indexOf(activeTab) + 1
+		const currentActiveTabIndex = tabs.indexOf(activeTab)
+		const nextTabIndex =
+			currentActiveTabIndex === tabs.length - 1
+				? currentActiveTabIndex - 1
+				: currentActiveTabIndex + 1
 		const nextActiveTab = tabs[nextTabIndex]
 		setActiveTab(nextActiveTab)
+		removeTabHandler(currentActiveTabIndex)
 	}
 
 	return (

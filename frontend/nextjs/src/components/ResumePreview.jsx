@@ -60,7 +60,15 @@ export default function ResumePreview({
 	return (
 		<div className="w-full sm:w-1/2 p-2">
 			<div className="rounded">
-				<h3 className="text-lg font-semibold">Current Layout:</h3>
+				<div className="w-[8.5in] flex justify-between mb-2 items-center">
+					<h3 className="text-lg font-semibold">Current Layout:</h3>
+					<button
+						onClick={handleDownloadPDF}
+						className="bg-green-500 text-white p-2 rounded"
+					>
+						Download as PDF
+					</button>
+				</div>
 				<select
 					className="w-full p-2 border rounded mb-2"
 					value={template}
@@ -173,13 +181,6 @@ export default function ResumePreview({
 						/>
 					)}
 				</div>
-
-				<button
-					onClick={handleDownloadPDF}
-					className="mt-4 bg-green-500 text-white p-2 rounded"
-				>
-					Download as PDF
-				</button>
 			</div>
 		</div>
 	)
