@@ -47,11 +47,13 @@ const AVAILABLE_SECTIONS = [
 
 const DraggableTab = ({
 	tab,
+	tabs,
 	index,
 	moveTabHandler,
 	onTabChange,
 	removeTabHandler,
 	activeTab,
+	setActiveTab,
 }) => {
 	const isReadOnly = READ_ONLY_TABS.includes(tab)
 
@@ -119,7 +121,13 @@ const DraggableTab = ({
 			</button>
 			{!isReadOnly && (
 				<RiDeleteBin5Line
-					onClick={() => removeTabHandler(index)}
+					onClick={() => {
+						const nextTabIndex =
+							index === tabs.length - 1 ? index - 1 : index + 1
+						const nextActiveTab = tabs[nextTabIndex]
+						onTabChange(nextActiveTab)
+						removeTabHandler(index)
+					}}
 					size={20}
 					className="cursor-pointer"
 				/>
@@ -147,6 +155,7 @@ export default function TabSelector({
 						<DraggableTab
 							key={tab}
 							tab={tab}
+							tabs={tabs}
 							index={index}
 							moveTabHandler={moveTabHandler}
 							onTabChange={onTabChange}

@@ -5,6 +5,7 @@ import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import ElegantTemplate from "./Templates/ElegantTemplate"
+import { PDFViewer } from "@react-pdf/renderer"
 
 export default function ResumePreview({
 	generatedResume,
@@ -46,12 +47,17 @@ export default function ResumePreview({
 	const handleDownloadPDF = async () => {
 		if (!resumeRef.current) return
 
+		const pdf = new jsPDF({
+			orientation: "portrait",
+			unit: "pt",
+			format: [612, 792], // 8.5 x 11 inches in points
+		})
+
 		const canvas = await html2canvas(resumeRef.current, { scale: 2 })
 		const imgData = canvas.toDataURL("image/png")
-		const pdf = new jsPDF("p", "mm", "a4")
 
-		const pdfWidth = pdf.internal.pageSize.getWidth()
-		const pdfHeight = (canvas.height * pdfWidth) / canvas.width
+		const pdfWidth = 612 // 8.5 inches * 72 dpi
+		const pdfHeight = 792 // 11 inches * 72 dpi
 
 		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
 		pdf.save(`${firstName || "resume"}.pdf`)
@@ -81,7 +87,7 @@ export default function ResumePreview({
 				</select>
 				<div
 					ref={resumeRef}
-					className="bg-white shadow-lg resume-template w-[8.5in] mx-auto overflow-auto origin-top h-[11in] p-4 rounded"
+					className="bg-white ring-2 ring-slate-200 shadow-lg resume-template w-[816px] mx-auto origin-top h-[1056px] p-4 rounded"
 					style={{ transform: `scale(${scale})` }}
 				>
 					{template === "classic" && (

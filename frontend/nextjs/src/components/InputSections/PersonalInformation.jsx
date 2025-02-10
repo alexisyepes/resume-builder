@@ -1,3 +1,6 @@
+import { PERSONAL_DETAILS } from "@/constants"
+import { CiEdit } from "react-icons/ci"
+
 export default function PersonalInformation({
 	firstName = "",
 	setFirstName,
@@ -12,6 +15,11 @@ export default function PersonalInformation({
 }) {
 	return (
 		<div className="w-full p-2">
+			<div className="flex justify-between border-b-2 mb-2">
+				<h2 className="text-xl mb-2 font-bold">{PERSONAL_DETAILS}</h2>
+				<CiEdit size={24} />
+			</div>
+
 			<div className="border rounded-md w-full mb-2 p-4">
 				{photo && (
 					<img

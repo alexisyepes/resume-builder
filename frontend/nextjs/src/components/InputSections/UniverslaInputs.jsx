@@ -3,6 +3,8 @@ import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import dynamic from "next/dynamic"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import "react-quill-new/dist/quill.snow.css"
+import DOMPurify from "dompurify"
+import { motion, AnimatePresence } from "framer-motion"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -32,6 +34,7 @@ export default function UniversalInput({
 	const [formData, setFormData] = useState(initialState)
 	const [editingIndex, setEditingIndex] = useState(null)
 	const [editingField, setEditingField] = useState(null)
+	const [deletingIndex, setDeletingIndex] = useState(null)
 	const quillRef = useRef(null)
 
 	const handleChange = (e) => {
@@ -63,7 +66,11 @@ export default function UniversalInput({
 	}
 
 	const handleDelete = (index) => {
-		setData(data.filter((_, i) => i !== index))
+		setDeletingIndex(index)
+		setTimeout(() => {
+			setData((prev) => prev.filter((_, i) => i !== index))
+			setDeletingIndex(null)
+		}, 200)
 	}
 
 	const handleEditClick = (index, fieldName) => {
@@ -118,7 +125,7 @@ export default function UniversalInput({
 
 	return (
 		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-md">
-			<div className="flex justify-between border-b-2 pb-4 mb-2">
+			<div className="flex justify-between border-b-2 pb-2 mb-2">
 				<h2 className="text-xl font-bold">{title}</h2>
 				<RiDeleteBin5Line
 					onClick={handleRemoveSection}
@@ -170,89 +177,108 @@ export default function UniversalInput({
 
 			{data.length ? <hr className="mt-6" /> : null}
 
-			{data.map((item, index) => (
-				<div
-					key={index}
-					className="bg-blue-100 flex items-center justify-between rounded-md px-2 py-1 w-full text-left mt-2"
-				>
-					<div className="flex-grow">
-						{fields.map((field) => (
-							<div key={field.name} className="flex items-center gap-2">
-								{editingIndex !== index && (
-									<MdOutlineEdit
-										onClick={() => handleEditClick(index, field.name)}
-										className="cursor-pointer"
-									/>
-								)}
-								{editingIndex === index && editingField === field.name ? (
-									field.type === "textarea" ? (
-										<textarea
-											value={
-												Array.isArray(item[field.name])
-													? item[field.name].join("\n")
-													: item[field.name]
-											} // Ensure it's a string for textarea
-											onChange={(e) => handleEditChange(e, index, field.name)}
-											onBlur={handleInputBlur}
-											className="w-full px-2 py-1 border rounded h-24"
-											autoFocus
-										/>
-									) : field.type === "richtextarea" ? (
-										<div
-											ref={quillRef}
-											onBlur={handleRichTextBlur}
-											tabIndex={0}
-											className="relative"
-										>
-											<ReactQuill
-												value={item[field.name] || ""}
-												onChange={(value) =>
-													handleRichTextEditChange(value, index, field.name)
-												}
-												modules={modules}
-												className="h-40 mb-20 mt-4"
+			<AnimatePresence>
+				{data.map((item, index) => (
+					<motion.div
+						key={index}
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={
+							deletingIndex === index
+								? { opacity: 0, rotate: -360, scale: 0.5 }
+								: {}
+						}
+						transition={{ duration: 0.7, ease: "easeInOut" }}
+						className="bg-[#336e7b] flex items-center justify-between rounded-md px-2 py-1 w-full text-left mt-2"
+					>
+						<div
+							key={index}
+							className="bg-[#336e7b] text-white flex items-center justify-between rounded-md px-2 py-1 w-full text-left mt-2"
+						>
+							<div className="flex-grow">
+								{fields.map((field) => (
+									<div key={field.name} className="flex items-center gap-2">
+										{editingIndex !== index && (
+											<MdOutlineEdit
+												onClick={() => handleEditClick(index, field.name)}
+												className="cursor-pointer"
 											/>
-										</div>
-									) : (
-										<input
-											type="text"
-											value={item[field.name]}
-											onChange={(e) => handleEditChange(e, index, field.name)}
-											onBlur={handleInputBlur}
-											className="w-full px-2 py-1 border rounded"
-											autoFocus
-										/>
-									)
-								) : field.type === "richtextarea" ? (
-									<div
-										className="text-gray-700 cursor-pointer"
-										onClick={() => handleEditClick(index, field.name)}
-										dangerouslySetInnerHTML={{
-											__html: item[field.name] || "",
-										}}
-									/>
-								) : (
-									<span
-										className="text-gray-700 cursor-pointer"
-										onClick={() => handleEditClick(index, field.name)}
-									>
-										<strong>{field.label}:</strong>{" "}
-										{Array.isArray(item[field.name])
-											? item[field.name].join(", ")
-											: item[field.name]}
-									</span>
-								)}
+										)}
+										{editingIndex === index && editingField === field.name ? (
+											field.type === "textarea" ? (
+												<textarea
+													value={
+														Array.isArray(item[field.name])
+															? item[field.name].join("\n")
+															: item[field.name]
+													} // Ensure it's a string for textarea
+													onChange={(e) =>
+														handleEditChange(e, index, field.name)
+													}
+													onBlur={handleInputBlur}
+													className="w-full text-black px-2 py-1 border rounded h-24"
+													autoFocus
+												/>
+											) : field.type === "richtextarea" ? (
+												<div
+													ref={quillRef}
+													onBlur={handleRichTextBlur}
+													tabIndex={0}
+													className="relative"
+												>
+													<ReactQuill
+														value={item[field.name] || ""}
+														onChange={(value) =>
+															handleRichTextEditChange(value, index, field.name)
+														}
+														modules={modules}
+														className="h-40 text-black mb-20 mt-4"
+													/>
+												</div>
+											) : (
+												<input
+													type="text"
+													value={item[field.name]}
+													onChange={(e) =>
+														handleEditChange(e, index, field.name)
+													}
+													onBlur={handleInputBlur}
+													className="w-full text-black px-2 py-1 border rounded"
+													autoFocus
+												/>
+											)
+										) : field.type === "richtextarea" ? (
+											<div
+												className="cursor-pointer"
+												onClick={() => handleEditClick(index, field.name)}
+												dangerouslySetInnerHTML={{
+													__html: DOMPurify.sanitize(item[field.name] || ""),
+												}}
+											/>
+										) : (
+											<span
+												className="cursor-pointer"
+												onClick={() => handleEditClick(index, field.name)}
+											>
+												<strong>{field.label}:</strong>{" "}
+												{Array.isArray(item[field.name])
+													? item[field.name].join(", ")
+													: item[field.name]}
+											</span>
+										)}
+									</div>
+								))}
 							</div>
-						))}
-					</div>
-					{editingIndex !== index && (
-						<MdOutlineDeleteOutline
-							onClick={() => handleDelete(index)}
-							className="cursor-pointer"
-						/>
-					)}
-				</div>
-			))}
+							{editingIndex !== index && (
+								<MdOutlineDeleteOutline
+									onClick={() => handleDelete(index)}
+									className="cursor-pointer"
+								/>
+							)}
+						</div>
+					</motion.div>
+				))}
+			</AnimatePresence>
 		</div>
 	)
 }

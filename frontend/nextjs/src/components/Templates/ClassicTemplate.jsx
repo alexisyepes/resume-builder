@@ -9,6 +9,7 @@ import {
 	SKILLS,
 } from "@/constants"
 import SectionDoubleLineDivider from "../SectionDoubleLineDivider"
+import DOMPurify from "dompurify"
 
 export default function ClassicTemaplate({
 	resume,
@@ -31,36 +32,42 @@ export default function ClassicTemaplate({
 	customSections,
 	photo,
 }) {
+	const mt_sections = "mt-4"
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
-			<section className="mb-4">
-				<h2 className="text-lg relative font-semibold pb-1 mb-2">
+			<section className={mt_sections}>
+				<h2
+					style={{ letterSpacing: "0.01px" }}
+					className="text-lg font-semibold"
+				>
 					{EMPLOYMENT_HISTORY}
-					<SectionDoubleLineDivider />
 				</h2>
+				<SectionDoubleLineDivider />
 
 				{experience &&
 					experience.map((exp, index) => (
-						<div key={index} className="mb-3">
+						<div key={index} className="mb-3 mt-2">
 							<h3 className="capitalize flex justify-between text-sm font-semibold">
 								<span>
 									{exp.company} - {exp.role}
 								</span>
 								<span>{exp.year}</span>
 							</h3>
-							<ul className="list-disc pl-5 text-sm text-gray-700">
-								{exp.responsibilities.map((task, i) => (
-									<li className="capitalize" key={`${exp.company}-${i}`}>
-										{task}
-									</li>
-								))}
-							</ul>
+							{exp.responsibilities && (
+								<ul className="list-disc pl-5 text-sm text-gray-700">
+									{exp.responsibilities.map((task, i) => (
+										<li className="capitalize" key={`${exp.company}-${i}`}>
+											{task}
+										</li>
+									))}
+								</ul>
+							)}
 						</div>
 					))}
 			</section>
 		),
 		[EDUCATION]: (
-			<section className="mb-4">
+			<section className={mt_sections}>
 				<h2 className="text-lg font-semibold relative pb-1 mb-2">
 					{EDUCATION}
 					<SectionDoubleLineDivider />
@@ -79,7 +86,7 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[SKILLS]: (
-			<section className="mb-4">
+			<section className={mt_sections}>
 				{skills.length ? (
 					<>
 						<h2 className="text-lg font-semibold relative pb-1 mt-2">
@@ -102,8 +109,8 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[CERTIFICATIONS]: (
-			<section>
-				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+			<section className={mt_sections}>
+				<h2 className="text-lg font-semibold relative pb-1">
 					{CERTIFICATIONS}
 					<SectionDoubleLineDivider />
 				</h2>
@@ -121,8 +128,8 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[REFERENCES]: (
-			<section>
-				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+			<section className={mt_sections}>
+				<h2 className="text-lg font-semibold relative pb-1">
 					{REFERENCES}
 					<SectionDoubleLineDivider />
 				</h2>
@@ -137,15 +144,15 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[LINKS]: (
-			<section>
-				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+			<section className={mt_sections}>
+				<h2 className="text-lg font-semibold relative pb-1">
 					{LINKS}
 					<SectionDoubleLineDivider />
 				</h2>
 				{links &&
 					links.map((link, index) => (
 						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
-							<li className="capitalize">
+							<li>
 								{link.name}: {link.link}
 							</li>
 						</ul>
@@ -153,8 +160,8 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[HOBBIES]: (
-			<section>
-				<h2 className="text-lg font-semibold relative pb-1 mb-2">
+			<section className={mt_sections}>
+				<h2 className="text-lg font-semibold relative pb-1">
 					{HOBBIES}
 					<SectionDoubleLineDivider />
 				</h2>
@@ -171,13 +178,13 @@ export default function ClassicTemaplate({
 			</section>
 		),
 		[CUSTOM_SECTION]: (
-			<section>
+			<section className={mt_sections}>
 				{customSections &&
 					customSections.map((section, index) => {
 						console.log(section)
 						return (
 							<div
-								className="capitalize text-sm mt-2"
+								className="capitalize text-sm"
 								key={`${section.header}-${index}`}
 							>
 								{section.header && (
@@ -239,13 +246,18 @@ export default function ClassicTemaplate({
 
 			{/* Summary Section */}
 			<section className="mb-4">
-				<h2 className="text-lg relative font-semibold pb-1 mb-2">
-					Summary <SectionDoubleLineDivider />
+				<h2 className="text-lg relative font-semibold mb-2">
+					Summary
+					<SectionDoubleLineDivider />
 				</h2>
 
 				<p className="text-sm text-gray-700">
 					{objective ? (
-						<span dangerouslySetInnerHTML={{ __html: objective }} />
+						<span
+							dangerouslySetInnerHTML={{
+								__html: DOMPurify.sanitize(objective),
+							}}
+						/>
 					) : (
 						<span>{resume.objective}</span>
 					)}

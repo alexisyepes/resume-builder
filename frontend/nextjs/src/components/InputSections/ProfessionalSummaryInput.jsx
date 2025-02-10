@@ -2,12 +2,15 @@ import RingLoader from "react-spinners/RingLoader"
 import dynamic from "next/dynamic"
 import "react-quill-new/dist/quill.snow.css"
 import { RxReload } from "react-icons/rx"
+import { PROFESSIONAL_SUMMARY } from "@/constants"
+import { CiEdit } from "react-icons/ci"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
 const modules = {
 	toolbar: [
-		[{ header: [1, 2, false] }],
+		// [{ header: [1, 2, true] }],
+		[{ size: ["small", false, "large", "huge"] }],
 		["bold", "italic", "underline", "strike"],
 		[{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
@@ -29,6 +32,10 @@ export default function ProfessionalSummaryInput({
 }) {
 	return (
 		<div className="w-full p-2">
+			<div className="flex justify-between border-b-2 mb-2">
+				<h2 className="text-xl mb-2 font-bold">{PROFESSIONAL_SUMMARY}</h2>
+				<CiEdit size={24} />
+			</div>
 			{counter === 5 ? (
 				<p>
 					Time Left to regenerate text: {minutes}:
@@ -37,7 +44,8 @@ export default function ProfessionalSummaryInput({
 			) : (
 				<h6>
 					List your professional title, years of experience, and highlight your
-					most notable accomplishments.
+					most notable accomplishments, and our AI generator will help you
+					create it.
 				</h6>
 			)}
 			<ReactQuill

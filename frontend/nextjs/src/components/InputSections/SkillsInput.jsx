@@ -2,6 +2,8 @@ import { useState } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import { RxReload } from "react-icons/rx"
 import RingLoader from "react-spinners/RingLoader"
+import { RiDeleteBin5Line } from "react-icons/ri"
+import { SKILLS } from "@/constants"
 
 export default function SkillsInput({
 	regenerateSkillsSuggestions,
@@ -14,10 +16,34 @@ export default function SkillsInput({
 	handleChange,
 	handleEditClick,
 	nextTabHandler,
+	removeTabHandler,
+	activeTab,
+	tabs,
+	setActiveTab,
 }) {
 	const [skillToAdd, setSkillToAdd] = useState("")
+
+	const handleRemoveSection = () => {
+		const currentActiveTabIndex = tabs.indexOf(activeTab)
+		const nextTabIndex =
+			currentActiveTabIndex === tabs.length - 1
+				? currentActiveTabIndex - 1
+				: currentActiveTabIndex + 1
+		const nextActiveTab = tabs[nextTabIndex]
+		setActiveTab(nextActiveTab)
+		removeTabHandler(currentActiveTabIndex)
+	}
+
 	return (
 		<div className="w-full border p-4 rounded-md">
+			<div className="flex justify-between border-b-2 mb-2">
+				<h2 className="text-xl mb-2 font-bold">{SKILLS}</h2>
+				<RiDeleteBin5Line
+					onClick={handleRemoveSection}
+					className="cursor-pointer"
+					size={24}
+				/>{" "}
+			</div>
 			<h4 className="block text-sm font-medium text-gray-700 mb-1">
 				Add skill below
 			</h4>

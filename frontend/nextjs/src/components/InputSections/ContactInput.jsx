@@ -1,3 +1,6 @@
+import { CONTACT_INFORMATION } from "@/constants"
+import { CiEdit } from "react-icons/ci"
+
 export default function ContactInput({
 	email = "",
 	phone = "",
@@ -11,6 +14,10 @@ export default function ContactInput({
 }) {
 	return (
 		<div className="w-full p-2">
+			<div className="flex justify-between border-b-2 mb-2">
+				<h2 className="text-xl mb-2 font-bold">{CONTACT_INFORMATION}</h2>
+				<CiEdit size={24} />
+			</div>
 			<input
 				type="email"
 				placeholder="Email"
