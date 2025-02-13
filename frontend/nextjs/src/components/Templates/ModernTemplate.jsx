@@ -8,23 +8,25 @@ const ModernTemplate = ({
 	address,
 	cityPostCode,
 	objective,
+	photo,
 }) => {
 	if (!resume || !resume.experience) {
 		return <p>Loading resume data...</p>
 	}
 
 	return (
-		<div
-			className="resume-template w-[8.5in] aspect-[8.5/11] bg-white shadow-lg rounded-md p-6 mx-auto border overflow-auto"
-			style={{
-				transform: `scale(${
-					typeof window !== "undefined" && Math.min(1, window.innerWidth / 1200)
-				})`,
-				transformOrigin: "top",
-			}}
-		>
-			<div className="grid grid-cols-3 aspect-[8.5/11] gap-4">
-				<div className="col-span-1 bg-slate-800 text-white p-4">
+		<div className="resume-template rounded-bl-md rounded-br-md rounded-tr-md rounded-tl-md ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto">
+			<div className="grid grid-cols-3 aspect-[8.5/11]">
+				<div className="col-span-1 rounded-bl-md bg-[#133853] text-white p-8 rounded-tl-md">
+					{photo && (
+						<div className="w-40 mx-auto ring-4 ring-white h-auto my-4 overflow-hidden rounded-full">
+							<img
+								src={photo}
+								alt="Uploaded preview"
+								className="w-full h-auto object-cover"
+							/>
+						</div>
+					)}
 					<h2 className="text-xl w-[220px] break-words capitalize font-bold whitespace-normal">
 						{firstName || resume.firstName} {lastName || resume.lastName}
 					</h2>

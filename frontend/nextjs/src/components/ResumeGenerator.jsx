@@ -46,6 +46,7 @@ const ResumeGenerator = () => {
 	const [generatedResume, setGeneratedResume] = useState(defaultResume)
 	const [activeTab, setActiveTab] = useState(tabs[0])
 	const [isLoading, setIsLoading] = useState(false)
+	const [template, setTemplate] = useState("classic")
 	const resumeRef = useRef()
 
 	useEffect(() => {
@@ -204,6 +205,7 @@ const ResumeGenerator = () => {
 					tabs={tabs}
 					setTabs={setTabs}
 					setPhoto={setPhoto}
+					template={template}
 				/>
 
 				<ResumePreview
@@ -228,6 +230,8 @@ const ResumeGenerator = () => {
 					hobbies={hobbies}
 					customSections={customSections}
 					photo={photo}
+					template={template}
+					setTemplate={setTemplate}
 				/>
 			</div>
 		</div>

@@ -12,92 +12,77 @@ const ElegantTemplate = ({
 }) => {
 	return (
 		<div
-			style={{
-				transform: `scale(${
-					typeof window !== "undefined" && Math.min(1, window.innerWidth / 1200)
-				})`,
-				transformOrigin: "top",
-			}}
-			className="relative w-full max-w-[8.5in] mx-auto"
+			style={{ backgroundImage: "url(/images/template-bg-1.png)" }}
+			className="resume-template p-10 ring-slate-200 bg-white h-[1056px] w-[816px]  mx-auto rounded ring-2"
 		>
-			{/* Resume Content */}
-			<div
-				style={{ backgroundImage: "url(/images/template-bg-1.png)" }}
-				className="relative z-10 w-[8.5in] h-[11in] shadow-lg rounded-md p-8 mx-auto border overflow-auto"
-			>
-				{/* Header Section */}
-				<div className="relative z-10 p-1 pt-4 rounded-md">
-					<h1 className="text-4xl font-bold capitalize">
-						{firstName || resume.firstName} {lastName || resume.lastName}
-					</h1>
-					<p className="text-lg font-semibold">{jobTitle || resume.jobTitle}</p>
-					<p className="text-sm">{email || resume.contact.email} | </p>
-					<p className="text-sm">
-						{phone || resume.contact.phone} <br />
-						{address || resume.contact.address} <br />
-						{cityPostCode || resume.contact.cityPostCode}
-					</p>
-				</div>
-
-				{/* Summary Section */}
-				<section className="mt-6">
-					<h2 className="text-xl font-bold text-slate-800">Summary</h2>
-					<p className="text-gray-700 text-sm">
-						{objective || resume.objective}
-					</p>
-				</section>
-
-				{/* Experience Section */}
-				<section className="mt-6">
-					<h2 className="text-xl font-bold text-slate-800">Experience</h2>
-					{resume.experience.map((exp, index) => (
-						<div key={index} className="mt-3">
-							<h3 className="font-semibold text-lg">
-								{exp.role} - {exp.company}
-							</h3>
-							<ul className="list-disc pl-5 text-sm text-gray-700">
-								{exp.responsibilities.map((task, i) => (
-									<li key={i}>{task}</li>
-								))}
-							</ul>
-						</div>
-					))}
-				</section>
-
-				{/* Education Section */}
-				<section className="mt-6">
-					<h2 className="text-xl font-bold text-slate-800">Education</h2>
-					{resume.education.map((edu, index) => (
-						<div key={index} className="mt-3">
-							<h3 className="font-semibold">
-								{edu.degree} - {edu.institution}
-							</h3>
-							<p className="text-xs text-gray-500">{edu.period}</p>
-						</div>
-					))}
-				</section>
-
-				{/* Skills Section */}
-				<section className="mt-6">
-					<h2 className="text-xl font-bold text-slate-800">Skills</h2>
-					<p className="text-sm text-gray-700">{resume.skills.join(", ")}</p>
-				</section>
-
-				{/* Key Achievements */}
-				{achievements && (
-					<section className="mt-6">
-						<h2 className="text-xl font-bold text-slate-800">
-							Key Achievements
-						</h2>
-						{achievements.map((achieve, index) => (
-							<div key={index} className="mt-2 flex items-center gap-2">
-								<span className="text-green-500">⭐</span>
-								<p className="text-sm text-gray-700 font-medium">{achieve}</p>
-							</div>
-						))}
-					</section>
-				)}
+			{/* Header Section */}
+			<div className="relative z-10 p-1 pt-4 rounded-md">
+				<h1 className="text-4xl font-bold capitalize">
+					{firstName || resume.firstName} {lastName || resume.lastName}
+				</h1>
+				<p className="text-lg font-semibold">{jobTitle || resume.jobTitle}</p>
+				<p className="text-sm">{email || resume.contact.email} | </p>
+				<p className="text-sm">
+					{phone || resume.contact.phone} <br />
+					{address || resume.contact.address} <br />
+					{cityPostCode || resume.contact.cityPostCode}
+				</p>
 			</div>
+
+			{/* Summary Section */}
+			<section className="mt-6">
+				<h2 className="text-xl font-bold text-slate-800">Summary</h2>
+				<p className="text-gray-700 text-sm">{objective || resume.objective}</p>
+			</section>
+
+			{/* Experience Section */}
+			<section className="mt-6">
+				<h2 className="text-xl font-bold text-slate-800">Experience</h2>
+				{resume.experience.map((exp, index) => (
+					<div key={index} className="mt-3">
+						<h3 className="font-semibold text-lg">
+							{exp.role} - {exp.company}
+						</h3>
+						<ul className="list-disc pl-5 text-sm text-gray-700">
+							{exp.responsibilities.map((task, i) => (
+								<li key={i}>{task}</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</section>
+
+			{/* Education Section */}
+			<section className="mt-6">
+				<h2 className="text-xl font-bold text-slate-800">Education</h2>
+				{resume.education.map((edu, index) => (
+					<div key={index} className="mt-3">
+						<h3 className="font-semibold">
+							{edu.degree} - {edu.institution}
+						</h3>
+						<p className="text-xs text-gray-500">{edu.period}</p>
+					</div>
+				))}
+			</section>
+
+			{/* Skills Section */}
+			<section className="mt-6">
+				<h2 className="text-xl font-bold text-slate-800">Skills</h2>
+				<p className="text-sm text-gray-700">{resume.skills.join(", ")}</p>
+			</section>
+
+			{/* Key Achievements */}
+			{achievements && (
+				<section className="mt-6">
+					<h2 className="text-xl font-bold text-slate-800">Key Achievements</h2>
+					{achievements.map((achieve, index) => (
+						<div key={index} className="mt-2 flex items-center gap-2">
+							<span className="text-green-500">⭐</span>
+							<p className="text-sm text-gray-700 font-medium">{achieve}</p>
+						</div>
+					))}
+				</section>
+			)}
 		</div>
 	)
 }

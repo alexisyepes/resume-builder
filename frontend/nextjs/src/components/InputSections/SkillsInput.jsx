@@ -101,7 +101,7 @@ export default function SkillsInput({
 				? skills.map((skill, index) => (
 						<div
 							key={index}
-							className="cursor-pointer justify-between flex bg-blue-100 rounded-md px-2 py-1 my-2"
+							className="cursor-pointer justify-between flex bg-[#336e7b] text-white rounded-md px-2 py-1 my-2"
 						>
 							{editingId === index ? (
 								<input

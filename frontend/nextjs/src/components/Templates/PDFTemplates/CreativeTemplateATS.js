@@ -29,46 +29,71 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "#000",
 	},
+	row: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginBottom: 2,
+		width: "100%", // Ensures full row width
+	},
+
+	leftText: {
+		width: "70%", // Adjust this based on your needs
+		textAlign: "left",
+	},
+
+	rightText: {
+		width: "30%", // Ensures it stays on the right
+		textAlign: "right",
+	},
 })
 
 export const CreativeTemplateATS = ({ resumeData }) => {
 	const sectionMap = {
-		[EMPLOYMENT_HISTORY]: (
-			<View style={styles.section}>
-				<Text style={styles.subHeader}>Work Experience</Text>
-				<View style={styles.divider} />
-				{resumeData.experience.map((exp, index) => (
-					<View key={index}>
-						<Text style={[styles.text, { fontWeight: "bold" }]}>
-							{exp.role} - {exp.project} ({exp.year})
-						</Text>
-						{exp.responsibilities?.map((task, i) => (
-							<Text key={i} style={styles.text}>
-								• {task}
+		[EMPLOYMENT_HISTORY]:
+			resumeData.experience && resumeData.experience.length > 0 ? (
+				<View style={styles.section}>
+					<Text style={styles.subHeader}>Work Experience</Text>
+					<View style={styles.divider} />
+					{resumeData.experience.map((exp, index) => (
+						<View key={index}>
+							<Text style={[styles.text, { fontWeight: "bold" }]}>
+								{exp.role} - {exp.project} ({exp.year})
 							</Text>
-						))}
-					</View>
-				))}
-			</View>
-		),
-		[EDUCATION]: (
-			<View style={styles.section}>
-				<Text style={styles.subHeader}>Education</Text>
-				<View style={styles.divider} />
-				{resumeData.educations.map((edu, index) => (
-					<Text key={index} style={styles.text}>
-						{edu.degree} - {edu.institution} ({edu.year})
-					</Text>
-				))}
-			</View>
-		),
-		[SKILLS]: (
-			<View style={styles.section}>
-				<Text style={styles.subHeader}>Skills</Text>
-				<View style={styles.divider} />
-				<Text style={styles.text}>{resumeData.skills.join(", ")}</Text>
-			</View>
-		),
+							{exp.responsibilities?.map((task, i) => (
+								<Text key={i} style={styles.text}>
+									• {task}
+								</Text>
+							))}
+						</View>
+					))}
+				</View>
+			) : null,
+
+		[EDUCATION]:
+			resumeData.educations && resumeData.educations.length > 0 ? (
+				<View style={styles.section}>
+					<Text style={styles.subHeader}>Education</Text>
+					<View style={styles.divider} />
+					{resumeData.educations.map((edu, index) => (
+						<View key={index} style={styles.row}>
+							<Text style={[styles.text, styles.leftText]}>
+								{edu.institution}
+							</Text>
+							<Text style={[styles.text, styles.rightText]}>{edu.year}</Text>
+						</View>
+					))}
+				</View>
+			) : null,
+
+		[SKILLS]:
+			resumeData.skills && resumeData.skills.length > 0 ? (
+				<View style={styles.section}>
+					<Text style={styles.subHeader}>Skills</Text>
+					<View style={styles.divider} />
+					<Text style={styles.text}>{resumeData.skills.join(", ")}</Text>
+				</View>
+			) : null,
 	}
 
 	return (
@@ -80,11 +105,19 @@ export const CreativeTemplateATS = ({ resumeData }) => {
 						{resumeData.firstName} {resumeData.lastName}
 					</Text>
 					<Text>{resumeData.jobTitle}</Text>
+					{resumeData.email && (
+						<Text>
+							{resumeData.contact?.email || ""} |{" "}
+							{resumeData.contact?.phone || ""}
+						</Text>
+					)}
 					<Text>
-						{resumeData.contact.email} | {resumeData.contact.phone}
+						{resumeData.contact?.email || ""} |{" "}
+						{resumeData.contact?.phone || ""}
 					</Text>
 					<Text>
-						{resumeData.contact.address}, {resumeData.contact.cityPostCode}
+						{resumeData.contact?.address || ""},{" "}
+						{resumeData.contact?.cityPostCode || ""}
 					</Text>
 				</View>
 
@@ -97,10 +130,10 @@ export const CreativeTemplateATS = ({ resumeData }) => {
 					</View>
 				)}
 
-				{/* Ordered Sections */}
-				{resumeData.orderedTabs.map((tab, index) => (
-					<View key={index}>{sectionMap[tab]}</View>
-				))}
+				{/* Ordered Sections - Render only if section exists */}
+				{resumeData.orderedTabs.map((tab, index) =>
+					sectionMap[tab] ? <View key={index}>{sectionMap[tab]}</View> : null
+				)}
 			</Page>
 		</Document>
 	)

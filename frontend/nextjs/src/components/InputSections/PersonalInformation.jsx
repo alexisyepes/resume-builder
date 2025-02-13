@@ -2,17 +2,19 @@ import { PERSONAL_DETAILS } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 
 export default function PersonalInformation({
-	firstName = "",
+	firstName,
 	setFirstName,
-	lastName = "",
+	lastName,
 	setLastName,
-	jobTitle = "",
+	jobTitle,
 	setJobTitle,
 	nextTabHandler,
 	handleImageUpload,
 	photo,
 	setPhoto,
+	template,
 }) {
+	console.log(template)
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between border-b-2 mb-2">
@@ -20,56 +22,60 @@ export default function PersonalInformation({
 				<CiEdit size={24} />
 			</div>
 
-			<div className="border rounded-md w-full mb-2 p-4">
-				{photo && (
-					<img
-						src={photo}
-						alt="Uploaded preview"
-						className="mt-4 mx-auto h-32 w-32 rounded-lg object-cover"
-					/>
-				)}
-				<div className="flex mb-2 justify-between items-center">
-					<label className="block text-sm font-medium text-gray-700">
-						Upload Photo
-					</label>
+			{template && !template.includes("ats") && (
+				<div className="border rounded-md w-full mb-2 p-4">
 					{photo && (
-						<button
-							className="bg-red-200 rounded-md px-2 inline-block text-sm"
-							onClick={() => setPhoto("")}
-						>
-							Remove Photo
-						</button>
+						<img
+							src={photo}
+							alt="Uploaded preview"
+							className="my-4 mx-auto h-32 w-32 rounded-full object-cover"
+						/>
 					)}
-				</div>
-				<input
-					type="file"
-					accept="image/*"
-					onChange={handleImageUpload}
-					className="mt-1 block w-full text-sm text-gray-500
+
+					<div className="flex mb-2 justify-between items-center">
+						<label className="block text-sm font-medium text-gray-700">
+							Upload Photo
+						</label>
+						{photo && (
+							<button
+								className="bg-red-200 rounded-md px-2 inline-block text-sm"
+								onClick={() => setPhoto("")}
+							>
+								Remove Photo
+							</button>
+						)}
+					</div>
+					<input
+						type="file"
+						accept="image/*"
+						onChange={handleImageUpload}
+						className="mt-1 block w-full text-sm text-gray-500
                            file:mr-4 file:py-2 file:px-4
                            file:rounded-md file:border-0
                            file:text-sm file:font-semibold
                            file:bg-blue-50 file:text-cyan-700
                            hover:file:bg-blue-100"
-				/>
-			</div>
+					/>
+				</div>
+			)}
+
 			<input
 				type="text"
-				placeholder="First Name"
+				placeholder="Sarah"
 				className="w-full p-2 border rounded mb-2"
 				value={firstName}
 				onChange={(e) => setFirstName(e.target.value)}
 			/>
 			<input
 				type="text"
-				placeholder="Last Name"
+				placeholder="Connor"
 				className="w-full p-2 border rounded mb-2"
 				value={lastName}
 				onChange={(e) => setLastName(e.target.value)}
 			/>
 			<input
 				type="text"
-				placeholder="Job Title"
+				placeholder="Project Manager"
 				className="w-full p-2 border rounded mb-2"
 				value={jobTitle}
 				onChange={(e) => setJobTitle(e.target.value)}

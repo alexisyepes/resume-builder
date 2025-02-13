@@ -20,11 +20,11 @@ import UniversalInput from "./InputSections/UniverslaInputs"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Inputs({
-	firstName = "",
+	firstName,
 	setFirstName,
-	lastName = "",
+	lastName,
 	setLastName,
-	jobTitle = "",
+	jobTitle,
 	email = "",
 	phone = "",
 	address = "",
@@ -67,6 +67,7 @@ export default function Inputs({
 	setTabs,
 	setActiveTab,
 	setPhoto,
+	template,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -133,6 +134,7 @@ export default function Inputs({
 								handleImageUpload={handleImageUpload}
 								photo={photo}
 								setPhoto={setPhoto}
+								template={template}
 							/>
 						</motion.div>{" "}
 					</AnimatePresence>

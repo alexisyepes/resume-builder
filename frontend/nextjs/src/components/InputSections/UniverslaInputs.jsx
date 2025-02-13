@@ -5,12 +5,13 @@ import { RiDeleteBin5Line } from "react-icons/ri"
 import "react-quill-new/dist/quill.snow.css"
 import DOMPurify from "dompurify"
 import { motion, AnimatePresence } from "framer-motion"
+import { EMPLOYMENT_HISTORY } from "@/constants"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
 const modules = {
 	toolbar: [
-		[{ header: [1, 2, false] }],
+		// [{ header: [1, 2, false] }],
 		["bold", "italic", "underline", "strike"],
 		[{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
@@ -126,7 +127,14 @@ export default function UniversalInput({
 	return (
 		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-md">
 			<div className="flex justify-between border-b-2 pb-2 mb-2">
-				<h2 className="text-xl font-bold">{title}</h2>
+				<h2 className="text-xl font-bold">
+					{title}{" "}
+					{title === EMPLOYMENT_HISTORY && (
+						<span className="text-xs text-slate-500 inline-block">
+							(Start with your most recent position)
+						</span>
+					)}
+				</h2>
 				<RiDeleteBin5Line
 					onClick={handleRemoveSection}
 					className="cursor-pointer"
@@ -232,7 +240,7 @@ export default function UniversalInput({
 															handleRichTextEditChange(value, index, field.name)
 														}
 														modules={modules}
-														className="h-40 text-black mb-20 mt-4"
+														className="h-36 bg-white text-black pb-11 mt-4"
 													/>
 												</div>
 											) : (

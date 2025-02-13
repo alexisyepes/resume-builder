@@ -1,10 +1,10 @@
 export const defaultResume = {
 	resume: {
-		firstName: "john",
+		firstName: "sarah",
 		lastName: "connor",
 		jobTitle: "project manager",
 		contact: {
-			email: "john.smith@example.com",
+			email: "sarah.connor@example.com",
 			phone: "+1-234-567-8901",
 			address: "123 Celebrity Lane",
 			cityPostCode: "Hollywood, CA 90028",
@@ -86,3 +86,10 @@ export const tabs = [
 	"Education",
 	"References",
 ]
+
+export const capitalizeEachWord = (string) => {
+	return string
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(" ")
+}

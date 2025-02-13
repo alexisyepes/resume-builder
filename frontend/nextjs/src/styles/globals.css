@@ -58,3 +58,17 @@ body {
 .ql-editor li {
 	margin-bottom: 4px;
 }
+
+.ql-editor {
+	/* padding: 0 !important; */
+	margin: 0 !important;
+}
+
+.ql-editor-custom-section {
+	padding: 0 !important;
+}
+
+.custom-bullet-active {
+	background-color: #ffba08 !important; /* Active color */
+	opacity: 1;
+}

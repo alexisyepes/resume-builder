@@ -5,7 +5,9 @@ import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import ElegantTemplate from "./Templates/ElegantTemplate"
-import { PDFViewer } from "@react-pdf/renderer"
+import axios from "axios"
+import ClassicTemaplateATS from "./Templates/ClassicTemplateATS"
+import TemplateSelector from "./TemplateSelector"
 
 export default function ResumePreview({
 	generatedResume,
@@ -27,9 +29,10 @@ export default function ResumePreview({
 	hobbies,
 	customSections,
 	photo,
+	template,
+	setTemplate,
 }) {
 	const resumeRef = useRef(null)
-	const [template, setTemplate] = useState("classic")
 	const [scale, setScale] = useState(1)
 
 	useEffect(() => {
@@ -46,6 +49,56 @@ export default function ResumePreview({
 	// Function to download PDF
 	const handleDownloadPDF = async () => {
 		if (!resumeRef.current) return
+
+		if (!firstName || !lastName || !jobTitle) {
+			return alert("Add the missing fields!")
+		}
+
+		const resumeObj = {
+			resume: {
+				email,
+				phone,
+				address,
+				cityPostCode,
+				firstName,
+				lastName,
+				skills,
+				experience,
+				objective: objective ? objective : generatedResume.objective,
+				jobTitle,
+				tabs,
+				certifications,
+				educations,
+				references,
+				links,
+				hobbies,
+				customSections: customSections.map((section) => ({
+					...section,
+					content: section.content,
+				})),
+				orderedTabs: tabs,
+			},
+		}
+
+		if (template === "classic-ats") {
+			try {
+				resumeObj.resume.template = "1"
+				const response = await axios.post("/api/pdf", resumeObj, {
+					responseType: "blob",
+				})
+
+				const url = window.URL.createObjectURL(new Blob([response.data]))
+				const a = document.createElement("a")
+				a.href = url
+				a.download = `${firstName || "resume"}.pdf`
+				document.body.appendChild(a)
+				a.click()
+				window.URL.revokeObjectURL(url)
+			} catch (error) {
+				console.error("Error generating ATS PDF:", error)
+			}
+			return
+		}
 
 		const pdf = new jsPDF({
 			orientation: "portrait",
@@ -64,30 +117,20 @@ export default function ResumePreview({
 	}
 
 	return (
-		<div className="w-full sm:w-1/2 p-2">
-			<div className="rounded">
-				<div className="w-[8.5in] flex justify-between mb-2 items-center">
-					<h3 className="text-lg font-semibold">Current Layout:</h3>
-					<button
-						onClick={handleDownloadPDF}
-						className="bg-green-500 text-white p-2 rounded"
-					>
-						Download as PDF
-					</button>
-				</div>
-				<select
-					className="w-full p-2 border rounded mb-2"
-					value={template}
-					onChange={(e) => setTemplate(e.target.value)}
-				>
-					<option value="classic">Classic</option>
-					<option value="elegant">Elegant</option>
-					<option value="modern">Modern</option>
-					<option value="creative">Creative</option>
-				</select>
+		<div className="w-full sm:w-1/2 border p-2 bg-cyan-700 rounded-md">
+			<div className="relative">
+				<TemplateSelector
+					handleDownloadPDF={handleDownloadPDF}
+					setTemplate={setTemplate}
+				/>
+			</div>
+			<h3 className="text-lg mt-4 font-semibold text-white text-center">
+				Current Layout
+			</h3>
+			<div className="rounded py-8">
 				<div
 					ref={resumeRef}
-					className="bg-white ring-2 ring-slate-200 shadow-lg resume-template w-[816px] mx-auto origin-top h-[1056px] p-4 rounded"
+					className="  origin-top"
 					style={{ transform: `scale(${scale})` }}
 				>
 					{template === "classic" && (
@@ -112,6 +155,31 @@ export default function ResumePreview({
 							hobbies={hobbies}
 							customSections={customSections}
 							photo={photo}
+						/>
+					)}
+					{template === "classic-ats" && (
+						<ClassicTemaplateATS
+							orderedTabs={tabs}
+							tabs={tabs}
+							email={email}
+							firstName={firstName}
+							lastName={lastName}
+							jobTitle={jobTitle}
+							phone={phone}
+							address={address}
+							cityPostCode={cityPostCode}
+							objective={objective}
+							experience={experience}
+							resume={generatedResume}
+							skills={skills}
+							certifications={certifications}
+							educations={educations}
+							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
+							photo={photo}
+							template={template}
 						/>
 					)}
 					{template === "elegant" && (
