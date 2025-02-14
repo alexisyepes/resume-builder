@@ -10,6 +10,7 @@ import {
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
 	HOBBIES,
+	LANGUAGES,
 	LINKS,
 	PERSONAL_DETAILS,
 	PROFESSIONAL_SUMMARY,
@@ -65,6 +66,8 @@ export default function Inputs({
 	activeTab,
 	tabs,
 	setTabs,
+	languages,
+	setLanguages,
 	setActiveTab,
 	setPhoto,
 	template,
@@ -479,6 +482,39 @@ export default function Inputs({
 								]}
 								data={references}
 								setData={setReferences}
+								removeTabHandler={removeTabHandler}
+								activeTab={activeTab}
+								tabs={tabs}
+								setTabs={setTabs}
+								nextTabHandler={nextTabHandler}
+								setActiveTab={setActiveTab}
+							/>
+						</motion.div>
+					</AnimatePresence>
+				)
+			case LANGUAGES:
+				return (
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{ duration: 0.5 }}
+						>
+							<UniversalInput
+								title="Languages"
+								fields={[
+									{
+										name: "language",
+										placeholder: "E.g., Spanish, Portuguese...",
+										label: "Languages",
+										type: "text",
+										required: true,
+									},
+								]}
+								data={languages}
+								setData={setLanguages}
 								removeTabHandler={removeTabHandler}
 								activeTab={activeTab}
 								tabs={tabs}

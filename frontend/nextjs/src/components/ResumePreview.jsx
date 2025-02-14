@@ -1,13 +1,10 @@
 import { useState, useRef, useEffect } from "react"
-import html2canvas from "html2canvas"
-import jsPDF from "jspdf"
+
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import ElegantTemplate from "./Templates/ElegantTemplate"
-import axios from "axios"
-import ClassicTemaplateATS from "./Templates/ClassicTemplateATS"
-import TemplateSelector from "./TemplateSelector"
+import ClassicTemplateATS from "./Templates/ClassicTemplateATS"
 
 export default function ResumePreview({
 	generatedResume,
@@ -30,9 +27,10 @@ export default function ResumePreview({
 	customSections,
 	photo,
 	template,
-	setTemplate,
+	handleDownloadPDF,
+	languages,
+	resumeRef,
 }) {
-	const resumeRef = useRef(null)
 	const [scale, setScale] = useState(1)
 
 	useEffect(() => {
@@ -46,87 +44,16 @@ export default function ResumePreview({
 		return () => window.removeEventListener("resize", updateScale)
 	}, [])
 
-	// Function to download PDF
-	const handleDownloadPDF = async () => {
-		if (!resumeRef.current) return
-
-		if (!firstName || !lastName || !jobTitle) {
-			return alert("Add the missing fields!")
-		}
-
-		const resumeObj = {
-			resume: {
-				email,
-				phone,
-				address,
-				cityPostCode,
-				firstName,
-				lastName,
-				skills,
-				experience,
-				objective: objective ? objective : generatedResume.objective,
-				jobTitle,
-				tabs,
-				certifications,
-				educations,
-				references,
-				links,
-				hobbies,
-				customSections: customSections.map((section) => ({
-					...section,
-					content: section.content,
-				})),
-				orderedTabs: tabs,
-			},
-		}
-
-		if (template === "classic-ats") {
-			try {
-				resumeObj.resume.template = "1"
-				const response = await axios.post("/api/pdf", resumeObj, {
-					responseType: "blob",
-				})
-
-				const url = window.URL.createObjectURL(new Blob([response.data]))
-				const a = document.createElement("a")
-				a.href = url
-				a.download = `${firstName || "resume"}.pdf`
-				document.body.appendChild(a)
-				a.click()
-				window.URL.revokeObjectURL(url)
-			} catch (error) {
-				console.error("Error generating ATS PDF:", error)
-			}
-			return
-		}
-
-		const pdf = new jsPDF({
-			orientation: "portrait",
-			unit: "pt",
-			format: [612, 792], // 8.5 x 11 inches in points
-		})
-
-		const canvas = await html2canvas(resumeRef.current, { scale: 2 })
-		const imgData = canvas.toDataURL("image/png")
-
-		const pdfWidth = 612 // 8.5 inches * 72 dpi
-		const pdfHeight = 792 // 11 inches * 72 dpi
-
-		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
-		pdf.save(`${firstName || "resume"}.pdf`)
-	}
-
 	return (
-		<div className="w-full sm:w-1/2 border p-2 bg-cyan-700 rounded-md">
-			<div className="relative">
-				<TemplateSelector
-					handleDownloadPDF={handleDownloadPDF}
-					setTemplate={setTemplate}
-				/>
+		<div className="w-full sm:w-1/2 border p-2 bg-gray-900 rounded-md">
+			<div className="flex justify-end items-center">
+				<button
+					className="bg-white p-3 rounded-md text-lg"
+					onClick={handleDownloadPDF}
+				>
+					Download
+				</button>
 			</div>
-			<h3 className="text-lg mt-4 font-semibold text-white text-center">
-				Current Layout
-			</h3>
 			<div className="rounded py-8">
 				<div
 					ref={resumeRef}
@@ -155,10 +82,11 @@ export default function ResumePreview({
 							hobbies={hobbies}
 							customSections={customSections}
 							photo={photo}
+							languages={languages}
 						/>
 					)}
 					{template === "classic-ats" && (
-						<ClassicTemaplateATS
+						<ClassicTemplateATS
 							orderedTabs={tabs}
 							tabs={tabs}
 							email={email}
@@ -180,6 +108,7 @@ export default function ResumePreview({
 							customSections={customSections}
 							photo={photo}
 							template={template}
+							languages={languages}
 						/>
 					)}
 					{template === "elegant" && (
@@ -204,6 +133,7 @@ export default function ResumePreview({
 							hobbies={hobbies}
 							customSections={customSections}
 							photo={photo}
+							languages={languages}
 						/>
 					)}
 					{template === "modern" && (
@@ -228,6 +158,7 @@ export default function ResumePreview({
 							hobbies={hobbies}
 							customSections={customSections}
 							photo={photo}
+							languages={languages}
 						/>
 					)}
 					{template === "creative" && (
@@ -252,6 +183,7 @@ export default function ResumePreview({
 							hobbies={hobbies}
 							customSections={customSections}
 							photo={photo}
+							languages={languages}
 						/>
 					)}
 				</div>

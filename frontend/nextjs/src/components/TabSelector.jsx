@@ -5,6 +5,7 @@ import {
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
 	HOBBIES,
+	LANGUAGES,
 	LINKS,
 	PERSONAL_DETAILS,
 	PROFESSIONAL_SUMMARY,
@@ -22,11 +23,12 @@ import { useDrag, useDrop, DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import { FaHeadSideVirus } from "react-icons/fa"
-import { IoSchool, IoPerson } from "react-icons/io5"
+import { IoSchool, IoPerson, IoLanguage } from "react-icons/io5"
 import { HiLink, HiMusicalNote } from "react-icons/hi2"
 import { FaMedal } from "react-icons/fa6"
 import { MdOutlineContactEmergency } from "react-icons/md"
 import { BsBuildings } from "react-icons/bs"
+import { BiCustomize } from "react-icons/bi"
 
 const READ_ONLY_TABS = [
 	PERSONAL_DETAILS,
@@ -42,6 +44,7 @@ const AVAILABLE_SECTIONS = [
 	HOBBIES,
 	CERTIFICATIONS,
 	REFERENCES,
+	LANGUAGES,
 	CUSTOM_SECTION,
 ]
 
@@ -53,7 +56,6 @@ const DraggableTab = ({
 	onTabChange,
 	removeTabHandler,
 	activeTab,
-	setActiveTab,
 }) => {
 	const isReadOnly = READ_ONLY_TABS.includes(tab)
 
@@ -116,6 +118,10 @@ const DraggableTab = ({
 				)}
 				{tab === REFERENCES && (
 					<MdOutlineContactPhone size={20} className="inline mr-2" />
+				)}
+				{tab === LANGUAGES && <IoLanguage size={20} className="inline mr-2" />}
+				{tab === CUSTOM_SECTION && (
+					<BiCustomize size={20} className="inline mr-2" />
 				)}
 				{tab}
 			</button>
@@ -215,6 +221,12 @@ export default function TabSelector({
 								)}
 								{section === REFERENCES && (
 									<MdOutlineContactPhone size={20} className="inline ml-2" />
+								)}
+								{section === LANGUAGES && (
+									<IoLanguage size={20} className="inline ml-2" />
+								)}
+								{section === CUSTOM_SECTION && (
+									<BiCustomize size={20} className="inline ml-2" />
 								)}
 							</button>
 						))}

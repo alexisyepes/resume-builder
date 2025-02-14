@@ -7,6 +7,7 @@ import {
 	LINKS,
 	HOBBIES,
 	CUSTOM_SECTION,
+	LANGUAGES,
 } from "@/constants"
 import { capitalizeEachWord } from "@/utils"
 import {
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
 })
 
 export const ClassicTemplateATS = ({ resumeData }) => {
+	console.log(resumeData)
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
 			<View style={styles.section}>
@@ -175,6 +177,15 @@ export const ClassicTemplateATS = ({ resumeData }) => {
 						• {link.name}: {link.link}
 					</Text>
 				))}
+			</View>
+		),
+		[LANGUAGES]: (
+			<View style={styles.section}>
+				<Text style={styles.subHeader}>Languages</Text>
+				<View style={styles.divider} />
+				<Text style={styles.text}>
+					{resumeData.languages.map((language) => language.language).join(", ")}
+				</Text>
 			</View>
 		),
 		[HOBBIES]: (

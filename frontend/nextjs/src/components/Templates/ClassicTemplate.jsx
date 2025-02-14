@@ -4,6 +4,7 @@ import {
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
 	HOBBIES,
+	LANGUAGES,
 	LINKS,
 	REFERENCES,
 	SKILLS,
@@ -30,6 +31,7 @@ export default function ClassicTemaplate({
 	links,
 	hobbies,
 	customSections,
+	languages,
 	photo,
 }) {
 	const mt_sections = "mt-4"
@@ -101,6 +103,29 @@ export default function ClassicTemaplate({
 								>
 									{skill}
 									{index === skills.length - 1 ? "." : ","}
+								</span>
+							)
+						})}
+					</>
+				) : null}
+			</section>
+		),
+		[LANGUAGES]: (
+			<section className={mt_sections}>
+				{languages.length ? (
+					<>
+						<h2 className="text-lg font-semibold relative pb-1 mt-2">
+							{LANGUAGES}
+							<SectionDoubleLineDivider />
+						</h2>
+						{languages.map((language, index) => {
+							return (
+								<span
+									key={index}
+									className="text-sm mr-1 capitalize text-gray-700"
+								>
+									{language.language}
+									{index === languages.length - 1 ? "." : ","}
 								</span>
 							)
 						})}
@@ -223,7 +248,7 @@ export default function ClassicTemaplate({
 						<img
 							src={photo}
 							alt="Uploaded preview"
-							className="w-full h-auto object-cover"
+							className="w-full h-auto rounded-full object-cover"
 						/>
 					</div>
 				)}

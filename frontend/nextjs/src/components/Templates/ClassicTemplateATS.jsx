@@ -4,6 +4,7 @@ import {
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
 	HOBBIES,
+	LANGUAGES,
 	LINKS,
 	REFERENCES,
 	SKILLS,
@@ -30,6 +31,7 @@ export default function ClassicTemaplateATS({
 	hobbies,
 	customSections,
 	photo,
+	languages,
 }) {
 	const mt_sections = "mt-4"
 	const sectionMap = {
@@ -156,6 +158,20 @@ export default function ClassicTemaplateATS({
 								{link.name}: {link.link}
 							</li>
 						</ul>
+					))}
+			</section>
+		),
+		[LANGUAGES]: (
+			<section className={mt_sections}>
+				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
+					{LANGUAGES}
+				</h2>
+				{languages &&
+					languages.map((language, index) => (
+						<span key={index} className="text-sm mr-1 capitalize text-gray-700">
+							{language.language}
+							{index === languages.length - 1 ? "." : ","}
+						</span>
 					))}
 			</section>
 		),

@@ -15,9 +15,9 @@ const ModernTemplate = ({
 	}
 
 	return (
-		<div className="resume-template rounded-bl-md rounded-br-md rounded-tr-md rounded-tl-md ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto">
+		<div className="resume-template rounded-md ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto">
 			<div className="grid grid-cols-3 aspect-[8.5/11]">
-				<div className="col-span-1 rounded-bl-md bg-[#133853] text-white p-8 rounded-tl-md">
+				<div className="col-span-1 rounded-bl-md rounded-tl-md bg-[#133853] text-white p-8 ">
 					{photo && (
 						<div className="w-40 mx-auto ring-4 ring-white h-auto my-4 overflow-hidden rounded-full">
 							<img

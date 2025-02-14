@@ -85,7 +85,10 @@ export default function UniversalInput({
 
 		updatedData[index] = {
 			...updatedData[index],
-			[field]: field === "responsibilities" ? value.split("\n") : value, // Ensure responsibilities stay as an array
+			[field]:
+				field === "responsibilities" || field === "languages"
+					? value.split("\n")
+					: value, // Ensure responsibilities stay as an array
 		}
 
 		setData(updatedData)

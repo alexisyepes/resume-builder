@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react"
 import axios from "axios"
-import { useReactToPrint } from "react-to-print"
+import { FaLongArrowAltLeft } from "react-icons/fa"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
 import { defaultResume } from "@/utils"
 import Inputs from "./Inputs"
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
 import {
 	CERTIFICATIONS,
 	CONTACT_INFORMATION,
@@ -15,6 +17,8 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
+import TemplateSelector from "./TemplateSelector"
+import TemplateSlider from "./TemplateSlider"
 
 const ResumeGenerator = () => {
 	const [tabs, setTabs] = useState([
@@ -34,6 +38,7 @@ const ResumeGenerator = () => {
 	const [lastName, setLastName] = useState("")
 	const [jobTitle, setJobTitle] = useState("")
 	const [skills, setSkills] = useState([])
+	const [languages, setLanguages] = useState([])
 	const [suggestedSkills, setSuggestedSkills] = useState([])
 	const [experience, setExperience] = useState([])
 	const [certifications, setCertifications] = useState([])
@@ -47,6 +52,7 @@ const ResumeGenerator = () => {
 	const [activeTab, setActiveTab] = useState(tabs[0])
 	const [isLoading, setIsLoading] = useState(false)
 	const [template, setTemplate] = useState("classic")
+	const [showSlider, setShowSlider] = useState(false)
 	const resumeRef = useRef()
 
 	useEffect(() => {
@@ -127,12 +133,6 @@ const ResumeGenerator = () => {
 		}
 	}
 
-	// Print or Save as PDF
-	const handleDownloadPDF = useReactToPrint({
-		content: () => resumeRef.current,
-		documentTitle: "Resume",
-	})
-
 	const removeTabHandler = (index) => {
 		const newTabs = tabs.filter((_, i) => i !== index)
 		setTabs(newTabs)
@@ -142,71 +142,169 @@ const ResumeGenerator = () => {
 		setTabs((prevTabs) => [...prevTabs, newTab])
 	}
 
-	return (
-		<div className="w-full p-2 mx-auto bg-white shadow-md rounded-md">
-			<h2 className="text-2xl font-bold mb-4">Resume Builder</h2>
-			<div className="flex flex-wrap">
-				<TabSelector
-					tabs={tabs}
-					suggestedSkills={suggestedSkills}
-					activeTab={activeTab}
-					onTabChange={handleTabChange}
-					removeTabHandler={removeTabHandler}
-					addTabHandler={addTabHandler}
-					moveTabHandler={moveTabHandler}
-					setActiveTab={setActiveTab}
-				/>
+	// Function to download PDF
+	const handleDownloadPDF = async () => {
+		if (!resumeRef.current) return
 
-				<Inputs
-					nextTabHandler={nextTab}
-					email={email}
-					phone={phone}
-					address={address}
-					cityPostCode={cityPostCode}
-					setEmail={setEmail}
-					setPhone={setPhone}
-					setAddress={setAddress}
-					setCityPostCode={setCityPostCode}
-					firstName={firstName}
-					setFirstName={setFirstName}
-					lastName={lastName}
-					setLastName={setLastName}
-					setJobTitle={setJobTitle}
-					setSkills={setSkills}
-					setExperience={setExperience}
-					certifications={certifications}
-					setCertifications={setCertifications}
-					jobTitle={jobTitle}
-					skills={skills}
-					suggestedSkills={suggestedSkills}
-					setSuggestedSkills={setSuggestedSkills}
-					experience={experience}
-					handleGenerateResume={handleGenerateResume}
-					selectedTab={activeTab}
-					setObjective={setObjective}
-					objective={objective}
-					isLoading={isLoading}
-					regenerateSkillsSuggestions={regenerateSkillsSuggestions}
-					educations={educations}
-					setEducations={setEducations}
-					references={references}
-					setReferences={setReferences}
-					links={links}
-					setLinks={setLinks}
-					hobbies={hobbies}
-					setHobbies={setHobbies}
-					customSections={customSections}
-					setCustomSections={setCustomSections}
-					handleImageUpload={handleImageUpload}
-					photo={photo}
-					removeTabHandler={removeTabHandler}
-					activeTab={activeTab}
-					setActiveTab={setActiveTab}
-					tabs={tabs}
-					setTabs={setTabs}
-					setPhoto={setPhoto}
-					template={template}
+		if (!firstName || !lastName || !jobTitle) {
+			return alert("Add the missing fields!")
+		}
+
+		const resumeObj = {
+			resume: {
+				email,
+				phone,
+				address,
+				cityPostCode,
+				firstName,
+				lastName,
+				skills,
+				experience,
+				objective: objective ? objective : generatedResume.objective,
+				jobTitle,
+				tabs,
+				certifications,
+				educations,
+				references,
+				links,
+				hobbies,
+				languages,
+				customSections: customSections.map((section) => ({
+					...section,
+					content: section.content,
+				})),
+				orderedTabs: tabs,
+			},
+		}
+
+		if (template === "classic-ats") {
+			try {
+				resumeObj.resume.template = "1"
+				const response = await axios.post("/api/pdf", resumeObj, {
+					responseType: "blob",
+				})
+
+				const url = window.URL.createObjectURL(new Blob([response.data]))
+				const a = document.createElement("a")
+				a.href = url
+				a.download = `${firstName || "resume"}.pdf`
+				document.body.appendChild(a)
+				a.click()
+				window.URL.revokeObjectURL(url)
+			} catch (error) {
+				console.error("Error generating ATS PDF:", error)
+			}
+			return
+		}
+
+		const pdf = new jsPDF({
+			orientation: "portrait",
+			unit: "pt",
+			format: [612, 792], // 8.5 x 11 inches in points
+		})
+
+		const canvas = await html2canvas(resumeRef.current, { scale: 2 })
+		const imgData = canvas.toDataURL("image/png")
+
+		const pdfWidth = 612 // 8.5 inches * 72 dpi
+		const pdfHeight = 792 // 11 inches * 72 dpi
+
+		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
+		pdf.save(`${firstName || "resume"}.pdf`)
+	}
+
+	return (
+		<div className="w-full bg-white">
+			<div className="mb-4">
+				<TemplateSelector
+					handleDownloadPDF={handleDownloadPDF}
+					setTemplate={setTemplate}
+					showSlider={showSlider}
+					setShowSlider={setShowSlider}
 				/>
+			</div>
+			<div className="flex flex-wrap">
+				{showSlider ? (
+					<div className="w-full bg-gray-900 sm:w-[49%] rounded-md mr-2 p-8 border">
+						<h1 className="text-white text-center font-bold mb-2 text-xl relative">
+							<span
+								onClick={() => setShowSlider(false)}
+								className="absolute left-0 top-0 cursor-pointer hover:text-amber-500"
+							>
+								<FaLongArrowAltLeft className="inline mr-2" /> Write
+							</span>
+							Choose a Layout
+						</h1>
+						<hr />
+						<TemplateSlider template={template} setTemplate={setTemplate} />
+					</div>
+				) : (
+					<>
+						<TabSelector
+							tabs={tabs}
+							suggestedSkills={suggestedSkills}
+							activeTab={activeTab}
+							onTabChange={handleTabChange}
+							removeTabHandler={removeTabHandler}
+							addTabHandler={addTabHandler}
+							moveTabHandler={moveTabHandler}
+							setActiveTab={setActiveTab}
+						/>
+
+						<Inputs
+							nextTabHandler={nextTab}
+							email={email}
+							phone={phone}
+							address={address}
+							cityPostCode={cityPostCode}
+							setEmail={setEmail}
+							setPhone={setPhone}
+							setAddress={setAddress}
+							setCityPostCode={setCityPostCode}
+							firstName={firstName}
+							setFirstName={setFirstName}
+							lastName={lastName}
+							setLastName={setLastName}
+							setJobTitle={setJobTitle}
+							setSkills={setSkills}
+							setExperience={setExperience}
+							certifications={certifications}
+							setCertifications={setCertifications}
+							jobTitle={jobTitle}
+							skills={skills}
+							suggestedSkills={suggestedSkills}
+							setSuggestedSkills={setSuggestedSkills}
+							experience={experience}
+							handleGenerateResume={handleGenerateResume}
+							selectedTab={activeTab}
+							setObjective={setObjective}
+							objective={objective}
+							isLoading={isLoading}
+							regenerateSkillsSuggestions={regenerateSkillsSuggestions}
+							educations={educations}
+							setEducations={setEducations}
+							references={references}
+							setReferences={setReferences}
+							links={links}
+							setLinks={setLinks}
+							hobbies={hobbies}
+							setHobbies={setHobbies}
+							customSections={customSections}
+							setCustomSections={setCustomSections}
+							handleImageUpload={handleImageUpload}
+							photo={photo}
+							removeTabHandler={removeTabHandler}
+							activeTab={activeTab}
+							setActiveTab={setActiveTab}
+							tabs={tabs}
+							setTabs={setTabs}
+							setPhoto={setPhoto}
+							template={template}
+							languages={languages}
+							setLanguages={setLanguages}
+						/>
+					</>
+				)}
 
 				<ResumePreview
 					resumeRef={resumeRef}
@@ -232,6 +330,7 @@ const ResumeGenerator = () => {
 					photo={photo}
 					template={template}
 					setTemplate={setTemplate}
+					languages={languages}
 				/>
 			</div>
 		</div>
