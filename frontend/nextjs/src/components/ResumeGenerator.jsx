@@ -12,6 +12,9 @@ import {
 	CONTACT_INFORMATION,
 	EDUCATION,
 	EMPLOYMENT_HISTORY,
+	HOBBIES,
+	LANGUAGES,
+	LINKS,
 	PERSONAL_DETAILS,
 	PROFESSIONAL_SUMMARY,
 	REFERENCES,
@@ -51,9 +54,22 @@ const ResumeGenerator = () => {
 	const [generatedResume, setGeneratedResume] = useState(defaultResume)
 	const [activeTab, setActiveTab] = useState(tabs[0])
 	const [isLoading, setIsLoading] = useState(false)
-	const [template, setTemplate] = useState("classic")
+	const [template, setTemplate] = useState("classic-ats")
 	const [showSlider, setShowSlider] = useState(false)
+	const [customTitles, setCustomTitles] = useState({
+		[PROFESSIONAL_SUMMARY]: "",
+		[EDUCATION]: "",
+		[SKILLS]: "",
+		[EMPLOYMENT_HISTORY]: "",
+		[HOBBIES]: "",
+		[LINKS]: "",
+		[CERTIFICATIONS]: "",
+		[REFERENCES]: "",
+		[LANGUAGES]: "",
+	})
+	const [editing, setEditing] = useState(null)
 	const resumeRef = useRef()
+	const inputRef = useRef(null)
 
 	useEffect(() => {
 		if (defaultResume) {
@@ -63,6 +79,30 @@ const ResumeGenerator = () => {
 		}
 		setGeneratedResume(defaultResume)
 	}, [])
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (inputRef.current && !inputRef.current.contains(event.target)) {
+				setEditing(null)
+			}
+		}
+
+		if (editing) {
+			document.addEventListener("mousedown", handleClickOutside)
+		} else {
+			document.removeEventListener("mousedown", handleClickOutside)
+		}
+
+		return () => document.removeEventListener("mousedown", handleClickOutside)
+	}, [editing])
+
+	const handleCustomTitleOnChange = (e) => {
+		const { name, value } = e.target
+		setCustomTitles((prevTitles) => ({
+			...prevTitles,
+			[name]: value,
+		}))
+	}
 
 	const handleImageUpload = (event) => {
 		console.log(event.target.files[0])
@@ -150,6 +190,18 @@ const ResumeGenerator = () => {
 			return alert("Add the missing fields!")
 		}
 
+		let base64Photo = null
+		if (photo) {
+			const response = await fetch(photo)
+			const blob = await response.blob()
+			const reader = new FileReader()
+
+			base64Photo = await new Promise((resolve) => {
+				reader.onloadend = () => resolve(reader.result)
+				reader.readAsDataURL(blob)
+			})
+		}
+
 		const resumeObj = {
 			resume: {
 				email,
@@ -169,6 +221,7 @@ const ResumeGenerator = () => {
 				links,
 				hobbies,
 				languages,
+				photo: base64Photo,
 				customSections: customSections.map((section) => ({
 					...section,
 					content: section.content,
@@ -252,6 +305,11 @@ const ResumeGenerator = () => {
 						/>
 
 						<Inputs
+							inputRef={inputRef}
+							editing={editing}
+							setEditing={setEditing}
+							customTitles={customTitles}
+							handleCustomTitleOnChange={handleCustomTitleOnChange}
 							nextTabHandler={nextTab}
 							email={email}
 							phone={phone}
@@ -331,6 +389,7 @@ const ResumeGenerator = () => {
 					template={template}
 					setTemplate={setTemplate}
 					languages={languages}
+					customTitles={customTitles}
 				/>
 			</div>
 		</div>

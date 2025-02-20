@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 		return acc
 	}, {})
 
-	const { template } = resume
+	const { template, photo } = resume
 
 	if (!template) {
 		return res.status(400).json({ error: "Template selection is required" })
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
 	let templateToUse
 	if (template === "1") {
-		templateToUse = <ClassicTemplateATS resumeData={resume} />
+		templateToUse = <ClassicTemplateATS photo={photo} resumeData={resume} />
 	} else if (template === "2") {
 		templateToUse = <CreativeTemplateATS resumeData={resume} />
 	} else {

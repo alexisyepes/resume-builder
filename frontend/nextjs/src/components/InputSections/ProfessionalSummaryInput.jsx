@@ -4,6 +4,7 @@ import "react-quill-new/dist/quill.snow.css"
 import { RxReload } from "react-icons/rx"
 import { PROFESSIONAL_SUMMARY } from "@/constants"
 import { CiEdit } from "react-icons/ci"
+import CustomTitleInput from "./CustomTitleInput"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -22,19 +23,41 @@ export default function ProfessionalSummaryInput({
 	counter,
 	objective,
 	setObjective,
-	experience,
-	setExperience,
 	handleGenerateResume,
 	isLoading,
 	minutes,
 	seconds,
 	nextTabHandler,
+	editing,
+	setEditing,
+	customTitles,
+	handleCustomTitleOnChange,
+	inputRef,
 }) {
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between border-b-2 mb-2">
-				<h2 className="text-xl mb-2 font-bold">{PROFESSIONAL_SUMMARY}</h2>
-				<CiEdit size={24} />
+				{editing === PROFESSIONAL_SUMMARY ? (
+					<CustomTitleInput
+						inputRef={inputRef}
+						customTitleValue={customTitles[PROFESSIONAL_SUMMARY]}
+						sectionKey={PROFESSIONAL_SUMMARY}
+						handleCustomTitleOnChange={handleCustomTitleOnChange}
+					/>
+				) : (
+					<h2 className="text-xl mb-2 font-bold">
+						<CiEdit
+							size={24}
+							onClick={() =>
+								setEditing(
+									editing === PROFESSIONAL_SUMMARY ? null : PROFESSIONAL_SUMMARY
+								)
+							}
+							className="cursor-pointer inline mr-2"
+						/>
+						{customTitles[PROFESSIONAL_SUMMARY] || PROFESSIONAL_SUMMARY}
+					</h2>
+				)}
 			</div>
 			{counter === 5 ? (
 				<p>
@@ -55,7 +78,7 @@ export default function ProfessionalSummaryInput({
 				className="h-40 mb-20 mt-4"
 			/>
 			{isLoading && (
-				<RingLoader className="mx-auto my-4" size={25} color="#42eff5" />
+				<RingLoader className="mx-auto my-8" size={55} color="purple" />
 			)}
 			{counter > 0 && (
 				<p>Number of Ai generations left: {5 - counter} of (5)</p>

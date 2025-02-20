@@ -14,6 +14,7 @@ import {
 	Page,
 	Text,
 	View,
+	Image,
 	Document,
 	StyleSheet,
 	Font,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
 	li: { fontSize: 10 },
 })
 
-export const ClassicTemplateATS = ({ resumeData }) => {
+export const ClassicTemplateATS = ({ resumeData, photo }) => {
 	console.log(resumeData)
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
@@ -174,7 +175,7 @@ export const ClassicTemplateATS = ({ resumeData }) => {
 				<View style={styles.divider} />
 				{resumeData.links.map((link, index) => (
 					<Text key={index} style={styles.text}>
-						• {link.name}: {link.link}
+						• {capitalizeEachWord(link.name)}: {link.link}
 					</Text>
 				))}
 			</View>
@@ -196,27 +197,36 @@ export const ClassicTemplateATS = ({ resumeData }) => {
 				</Text>
 			</View>
 		),
-		[CUSTOM_SECTION]: (
-			<View style={styles.section}>
-				{resumeData.customSections.map((section, index) => (
-					<View key={index} style={styles.section}>
-						<Text style={styles.subHeader}>{section.header}</Text>
-						<Text style={[styles.text, { marginTop: 5, color: "black" }]}>
-							{section.subHeader}
-						</Text>
-						<Text style={[{ marginTop: 5, marginLeft: 0, color: "#717782" }]}>
-							{renderRichText(section.content, 10)}
-						</Text>
-					</View>
-				))}
+		[CUSTOM_SECTION]: resumeData.customSections.map((section, index) => (
+			<View key={index} style={styles.section}>
+				<Text style={styles.subHeader}>{section.header}</Text>
+				{section.subHeader && (
+					<Text style={[styles.text, { marginTop: 5, color: "black" }]}>
+						{section.subHeader}
+					</Text>
+				)}
+				{console.log(section.content)}
+				{section.content && (
+					<Text style={[{ marginTop: 5, marginLeft: 0, color: "#717782" }]}>
+						{renderRichText(section.content, 10)}
+					</Text>
+				)}
 			</View>
-		),
+		)),
 	}
 
 	return (
 		<Document>
 			<Page size="LETTER" style={styles.page}>
 				<View style={{ textAlign: "center", marginBottom: 20 }}>
+					{photo && (
+						<View style={{ alignItems: "center", marginBottom: 10 }}>
+							<Image
+								src={photo}
+								style={{ width: 80, height: 80, borderRadius: 40 }}
+							/>
+						</View>
+					)}
 					<Text style={styles.header}>
 						{capitalizeEachWord(resumeData.firstName)}{" "}
 						{capitalizeEachWord(resumeData.lastName)}
@@ -224,16 +234,21 @@ export const ClassicTemplateATS = ({ resumeData }) => {
 					<Text style={styles.subHeader}>
 						{capitalizeEachWord(resumeData.jobTitle)}
 					</Text>
-					<Text style={{ color: "#717782" }}>
-						{resumeData.email || ""}{" "}
-						{resumeData.email && resumeData.phone && "|"}{" "}
-						{resumeData.phone || ""}
-					</Text>
-					<Text style={{ marginTop: 3, color: "#717782" }}>
-						{resumeData.address || ""}
-						{resumeData.address && resumeData.cityPostCode && ","}{" "}
-						{resumeData.cityPostCode || ""}
-					</Text>
+					{(resumeData.email || resumeData.phone) && (
+						<Text style={{ color: "#717782" }}>
+							{resumeData.email || ""}{" "}
+							{resumeData.email && resumeData.phone && "|"}{" "}
+							{resumeData.phone || ""}
+						</Text>
+					)}
+
+					{(resumeData.address || resumeData.cityPostCode) && (
+						<Text style={{ marginTop: 3, color: "#717782" }}>
+							{resumeData.address || ""}
+							{resumeData.address && resumeData.cityPostCode && ","}{" "}
+							{resumeData.cityPostCode || ""}
+						</Text>
+					)}
 				</View>
 				{/* Objective */}
 				{resumeData.objective && (

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import dynamic from "next/dynamic"
 import { RiDeleteBin5Line } from "react-icons/ri"
@@ -6,14 +6,16 @@ import "react-quill-new/dist/quill.snow.css"
 import DOMPurify from "dompurify"
 import { motion, AnimatePresence } from "framer-motion"
 import { EMPLOYMENT_HISTORY } from "@/constants"
+import CustomTitleInput from "./CustomTitleInput"
+import { CiEdit } from "react-icons/ci"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
 const modules = {
 	toolbar: [
-		// [{ header: [1, 2, false] }],
+		[{ header: [1, 2, false] }],
 		["bold", "italic", "underline", "strike"],
-		[{ list: "ordered" }, { list: "bullet" }],
+		// [{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
 	],
 }
@@ -27,7 +29,15 @@ export default function UniversalInput({
 	activeTab,
 	tabs,
 	setActiveTab,
+	editing,
+	setEditing,
+	customTitles,
+	handleCustomTitleOnChange,
+	inputRef,
 }) {
+	useEffect(() => {
+		console.log(customTitles)
+	}, [customTitles])
 	const initialState = fields.reduce((acc, field) => {
 		acc[field.name] = ""
 		return acc
@@ -49,7 +59,6 @@ export default function UniversalInput({
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(formData)
 		const isValid = fields.every(
 			(field) => !field.required || formData[field.name]
 		)
@@ -130,14 +139,28 @@ export default function UniversalInput({
 	return (
 		<div className="p-6 bg-white ring-1 ring-slate-200 shadow-lg rounded-md">
 			<div className="flex justify-between border-b-2 pb-2 mb-2">
-				<h2 className="text-xl font-bold">
-					{title}{" "}
-					{title === EMPLOYMENT_HISTORY && (
-						<span className="text-xs text-slate-500 inline-block">
-							(Start with your most recent position)
-						</span>
-					)}
-				</h2>
+				{editing === title ? (
+					<CustomTitleInput
+						inputRef={inputRef}
+						customTitleValue={customTitles[title]}
+						sectionKey={title}
+						handleCustomTitleOnChange={handleCustomTitleOnChange}
+					/>
+				) : (
+					<h2 className="text-xl mb-2 font-bold">
+						<CiEdit
+							size={24}
+							onClick={() => setEditing(editing === title ? null : title)}
+							className="cursor-pointer inline mr-2"
+						/>
+						{customTitles[title] || title}{" "}
+						{title === EMPLOYMENT_HISTORY && (
+							<span className="text-xs text-slate-500 inline-block">
+								(Start with your most recent position)
+							</span>
+						)}
+					</h2>
+				)}{" "}
 				<RiDeleteBin5Line
 					onClick={handleRemoveSection}
 					className="cursor-pointer"

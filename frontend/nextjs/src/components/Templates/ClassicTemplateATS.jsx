@@ -6,6 +6,7 @@ import {
 	HOBBIES,
 	LANGUAGES,
 	LINKS,
+	PROFESSIONAL_SUMMARY,
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
@@ -32,6 +33,7 @@ export default function ClassicTemaplateATS({
 	customSections,
 	photo,
 	languages,
+	customTitles,
 }) {
 	const mt_sections = "mt-4"
 	const sectionMap = {
@@ -43,7 +45,7 @@ export default function ClassicTemaplateATS({
 							style={{ letterSpacing: "0.01px" }}
 							className="text-lg font-semibold border-b-2 border-black"
 						>
-							{EMPLOYMENT_HISTORY}
+							{customTitles[EMPLOYMENT_HISTORY] || EMPLOYMENT_HISTORY}
 						</h2>
 
 						{experience &&
@@ -149,13 +151,13 @@ export default function ClassicTemaplateATS({
 		[LINKS]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{LINKS}
+					{customTitles[LINKS] || LINKS}
 				</h2>
 				{links &&
 					links.map((link, index) => (
 						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
 							<li>
-								{link.name}: {link.link}
+								<span className="capitalize">{link.name}</span>: {link.link}
 							</li>
 						</ul>
 					))}
@@ -227,6 +229,15 @@ export default function ClassicTemaplateATS({
 		<div className="resume-template p-10 ring-slate-200 bg-white h-[1056px] w-[816px]  mx-auto rounded ring-2">
 			{/* Header Section */}
 			<div className="relative text-center pb-4 mb-4">
+				{photo && (
+					<div className="w-24 h-auto mx-auto my-4 overflow-hidden rounded-lg">
+						<img
+							src={photo}
+							alt="Uploaded preview"
+							className="w-full h-auto rounded-full object-cover"
+						/>
+					</div>
+				)}
 				<h1 className="text-2xl capitalize font-bold">
 					{firstName || resume.firstName} {lastName || resume.lastName}
 				</h1>
@@ -246,7 +257,7 @@ export default function ClassicTemaplateATS({
 			{objective && (
 				<section className="mb-4">
 					<h2 className="text-lg relative border-b-2 border-black font-semibold mb-2">
-						Summary
+						{customTitles[PROFESSIONAL_SUMMARY] || PROFESSIONAL_SUMMARY}
 					</h2>
 
 					<p className="text-sm text-gray-700">

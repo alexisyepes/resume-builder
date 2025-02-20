@@ -80,7 +80,7 @@ export default function SkillsInput({
 					{!suggestedSkills.length ? "Generate" : "Regenerate"} Suggestions
 				</button>
 				{isLoading ? (
-					<RingLoader color="#42eff5" className="mx-auto my-4" />
+					<RingLoader className="mx-auto my-8" size={55} color="purple" />
 				) : (
 					<div className="mt-2">
 						{suggestedSkills.length

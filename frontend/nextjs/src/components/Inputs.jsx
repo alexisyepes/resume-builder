@@ -71,11 +71,30 @@ export default function Inputs({
 	setActiveTab,
 	setPhoto,
 	template,
+	customTitles,
+	handleCustomTitleOnChange,
+	editing,
+	setEditing,
+	inputRef,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
 	const [running, setRunning] = useState(false)
 	const [editingId, setEditingId] = useState(null)
+
+	const commonProps = {
+		inputRef,
+		editing,
+		setEditing,
+		customTitles,
+		handleCustomTitleOnChange,
+		removeTabHandler,
+		activeTab,
+		tabs,
+		setTabs,
+		nextTabHandler,
+		setActiveTab,
+	}
 
 	useEffect(() => {
 		if (counter === 5) {
@@ -177,6 +196,11 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<ProfessionalSummaryInput
+								inputRef={inputRef}
+								editing={editing}
+								setEditing={setEditing}
+								customTitles={customTitles}
+								handleCustomTitleOnChange={handleCustomTitleOnChange}
 								setCounter={setCounter}
 								counter={counter}
 								experience={experience}
@@ -209,6 +233,7 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
+								{...commonProps}
 								title="Employment History"
 								fields={[
 									{
@@ -241,12 +266,6 @@ export default function Inputs({
 								]}
 								data={experience}
 								setData={setExperience}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -262,7 +281,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Links"
+								{...commonProps}
+								title={LINKS}
 								fields={[
 									{
 										name: "name",
@@ -281,12 +301,6 @@ export default function Inputs({
 								]}
 								data={links}
 								setData={setLinks}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -302,7 +316,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Hobbies"
+								{...commonProps}
+								title={HOBBIES}
 								fields={[
 									{
 										name: "hobbies",
@@ -314,12 +329,6 @@ export default function Inputs({
 								]}
 								data={hobbies}
 								setData={setHobbies}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -335,7 +344,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Certifications"
+								{...commonProps}
+								title={CERTIFICATIONS}
 								fields={[
 									{
 										name: "institution",
@@ -360,12 +370,6 @@ export default function Inputs({
 								]}
 								data={certifications}
 								setData={setCertifications}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -381,6 +385,11 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<SkillsInput
+								inputRef={inputRef}
+								editing={editing}
+								setEditing={setEditing}
+								customTitles={customTitles}
+								handleCustomTitleOnChange={handleCustomTitleOnChange}
 								regenerateSkillsSuggestions={regenerateSkillsSuggestions}
 								suggestedSkills={suggestedSkills}
 								isLoading={isLoading}
@@ -411,7 +420,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Education"
+								{...commonProps}
+								title={EDUCATION}
 								fields={[
 									{
 										name: "institution",
@@ -436,12 +446,6 @@ export default function Inputs({
 								]}
 								data={educations}
 								setData={setEducations}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>{" "}
 					</AnimatePresence>
@@ -457,7 +461,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="References"
+								{...commonProps}
+								title={REFERENCES}
 								fields={[
 									{
 										name: "name",
@@ -482,12 +487,6 @@ export default function Inputs({
 								]}
 								data={references}
 								setData={setReferences}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -503,24 +502,19 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Languages"
+								{...commonProps}
+								title={LANGUAGES}
 								fields={[
 									{
 										name: "language",
 										placeholder: "E.g., Spanish, Portuguese...",
-										label: "Languages",
+										label: LANGUAGES,
 										type: "text",
 										required: true,
 									},
 								]}
 								data={languages}
 								setData={setLanguages}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -536,7 +530,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<UniversalInput
-								title="Custom Section"
+								{...commonProps}
+								title={CUSTOM_SECTION}
 								fields={[
 									{
 										name: "header",
@@ -562,12 +557,6 @@ export default function Inputs({
 								]}
 								data={customSections}
 								setData={setCustomSections}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
-								setTabs={setTabs}
-								nextTabHandler={nextTabHandler}
-								setActiveTab={setActiveTab}
 							/>
 						</motion.div>
 					</AnimatePresence>

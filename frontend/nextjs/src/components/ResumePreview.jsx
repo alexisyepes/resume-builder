@@ -30,6 +30,7 @@ export default function ResumePreview({
 	handleDownloadPDF,
 	languages,
 	resumeRef,
+	customTitles,
 }) {
 	const [scale, setScale] = useState(1)
 
@@ -46,7 +47,11 @@ export default function ResumePreview({
 
 	return (
 		<div className="w-full sm:w-1/2 border p-2 bg-gray-900 rounded-md">
-			<div className="flex justify-end items-center">
+			<div className="flex justify-between items-center">
+				<span className="text-white ml-6 text-lg capitalize">
+					Selected Template: {template}
+				</span>
+
 				<button
 					className="bg-white p-3 rounded-md text-lg"
 					onClick={handleDownloadPDF}
@@ -109,6 +114,7 @@ export default function ResumePreview({
 							photo={photo}
 							template={template}
 							languages={languages}
+							customTitles={customTitles}
 						/>
 					)}
 					{template === "elegant" && (

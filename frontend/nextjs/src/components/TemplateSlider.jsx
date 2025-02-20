@@ -4,15 +4,15 @@ import "swiper/css/pagination"
 import { Pagination } from "swiper/modules"
 
 const sections = [
-	{
-		name: "Classic",
-		value: "classic",
-		image: "/images/templateDesigns/classic.png",
-	},
+	// {
+	// 	name: "Classic",
+	// 	value: "classic",
+	// 	image: "/images/templateDesigns/classic.png",
+	// },
 	{
 		name: "Classic - ATS",
 		value: "classic-ats",
-		image: "/images/templateDesigns/classic-ats.png",
+		image: "/images/templateDesigns/classic.png",
 	},
 	{
 		name: "Elegant",
