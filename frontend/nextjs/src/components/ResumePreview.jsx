@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-
+import { FaDownload } from "react-icons/fa"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
@@ -34,36 +34,45 @@ export default function ResumePreview({
 }) {
 	const [scale, setScale] = useState(1)
 
+	// Dynamically adjust scale based on screen size
 	useEffect(() => {
-		const updateScale = () => {
-			setScale(Math.min(1, window.innerWidth / 1200))
+		const handleResize = () => {
+			const containerWidth = window.innerWidth * 3 // Adjust as needed
+			const originalWidth = 816
+			const newScale = Math.min(containerWidth / originalWidth, 1) // Ensure it doesn't scale above 1
+			setScale(newScale)
 		}
 
-		updateScale()
-		window.addEventListener("resize", updateScale)
+		// Run once on mount and on window resize
+		handleResize()
+		window.addEventListener("resize", handleResize)
 
-		return () => window.removeEventListener("resize", updateScale)
+		return () => window.removeEventListener("resize", handleResize)
 	}, [])
-
 	return (
-		<div className="w-full sm:w-1/2 border p-2 bg-gray-900 rounded-md">
+		<div className="w-full sm:w-1/2 border ring-4 ring-gray-50 p-2 bg-[#d3dbde] rounded-md">
 			<div className="flex justify-between items-center">
-				<span className="text-white ml-6 text-lg capitalize">
+				<span className="text-black font-bold ml-6 text-lg capitalize">
 					Selected Template: {template}
 				</span>
 
 				<button
-					className="bg-white p-3 rounded-md text-lg"
+					className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
 					onClick={handleDownloadPDF}
 				>
+					<FaDownload className="inline mr-2" />
 					Download
 				</button>
 			</div>
 			<div className="rounded py-8">
 				<div
 					ref={resumeRef}
-					className="  origin-top"
-					style={{ transform: `scale(${scale})` }}
+					className="origin-top overflow-auto transition-transform duration-300 ease-in-out"
+					style={{
+						transform: `scale(${scale})`,
+						width: `${816}px`,
+						height: `${1056}px`,
+					}}
 				>
 					{template === "classic" && (
 						<ClassicTemplate

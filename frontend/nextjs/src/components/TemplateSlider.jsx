@@ -2,34 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import "swiper/css/pagination"
 import { Pagination } from "swiper/modules"
-
-const sections = [
-	// {
-	// 	name: "Classic",
-	// 	value: "classic",
-	// 	image: "/images/templateDesigns/classic.png",
-	// },
-	{
-		name: "Classic - ATS",
-		value: "classic-ats",
-		image: "/images/templateDesigns/classic.png",
-	},
-	{
-		name: "Elegant",
-		value: "elegant",
-		image: "/images/templateDesigns/elegant.png",
-	},
-	{
-		name: "Modern",
-		value: "modern",
-		image: "/images/templateDesigns/modern.png",
-	},
-	{
-		name: "Creative - ATS",
-		value: "creative-ats",
-		image: "/images/creative-ats.png",
-	},
-]
+import { templateDesigns } from "@/constants"
 
 export default function TemplateSlider({ setTemplate, template }) {
 	return (
@@ -38,16 +11,17 @@ export default function TemplateSlider({ setTemplate, template }) {
 			spaceBetween={10}
 			pagination={{ clickable: true }}
 			modules={[Pagination]}
+			loop
 			style={{
-				"--swiper-pagination-color": "#FFBA08",
-				"--swiper-pagination-bullet-inactive-color": "#999999",
+				"--swiper-pagination-color": "#6ce0de",
+				"--swiper-pagination-bullet-inactive-color": "#d3dbde",
 				"--swiper-pagination-bullet-inactive-opacity": "1",
 				"--swiper-pagination-bullet-size": "16px",
 				"--swiper-pagination-bullet-horizontal-gap": "6px",
 			}}
 			className="w-full mt-4"
 		>
-			{sections.map((section) => (
+			{templateDesigns.map((section) => (
 				<SwiperSlide key={section.name}>
 					<div
 						className={`flex h-[30rem] flex-col items-center cursor-pointer`}
@@ -67,7 +41,7 @@ export default function TemplateSlider({ setTemplate, template }) {
 								template === section.value
 									? "ring-2 rounded-sm p-2 ring-green-400"
 									: ""
-							} mt-4 font-bold text-white text-center text-lg`}
+							} mt-4 font-bold p-2 rounded-md bg-slate-900 text-white text-center text-lg`}
 						>
 							{section.name}
 						</h2>

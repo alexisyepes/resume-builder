@@ -54,14 +54,14 @@ router.post("/generate-objective", async (req, res) => {
 	console.log("Generating objective...")
 
 	try {
-		const { jobTitle, skills, objective } = req.body
+		const { jobTitle, skills, objective, langPrefix } = req.body
 
 		const response = await openai.chat.completions.create({
 			model: "gpt-4o",
 			messages: [
 				{
 					role: "user",
-					content: `Generate a summary for a resume, with no more than 100 words, using this job title and skills: ${skills}, and this experience: ${objective}. In addition, generate 6 separate words related to this job title: ${jobTitle}, which will be used on the resume as well. Format the response as JSON with these keys: "objective" and "skills" accordingly`,
+					content: `Generate a summary for a resume, with no more than 100 words, using this job title and skills: ${skills}, and this experience: ${objective}. In addition, generate 6 separate words related to this job title: ${jobTitle}, which will be used on the resume as well. Format the response as JSON with these keys: "objective" and "skills" accordingly. Provide the response in the following language identifier: ${langPrefix}`,
 				},
 			],
 			response_format: { type: "json_object" },

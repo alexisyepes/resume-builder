@@ -21,6 +21,8 @@ import UniversalInput from "./InputSections/UniverslaInputs"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Inputs({
+	t,
+	langPrefix,
 	firstName,
 	setFirstName,
 	lastName,
@@ -76,6 +78,8 @@ export default function Inputs({
 	editing,
 	setEditing,
 	inputRef,
+	fileName,
+	setFileName,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -94,6 +98,7 @@ export default function Inputs({
 		setTabs,
 		nextTabHandler,
 		setActiveTab,
+		t,
 	}
 
 	useEffect(() => {
@@ -146,6 +151,7 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<PersonalInformation
+								t={t}
 								firstName={firstName}
 								setFirstName={setFirstName}
 								lastName={lastName}
@@ -157,6 +163,8 @@ export default function Inputs({
 								photo={photo}
 								setPhoto={setPhoto}
 								template={template}
+								fileName={fileName}
+								setFileName={setFileName}
 							/>
 						</motion.div>{" "}
 					</AnimatePresence>
@@ -172,6 +180,7 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<ContactInput
+								t={t}
 								email={email}
 								phone={phone}
 								address={address}
@@ -196,6 +205,8 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<ProfessionalSummaryInput
+								langPrefix={langPrefix}
+								t={t}
 								inputRef={inputRef}
 								editing={editing}
 								setEditing={setEditing}
@@ -234,38 +245,39 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title="Employment History"
+								title={`${t.resume_builder.labels.employment_history.title}`}
 								fields={[
 									{
 										name: "company",
-										placeholder: "Company",
-										label: "Company",
+										placeholder: `${t.resume_builder.labels.employment_history.company}`,
+										label: `${t.resume_builder.labels.employment_history.company}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "role",
-										label: "Role",
-										placeholder: "Role",
+										label: `${t.resume_builder.labels.employment_history.role}`,
+										placeholder: `${t.resume_builder.labels.employment_history.role}`,
 										type: "text",
 										required: true,
 									},
 									{
-										label: "Year (e.g., 2020 - Present)",
 										name: "year",
-										placeholder: "Year (e.g., 2020 - Present)",
+										label: `${t.resume_builder.labels.employment_history.year}`,
+										placeholder: `${t.resume_builder.labels.employment_history.year}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "responsibilities",
-										label: "Responsibilities (each on a new line)",
-										placeholder: "Responsibilities (each on a new line)",
+										label: `${t.resume_builder.labels.employment_history.responsibilities}`,
+										placeholder: `${t.resume_builder.labels.employment_history.responsibilities}`,
 										type: "textarea",
 									},
 								]}
 								data={experience}
 								setData={setExperience}
+								cta_label={`${t.resume_builder.labels.employment_history.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -282,25 +294,26 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={LINKS}
+								title={`${t.resume_builder.labels.links.title}`}
 								fields={[
 									{
 										name: "name",
-										label: "Name (e.g., Portfolio)",
-										placeholder: "Name (e.g., Portfolio)",
+										label: `${t.resume_builder.labels.links.name}`,
+										placeholder: `${t.resume_builder.labels.links.name}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "link",
-										placeholder: "Url (e.g., https://www.yourwebsite.com)",
-										label: "Url (e.g., https://www.yourwebsite.com)",
+										placeholder: `${t.resume_builder.labels.links.url}`,
+										label: `${t.resume_builder.labels.links.url}`,
 										type: "text",
 										required: true,
 									},
 								]}
 								data={links}
 								setData={setLinks}
+								cta_label={`${t.resume_builder.labels.links.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -317,18 +330,19 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={HOBBIES}
+								title={`${t.resume_builder.labels.hobbies.title}`}
 								fields={[
 									{
 										name: "hobbies",
-										label: "Hobbies",
-										placeholder: "Hobbies",
+										label: `${t.resume_builder.labels.hobbies.title}`,
+										placeholder: `${t.resume_builder.labels.hobbies.title}`,
 										type: "text",
 										required: true,
 									},
 								]}
 								data={hobbies}
 								setData={setHobbies}
+								cta_label={`${t.resume_builder.labels.hobbies.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -345,31 +359,32 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={CERTIFICATIONS}
+								title={`${t.resume_builder.labels.certifications.title}`}
 								fields={[
 									{
 										name: "institution",
-										placeholder: "Institution",
-										label: "Institution",
+										placeholder: `${t.resume_builder.labels.certifications.institution}`,
+										label: `${t.resume_builder.labels.certifications.institution}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "certificationName",
-										placeholder: "Certification Name",
-										label: "Certification Name",
+										placeholder: `${t.resume_builder.labels.certifications.name}`,
+										label: `${t.resume_builder.labels.certifications.name}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "year",
-										placeholder: "Year / Date",
-										label: "Year / Date",
+										placeholder: `${t.resume_builder.labels.certifications.year}`,
+										label: `${t.resume_builder.labels.certifications.year}`,
 										type: "text",
 									},
 								]}
 								data={certifications}
 								setData={setCertifications}
+								cta_label={`${t.resume_builder.labels.certifications.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -385,6 +400,7 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<SkillsInput
+								t={t}
 								inputRef={inputRef}
 								editing={editing}
 								setEditing={setEditing}
@@ -421,31 +437,32 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={EDUCATION}
+								title={`${t.resume_builder.labels.education.title}`}
 								fields={[
 									{
 										name: "institution",
-										placeholder: "Institution",
-										label: "Institution",
+										placeholder: `${t.resume_builder.labels.education.institution}`,
+										label: `${t.resume_builder.labels.education.institution}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "degree",
-										placeholder: "Degree",
-										label: "Degree",
+										placeholder: `${t.resume_builder.labels.education.degree}`,
+										label: `${t.resume_builder.labels.education.degree}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "year",
-										placeholder: "Year / Date",
-										label: "Year / Date",
+										placeholder: `${t.resume_builder.labels.education.year}`,
+										label: `${t.resume_builder.labels.education.year}`,
 										type: "text",
 									},
 								]}
 								data={educations}
 								setData={setEducations}
+								cta_label={`${t.resume_builder.labels.education.title}`}
 							/>
 						</motion.div>{" "}
 					</AnimatePresence>
@@ -462,31 +479,32 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={REFERENCES}
+								title={`${t.resume_builder.labels.references.title}`}
 								fields={[
 									{
 										name: "name",
-										placeholder: "Reference Full Name",
-										label: "Reference Full Name",
+										placeholder: `${t.resume_builder.labels.references.name}`,
+										label: `${t.resume_builder.labels.references.name}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "company",
-										placeholder: "Company Name",
-										label: "Company Name",
+										placeholder: `${t.resume_builder.labels.references.company_name}`,
+										label: `${t.resume_builder.labels.references.company_name}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "email_phone",
-										placeholder: "Email / Phone-number",
-										label: "Email / Phone-number",
+										placeholder: `${t.resume_builder.labels.references.email_phone}`,
+										label: `${t.resume_builder.labels.references.email_phone}`,
 										type: "email",
 									},
 								]}
 								data={references}
 								setData={setReferences}
+								cta_label={`${t.resume_builder.labels.references.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -503,18 +521,19 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={LANGUAGES}
+								title={`${t.resume_builder.labels.languages.title}`}
 								fields={[
 									{
 										name: "language",
-										placeholder: "E.g., Spanish, Portuguese...",
-										label: LANGUAGES,
+										placeholder: `${t.resume_builder.labels.languages.placeholder}`,
+										label: `${t.resume_builder.labels.languages.title}`,
 										type: "text",
 										required: true,
 									},
 								]}
 								data={languages}
 								setData={setLanguages}
+								cta_label={`${t.resume_builder.labels.languages.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>
@@ -531,32 +550,33 @@ export default function Inputs({
 						>
 							<UniversalInput
 								{...commonProps}
-								title={CUSTOM_SECTION}
+								title={`${t.resume_builder.labels.custom_section.title}`}
 								fields={[
 									{
 										name: "header",
-										label: "Header",
-										placeholder: "Header",
+										label: `${t.resume_builder.labels.custom_section.header}`,
+										placeholder: `${t.resume_builder.labels.custom_section.header}`,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "subHeader",
-										label: "Sub Header",
-										placeholder: "Sub Header",
+										label: `${t.resume_builder.labels.custom_section.subheader}`,
+										placeholder: `${t.resume_builder.labels.custom_section.subheader}`,
 										type: "text",
 										required: false,
 									},
 									{
 										name: "content",
-										label: "Content",
-										placeholder: "Content",
+										label: `${t.resume_builder.labels.custom_section.content}`,
+										placeholder: `${t.resume_builder.labels.custom_section.content}`,
 										type: "richtextarea",
 										required: false,
 									},
 								]}
 								data={customSections}
 								setData={setCustomSections}
+								cta_label={`${t.resume_builder.labels.custom_section.title}`}
 							/>
 						</motion.div>
 					</AnimatePresence>

@@ -11,7 +11,7 @@ const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 const modules = {
 	toolbar: [
 		// [{ header: [1, 2, true] }],
-		[{ size: ["small", false, "large", "huge"] }],
+		// [{ size: ["small", false, "large", "huge"] }],
 		["bold", "italic", "underline", "strike"],
 		[{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
@@ -19,6 +19,7 @@ const modules = {
 }
 
 export default function ProfessionalSummaryInput({
+	t,
 	setCounter,
 	counter,
 	objective,
@@ -55,21 +56,18 @@ export default function ProfessionalSummaryInput({
 							}
 							className="cursor-pointer inline mr-2"
 						/>
-						{customTitles[PROFESSIONAL_SUMMARY] || PROFESSIONAL_SUMMARY}
+						{customTitles[PROFESSIONAL_SUMMARY] ||
+							t.resume_builder.labels.professional_summary.title}
 					</h2>
 				)}
 			</div>
 			{counter === 5 ? (
 				<p>
-					Time Left to regenerate text: {minutes}:
-					{seconds.toString().padStart(2, "0")}
+					{t.resume_builder.labels.professional_summary.counter.time_left}{" "}
+					{minutes}:{seconds.toString().padStart(2, "0")}
 				</p>
 			) : (
-				<h6>
-					List your professional title, years of experience, and highlight your
-					most notable accomplishments, and our AI generator will help you
-					create it.
-				</h6>
+				<h6>{t.resume_builder.labels.professional_summary.description}</h6>
 			)}
 			<ReactQuill
 				value={objective}
@@ -81,7 +79,10 @@ export default function ProfessionalSummaryInput({
 				<RingLoader className="mx-auto my-8" size={55} color="purple" />
 			)}
 			{counter > 0 && (
-				<p>Number of Ai generations left: {5 - counter} of (5)</p>
+				<p>
+					{t.resume_builder.labels.professional_summary.counter.time_left}{" "}
+					{5 - counter} of (5)
+				</p>
 			)}
 
 			{objective && objective.length > 3 && (
@@ -101,16 +102,18 @@ export default function ProfessionalSummaryInput({
 						}  text-white p-2 rounded`}
 					>
 						<RxReload color="" className="inline mr-2" />
-						{isLoading ? "Generating..." : "Generate with AI"}
+						{isLoading
+							? t.resume_builder.labels.professional_summary.cta_1
+							: t.resume_builder.labels.professional_summary.cta_2}
 					</button>
 					<button
 						disabled={!objective}
 						onClick={nextTabHandler}
 						className={`w-full ${
 							!objective ? "bg-cyan-300" : "bg-cyan-500"
-						}  text-white p-2 rounded`}
+						}  text-white p-2 rounded capitalize`}
 					>
-						Next
+						{t.resume_builder.labels.general.next}
 					</button>
 				</div>
 			)}

@@ -5,7 +5,17 @@ import { RiDeleteBin5Line } from "react-icons/ri"
 import "react-quill-new/dist/quill.snow.css"
 import DOMPurify from "dompurify"
 import { motion, AnimatePresence } from "framer-motion"
-import { EMPLOYMENT_HISTORY } from "@/constants"
+import {
+	CERTIFICATIONS,
+	CUSTOM_SECTION,
+	EDUCATION,
+	EMPLOYMENT_HISTORY,
+	HOBBIES,
+	LANGUAGES,
+	LINKS,
+	REFERENCES,
+	translationKeyMap,
+} from "@/constants"
 import CustomTitleInput from "./CustomTitleInput"
 import { CiEdit } from "react-icons/ci"
 
@@ -13,7 +23,7 @@ const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
 const modules = {
 	toolbar: [
-		[{ header: [1, 2, false] }],
+		// [{ header: [1, 2, false] }],
 		["bold", "italic", "underline", "strike"],
 		// [{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
@@ -21,6 +31,8 @@ const modules = {
 }
 
 export default function UniversalInput({
+	t,
+	cta_label,
 	title,
 	fields,
 	data,
@@ -35,9 +47,6 @@ export default function UniversalInput({
 	handleCustomTitleOnChange,
 	inputRef,
 }) {
-	useEffect(() => {
-		console.log(customTitles)
-	}, [customTitles])
 	const initialState = fields.reduce((acc, field) => {
 		acc[field.name] = ""
 		return acc
@@ -154,9 +163,9 @@ export default function UniversalInput({
 							className="cursor-pointer inline mr-2"
 						/>
 						{customTitles[title] || title}{" "}
-						{title === EMPLOYMENT_HISTORY && (
+						{activeTab === EMPLOYMENT_HISTORY && (
 							<span className="text-xs text-slate-500 inline-block">
-								(Start with your most recent position)
+								({t.resume_builder.labels.employment_history.title_2})
 							</span>
 						)}
 					</h2>
@@ -205,7 +214,7 @@ export default function UniversalInput({
 					type="submit"
 					className="w-full bg-cyan-600 text-white py-2 rounded hover:bg-cyan-700 transition"
 				>
-					Add {title}
+					+ {cta_label}
 				</button>
 			</form>
 

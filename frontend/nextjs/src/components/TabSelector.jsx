@@ -30,25 +30,8 @@ import { MdOutlineContactEmergency } from "react-icons/md"
 import { BsBuildings } from "react-icons/bs"
 import { BiCustomize } from "react-icons/bi"
 
-const READ_ONLY_TABS = [
-	PERSONAL_DETAILS,
-	CONTACT_INFORMATION,
-	PROFESSIONAL_SUMMARY,
-]
-
-const AVAILABLE_SECTIONS = [
-	SKILLS,
-	EMPLOYMENT_HISTORY,
-	EDUCATION,
-	LINKS,
-	HOBBIES,
-	CERTIFICATIONS,
-	REFERENCES,
-	LANGUAGES,
-	CUSTOM_SECTION,
-]
-
 const DraggableTab = ({
+	t,
 	tab,
 	tabs,
 	index,
@@ -57,6 +40,12 @@ const DraggableTab = ({
 	removeTabHandler,
 	activeTab,
 }) => {
+	const READ_ONLY_TABS = [
+		PERSONAL_DETAILS,
+		CONTACT_INFORMATION,
+		PROFESSIONAL_SUMMARY,
+	]
+
 	const isReadOnly = READ_ONLY_TABS.includes(tab)
 
 	// Drag logic
@@ -123,7 +112,31 @@ const DraggableTab = ({
 				{tab === CUSTOM_SECTION && (
 					<BiCustomize size={20} className="inline mr-2" />
 				)}
-				{tab}
+				{tab === PERSONAL_DETAILS
+					? t.resume_builder.labels.personal_information.title
+					: tab === CONTACT_INFORMATION
+					? t.resume_builder.labels.contact_information.title
+					: tab === PROFESSIONAL_SUMMARY
+					? t.resume_builder.labels.professional_summary.title
+					: tab === SKILLS
+					? t.resume_builder.labels.skills.title
+					: tab === EDUCATION
+					? t.resume_builder.labels.education.title
+					: tab === LINKS
+					? t.resume_builder.labels.links.title
+					: tab === CERTIFICATIONS
+					? t.resume_builder.labels.certifications.title
+					: tab === REFERENCES
+					? t.resume_builder.labels.references.title
+					: tab === EMPLOYMENT_HISTORY
+					? t.resume_builder.labels.employment_history.title
+					: tab === CUSTOM_SECTION
+					? t.resume_builder.labels.custom_section.title
+					: tab === LANGUAGES
+					? t.resume_builder.labels.languages.title
+					: tab === HOBBIES
+					? t.resume_builder.labels.hobbies.title
+					: tab}
 			</button>
 			{!isReadOnly && (
 				<RiDeleteBin5Line
@@ -143,6 +156,7 @@ const DraggableTab = ({
 }
 
 export default function TabSelector({
+	t,
 	activeTab,
 	onTabChange,
 	tabs,
@@ -153,12 +167,25 @@ export default function TabSelector({
 }) {
 	const [isAddSectionOpen, setIsAddSectionOpen] = useState(false)
 
+	const AVAILABLE_SECTIONS = [
+		SKILLS,
+		EMPLOYMENT_HISTORY,
+		EDUCATION,
+		LINKS,
+		HOBBIES,
+		CERTIFICATIONS,
+		REFERENCES,
+		LANGUAGES,
+		CUSTOM_SECTION,
+	]
+
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<div className="w-full sm:w-1/5 bg-white p-4 border rounded-md shadow-md">
 				<ul className="space-y-2">
 					{tabs.map((tab, index) => (
 						<DraggableTab
+							t={t}
 							key={tab}
 							tab={tab}
 							tabs={tabs}
@@ -177,7 +204,7 @@ export default function TabSelector({
 						onClick={() => setIsAddSectionOpen(!isAddSectionOpen)}
 						className="text-gray-600 text-md text-center mb-1 cursor-pointer"
 					>
-						+ Add more Sections
+						+ {t.resume_builder.labels.general.add_more_sections}
 						{isAddSectionOpen ? (
 							<FaChevronDown className="inline ml-2" />
 						) : (
@@ -185,51 +212,79 @@ export default function TabSelector({
 						)}
 					</p>
 					{isAddSectionOpen &&
-						AVAILABLE_SECTIONS.map((section) => (
-							<button
-								key={section}
-								onClick={() => {
-									addTabHandler(section)
-									setActiveTab(section)
-									setIsAddSectionOpen(!isAddSectionOpen)
-								}}
-								disabled={tabs.includes(section)}
-								className={`${
-									tabs.includes(section)
-										? "text-slate-400 cursor-not-allowed"
-										: "text-cyan-500 hover:text-cyan-700"
-								} flex justify-between items-center p-2 rounded-lg hover:bg-gray-200 w-full cursor-pointer`}
-							>
-								+ {section}{" "}
-								{section === SKILLS && (
-									<FaHeadSideVirus size={20} className="inline ml-2" />
-								)}
-								{section === EMPLOYMENT_HISTORY && (
-									<MdWork size={20} className="inline ml-2" />
-								)}
-								{section === EDUCATION && (
-									<IoSchool size={20} className="inline ml-2" />
-								)}
-								{section === LINKS && (
-									<HiLink size={20} className="inline ml-2" />
-								)}
-								{section === HOBBIES && (
-									<HiMusicalNote size={20} className="inline ml-2" />
-								)}
-								{section === CERTIFICATIONS && (
-									<FaMedal size={20} className="inline ml-2" />
-								)}
-								{section === REFERENCES && (
-									<MdOutlineContactPhone size={20} className="inline ml-2" />
-								)}
-								{section === LANGUAGES && (
-									<IoLanguage size={20} className="inline ml-2" />
-								)}
-								{section === CUSTOM_SECTION && (
-									<BiCustomize size={20} className="inline ml-2" />
-								)}
-							</button>
-						))}
+						AVAILABLE_SECTIONS.map((section) => {
+							console.log(tabs.includes(section))
+							return (
+								<button
+									key={section}
+									onClick={() => {
+										addTabHandler(section)
+										setActiveTab(section)
+										setIsAddSectionOpen(!isAddSectionOpen)
+									}}
+									disabled={tabs.includes(section)}
+									className={`${
+										tabs.includes(section)
+											? "text-slate-400 cursor-not-allowed"
+											: "text-cyan-500 hover:text-cyan-700"
+									} flex justify-between items-center p-2 rounded-lg hover:bg-gray-200 w-full cursor-pointer`}
+								>
+									+{" "}
+									{section === PERSONAL_DETAILS
+										? t.resume_builder.labels.personal_information.title
+										: section === CONTACT_INFORMATION
+										? t.resume_builder.labels.contact_information.title
+										: section === PROFESSIONAL_SUMMARY
+										? t.resume_builder.labels.professional_summary.title
+										: section === SKILLS
+										? t.resume_builder.labels.skills.title
+										: section === EDUCATION
+										? t.resume_builder.labels.education.title
+										: section === LINKS
+										? t.resume_builder.labels.links.title
+										: section === CERTIFICATIONS
+										? t.resume_builder.labels.certifications.title
+										: section === REFERENCES
+										? t.resume_builder.labels.references.title
+										: section === EMPLOYMENT_HISTORY
+										? t.resume_builder.labels.employment_history.title
+										: section === HOBBIES
+										? t.resume_builder.labels.hobbies.title
+										: section === LANGUAGES
+										? t.resume_builder.labels.languages.title
+										: section === CUSTOM_SECTION
+										? t.resume_builder.labels.custom_section.title
+										: section}{" "}
+									{section === SKILLS && (
+										<FaHeadSideVirus size={20} className="inline ml-2" />
+									)}
+									{section === EMPLOYMENT_HISTORY && (
+										<MdWork size={20} className="inline ml-2" />
+									)}
+									{section === EDUCATION && (
+										<IoSchool size={20} className="inline ml-2" />
+									)}
+									{section === LINKS && (
+										<HiLink size={20} className="inline ml-2" />
+									)}
+									{section === HOBBIES && (
+										<HiMusicalNote size={20} className="inline ml-2" />
+									)}
+									{section === CERTIFICATIONS && (
+										<FaMedal size={20} className="inline ml-2" />
+									)}
+									{section === REFERENCES && (
+										<MdOutlineContactPhone size={20} className="inline ml-2" />
+									)}
+									{section === LANGUAGES && (
+										<IoLanguage size={20} className="inline ml-2" />
+									)}
+									{section === CUSTOM_SECTION && (
+										<BiCustomize size={20} className="inline ml-2" />
+									)}
+								</button>
+							)
+						})}
 				</div>
 			</div>
 		</DndProvider>

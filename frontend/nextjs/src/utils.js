@@ -1,3 +1,12 @@
+import en from "./locales/en"
+import es from "./locales/es"
+import fr from "./locales/fr"
+import it from "./locales/it"
+import pt from "./locales/pt"
+import zh from "./locales/zh"
+import hi from "./locales/hi"
+import ar from "./locales/ar"
+
 export const defaultResume = {
 	resume: {
 		firstName: "sarah",
@@ -92,4 +101,20 @@ export const capitalizeEachWord = (string) => {
 		.split(" ")
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 		.join(" ")
+}
+
+const translations = { en, fr, es, it, pt, zh, hi, ar }
+export const loadTranslations = (router) => {
+	const { locale, pathname } = router
+
+	const detectedLocale =
+		locale ||
+		Object.keys(translations).find((lang) => pathname.startsWith(`/${lang}`)) ||
+		"en"
+
+	return translations[detectedLocale] || en
+}
+
+export const getLangPrefix = (lang) => {
+	return lang === "es" ? "/es" : ""
 }

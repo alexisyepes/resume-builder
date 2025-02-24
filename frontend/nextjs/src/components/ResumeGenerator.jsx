@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import axios from "axios"
 import { FaLongArrowAltLeft } from "react-icons/fa"
+import { IoIosClose } from "react-icons/io"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
 import { defaultResume } from "@/utils"
@@ -22,8 +23,14 @@ import {
 } from "@/constants"
 import TemplateSelector from "./TemplateSelector"
 import TemplateSlider from "./TemplateSlider"
+import { useRouter } from "next/router"
+import { loadTranslations } from "@/utils"
 
 const ResumeGenerator = () => {
+	const router = useRouter()
+	const t = loadTranslations(router)
+	const { locale } = router
+	const langPrefix = locale
 	const [tabs, setTabs] = useState([
 		PERSONAL_DETAILS,
 		CONTACT_INFORMATION,
@@ -32,6 +39,9 @@ const ResumeGenerator = () => {
 		EMPLOYMENT_HISTORY,
 		EDUCATION,
 	])
+	const [fileName, setFileName] = useState(
+		t.resume_builder.labels.personal_information.no_file_chosen
+	)
 	const [photo, setPhoto] = useState("")
 	const [email, setEmail] = useState("")
 	const [phone, setPhone] = useState("")
@@ -71,6 +81,16 @@ const ResumeGenerator = () => {
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
 
+	console.log(router)
+
+	useEffect(() => {
+		setFileName((prev) =>
+			prev === fileName || !prev
+				? t.resume_builder.labels.personal_information.no_file_chosen
+				: prev
+		)
+	}, [t])
+
 	useEffect(() => {
 		if (defaultResume) {
 			setFirstName(generatedResume.name)
@@ -105,8 +125,12 @@ const ResumeGenerator = () => {
 	}
 
 	const handleImageUpload = (event) => {
-		console.log(event.target.files[0])
 		const file = event.target.files[0]
+		setFileName(
+			file
+				? file.name
+				: t.resume_builder.labels.personal_information.no_file_chosen
+		)
 		if (file) {
 			const reader = new FileReader()
 			reader.onloadend = () => {
@@ -154,6 +178,7 @@ const ResumeGenerator = () => {
 	}
 
 	const handleGenerateResume = async () => {
+		console.log(langPrefix)
 		try {
 			setIsLoading(true)
 			const response = await axios.post(
@@ -162,6 +187,7 @@ const ResumeGenerator = () => {
 					jobTitle,
 					objective,
 					skills,
+					langPrefix,
 				}
 			)
 			setIsLoading(false)
@@ -268,8 +294,24 @@ const ResumeGenerator = () => {
 
 	return (
 		<div className="w-full bg-white">
+			{/* <div className="container">
+				<div className="wrapper">
+					<div className="element1 element">Element 1</div>
+					<div className="element2 element">Element 2</div>
+				</div>
+				<div className="element3 element">
+					Element 3
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
+						facilis tenetur! Amet non molestiae et quam veritatis inventore
+						sapiente asperiores voluptatum hic, adipisci expedita minima autem
+						repellendus fugiat! Deleniti, blanditiis.
+					</p>
+				</div>
+			</div> */}
 			<div className="mb-4">
 				<TemplateSelector
+					t={t}
 					handleDownloadPDF={handleDownloadPDF}
 					setTemplate={setTemplate}
 					showSlider={showSlider}
@@ -278,22 +320,29 @@ const ResumeGenerator = () => {
 			</div>
 			<div className="flex flex-wrap">
 				{showSlider ? (
-					<div className="w-full bg-gray-900 sm:w-[49%] rounded-md mr-2 p-8 border">
-						<h1 className="text-white text-center font-bold mb-2 text-xl relative">
+					<div className="w-full bg-cyan-100 sm:w-[49%] rounded-md mr-2 p-8 border">
+						<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
 							<span
 								onClick={() => setShowSlider(false)}
-								className="absolute left-0 top-0 cursor-pointer hover:text-amber-500"
+								className="cursor-pointer hover:text-teal-500"
 							>
 								<FaLongArrowAltLeft className="inline mr-2" /> Write
 							</span>
-							Choose a Layout
-						</h1>
+							<span>Choose a Layout</span>
+							<span
+								onClick={() => setShowSlider(false)}
+								className="hover:bg-cyan-400 hover:scale-110 cursor-pointer rounded-full bg-cyan-500"
+							>
+								<IoIosClose color="white" size={40} />
+							</span>
+						</div>
 						<hr />
 						<TemplateSlider template={template} setTemplate={setTemplate} />
 					</div>
 				) : (
 					<>
 						<TabSelector
+							t={t}
 							tabs={tabs}
 							suggestedSkills={suggestedSkills}
 							activeTab={activeTab}
@@ -305,6 +354,10 @@ const ResumeGenerator = () => {
 						/>
 
 						<Inputs
+							langPrefix={langPrefix}
+							t={t}
+							fileName={fileName}
+							setFileName={setFileName}
 							inputRef={inputRef}
 							editing={editing}
 							setEditing={setEditing}

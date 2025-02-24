@@ -13,7 +13,7 @@ const ElegantTemplate = ({
 	return (
 		<div
 			style={{ backgroundImage: "url(/images/template-bg-1.png)" }}
-			className="resume-template p-10 ring-slate-200 bg-white h-[1056px] w-[816px]  mx-auto rounded ring-2"
+			className="resume-template p-10 ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto rounded-md ring-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
 		>
 			{/* Header Section */}
 			<div className="relative z-10 p-1 pt-4 rounded-md">

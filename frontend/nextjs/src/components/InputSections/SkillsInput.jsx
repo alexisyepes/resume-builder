@@ -20,6 +20,7 @@ export default function SkillsInput({
 	activeTab,
 	tabs,
 	setActiveTab,
+	t,
 }) {
 	const [skillToAdd, setSkillToAdd] = useState("")
 
@@ -37,7 +38,9 @@ export default function SkillsInput({
 	return (
 		<div className="w-full border p-4 rounded-md">
 			<div className="flex justify-between border-b-2 mb-2">
-				<h2 className="text-xl mb-2 font-bold">{SKILLS}</h2>
+				<h2 className="text-xl mb-2 font-bold">
+					{t.resume_builder.labels.skills.title}
+				</h2>
 				<RiDeleteBin5Line
 					onClick={handleRemoveSection}
 					className="cursor-pointer"
@@ -45,7 +48,7 @@ export default function SkillsInput({
 				/>{" "}
 			</div>
 			<h4 className="block text-sm font-medium text-gray-700 mb-1">
-				Add skill below
+				{t.resume_builder.labels.skills.add_skill_below}
 			</h4>
 			<form
 				onSubmit={(e) => {
@@ -60,24 +63,26 @@ export default function SkillsInput({
 					type="text"
 					value={skillToAdd}
 					onChange={(e) => setSkillToAdd(e.target.value)}
-					placeholder="Attention to detail..."
-					className="p-2 w-2/3 border border-gray-300 rounded"
+					placeholder={t.resume_builder.labels.skills.placeholder}
+					className="p-2 w-1/2 border border-gray-300 rounded"
 				/>
-				<button className="bg-cyan-500 rounded-r-md text-white w-1/3">
-					+ Add Skill
+				<button className="bg-cyan-500 rounded-r-md text-white w-1/2">
+					+ {t.resume_builder.labels.skills.add_skill}
 				</button>
 			</form>
 			<div className="border p-2 rounded-md mb-2">
 				<h5 className="text-sm mb-2 text-center">
-					Choose from the options below (based on your job title) <br /> or add
-					your own above
+					{t.resume_builder.labels.skills.info}
 				</h5>
 				<button
 					onClick={regenerateSkillsSuggestions}
 					className="bg-purple-500 rounded-md px-2 py-1 text-white w-full inline-block"
 				>
 					<RxReload color="" className="inline mr-2" />
-					{!suggestedSkills.length ? "Generate" : "Regenerate"} Suggestions
+					{!suggestedSkills.length
+						? t.resume_builder.labels.skills.cta_1
+						: t.resume_builder.labels.skills.cta_2}{" "}
+					{t.resume_builder.labels.skills.cta_3}
 				</button>
 				{isLoading ? (
 					<RingLoader className="mx-auto my-8" size={55} color="purple" />
@@ -134,9 +139,9 @@ export default function SkillsInput({
 				: null}
 			<button
 				onClick={nextTabHandler}
-				className="w-full bg-cyan-500 text-white p-2 rounded"
+				className="w-full capitalize bg-cyan-500 text-white p-2 rounded"
 			>
-				Next
+				{t.resume_builder.labels.general.next}
 			</button>
 		</div>
 	)

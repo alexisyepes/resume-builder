@@ -72,3 +72,89 @@ body {
 	background-color: #ffba08 !important; /* Active color */
 	opacity: 1;
 }
+
+/* Base styles */
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	max-width: 1680px;
+	margin: 0 auto 0 auto;
+}
+
+.element {
+	padding: 20px;
+	box-sizing: border-box;
+	text-align: center;
+	margin: 10px;
+}
+.wrapper {
+	/* width: 50%; */
+	display: flex;
+}
+
+.element3 {
+	height: 792px; /* Letter height in pixels */
+	max-width: 612px; /* Letter width in pixels */
+	flex-shrink: 0;
+	margin: 0 auto 0 auto;
+}
+/* Large screens: 1680px and up */
+@media (min-width: 1680px) {
+	.container {
+		display: flex;
+	}
+
+	.element1 {
+		width: 33.33%;
+	}
+	.element2 {
+		width: 66.66%;
+	}
+}
+
+@media (max-width: 640px) {
+	.element3 {
+		zoom: 0.5; /* Scales everything including text */
+		transform-origin: top left;
+	}
+}
+/* Medium screens: between 1024px and 1680px */
+@media (min-width: 1024px) and (max-width: 1679px) {
+	.container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.element1,
+	.element2 {
+		width: 33%;
+	}
+	.element3 {
+		/* width: 66.66%; */
+		height: 792px;
+		max-width: 612px;
+		flex-shrink: 0;
+	}
+	.template_wrapper {
+		width: 66%;
+	}
+}
+
+/* Small screens: between 200px and 1023px */
+@media (max-width: 1023px) {
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.element1,
+	.element2,
+	.element3 {
+		width: 100%;
+	}
+	.element3 {
+		height: 792px;
+		max-width: 612px;
+		flex-shrink: 0;
+	}
+}
