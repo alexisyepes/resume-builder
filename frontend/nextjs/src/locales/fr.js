@@ -12,6 +12,12 @@ export default {
 				layout: "Disposition",
 				next: "Suivant",
 				add_more_sections: "Ajouter plus de sections",
+				template_selector: {
+					selected_template: "Modèle sélectionné",
+					download: "Télécharger",
+					write: "Écrire",
+					choose_layout: "Choisir une mise en page",
+				},
 			},
 			personal_information: {
 				title: "Informations personnelles",
@@ -125,6 +131,12 @@ export default {
 						"Téléchargez votre CV en formats PDF ou Word.",
 				},
 			},
+		},
+		template_names: {
+			classic: "Classique",
+			classic_ats: "Classique ATS",
+			elegant: "Élégant",
+			modern: "Moderne",
 		},
 	},
 }

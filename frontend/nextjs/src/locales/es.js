@@ -12,6 +12,12 @@ export default {
 				layout: "Diseño",
 				next: "Siguiente",
 				add_more_sections: "Añadir más secciones",
+				template_selector: {
+					selected_template: "Plantilla seleccionada",
+					download: "Descargar",
+					write: "Escribir",
+					choose_layout: "Elegir un diseño",
+				},
 			},
 			personal_information: {
 				title: "Información Personal",
@@ -125,6 +131,12 @@ export default {
 						"Descarga tu currículum en formatos PDF o Word.",
 				},
 			},
+		},
+		template_names: {
+			classic: "Clásico",
+			classic_ats: "Clásico ATS",
+			elegant: "Elegante",
+			modern: "Moderno",
 		},
 	},
 }

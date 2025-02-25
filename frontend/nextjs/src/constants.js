@@ -11,34 +11,6 @@ export const HOBBIES = "Hobbies"
 export const LANGUAGES = "Languages"
 export const CUSTOM_SECTION = "Custom Section"
 
-export const templateDesigns = [
-	{
-		name: "Classic",
-		value: "classic",
-		image: "/images/templateDesigns/classic.png",
-	},
-	{
-		name: "Classic - ATS",
-		value: "classic-ats",
-		image: "/images/templateDesigns/classic.png",
-	},
-	{
-		name: "Elegant",
-		value: "elegant",
-		image: "/images/templateDesigns/elegant.png",
-	},
-	{
-		name: "Modern",
-		value: "modern",
-		image: "/images/templateDesigns/modern.png",
-	},
-	// {
-	// 	name: "Creative - ATS",
-	// 	value: "creative-ats",
-	// 	image: "/images/creative-ats.png",
-	// },
-]
-
 export const translationKeyMap = {
 	personal_information: "personal_information",
 	contact_information: "contact_information",

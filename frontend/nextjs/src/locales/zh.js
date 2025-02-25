@@ -12,6 +12,12 @@ export default {
 				layout: "布局",
 				next: "下一步",
 				add_more_sections: "添加更多部分",
+				template_selector: {
+					selected_template: "已选择的模板",
+					download: "下载",
+					write: "书写",
+					choose_layout: "选择布局",
+				},
 			},
 			personal_information: {
 				title: "个人信息",
@@ -121,6 +127,12 @@ export default {
 					export_options_description: "以 PDF 或 Word 格式下载您的简历。",
 				},
 			},
+		},
+		template_names: {
+			classic: "经典",
+			classic_ats: "经典 ATS",
+			elegant: "优雅",
+			modern: "现代",
 		},
 	},
 }

@@ -12,6 +12,12 @@ export default {
 				layout: "التخطيط",
 				next: "التالي",
 				add_more_sections: "إضافة المزيد من الأقسام",
+				template_selector: {
+					selected_template: "القالب المحدد",
+					download: "تحميل",
+					write: "كتابة",
+					choose_layout: "اختر تخطيطًا",
+				},
 			},
 			personal_information: {
 				title: "المعلومات الشخصية",
@@ -125,6 +131,12 @@ export default {
 						"قم بتنزيل سيرتك الذاتية بصيغة PDF أو Word.",
 				},
 			},
+		},
+		template_names: {
+			classic: "كلاسيكي",
+			classic_ats: "كلاسيكي ATS",
+			elegant: "أنيق",
+			modern: "حديث",
 		},
 	},
 }

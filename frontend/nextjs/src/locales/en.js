@@ -12,6 +12,12 @@ export default {
 				layout: "layout",
 				next: "next",
 				add_more_sections: "Add more Sections",
+				template_selector: {
+					selected_template: "Selected Template",
+					download: "Download",
+					write: "Write",
+					choose_layout: "Choose a Layout",
+				},
 			},
 			personal_information: {
 				title: "Personal Information",
@@ -125,6 +131,12 @@ export default {
 						"Download your resume in PDF or Word formats.",
 				},
 			},
+		},
+		template_names: {
+			classic: "classic",
+			classic_ats: "classic-ats",
+			elegant: "elegant",
+			modern: "modern",
 		},
 	},
 }

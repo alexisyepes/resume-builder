@@ -12,6 +12,12 @@ export default {
 				layout: "डिज़ाइन",
 				next: "अगला",
 				add_more_sections: "अधिक अनुभाग जोड़ें",
+				template_selector: {
+					selected_template: "चयनित टेम्पलेट",
+					download: "डाउनलोड",
+					write: "लिखें",
+					choose_layout: "लेआउट चुनें",
+				},
 			},
 			personal_information: {
 				title: "व्यक्तिगत जानकारी",
@@ -125,6 +131,12 @@ export default {
 						"अपने रिज़्यूमे को PDF या Word फ़ॉर्मेट में डाउनलोड करें।",
 				},
 			},
+		},
+		template_names: {
+			classic: "क्लासिक",
+			classic_ats: "क्लासिक ATS",
+			elegant: "शालीन",
+			modern: "आधुनिक",
 		},
 	},
 }

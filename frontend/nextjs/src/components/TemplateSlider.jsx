@@ -2,9 +2,12 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import "swiper/css/pagination"
 import { Pagination } from "swiper/modules"
-import { templateDesigns } from "@/constants"
 
-export default function TemplateSlider({ setTemplate, template }) {
+export default function TemplateSlider({
+	setTemplate,
+	template,
+	templateDesigns,
+}) {
 	return (
 		<Swiper
 			slidesPerView={3.5}
@@ -41,7 +44,7 @@ export default function TemplateSlider({ setTemplate, template }) {
 								template === section.value
 									? "ring-2 rounded-sm p-2 ring-green-400"
 									: ""
-							} mt-4 font-bold p-2 rounded-md bg-slate-900 text-white text-center text-lg`}
+							} mt-4 font-bold capitalize p-2 rounded-md bg-slate-900 text-white text-center text-lg`}
 						>
 							{section.name}
 						</h2>

@@ -80,6 +80,33 @@ const ResumeGenerator = () => {
 	const [editing, setEditing] = useState(null)
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
+	const templateDesigns = [
+		{
+			name: t.resume_builder.template_names.classic,
+			value: "classic",
+			image: "/images/templateDesigns/classic.png",
+		},
+		{
+			name: t.resume_builder.template_names.classic_ats,
+			value: "classic-ats",
+			image: "/images/templateDesigns/classic.png",
+		},
+		{
+			name: t.resume_builder.template_names.elegant,
+			value: "elegant",
+			image: "/images/templateDesigns/elegant.png",
+		},
+		{
+			name: t.resume_builder.template_names.modern,
+			value: "modern",
+			image: "/images/templateDesigns/modern.png",
+		},
+		// {
+		// 	name: "Creative - ATS",
+		// 	value: "creative-ats",
+		// 	image: "/images/creative-ats.png",
+		// },
+	]
 
 	useEffect(() => {
 		setFileName((prev) =>
@@ -308,9 +335,15 @@ const ResumeGenerator = () => {
 									onClick={() => setShowSlider(false)}
 									className="cursor-pointer hover:text-teal-500"
 								>
-									<FaLongArrowAltLeft className="inline mr-2" /> Write
+									<FaLongArrowAltLeft className="inline mr-2" />{" "}
+									{t.resume_builder.labels.general.template_selector.write}
 								</span>
-								<span>Choose a Layout</span>
+								<span>
+									{
+										t.resume_builder.labels.general.template_selector
+											.choose_layout
+									}
+								</span>
 								<span
 									onClick={() => setShowSlider(false)}
 									className="hover:bg-cyan-400 hover:scale-110 cursor-pointer rounded-full bg-cyan-500"
@@ -319,7 +352,11 @@ const ResumeGenerator = () => {
 								</span>
 							</div>
 							<hr />
-							<TemplateSlider template={template} setTemplate={setTemplate} />
+							<TemplateSlider
+								templateDesigns={templateDesigns}
+								template={template}
+								setTemplate={setTemplate}
+							/>
 						</div>
 					) : (
 						<div className="wrapper">
@@ -404,6 +441,7 @@ const ResumeGenerator = () => {
 
 					<div className="element3_wrapper">
 						<ResumePreview
+							t={t}
 							resumeRef={resumeRef}
 							generatedResume={generatedResume.resume}
 							handleDownloadPDF={handleDownloadPDF}
