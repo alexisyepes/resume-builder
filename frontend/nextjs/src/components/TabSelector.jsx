@@ -181,7 +181,7 @@ export default function TabSelector({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div className="w-full sm:w-1/5 bg-white p-4 border rounded-md shadow-md">
+			<div className="w-full  bg-white p-4 border rounded-md shadow-md">
 				<ul className="space-y-2">
 					{tabs.map((tab, index) => (
 						<DraggableTab

@@ -290,21 +290,6 @@ const ResumeGenerator = () => {
 
 	return (
 		<div className="w-full bg-white">
-			{/* <div className="container">
-				<div className="wrapper">
-					<div className="element1 element">Element 1</div>
-					<div className="element2 element">Element 2</div>
-				</div>
-				<div className="element3 element">
-					Element 3
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
-						facilis tenetur! Amet non molestiae et quam veritatis inventore
-						sapiente asperiores voluptatum hic, adipisci expedita minima autem
-						repellendus fugiat! Deleniti, blanditiis.
-					</p>
-				</div>
-			</div> */}
 			<div className="mb-4">
 				<TemplateSelector
 					t={t}
@@ -314,132 +299,139 @@ const ResumeGenerator = () => {
 					setShowSlider={setShowSlider}
 				/>
 			</div>
-			<div className="flex flex-wrap">
-				{showSlider ? (
-					<div className="w-full bg-cyan-100 sm:w-[49%] rounded-md mr-2 p-8 border">
-						<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
-							<span
-								onClick={() => setShowSlider(false)}
-								className="cursor-pointer hover:text-teal-500"
-							>
-								<FaLongArrowAltLeft className="inline mr-2" /> Write
-							</span>
-							<span>Choose a Layout</span>
-							<span
-								onClick={() => setShowSlider(false)}
-								className="hover:bg-cyan-400 hover:scale-110 cursor-pointer rounded-full bg-cyan-500"
-							>
-								<IoIosClose color="white" size={40} />
-							</span>
+			<div className="">
+				<div className="flex flex-wrap">
+					{showSlider ? (
+						<div className="w-full bg-cyan-100 sm:w-[49%] rounded-md mr-2 p-8 border">
+							<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
+								<span
+									onClick={() => setShowSlider(false)}
+									className="cursor-pointer hover:text-teal-500"
+								>
+									<FaLongArrowAltLeft className="inline mr-2" /> Write
+								</span>
+								<span>Choose a Layout</span>
+								<span
+									onClick={() => setShowSlider(false)}
+									className="hover:bg-cyan-400 hover:scale-110 cursor-pointer rounded-full bg-cyan-500"
+								>
+									<IoIosClose color="white" size={40} />
+								</span>
+							</div>
+							<hr />
+							<TemplateSlider template={template} setTemplate={setTemplate} />
 						</div>
-						<hr />
-						<TemplateSlider template={template} setTemplate={setTemplate} />
-					</div>
-				) : (
-					<>
-						<TabSelector
-							t={t}
-							tabs={tabs}
-							suggestedSkills={suggestedSkills}
-							activeTab={activeTab}
-							onTabChange={handleTabChange}
-							removeTabHandler={removeTabHandler}
-							addTabHandler={addTabHandler}
-							moveTabHandler={moveTabHandler}
-							setActiveTab={setActiveTab}
-						/>
+					) : (
+						<div className="wrapper">
+							<div className="element1 element">
+								<TabSelector
+									t={t}
+									tabs={tabs}
+									suggestedSkills={suggestedSkills}
+									activeTab={activeTab}
+									onTabChange={handleTabChange}
+									removeTabHandler={removeTabHandler}
+									addTabHandler={addTabHandler}
+									moveTabHandler={moveTabHandler}
+									setActiveTab={setActiveTab}
+								/>
+							</div>
+							<div className="element2 element">
+								<Inputs
+									langPrefix={langPrefix}
+									t={t}
+									fileName={fileName}
+									setFileName={setFileName}
+									inputRef={inputRef}
+									editing={editing}
+									setEditing={setEditing}
+									customTitles={customTitles}
+									handleCustomTitleOnChange={handleCustomTitleOnChange}
+									nextTabHandler={nextTab}
+									email={email}
+									phone={phone}
+									address={address}
+									cityPostCode={cityPostCode}
+									setEmail={setEmail}
+									setPhone={setPhone}
+									setAddress={setAddress}
+									setCityPostCode={setCityPostCode}
+									firstName={firstName}
+									setFirstName={setFirstName}
+									lastName={lastName}
+									setLastName={setLastName}
+									setJobTitle={setJobTitle}
+									setSkills={setSkills}
+									setExperience={setExperience}
+									certifications={certifications}
+									setCertifications={setCertifications}
+									jobTitle={jobTitle}
+									skills={skills}
+									suggestedSkills={suggestedSkills}
+									setSuggestedSkills={setSuggestedSkills}
+									experience={experience}
+									handleGenerateResume={handleGenerateResume}
+									selectedTab={activeTab}
+									setObjective={setObjective}
+									objective={objective}
+									isLoading={isLoading}
+									regenerateSkillsSuggestions={regenerateSkillsSuggestions}
+									educations={educations}
+									setEducations={setEducations}
+									references={references}
+									setReferences={setReferences}
+									links={links}
+									setLinks={setLinks}
+									hobbies={hobbies}
+									setHobbies={setHobbies}
+									customSections={customSections}
+									setCustomSections={setCustomSections}
+									handleImageUpload={handleImageUpload}
+									photo={photo}
+									removeTabHandler={removeTabHandler}
+									activeTab={activeTab}
+									setActiveTab={setActiveTab}
+									tabs={tabs}
+									setTabs={setTabs}
+									setPhoto={setPhoto}
+									template={template}
+									languages={languages}
+									setLanguages={setLanguages}
+								/>
+							</div>
+						</div>
+					)}
 
-						<Inputs
-							langPrefix={langPrefix}
-							t={t}
-							fileName={fileName}
-							setFileName={setFileName}
-							inputRef={inputRef}
-							editing={editing}
-							setEditing={setEditing}
-							customTitles={customTitles}
-							handleCustomTitleOnChange={handleCustomTitleOnChange}
-							nextTabHandler={nextTab}
+					<div className="element3_wrapper">
+						<ResumePreview
+							resumeRef={resumeRef}
+							generatedResume={generatedResume.resume}
+							handleDownloadPDF={handleDownloadPDF}
 							email={email}
 							phone={phone}
 							address={address}
 							cityPostCode={cityPostCode}
-							setEmail={setEmail}
-							setPhone={setPhone}
-							setAddress={setAddress}
-							setCityPostCode={setCityPostCode}
 							firstName={firstName}
-							setFirstName={setFirstName}
 							lastName={lastName}
-							setLastName={setLastName}
-							setJobTitle={setJobTitle}
-							setSkills={setSkills}
-							setExperience={setExperience}
-							certifications={certifications}
-							setCertifications={setCertifications}
-							jobTitle={jobTitle}
 							skills={skills}
-							suggestedSkills={suggestedSkills}
-							setSuggestedSkills={setSuggestedSkills}
 							experience={experience}
-							handleGenerateResume={handleGenerateResume}
-							selectedTab={activeTab}
-							setObjective={setObjective}
 							objective={objective}
-							isLoading={isLoading}
-							regenerateSkillsSuggestions={regenerateSkillsSuggestions}
-							educations={educations}
-							setEducations={setEducations}
-							references={references}
-							setReferences={setReferences}
-							links={links}
-							setLinks={setLinks}
-							hobbies={hobbies}
-							setHobbies={setHobbies}
-							customSections={customSections}
-							setCustomSections={setCustomSections}
-							handleImageUpload={handleImageUpload}
-							photo={photo}
-							removeTabHandler={removeTabHandler}
-							activeTab={activeTab}
-							setActiveTab={setActiveTab}
+							jobTitle={jobTitle}
 							tabs={tabs}
-							setTabs={setTabs}
-							setPhoto={setPhoto}
+							certifications={certifications}
+							educations={educations}
+							references={references}
+							links={links}
+							hobbies={hobbies}
+							customSections={customSections}
+							photo={photo}
 							template={template}
+							setTemplate={setTemplate}
 							languages={languages}
-							setLanguages={setLanguages}
+							customTitles={customTitles}
 						/>
-					</>
-				)}
-
-				<ResumePreview
-					resumeRef={resumeRef}
-					generatedResume={generatedResume.resume}
-					handleDownloadPDF={handleDownloadPDF}
-					email={email}
-					phone={phone}
-					address={address}
-					cityPostCode={cityPostCode}
-					firstName={firstName}
-					lastName={lastName}
-					skills={skills}
-					experience={experience}
-					objective={objective}
-					jobTitle={jobTitle}
-					tabs={tabs}
-					certifications={certifications}
-					educations={educations}
-					references={references}
-					links={links}
-					hobbies={hobbies}
-					customSections={customSections}
-					photo={photo}
-					template={template}
-					setTemplate={setTemplate}
-					languages={languages}
-					customTitles={customTitles}
-				/>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

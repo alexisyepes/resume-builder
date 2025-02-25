@@ -50,12 +50,11 @@ export default function ResumePreview({
 		return () => window.removeEventListener("resize", handleResize)
 	}, [])
 	return (
-		<div className="w-full sm:w-1/2 border ring-4 ring-gray-50 p-2 bg-[#d3dbde] rounded-md">
-			<div className="flex justify-between items-center">
+		<div className="border ring-4 ring-gray-50 p-2 bg-[#d3dbde] rounded-md">
+			<div className="flex download-section justify-between items-center">
 				<span className="text-black font-bold ml-6 text-lg capitalize">
 					Selected Template: {template}
 				</span>
-
 				<button
 					className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
 					onClick={handleDownloadPDF}
@@ -65,15 +64,7 @@ export default function ResumePreview({
 				</button>
 			</div>
 			<div className="rounded py-8">
-				<div
-					ref={resumeRef}
-					className="origin-top overflow-auto transition-transform duration-300 ease-in-out"
-					style={{
-						transform: `scale(${scale})`,
-						width: `${816}px`,
-						height: `${1056}px`,
-					}}
-				>
+				<div className="" ref={resumeRef}>
 					{template === "classic" && (
 						<ClassicTemplate
 							orderedTabs={tabs}

@@ -20,7 +20,6 @@ const Navbar = () => {
 				{/* Logo */}
 				<Link className="mx-4" href={"/"}>
 					<Image width={50} height={50} src={"/images/resume-logo.png"} />
-					{/* <IoHomeSharp className="mx-4 cursor-pointer" color="teal" size={35} /> */}
 				</Link>
 
 				{/* Desktop Menu */}
@@ -66,13 +65,6 @@ const Navbar = () => {
 					className="md:hidden bg-white shadow-md py-4"
 				>
 					<div className="flex flex-col items-center space-y-4">
-						{/* <Link
-							href="/"
-							className="hover:text-blue-500 transition"
-							onClick={() => setIsOpen(false)}
-						>
-							Home
-						</Link> */}
 						<Link
 							href="/about"
 							className="hover:text-blue-500 transition"

@@ -3,7 +3,7 @@ import { IoHammerOutline } from "react-icons/io5"
 
 export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 	return (
-		<div className="flex items-center mx-auto w-1/2 justify-between gap-4">
+		<div className="flex template_selector_buttons items-center mx-auto w-1/2 justify-between gap-4">
 			<button
 				onClick={() => setShowSlider(false)}
 				className={`bg-gray-900 capitalize text-white text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-gray-800 ${

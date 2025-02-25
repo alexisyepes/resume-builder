@@ -226,7 +226,7 @@ export default function ClassicTemaplateATS({
 	if (!resume) return <p>Loading resume data...</p>
 
 	return (
-		<div className="resume-template shadow-[0_10px_30px_rgba(0,0,0,0.4)] p-10 ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto rounded-md ring-2">
+		<div className="element element3 resume-template shadow-[0_10px_30px_rgba(0,0,0,0.4)] p-10 ring-slate-200 bg-white mx-auto rounded-md ring-2">
 			{/* Header Section */}
 			<div className="relative text-center pb-4 mb-4">
 				{photo && (
