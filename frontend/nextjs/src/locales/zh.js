@@ -40,6 +40,7 @@ export default {
 				cta_2: "使用 AI 生成",
 				counter: {
 					time_left: "重新生成文本的剩余时间:",
+					num_of_tries_left: "剩余的AI生成次数：",
 				},
 			},
 			skills: {

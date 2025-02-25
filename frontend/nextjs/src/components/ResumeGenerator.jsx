@@ -81,8 +81,6 @@ const ResumeGenerator = () => {
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
 
-	console.log(router)
-
 	useEffect(() => {
 		setFileName((prev) =>
 			prev === fileName || !prev
@@ -126,18 +124,16 @@ const ResumeGenerator = () => {
 
 	const handleImageUpload = (event) => {
 		const file = event.target.files[0]
-		setFileName(
-			file
-				? file.name
-				: t.resume_builder.labels.personal_information.no_file_chosen
-		)
-		if (file) {
-			const reader = new FileReader()
-			reader.onloadend = () => {
-				setPhoto(reader.result)
-			}
-			reader.readAsDataURL(file)
+		if (!file) return
+
+		setFileName(file.name)
+
+		const reader = new FileReader()
+		reader.onloadend = () => {
+			setPhoto(reader.result)
 		}
+		reader.readAsDataURL(file)
+		event.target.value = null
 	}
 
 	const handleTabChange = (tab) => {
@@ -167,6 +163,7 @@ const ResumeGenerator = () => {
 				"http://localhost:4000/generate-skills",
 				{
 					jobTitle,
+					langPrefix,
 				}
 			)
 			setIsLoading(false)
@@ -178,7 +175,6 @@ const ResumeGenerator = () => {
 	}
 
 	const handleGenerateResume = async () => {
-		console.log(langPrefix)
 		try {
 			setIsLoading(true)
 			const response = await axios.post(

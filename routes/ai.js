@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 router.post("/generate-skills", async (req, res) => {
 	try {
-		const { jobTitle } = req.body
+		const { jobTitle, langPrefix } = req.body
 		let response
 
 		if (jobTitle) {
@@ -18,7 +18,7 @@ router.post("/generate-skills", async (req, res) => {
 				messages: [
 					{
 						role: "user",
-						content: `Generate 6 words related to this job title: ${jobTitle} which will be used on a resume. Format the response as JSON with this key: "skills"`,
+						content: `Generate 6 words related to this job title: ${jobTitle} which will be used on a resume. Format the response as JSON with this key: "skills". Provide the response in the following language identifier: ${langPrefix}`,
 					},
 				],
 				response_format: { type: "json_object" },

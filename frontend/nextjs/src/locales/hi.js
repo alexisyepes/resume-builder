@@ -40,6 +40,7 @@ export default {
 				cta_2: "एआई से जनरेट करें",
 				counter: {
 					time_left: "पाठ को पुनः जनरेट करने के लिए शेष समय:",
+					num_of_tries_left: "बचे हुए AI जनरेशन की संख्या:",
 				},
 			},
 			skills: {

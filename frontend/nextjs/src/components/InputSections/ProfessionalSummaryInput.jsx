@@ -80,7 +80,10 @@ export default function ProfessionalSummaryInput({
 			)}
 			{counter > 0 && (
 				<p>
-					{t.resume_builder.labels.professional_summary.counter.time_left}{" "}
+					{
+						t.resume_builder.labels.professional_summary.counter
+							.num_of_tries_left
+					}{" "}
 					{5 - counter} of (5)
 				</p>
 			)}

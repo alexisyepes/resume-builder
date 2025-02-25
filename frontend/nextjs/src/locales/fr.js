@@ -40,6 +40,7 @@ export default {
 				cta_2: "Générer avec l'IA",
 				counter: {
 					time_left: "Temps restant pour régénérer le texte :",
+					num_of_tries_left: "Nombre de générations IA restantes :",
 				},
 			},
 			skills: {
