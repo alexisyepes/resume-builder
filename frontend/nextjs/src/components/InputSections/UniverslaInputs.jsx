@@ -1,23 +1,14 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import dynamic from "next/dynamic"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import "react-quill-new/dist/quill.snow.css"
 import DOMPurify from "dompurify"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-	CERTIFICATIONS,
-	CUSTOM_SECTION,
-	EDUCATION,
-	EMPLOYMENT_HISTORY,
-	HOBBIES,
-	LANGUAGES,
-	LINKS,
-	REFERENCES,
-	translationKeyMap,
-} from "@/constants"
+import { EMPLOYMENT_HISTORY } from "@/constants"
 import CustomTitleInput from "./CustomTitleInput"
 import { CiEdit } from "react-icons/ci"
+import { GrLinkNext } from "react-icons/gr"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -46,6 +37,7 @@ export default function UniversalInput({
 	customTitles,
 	handleCustomTitleOnChange,
 	inputRef,
+	nextTabHandler,
 }) {
 	const initialState = fields.reduce((acc, field) => {
 		acc[field.name] = ""
@@ -217,6 +209,13 @@ export default function UniversalInput({
 					+ {cta_label}
 				</button>
 			</form>
+			<button
+				onClick={nextTabHandler}
+				className="w-full capitalize mt-4 bg-cyan-500 text-white p-2 rounded"
+			>
+				{t.resume_builder.labels.general.next}
+				<GrLinkNext className="inline ml-2" />
+			</button>
 
 			{data.length ? <hr className="mt-6" /> : null}
 

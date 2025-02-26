@@ -12,13 +12,13 @@ router.post("/generate-skills", async (req, res) => {
 		let response
 
 		if (jobTitle) {
-			console.log("Ai generation...")
+			console.log("AI generation...")
 			response = await openai.chat.completions.create({
 				model: "gpt-4o",
 				messages: [
 					{
 						role: "user",
-						content: `Generate 6 words related to this job title: ${jobTitle} which will be used on a resume. Format the response as JSON with this key: "skills". Provide the response in the following language identifier: ${langPrefix}`,
+						content: `Generate a unique list of 6 skills relevant to the job title "${jobTitle}". These skills will be used in a resume. Ensure the list is different on each request, even if the job title is the same. Use synonyms or variations if needed. Format the response as JSON with the key: "skills". Provide the response in the language identifier: ${langPrefix}.`,
 					},
 				],
 				response_format: { type: "json_object" },
@@ -39,14 +39,18 @@ router.post("/generate-skills", async (req, res) => {
 
 		console.log(response)
 
+		// Parse AI response if jobTitle is provided
 		const resumeData = jobTitle
 			? JSON.parse(response.choices[0].message.content)
 			: response
 
+		// Shuffle the skills list to add more randomness
+		resumeData.skills = resumeData.skills.sort(() => Math.random() - 0.5)
+
 		res.json({ resume: resumeData })
 	} catch (error) {
-		console.error("Error generating objective:", error)
-		res.status(500).json({ error: "Error generating objective" })
+		console.error("Error generating skills:", error)
+		res.status(500).json({ error: "Error generating skills" })
 	}
 })
 

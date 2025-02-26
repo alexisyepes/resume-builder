@@ -1,3 +1,5 @@
+import { GrLinkNext } from "react-icons/gr"
+
 export default function PersonalInformation({
 	firstName = "",
 	setFirstName = "",
@@ -9,7 +11,6 @@ export default function PersonalInformation({
 	handleImageUpload,
 	photo,
 	setPhoto,
-	template,
 	fileName,
 	setFileName,
 	t,
@@ -127,6 +128,7 @@ export default function PersonalInformation({
 				className="w-full capitalize bg-cyan-500 text-white p-2 rounded"
 			>
 				{t.resume_builder.labels.general.next}
+				<GrLinkNext className="inline ml-2" />
 			</button>
 		</div>
 	)

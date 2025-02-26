@@ -3,7 +3,7 @@ import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
 import { RxReload } from "react-icons/rx"
 import RingLoader from "react-spinners/RingLoader"
 import { RiDeleteBin5Line } from "react-icons/ri"
-import { SKILLS } from "@/constants"
+import { GrLinkNext } from "react-icons/gr"
 
 export default function SkillsInput({
 	regenerateSkillsSuggestions,
@@ -89,15 +89,25 @@ export default function SkillsInput({
 				) : (
 					<div className="mt-2">
 						{suggestedSkills.length
-							? suggestedSkills.map((skill, index) => (
-									<span
-										key={index}
-										onClick={() => setSkills([...skills, skill])}
-										className="cursor-pointer ml-1 bg-slate-400 capitalize rounded-md px-2 py-1 m-2 inline-block text-white"
-									>
-										+ {skill}
-									</span>
-							  ))
+							? suggestedSkills.map((skill, index) => {
+									const skillExists = skills.find((item) => item === skill)
+									return (
+										<span
+											key={index}
+											onClick={() => {
+												if (skillExists) {
+													return alert("Skill has been already added")
+												}
+												setSkills([...skills, skill])
+											}}
+											className={`cursor-pointer ml-1 ${
+												skillExists ? "bg-slate-600" : "bg-slate-400"
+											}  capitalize rounded-md px-2 py-1 m-2 inline-block text-white`}
+										>
+											+ {skill}
+										</span>
+									)
+							  })
 							: null}
 					</div>
 				)}
@@ -139,9 +149,10 @@ export default function SkillsInput({
 				: null}
 			<button
 				onClick={nextTabHandler}
-				className="w-full capitalize bg-cyan-500 text-white p-2 rounded"
+				className="w-full capitalize mt-4 bg-cyan-500 text-white p-2 rounded"
 			>
 				{t.resume_builder.labels.general.next}
+				<GrLinkNext className="inline ml-2" />
 			</button>
 		</div>
 	)

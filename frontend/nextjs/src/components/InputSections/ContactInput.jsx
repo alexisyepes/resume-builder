@@ -1,5 +1,5 @@
-import { CONTACT_INFORMATION } from "@/constants"
 import { CiEdit } from "react-icons/ci"
+import { GrLinkNext } from "react-icons/gr"
 
 export default function ContactInput({
 	t,
@@ -77,7 +77,8 @@ export default function ContactInput({
 				onClick={nextTabHandler}
 				className="w-full bg-cyan-500 text-white p-2 rounded"
 			>
-				Next
+				{t.resume_builder.labels.general.next}
+				<GrLinkNext className="inline ml-2" />
 			</button>
 		</div>
 	)

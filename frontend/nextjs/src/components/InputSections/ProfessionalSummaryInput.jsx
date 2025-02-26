@@ -5,6 +5,7 @@ import { RxReload } from "react-icons/rx"
 import { PROFESSIONAL_SUMMARY } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 import CustomTitleInput from "./CustomTitleInput"
+import { GrLinkNext } from "react-icons/gr"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -117,6 +118,7 @@ export default function ProfessionalSummaryInput({
 						}  text-white p-2 rounded capitalize`}
 					>
 						{t.resume_builder.labels.general.next}
+						<GrLinkNext className="inline ml-2" />
 					</button>
 				</div>
 			)}
