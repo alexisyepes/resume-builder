@@ -19,7 +19,12 @@ const Navbar = () => {
 			<div className="mx-auto px-6 flex justify-between items-center">
 				{/* Logo */}
 				<Link className="mx-4" href={"/"}>
-					<Image width={50} height={50} src={"/images/resume-logo.png"} />
+					<Image
+						alt="logo image"
+						width={50}
+						height={50}
+						src={"/images/resume-logo.png"}
+					/>
 				</Link>
 
 				{/* Desktop Menu */}
