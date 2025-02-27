@@ -62,7 +62,6 @@ export default function Inputs({
 	setHobbies,
 	customSections,
 	setCustomSections,
-	handleImageUpload,
 	photo,
 	removeTabHandler,
 	activeTab,
@@ -71,15 +70,11 @@ export default function Inputs({
 	languages,
 	setLanguages,
 	setActiveTab,
-	setPhoto,
-	template,
 	customTitles,
 	handleCustomTitleOnChange,
 	editing,
 	setEditing,
 	inputRef,
-	fileName,
-	setFileName,
 }) {
 	const [counter, setCounter] = useState(0)
 	const [countdown, setCountdown] = useState(300000) // 5 minutes
@@ -150,22 +145,7 @@ export default function Inputs({
 							exit={{ opacity: 0, y: 10 }}
 							transition={{ duration: 0.5 }}
 						>
-							<PersonalInformation
-								t={t}
-								firstName={firstName}
-								setFirstName={setFirstName}
-								lastName={lastName}
-								setLastName={setLastName}
-								setJobTitle={setJobTitle}
-								jobTitle={jobTitle}
-								nextTabHandler={nextTabHandler}
-								handleImageUpload={handleImageUpload}
-								photo={photo}
-								setPhoto={setPhoto}
-								template={template}
-								fileName={fileName}
-								setFileName={setFileName}
-							/>
+							<PersonalInformation />
 						</motion.div>{" "}
 					</AnimatePresence>
 				)
@@ -179,18 +159,7 @@ export default function Inputs({
 							exit={{ opacity: 0, y: 10 }}
 							transition={{ duration: 0.5 }}
 						>
-							<ContactInput
-								t={t}
-								email={email}
-								phone={phone}
-								address={address}
-								cityPostCode={cityPostCode}
-								setEmail={setEmail}
-								setPhone={setPhone}
-								setAddress={setAddress}
-								setCityPostCode={setCityPostCode}
-								nextTabHandler={nextTabHandler}
-							/>
+							<ContactInput t={t} nextTabHandler={nextTabHandler} />
 						</motion.div>
 					</AnimatePresence>
 				)
@@ -205,30 +174,17 @@ export default function Inputs({
 							transition={{ duration: 0.5 }}
 						>
 							<ProfessionalSummaryInput
-								langPrefix={langPrefix}
 								t={t}
-								inputRef={inputRef}
-								editing={editing}
-								setEditing={setEditing}
-								customTitles={customTitles}
-								handleCustomTitleOnChange={handleCustomTitleOnChange}
 								setCounter={setCounter}
 								counter={counter}
-								experience={experience}
-								setExperience={setExperience}
 								handleGenerateResume={handleGenerateResume}
-								isLoading={isLoading}
 								minutes={minutes}
 								seconds={seconds}
-								objective={objective}
-								setObjective={setObjective}
-								objectiveSummary={objectiveSummary}
 								nextTabHandler={nextTabHandler}
-								handleImageUpload={handleImageUpload}
-								photo={photo}
-								removeTabHandler={removeTabHandler}
-								activeTab={activeTab}
-								tabs={tabs}
+								editing={editing}
+								setEditing={setEditing}
+								handleCustomTitleOnChange={handleCustomTitleOnChange}
+								inputRef={inputRef}
 							/>
 						</motion.div>
 					</AnimatePresence>

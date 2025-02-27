@@ -78,8 +78,18 @@ export default function UniversalInput({
 
 	const handleDelete = (index) => {
 		setDeletingIndex(index)
+
+		setData((prev) => {
+			if (!Array.isArray(prev)) {
+				console.error("customSections is not an array:", prev)
+				return prev
+			}
+			const newData = prev.filter((_, i) => i !== index)
+
+			return [...newData]
+		})
+
 		setTimeout(() => {
-			setData((prev) => prev.filter((_, i) => i !== index))
 			setDeletingIndex(null)
 		}, 200)
 	}
@@ -220,7 +230,7 @@ export default function UniversalInput({
 			{data.length ? <hr className="mt-6" /> : null}
 
 			<AnimatePresence>
-				{data.map((item, index) => (
+				{(Array.isArray(data) ? data : []).map((item, index) => (
 					<motion.div
 						key={index}
 						initial={{ opacity: 0, y: -10 }}

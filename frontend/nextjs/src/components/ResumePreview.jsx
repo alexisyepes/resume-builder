@@ -34,7 +34,7 @@ export default function ResumePreview({
 	customTitles,
 }) {
 	return (
-		<div className="border ring-4 ring-gray-50 p-2 bg-[#d3dbde] rounded-md">
+		<div className="border ring-4 ring-gray-50 p-2 bg-[#ebeeef] rounded-md">
 			<div className="flex download-section justify-between items-center">
 				<span className="text-black font-bold ml-6 text-lg capitalize">
 					{t.resume_builder.labels.general.template_selector.selected_template}:{" "}

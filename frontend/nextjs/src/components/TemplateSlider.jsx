@@ -42,9 +42,9 @@ export default function TemplateSlider({
 						<h2
 							className={`${
 								template === section.value
-									? "ring-2 rounded-sm p-2 ring-green-400"
-									: ""
-							} mt-4 font-bold capitalize p-2 rounded-md bg-slate-900 text-white text-center text-lg`}
+									? "rounded-md p-2 border-4 border-green-400"
+									: "border-slate-600"
+							} mt-4 font-bold capitalize p-2 rounded-md border  text-black text-center text-lg`}
 						>
 							{section.name}
 						</h2>

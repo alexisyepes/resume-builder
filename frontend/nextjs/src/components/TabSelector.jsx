@@ -29,6 +29,7 @@ import { FaMedal } from "react-icons/fa6"
 import { MdOutlineContactEmergency } from "react-icons/md"
 import { BsBuildings } from "react-icons/bs"
 import { BiCustomize } from "react-icons/bi"
+import useResumeStore from "@/store/useResumeStore"
 
 const DraggableTab = ({
 	t,
@@ -159,13 +160,13 @@ export default function TabSelector({
 	t,
 	activeTab,
 	onTabChange,
-	tabs,
 	removeTabHandler,
 	addTabHandler,
 	moveTabHandler,
 	setActiveTab,
 }) {
 	const [isAddSectionOpen, setIsAddSectionOpen] = useState(false)
+	const { tabs } = useResumeStore()
 
 	const AVAILABLE_SECTIONS = [
 		SKILLS,
@@ -213,7 +214,6 @@ export default function TabSelector({
 					</p>
 					{isAddSectionOpen &&
 						AVAILABLE_SECTIONS.map((section) => {
-							console.log(tabs.includes(section))
 							return (
 								<button
 									key={section}

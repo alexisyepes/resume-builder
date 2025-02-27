@@ -99,7 +99,7 @@ export default function ClassicTemaplateATS({
 				{skills.length ? (
 					<>
 						<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1 mt-2">
-							{SKILLS}
+							{customTitles[SKILLS] || SKILLS}
 						</h2>
 						{skills.map((skill, index) => {
 							return (

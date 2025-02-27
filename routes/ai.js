@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const axios = require("axios")
 const OpenAI = require("openai")
+const defaultSkillPool = require("../utils/defaultSkills")
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -10,6 +11,11 @@ router.post("/generate-skills", async (req, res) => {
 	try {
 		const { jobTitle, langPrefix } = req.body
 		let response
+
+		const getRandomSkills = (count) => {
+			const shuffled = [...defaultSkillPool].sort(() => Math.random() - 0.5)
+			return shuffled.slice(0, count)
+		}
 
 		if (jobTitle) {
 			console.log("AI generation...")
@@ -24,16 +30,9 @@ router.post("/generate-skills", async (req, res) => {
 				response_format: { type: "json_object" },
 			})
 		} else {
-			console.log("Sending default...")
+			console.log("Sending randomized default skills...")
 			response = {
-				skills: [
-					"Communication",
-					"Problem-Solving",
-					"Adaptability",
-					"Collaboration",
-					"Time Management",
-					"Creativity",
-				],
+				skills: getRandomSkills(6), // Get a random set of 6 skills
 			}
 		}
 
@@ -43,9 +42,6 @@ router.post("/generate-skills", async (req, res) => {
 		const resumeData = jobTitle
 			? JSON.parse(response.choices[0].message.content)
 			: response
-
-		// Shuffle the skills list to add more randomness
-		resumeData.skills = resumeData.skills.sort(() => Math.random() - 0.5)
 
 		res.json({ resume: resumeData })
 	} catch (error) {

@@ -6,6 +6,7 @@ import { PROFESSIONAL_SUMMARY } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 import CustomTitleInput from "./CustomTitleInput"
 import { GrLinkNext } from "react-icons/gr"
+import useResumeStore from "@/store/useResumeStore"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -23,19 +24,19 @@ export default function ProfessionalSummaryInput({
 	t,
 	setCounter,
 	counter,
-	objective,
-	setObjective,
 	handleGenerateResume,
-	isLoading,
 	minutes,
 	seconds,
 	nextTabHandler,
 	editing,
 	setEditing,
-	customTitles,
 	handleCustomTitleOnChange,
 	inputRef,
 }) {
+	const { objective, setObjective, isLoading, customTitles } = useResumeStore()
+	console.log("Current Custom Titles:", customTitles)
+	console.log("Final Zustand Store:", useResumeStore.getState().customTitles)
+
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between border-b-2 mb-2">

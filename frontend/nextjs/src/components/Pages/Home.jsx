@@ -12,7 +12,7 @@ const Home = () => {
 	const t = loadTranslations(router)
 
 	return (
-		<div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 px-6">
+		<div className="min-h-screen w-full flex flex-col items-center justify-center bg-cyan-50 px-6">
 			{/* Hero Section */}
 			<motion.div
 				initial={{ opacity: 0, y: -60 }}

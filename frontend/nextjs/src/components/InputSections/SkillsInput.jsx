@@ -4,15 +4,22 @@ import { RxReload } from "react-icons/rx"
 import RingLoader from "react-spinners/RingLoader"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { GrLinkNext } from "react-icons/gr"
+import useResumeStore from "@/store/useResumeStore"
+import { SKILLS } from "@/constants"
+import { CiEdit } from "react-icons/ci"
+import CustomTitleInput from "./CustomTitleInput"
 
 export default function SkillsInput({
+	inputRef,
+	handleCustomTitleOnChange,
 	regenerateSkillsSuggestions,
-	suggestedSkills,
 	isLoading,
 	skills,
 	setSkills,
 	editingId,
 	setEditingId,
+	editing,
+	setEditing,
 	handleChange,
 	handleEditClick,
 	nextTabHandler,
@@ -23,6 +30,7 @@ export default function SkillsInput({
 	t,
 }) {
 	const [skillToAdd, setSkillToAdd] = useState("")
+	const { suggestedSkills, customTitles } = useResumeStore()
 
 	const handleRemoveSection = () => {
 		const currentActiveTabIndex = tabs.indexOf(activeTab)
@@ -38,9 +46,27 @@ export default function SkillsInput({
 	return (
 		<div className="w-full border p-4 rounded-md">
 			<div className="flex justify-between border-b-2 mb-2">
-				<h2 className="text-xl mb-2 font-bold">
+				{/* <h2 className="text-xl mb-2 font-bold">
 					{t.resume_builder.labels.skills.title}
-				</h2>
+				</h2> */}
+				{editing === SKILLS ? (
+					<CustomTitleInput
+						inputRef={inputRef}
+						customTitleValue={customTitles[SKILLS]}
+						sectionKey={SKILLS}
+						handleCustomTitleOnChange={handleCustomTitleOnChange}
+					/>
+				) : (
+					<h2 className="text-xl mb-2 font-bold">
+						<CiEdit
+							size={24}
+							onClick={() => setEditing(editing === SKILLS ? null : SKILLS)}
+							className="cursor-pointer inline mr-2"
+						/>
+						{customTitles[SKILLS] ||
+							t.resume_builder.labels.professional_summary.title}
+					</h2>
+				)}
 				<RiDeleteBin5Line
 					onClick={handleRemoveSection}
 					className="cursor-pointer"
@@ -104,7 +130,7 @@ export default function SkillsInput({
 												skillExists ? "bg-slate-600" : "bg-slate-400"
 											}  capitalize rounded-md px-2 py-1 m-2 inline-block text-white`}
 										>
-											+ {skill}
+											{!skillExists && "+"} {skill}
 										</span>
 									)
 							  })

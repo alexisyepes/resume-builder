@@ -1,18 +1,19 @@
+import useResumeStore from "@/store/useResumeStore"
 import { CiEdit } from "react-icons/ci"
 import { GrLinkNext } from "react-icons/gr"
 
-export default function ContactInput({
-	t,
-	email = "",
-	phone = "",
-	address = "",
-	cityPostCode = "",
-	setEmail,
-	setPhone,
-	setAddress,
-	setCityPostCode,
-	nextTabHandler,
-}) {
+export default function ContactInput({ t, nextTabHandler }) {
+	const {
+		email,
+		phone,
+		address,
+		cityPostCode,
+		setEmail,
+		setPhone,
+		setAddress,
+		setCityPostCode,
+	} = useResumeStore()
+
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between border-b-2 mb-2">

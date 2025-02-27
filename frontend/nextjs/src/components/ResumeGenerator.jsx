@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useRef, useEffect, useContext } from "react"
 import axios from "axios"
 import { FaLongArrowAltLeft } from "react-icons/fa"
 import { IoIosClose } from "react-icons/io"
@@ -8,76 +8,72 @@ import { defaultResume } from "@/utils"
 import Inputs from "./Inputs"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
-import {
-	CERTIFICATIONS,
-	CONTACT_INFORMATION,
-	EDUCATION,
-	EMPLOYMENT_HISTORY,
-	HOBBIES,
-	LANGUAGES,
-	LINKS,
-	PERSONAL_DETAILS,
-	PROFESSIONAL_SUMMARY,
-	REFERENCES,
-	SKILLS,
-} from "@/constants"
 import TemplateSelector from "./TemplateSelector"
 import TemplateSlider from "./TemplateSlider"
-import { useRouter } from "next/router"
-import { loadTranslations } from "@/utils"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import useResumeStore from "@/store/useResumeStore"
 
 const ResumeGenerator = () => {
-	const router = useRouter()
-	const t = loadTranslations(router)
-	const { locale } = router
-	const langPrefix = locale
-	const [tabs, setTabs] = useState([
-		PERSONAL_DETAILS,
-		CONTACT_INFORMATION,
-		PROFESSIONAL_SUMMARY,
-		SKILLS,
-		EMPLOYMENT_HISTORY,
-		EDUCATION,
-	])
-	const [fileName, setFileName] = useState(
-		t.resume_builder.labels.personal_information.no_file_chosen
-	)
-	const [photo, setPhoto] = useState("")
-	const [email, setEmail] = useState("")
-	const [phone, setPhone] = useState("")
-	const [address, setAddress] = useState("")
-	const [cityPostCode, setCityPostCode] = useState("")
-	const [firstName, setFirstName] = useState("")
-	const [lastName, setLastName] = useState("")
-	const [jobTitle, setJobTitle] = useState("")
-	const [skills, setSkills] = useState([])
-	const [languages, setLanguages] = useState([])
-	const [suggestedSkills, setSuggestedSkills] = useState([])
-	const [experience, setExperience] = useState([])
-	const [certifications, setCertifications] = useState([])
-	const [references, setReferences] = useState([])
-	const [educations, setEducations] = useState([])
-	const [links, setLinks] = useState([])
-	const [hobbies, setHobbies] = useState([])
-	const [customSections, setCustomSections] = useState([])
-	const [objective, setObjective] = useState("")
-	const [generatedResume, setGeneratedResume] = useState(defaultResume)
-	const [activeTab, setActiveTab] = useState(tabs[0])
-	const [isLoading, setIsLoading] = useState(false)
-	const [template, setTemplate] = useState("classic-ats")
-	const [showSlider, setShowSlider] = useState(false)
-	const [customTitles, setCustomTitles] = useState({
-		[PROFESSIONAL_SUMMARY]: "",
-		[EDUCATION]: "",
-		[SKILLS]: "",
-		[EMPLOYMENT_HISTORY]: "",
-		[HOBBIES]: "",
-		[LINKS]: "",
-		[CERTIFICATIONS]: "",
-		[REFERENCES]: "",
-		[LANGUAGES]: "",
-	})
-	const [editing, setEditing] = useState(null)
+	const {
+		tabs,
+		setTabs,
+		photo,
+		setPhoto,
+		fileName,
+		setFileName,
+		email,
+		setEmail,
+		phone,
+		setPhone,
+		address,
+		setAddress,
+		cityPostCode,
+		setCityPostCode,
+		firstName,
+		setFirstName,
+		lastName,
+		setLastName,
+		jobTitle,
+		setJobTitle,
+		skills,
+		setSkills,
+		languages,
+		setLanguages,
+		suggestedSkills,
+		setSuggestedSkills,
+		experience,
+		setExperience,
+		certifications,
+		setCertifications,
+		references,
+		setReferences,
+		educations,
+		setEducations,
+		links,
+		setLinks,
+		hobbies,
+		setHobbies,
+		customSections,
+		setCustomSections,
+		objective,
+		setObjective,
+		generatedResume,
+		setGeneratedResume,
+		activeTab,
+		setActiveTab,
+		isLoading,
+		setIsLoading,
+		template,
+		setTemplate,
+		showSlider,
+		setShowSlider,
+		customTitles,
+		setCustomTitles,
+		editing,
+		setEditing,
+	} = useResumeStore()
+	const { t, langPrefix } = useContext(RESUME_CONTEXT)
+
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
 	const templateDesigns = [
@@ -109,19 +105,11 @@ const ResumeGenerator = () => {
 	]
 
 	useEffect(() => {
-		setFileName((prev) =>
-			prev === fileName || !prev
-				? t.resume_builder.labels.personal_information.no_file_chosen
-				: prev
-		)
-	}, [t])
-
-	useEffect(() => {
-		if (defaultResume) {
-			setFirstName(generatedResume.name)
-			setJobTitle(generatedResume.jobTitle)
-			setJobTitle(generatedResume.jobTitle)
-		}
+		// if (!firstName && !lastName && !jobTitle && defaultResume) {
+		// 	setFirstName(generatedResume.name)
+		// 	setJobTitle(generatedResume.jobTitle)
+		// 	setJobTitle(generatedResume.jobTitle)
+		// }
 		setGeneratedResume(defaultResume)
 	}, [])
 
@@ -143,24 +131,7 @@ const ResumeGenerator = () => {
 
 	const handleCustomTitleOnChange = (e) => {
 		const { name, value } = e.target
-		setCustomTitles((prevTitles) => ({
-			...prevTitles,
-			[name]: value,
-		}))
-	}
-
-	const handleImageUpload = (event) => {
-		const file = event.target.files[0]
-		if (!file) return
-
-		setFileName(file.name)
-
-		const reader = new FileReader()
-		reader.onloadend = () => {
-			setPhoto(reader.result)
-		}
-		reader.readAsDataURL(file)
-		event.target.value = null
+		setCustomTitles({ [name]: value })
 	}
 
 	const handleTabChange = (tab) => {
@@ -175,11 +146,11 @@ const ResumeGenerator = () => {
 	}
 
 	const moveTabHandler = (fromIndex, toIndex) => {
-		setTabs((prevTabs) => {
-			const updatedTabs = [...prevTabs]
+		useResumeStore.setState((state) => {
+			const updatedTabs = [...state.tabs]
 			const [movedTab] = updatedTabs.splice(fromIndex, 1)
 			updatedTabs.splice(toIndex, 0, movedTab)
-			return updatedTabs
+			return { tabs: updatedTabs }
 		})
 	}
 
@@ -223,8 +194,7 @@ const ResumeGenerator = () => {
 	}
 
 	const removeTabHandler = (index) => {
-		const newTabs = tabs.filter((_, i) => i !== index)
-		setTabs(newTabs)
+		setTabs((prevTabs) => prevTabs.filter((_, i) => i !== index))
 	}
 
 	const addTabHandler = (newTab) => {
@@ -316,7 +286,7 @@ const ResumeGenerator = () => {
 	}
 
 	return (
-		<div className="w-full bg-white">
+		<div className="w-full bg-white pt-12">
 			<div className="mb-4">
 				<TemplateSelector
 					t={t}
@@ -329,7 +299,7 @@ const ResumeGenerator = () => {
 			<div className="">
 				<div className="flex flex-wrap">
 					{showSlider ? (
-						<div className="w-full bg-cyan-100 sm:w-[49%] rounded-md mr-2 p-8 border">
+						<div className="w-full bg-cyan-50 sm:w-[49%] rounded-md mr-2 p-8 border">
 							<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
 								<span
 									onClick={() => setShowSlider(false)}
@@ -363,7 +333,6 @@ const ResumeGenerator = () => {
 							<div className="element1 element">
 								<TabSelector
 									t={t}
-									tabs={tabs}
 									suggestedSkills={suggestedSkills}
 									activeTab={activeTab}
 									onTabChange={handleTabChange}
@@ -423,7 +392,7 @@ const ResumeGenerator = () => {
 									setHobbies={setHobbies}
 									customSections={customSections}
 									setCustomSections={setCustomSections}
-									handleImageUpload={handleImageUpload}
+									// handleImageUpload={handleImageUpload}
 									photo={photo}
 									removeTabHandler={removeTabHandler}
 									activeTab={activeTab}

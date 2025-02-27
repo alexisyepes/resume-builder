@@ -1,20 +1,22 @@
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import useResumeStore from "@/store/useResumeStore"
+import { useContext } from "react"
 import { GrLinkNext } from "react-icons/gr"
 
-export default function PersonalInformation({
-	firstName = "",
-	setFirstName = "",
-	lastName = "",
-	setLastName = "",
-	jobTitle = "",
-	setJobTitle,
-	nextTabHandler,
-	handleImageUpload,
-	photo,
-	setPhoto,
-	fileName,
-	setFileName,
-	t,
-}) {
+export default function PersonalInformation() {
+	const {
+		firstName = "",
+		setFirstName = "",
+		lastName = "",
+		setLastName = "",
+		jobTitle = "",
+		setJobTitle,
+		nextTabHandler,
+		photo,
+		setPhoto,
+	} = useResumeStore()
+	const { t, handleImageUpload } = useContext(RESUME_CONTEXT)
+
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between border-b-2 mb-2">
@@ -36,9 +38,6 @@ export default function PersonalInformation({
 							className="bg-red-200 capitalize w-1/2 mx-auto rounded-md px-2 inline-block text-sm"
 							onClick={() => {
 								setPhoto("")
-								setFileName(
-									t.resume_builder.labels.personal_information.no_file_chosen
-								)
 							}}
 						>
 							{t.resume_builder.labels.personal_information.remove_photo}
@@ -72,9 +71,6 @@ export default function PersonalInformation({
 						>
 							{t.resume_builder.labels.personal_information.choose_file}
 						</label>
-					</div>
-					<div className="text-gray-700 mt-2 text-center text-sm">
-						{fileName}
 					</div>
 				</label>
 			</div>
