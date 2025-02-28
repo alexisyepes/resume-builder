@@ -11,6 +11,9 @@ export default {
 				edit: "Éditer",
 				layout: "Disposition",
 				next: "Suivant",
+				reset_all_inputs: "Réinitialiser toutes les entrées",
+				confirm_clear_inputs:
+					"Êtes-vous sûr de vouloir réinitialiser toutes vos entrées ? Vous perdrez toute progression effectuée.",
 				add_more_sections: "Ajouter plus de sections",
 				template_selector: {
 					selected_template: "Modèle sélectionné",
@@ -130,6 +133,66 @@ export default {
 					export_options_description:
 						"Téléchargez votre CV en formats PDF ou Word.",
 				},
+				testimonials: {
+					testimonials_title: "Ce que disent nos utilisateurs",
+					testimonials_description:
+						"Découvrez comment notre créateur de CV a aidé des professionnels à atteindre leurs objectifs de carrière.",
+					testimonial_1_name: "Sarah Johnson",
+					testimonial_1_text:
+						"Ce créateur de CV m'a permis de créer un CV professionnel en quelques minutes !",
+					testimonial_2_name: "David Lee",
+					testimonial_2_text:
+						"J'ai décroché le job de mes rêves grâce à cet outil ! Hautement recommandé.",
+				},
+				how_it_works: {
+					title: "Comment Ça Marche",
+					description: "Suivez ces étapes simples pour créer votre CV parfait.",
+					steps: [
+						{
+							title: "Choisissez un Modèle",
+							description:
+								"Sélectionnez parmi une variété de modèles professionnels.",
+						},
+						{
+							title: "Remplissez Vos Détails",
+							description:
+								"Entrez vos informations et laissez notre IA améliorer votre contenu.",
+						},
+						{
+							title: "Téléchargez et Postulez",
+							description:
+								"Exportez votre CV et commencez à postuler en toute confiance.",
+						},
+					],
+				},
+				faq: {
+					title: "Questions Fréquemment Posées",
+					questions: [
+						{
+							question: "Le générateur de CV est-il gratuit ?",
+							answer:
+								"Oui ! Vous pouvez créer et télécharger votre CV gratuitement.",
+						},
+						{
+							question: "Puis-je modifier mon CV après l'avoir créé ?",
+							answer:
+								"Bien sûr ! Vous pouvez apporter des modifications à tout moment avant de le télécharger.",
+						},
+						{
+							question: "Dans quels formats puis-je exporter mon CV ?",
+							answer: "Vous pouvez l'exporter aux formats PDF et Word.",
+						},
+					],
+				},
+				final_cta: {
+					title: "Commencez Aujourd'hui !",
+					description:
+						"Créez votre CV professionnel en quelques minutes et obtenez l'emploi de vos rêves.",
+					cta_text: "Créer Mon CV",
+				},
+			},
+			templates: {
+				choose_from_many: "Choisissez parmi des centaines de modèles",
 			},
 		},
 		template_names: {

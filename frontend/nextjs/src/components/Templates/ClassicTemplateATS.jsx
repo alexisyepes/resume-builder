@@ -10,7 +10,10 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import useResumeStore from "@/store/useResumeStore"
 import DOMPurify from "dompurify"
+import { useContext } from "react"
 
 export default function ClassicTemaplateATS({
 	resume,
@@ -33,9 +36,15 @@ export default function ClassicTemaplateATS({
 	customSections,
 	photo,
 	languages,
-	customTitles,
 }) {
+	const { t } = useContext(RESUME_CONTEXT)
+	const { customTitles } = useResumeStore()
+
+	console.log(customTitles[t.resume_builder.labels.skills.title])
+	console.log(t.resume_builder.labels.skills.title)
+
 	const mt_sections = "mt-4"
+
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
 			<section className={mt_sections}>
@@ -45,7 +54,8 @@ export default function ClassicTemaplateATS({
 							style={{ letterSpacing: "0.01px" }}
 							className="text-lg font-semibold border-b-2 border-black"
 						>
-							{customTitles[EMPLOYMENT_HISTORY] || EMPLOYMENT_HISTORY}
+							{customTitles[t.resume_builder.labels.employment_history.title] ||
+								t.resume_builder.labels.employment_history.title}
 						</h2>
 
 						{experience &&
@@ -77,7 +87,8 @@ export default function ClassicTemaplateATS({
 				{educations.length ? (
 					<>
 						<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1 mb-2">
-							{EDUCATION}
+							{customTitles[t.resume_builder.labels.education.title] ||
+								t.resume_builder.labels.education.title}
 						</h2>
 						{educations.map((edu, index) => (
 							<h3
@@ -99,7 +110,7 @@ export default function ClassicTemaplateATS({
 				{skills.length ? (
 					<>
 						<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1 mt-2">
-							{customTitles[SKILLS] || SKILLS}
+							{customTitles[SKILLS] || t.resume_builder.labels.skills.title}
 						</h2>
 						{skills.map((skill, index) => {
 							return (
@@ -119,7 +130,8 @@ export default function ClassicTemaplateATS({
 		[CERTIFICATIONS]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{CERTIFICATIONS}
+					{customTitles[t.resume_builder.labels.certifications.title] ||
+						t.resume_builder.labels.certifications.title}
 				</h2>
 				{certifications &&
 					certifications.map((cert, index) => (
@@ -127,7 +139,9 @@ export default function ClassicTemaplateATS({
 							key={`${cert.institution}-${cert.year}`}
 							className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
 						>
-							<span>{cert.institution}</span>
+							<span>
+								{cert.institution} - {cert.certificationName}
+							</span>
 							<span>{cert.year}</span>
 						</h3>
 					))}
@@ -136,7 +150,7 @@ export default function ClassicTemaplateATS({
 		[REFERENCES]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{REFERENCES}
+					{customTitles[REFERENCES] || t.resume_builder.labels.references.title}
 				</h2>
 				{references &&
 					references.map((reference, index) => (
@@ -151,7 +165,8 @@ export default function ClassicTemaplateATS({
 		[LINKS]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[LINKS] || LINKS}
+					{customTitles[t.resume_builder.labels.links.title] ||
+						t.resume_builder.labels.links.title}
 				</h2>
 				{links &&
 					links.map((link, index) => (
@@ -166,7 +181,7 @@ export default function ClassicTemaplateATS({
 		[LANGUAGES]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{LANGUAGES}
+					{customTitles[LANGUAGES] || t.resume_builder.labels.languages.title}
 				</h2>
 				{languages &&
 					languages.map((language, index) => (
@@ -180,7 +195,8 @@ export default function ClassicTemaplateATS({
 		[HOBBIES]: (
 			<section className={mt_sections}>
 				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{HOBBIES}
+					{customTitles[t.resume_builder.labels.hobbies.title] ||
+						t.resume_builder.labels.hobbies.title}
 				</h2>
 				{hobbies &&
 					hobbies.map((hobby, index) => (
@@ -257,7 +273,8 @@ export default function ClassicTemaplateATS({
 			{objective && (
 				<section className="mb-4">
 					<h2 className="text-lg relative border-b-2 border-black font-semibold mb-2">
-						{customTitles[PROFESSIONAL_SUMMARY] || PROFESSIONAL_SUMMARY}
+						{customTitles[PROFESSIONAL_SUMMARY] ||
+							t.resume_builder.labels.professional_summary.title}
 					</h2>
 
 					<p className="text-sm text-gray-700">

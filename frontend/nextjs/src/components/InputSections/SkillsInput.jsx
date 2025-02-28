@@ -46,9 +46,6 @@ export default function SkillsInput({
 	return (
 		<div className="w-full border p-4 rounded-md">
 			<div className="flex justify-between border-b-2 mb-2">
-				{/* <h2 className="text-xl mb-2 font-bold">
-					{t.resume_builder.labels.skills.title}
-				</h2> */}
 				{editing === SKILLS ? (
 					<CustomTitleInput
 						inputRef={inputRef}
@@ -63,8 +60,7 @@ export default function SkillsInput({
 							onClick={() => setEditing(editing === SKILLS ? null : SKILLS)}
 							className="cursor-pointer inline mr-2"
 						/>
-						{customTitles[SKILLS] ||
-							t.resume_builder.labels.professional_summary.title}
+						{customTitles[SKILLS] || t.resume_builder.labels.skills.title}
 					</h2>
 				)}
 				<RiDeleteBin5Line

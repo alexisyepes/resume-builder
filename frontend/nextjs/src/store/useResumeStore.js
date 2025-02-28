@@ -15,6 +15,18 @@ import {
 } from "@/constants"
 import { defaultResume } from "@/utils"
 
+const initialCustomTitles = {
+	[PROFESSIONAL_SUMMARY]: "",
+	[EDUCATION]: "",
+	[SKILLS]: "",
+	[EMPLOYMENT_HISTORY]: "",
+	[HOBBIES]: "",
+	[LINKS]: "",
+	[CERTIFICATIONS]: "",
+	[REFERENCES]: "",
+	[LANGUAGES]: "",
+}
+
 const useResumeStore = create(
 	persist(
 		(set, get) => ({
@@ -183,26 +195,16 @@ const useResumeStore = create(
 					}
 				}),
 
-			customTitles: {
-				[PROFESSIONAL_SUMMARY]: "",
-				[EDUCATION]: "",
-				[SKILLS]: "",
-				[EMPLOYMENT_HISTORY]: "",
-				[HOBBIES]: "",
-				[LINKS]: "",
-				[CERTIFICATIONS]: "",
-				[REFERENCES]: "",
-				[LANGUAGES]: "",
-			},
+			customTitles: { ...initialCustomTitles },
+
 			setCustomTitles: (update) => {
-				set(
-					(state) => {
-						const newTitles = { ...state.customTitles, ...update }
-						return { customTitles: newTitles }
-					},
-					false,
-					"setCustomTitles"
-				)
+				set((state) => ({
+					customTitles: { ...state.customTitles, ...update },
+				}))
+			},
+
+			resetCustomTitles: () => {
+				set({ customTitles: { ...initialCustomTitles } })
 			},
 
 			editing: null,

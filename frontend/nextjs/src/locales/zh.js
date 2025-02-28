@@ -11,6 +11,8 @@ export default {
 				edit: "编辑",
 				layout: "布局",
 				next: "下一步",
+				reset_all_inputs: "重置所有输入",
+				confirm_clear_inputs: "您确定要重置所有输入吗？您的所有进度都将丢失。",
 				add_more_sections: "添加更多部分",
 				template_selector: {
 					selected_template: "已选择的模板",
@@ -126,6 +128,59 @@ export default {
 					export_options: "多种导出选项",
 					export_options_description: "以 PDF 或 Word 格式下载您的简历。",
 				},
+				testimonials: {
+					testimonials_title: "我们的用户怎么说",
+					testimonials_description:
+						"看看我们的简历生成器如何帮助专业人士实现他们的职业目标。",
+					testimonial_1_name: "Sarah Johnson",
+					testimonial_1_text:
+						"这个简历生成器让我能够在几分钟内轻松创建一份专业简历！",
+					testimonial_2_name: "David Lee",
+					testimonial_2_text: "多亏了这个工具，我找到了理想的工作！强烈推荐。",
+				},
+				how_it_works: {
+					title: "工作原理",
+					description: "按照以下简单步骤创建完美的简历。",
+					steps: [
+						{
+							title: "选择模板",
+							description: "从各种专业简历模板中选择。",
+						},
+						{
+							title: "填写您的详细信息",
+							description: "输入您的信息，让我们的AI优化您的内容。",
+						},
+						{
+							title: "下载并申请",
+							description: "导出您的简历，自信地开始申请工作。",
+						},
+					],
+				},
+				faq: {
+					title: "常见问题",
+					questions: [
+						{
+							question: "简历生成器是免费的吗？",
+							answer: "是的！您可以免费创建和下载您的简历。",
+						},
+						{
+							question: "创建简历后我可以编辑它吗？",
+							answer: "当然！在下载之前，您可以随时进行更改。",
+						},
+						{
+							question: "我可以将简历导出为哪些文件格式？",
+							answer: "您可以将简历导出为PDF和Word格式。",
+						},
+					],
+				},
+				final_cta: {
+					title: "立即开始！",
+					description: "几分钟内创建您的专业简历，找到您的梦想工作。",
+					cta_text: "创建我的简历",
+				},
+			},
+			templates: {
+				choose_from_many: "从数百个模板中选择",
 			},
 		},
 		template_names: {

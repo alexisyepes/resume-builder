@@ -1,3 +1,4 @@
+import useResumeStore from "@/store/useResumeStore"
 import { useRouter } from "next/router"
 
 const languages = [
@@ -14,9 +15,11 @@ const languages = [
 export default function LanguageSelector() {
 	const router = useRouter()
 	const { locale, pathname, asPath, query } = router
+	const { resetCustomTitles } = useResumeStore()
 
 	const changeLanguage = (newLocale) => {
 		router.push({ pathname, query }, asPath, { locale: newLocale })
+		resetCustomTitles()
 	}
 
 	return (

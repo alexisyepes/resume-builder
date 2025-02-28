@@ -67,13 +67,14 @@ const styles = StyleSheet.create({
 })
 
 export const ClassicTemplateATS = ({ resumeData, photo }) => {
-	console.log(resumeData)
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
 			<View style={styles.section}>
 				{resumeData.experience.length && (
 					<View>
-						<Text style={styles.subHeader}>Employment History</Text>
+						<Text style={styles.subHeader}>
+							{resumeData.employment_history_title}
+						</Text>
 						<View style={styles.divider} />
 						{resumeData.experience.map((exp, index) => (
 							<View key={index}>
@@ -109,7 +110,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 			<View style={styles.section}>
 				{resumeData.educations.length && (
 					<View>
-						<Text style={styles.subHeader}>Education</Text>
+						<Text style={styles.subHeader}>{resumeData.education_title}</Text>
 						<View style={styles.divider} />
 						{resumeData.educations.map((edu, index) => (
 							<View key={index} style={styles.row}>
@@ -135,7 +136,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 			<View style={styles.section}>
 				{resumeData.skills.length && (
 					<View>
-						<Text style={styles.subHeader}>Skills</Text>
+						<Text style={styles.subHeader}>{resumeData.skills_title}</Text>
 						<View style={styles.divider} />
 						<Text style={{ color: "#717782" }}>
 							{resumeData.skills.map(capitalizeEachWord).join(", ")}
@@ -146,7 +147,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		),
 		[CERTIFICATIONS]: (
 			<View style={styles.section}>
-				<Text style={styles.subHeader}>Certifications</Text>
+				<Text style={styles.subHeader}>{resumeData.certifications_title}</Text>
 				<View style={styles.divider} />
 				{resumeData.certifications.map((cert, index) => (
 					<View key={index} style={styles.row}>
@@ -160,7 +161,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		),
 		[REFERENCES]: (
 			<View style={styles.section}>
-				<Text style={styles.subHeader}>References</Text>
+				<Text style={styles.subHeader}>{resumeData.references_title}</Text>
 				<View style={styles.divider} />
 				{resumeData.references.map((reference, index) => (
 					<Text key={index} style={styles.text}>
@@ -171,7 +172,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		),
 		[LINKS]: (
 			<View style={styles.section}>
-				<Text style={styles.subHeader}>Links</Text>
+				<Text style={styles.subHeader}>{resumeData.links_title}</Text>
 				<View style={styles.divider} />
 				{resumeData.links.map((link, index) => (
 					<Text key={index} style={styles.text}>
@@ -182,7 +183,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		),
 		[LANGUAGES]: (
 			<View style={styles.section}>
-				<Text style={styles.subHeader}>Languages</Text>
+				<Text style={styles.subHeader}>{resumeData.languages_title}</Text>
 				<View style={styles.divider} />
 				<Text style={styles.text}>
 					{resumeData.languages.map((language) => language.language).join(", ")}
@@ -191,7 +192,7 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		),
 		[HOBBIES]: (
 			<View style={styles.section}>
-				<Text style={styles.subHeader}>Hobbies</Text>
+				<Text style={styles.subHeader}>{resumeData.hobbies_title}</Text>
 				<Text style={styles.text}>
 					{resumeData.hobbies.map((hobby) => hobby.hobbies).join(", ")}
 				</Text>
@@ -253,7 +254,9 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 				{/* Objective */}
 				{resumeData.objective && (
 					<View style={styles.section}>
-						<Text style={styles.subHeader}>Summary</Text>
+						<Text style={styles.subHeader}>
+							{resumeData.professional_summary_title}
+						</Text>
 						<View style={styles.divider} />
 						<Text style={styles.text}>
 							{renderRichText(resumeData.objective, 11)}

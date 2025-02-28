@@ -12,13 +12,7 @@ const CreativeTemplate = ({
 	if (!resume) return <p>Loading resume data...</p>
 
 	return (
-		<div
-			className="w-full max-w-[8.5in] aspect-[8.5/11] bg-white shadow-lg rounded-md p-6 mx-auto border overflow-auto"
-			style={{
-				transform: `scale(${Math.min(1, window.innerWidth / 1200)})`, // Dynamic scaling
-				transformOrigin: "top", // Keep scaling from top
-			}}
-		>
+		<div className="element element3 resume-template bg-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] rounded-md p-6 mx-auto border overflow-auto">
 			<div className="p-6 bg-gradient-to-r aspect-[8.5/11] from-purple-500 to-blue-500 text-white rounded-md shadow-lg">
 				<h1 className="text-3xl capitalize font-extrabold whitespace-nowrap">
 					{firstName || resume.firstName} {lastName || resume.lastName}

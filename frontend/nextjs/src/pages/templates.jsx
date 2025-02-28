@@ -1,11 +1,15 @@
-import { templateDesigns } from "@/constants"
+// import { templateDesigns } from "@/constants"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import Image from "next/image"
+import { useContext } from "react"
 
 const ResumeTemplates = () => {
+	const { t, templateDesigns } = useContext(RESUME_CONTEXT)
+
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto p-4 pt-16">
 			<h2 className="text-2xl font-semibold mb-4 text-center">
-				Choose from hundreds of templates
+				{t.resume_builder.pages.templates.choose_from_many}
 			</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{templateDesigns.map((template) => (

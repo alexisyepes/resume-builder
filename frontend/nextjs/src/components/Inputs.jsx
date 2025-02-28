@@ -22,18 +22,11 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function Inputs({
 	t,
-	langPrefix,
 	firstName,
 	setFirstName,
 	lastName,
 	setLastName,
 	jobTitle,
-	email = "",
-	phone = "",
-	address = "",
-	cityPostCode = "",
-	objective = "",
-	objectiveSummary = "",
 	experience = [],
 	suggestedSkills = [],
 	skills = [],
@@ -44,11 +37,6 @@ export default function Inputs({
 	setSkills,
 	setLinks,
 	setExperience,
-	setEmail,
-	setPhone,
-	setAddress,
-	setCityPostCode,
-	setObjective,
 	nextTabHandler,
 	isLoading,
 	regenerateSkillsSuggestions,
@@ -62,7 +50,6 @@ export default function Inputs({
 	setHobbies,
 	customSections,
 	setCustomSections,
-	photo,
 	removeTabHandler,
 	activeTab,
 	tabs,
@@ -145,7 +132,7 @@ export default function Inputs({
 							exit={{ opacity: 0, y: 10 }}
 							transition={{ duration: 0.5 }}
 						>
-							<PersonalInformation />
+							<PersonalInformation nextTabHandler={nextTabHandler} />
 						</motion.div>{" "}
 					</AnimatePresence>
 				)

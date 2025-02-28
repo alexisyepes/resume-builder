@@ -3,7 +3,7 @@ import useResumeStore from "@/store/useResumeStore"
 import { useContext } from "react"
 import { GrLinkNext } from "react-icons/gr"
 
-export default function PersonalInformation() {
+export default function PersonalInformation({ nextTabHandler }) {
 	const {
 		firstName = "",
 		setFirstName = "",
@@ -11,7 +11,6 @@ export default function PersonalInformation() {
 		setLastName = "",
 		jobTitle = "",
 		setJobTitle,
-		nextTabHandler,
 		photo,
 		setPhoto,
 	} = useResumeStore()

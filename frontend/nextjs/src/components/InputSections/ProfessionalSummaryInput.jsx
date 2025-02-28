@@ -7,6 +7,7 @@ import { CiEdit } from "react-icons/ci"
 import CustomTitleInput from "./CustomTitleInput"
 import { GrLinkNext } from "react-icons/gr"
 import useResumeStore from "@/store/useResumeStore"
+import { FaRobot } from "react-icons/fa"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -34,8 +35,6 @@ export default function ProfessionalSummaryInput({
 	inputRef,
 }) {
 	const { objective, setObjective, isLoading, customTitles } = useResumeStore()
-	console.log("Current Custom Titles:", customTitles)
-	console.log("Final Zustand Store:", useResumeStore.getState().customTitles)
 
 	return (
 		<div className="w-full p-2">
@@ -91,7 +90,7 @@ export default function ProfessionalSummaryInput({
 			)}
 
 			{objective && objective.length > 3 && (
-				<div className="flex mt-2 gap-1 flex-row">
+				<div className="flex mt-2 gap-4 flex-col">
 					<button
 						disabled={isLoading || counter === 5 || objective.length < 10}
 						onClick={() => {
@@ -110,17 +109,20 @@ export default function ProfessionalSummaryInput({
 						{isLoading
 							? t.resume_builder.labels.professional_summary.cta_1
 							: t.resume_builder.labels.professional_summary.cta_2}
+						<FaRobot size={30} className="inline ml-4" />
 					</button>
-					<button
-						disabled={!objective}
-						onClick={nextTabHandler}
-						className={`w-full ${
-							!objective ? "bg-cyan-300" : "bg-cyan-500"
-						}  text-white p-2 rounded capitalize`}
-					>
-						{t.resume_builder.labels.general.next}
-						<GrLinkNext className="inline ml-2" />
-					</button>
+					{objective.length > 12 && (
+						<button
+							disabled={!objective}
+							onClick={nextTabHandler}
+							className={`w-full ${
+								!objective ? "bg-cyan-300" : "bg-cyan-500"
+							}  text-white p-2 rounded capitalize`}
+						>
+							{t.resume_builder.labels.general.next}
+							<GrLinkNext className="inline ml-2" />
+						</button>
+					)}
 				</div>
 			)}
 		</div>

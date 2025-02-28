@@ -13,6 +13,34 @@ export default function App({ Component, pageProps }) {
 	const langPrefix = locale
 	const { setPhoto } = useResumeStore()
 
+	const templateDesigns = [
+		{
+			name: t.resume_builder.template_names.classic,
+			value: "classic",
+			image: "/images/templateDesigns/classic.png",
+		},
+		{
+			name: t.resume_builder.template_names.classic_ats,
+			value: "classic-ats",
+			image: "/images/templateDesigns/classic.png",
+		},
+		{
+			name: t.resume_builder.template_names.elegant,
+			value: "elegant",
+			image: "/images/templateDesigns/elegant.png",
+		},
+		{
+			name: t.resume_builder.template_names.modern,
+			value: "modern",
+			image: "/images/templateDesigns/modern.png",
+		},
+		// {
+		// 	name: "Creative - ATS",
+		// 	value: "creative-ats",
+		// 	image: "/images/creative-ats.png",
+		// },
+	]
+
 	const handleImageUpload = (event) => {
 		const file = event.target.files[0]
 		if (!file) return
@@ -32,6 +60,7 @@ export default function App({ Component, pageProps }) {
 					t,
 					langPrefix,
 					handleImageUpload,
+					templateDesigns,
 					...resumeStore,
 				}}
 			>

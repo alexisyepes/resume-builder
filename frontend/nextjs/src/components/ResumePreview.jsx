@@ -42,11 +42,17 @@ export default function ResumePreview({
 				</span>
 				<button
 					className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
-					onClick={handleDownloadPDF}
+					onClick={() => handleDownloadPDF("pdf")}
 				>
 					<FaDownload className="inline mr-2" />
 					{t.resume_builder.labels.general.template_selector.download}
 				</button>
+				{/* <button onClick={() => handleDownloadPDF("txt")}>
+					Download as TXT
+				</button>
+				<button onClick={() => handleDownloadPDF("docx")}>
+					Download as DOCX
+				</button> */}
 			</div>
 			<div className="rounded py-8">
 				<div className="" ref={resumeRef}>

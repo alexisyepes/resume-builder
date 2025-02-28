@@ -12,6 +12,17 @@ import TemplateSelector from "./TemplateSelector"
 import TemplateSlider from "./TemplateSlider"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import useResumeStore from "@/store/useResumeStore"
+import {
+	CERTIFICATIONS,
+	EDUCATION,
+	EMPLOYMENT_HISTORY,
+	HOBBIES,
+	LANGUAGES,
+	LINKS,
+	PROFESSIONAL_SUMMARY,
+	REFERENCES,
+	SKILLS,
+} from "@/constants"
 
 const ResumeGenerator = () => {
 	const {
@@ -72,37 +83,10 @@ const ResumeGenerator = () => {
 		editing,
 		setEditing,
 	} = useResumeStore()
-	const { t, langPrefix } = useContext(RESUME_CONTEXT)
+	const { t, langPrefix, templateDesigns } = useContext(RESUME_CONTEXT)
 
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
-	const templateDesigns = [
-		{
-			name: t.resume_builder.template_names.classic,
-			value: "classic",
-			image: "/images/templateDesigns/classic.png",
-		},
-		{
-			name: t.resume_builder.template_names.classic_ats,
-			value: "classic-ats",
-			image: "/images/templateDesigns/classic.png",
-		},
-		{
-			name: t.resume_builder.template_names.elegant,
-			value: "elegant",
-			image: "/images/templateDesigns/elegant.png",
-		},
-		{
-			name: t.resume_builder.template_names.modern,
-			value: "modern",
-			image: "/images/templateDesigns/modern.png",
-		},
-		// {
-		// 	name: "Creative - ATS",
-		// 	value: "creative-ats",
-		// 	image: "/images/creative-ats.png",
-		// },
-	]
 
 	useEffect(() => {
 		// if (!firstName && !lastName && !jobTitle && defaultResume) {
@@ -201,8 +185,7 @@ const ResumeGenerator = () => {
 		setTabs((prevTabs) => [...prevTabs, newTab])
 	}
 
-	// Function to download PDF
-	const handleDownloadPDF = async () => {
+	const handleDownload = async (format) => {
 		if (!resumeRef.current) return
 
 		if (!firstName || !lastName || !jobTitle) {
@@ -223,6 +206,26 @@ const ResumeGenerator = () => {
 
 		const resumeObj = {
 			resume: {
+				professional_summary_title:
+					customTitles[PROFESSIONAL_SUMMARY] ||
+					t.resume_builder.labels.professional_summary.title,
+				employment_history_title:
+					customTitles[EMPLOYMENT_HISTORY] ||
+					t.resume_builder.labels.employment_history.title,
+				certifications_title:
+					customTitles[CERTIFICATIONS] ||
+					t.resume_builder.labels.certifications.title,
+				links_title: customTitles[LINKS] || t.resume_builder.labels.links.title,
+				skills_title:
+					customTitles[SKILLS] || t.resume_builder.labels.skills.title,
+				education_title:
+					customTitles[EDUCATION] || t.resume_builder.labels.education.title,
+				hobbies_title:
+					customTitles[HOBBIES] || t.resume_builder.labels.hobbies.title,
+				references_title:
+					customTitles[REFERENCES] || t.resume_builder.labels.references.title,
+				languages_title:
+					customTitles[LANGUAGES] || t.resume_builder.labels.languages.title,
 				email,
 				phone,
 				address,
@@ -246,29 +249,38 @@ const ResumeGenerator = () => {
 					content: section.content,
 				})),
 				orderedTabs: tabs,
+				template,
 			},
 		}
 
 		if (template === "classic-ats") {
 			try {
-				resumeObj.resume.template = "1"
-				const response = await axios.post("/api/pdf", resumeObj, {
-					responseType: "blob",
+				const response = await axios.post(
+					`/api/download?format=${format}`,
+					resumeObj,
+					{ responseType: "blob" }
+				)
+
+				const blob = new Blob([response.data], {
+					type:
+						format === "pdf"
+							? "application/pdf"
+							: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 				})
 
-				const url = window.URL.createObjectURL(new Blob([response.data]))
-				const a = document.createElement("a")
-				a.href = url
-				a.download = `${firstName || "resume"}.pdf`
-				document.body.appendChild(a)
-				a.click()
-				window.URL.revokeObjectURL(url)
+				const link = document.createElement("a")
+				link.href = URL.createObjectURL(blob)
+				link.download = `resume.${format}`
+				document.body.appendChild(link)
+				link.click()
+				document.body.removeChild(link)
 			} catch (error) {
-				console.error("Error generating ATS PDF:", error)
+				console.error(`Error generating ${format} file:`, error)
 			}
-			return
+			return // Stop further execution
 		}
 
+		// Generate a simple screenshot-based PDF if API fails (fallback)
 		const pdf = new jsPDF({
 			orientation: "portrait",
 			unit: "pt",
@@ -290,7 +302,7 @@ const ResumeGenerator = () => {
 			<div className="mb-4">
 				<TemplateSelector
 					t={t}
-					handleDownloadPDF={handleDownloadPDF}
+					handleDownloadPDF={handleDownload}
 					setTemplate={setTemplate}
 					showSlider={showSlider}
 					setShowSlider={setShowSlider}
@@ -413,7 +425,7 @@ const ResumeGenerator = () => {
 							t={t}
 							resumeRef={resumeRef}
 							generatedResume={generatedResume.resume}
-							handleDownloadPDF={handleDownloadPDF}
+							handleDownloadPDF={handleDownload}
 							email={email}
 							phone={phone}
 							address={address}

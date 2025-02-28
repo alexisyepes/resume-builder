@@ -1,3 +1,7 @@
+import { PROFESSIONAL_SUMMARY } from "@/constants"
+import useResumeStore from "@/store/useResumeStore"
+import DOMPurify from "dompurify"
+
 const ElegantTemplate = ({
 	resume,
 	email,
@@ -10,10 +14,12 @@ const ElegantTemplate = ({
 	objective,
 	achievements,
 }) => {
+	const { customTitles } = useResumeStore()
+
 	return (
 		<div
 			style={{ backgroundImage: "url(/images/template-bg-1.png)" }}
-			className="resume-template p-10 ring-slate-200 bg-white h-[1056px] w-[816px] mx-auto rounded-md ring-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+			className="element element3 resume-template  p-10 ring-slate-200 bg-white mx-auto rounded-md ring-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
 		>
 			{/* Header Section */}
 			<div className="relative z-10 p-1 pt-4 rounded-md">
@@ -30,10 +36,21 @@ const ElegantTemplate = ({
 			</div>
 
 			{/* Summary Section */}
-			<section className="mt-6">
-				<h2 className="text-xl font-bold text-slate-800">Summary</h2>
-				<p className="text-gray-700 text-sm">{objective || resume.objective}</p>
-			</section>
+			{objective && (
+				<section className="mb-4">
+					<h2 className="text-xl font-bold text-slate-800 mt-4">
+						{customTitles[PROFESSIONAL_SUMMARY] || PROFESSIONAL_SUMMARY}
+					</h2>
+
+					<p className="text-sm text-gray-700">
+						<span
+							dangerouslySetInnerHTML={{
+								__html: DOMPurify.sanitize(objective),
+							}}
+						/>
+					</p>
+				</section>
+			)}
 
 			{/* Experience Section */}
 			<section className="mt-6">

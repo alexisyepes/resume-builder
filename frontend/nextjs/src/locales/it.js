@@ -11,6 +11,9 @@ export default {
 				edit: "Modifica",
 				layout: "Design",
 				next: "Prossimo",
+				reset_all_inputs: "Reimposta tutti i campi",
+				confirm_clear_inputs:
+					"Sei sicuro di voler reimpostare tutti i campi? Perderai tutti i progressi effettuati.",
 				add_more_sections: "Aggiungi altre sezioni",
 				template_selector: {
 					selected_template: "Modello selezionato",
@@ -130,6 +133,68 @@ export default {
 					export_options_description:
 						"Scarica il tuo curriculum nei formati PDF o Word.",
 				},
+				testimonials: {
+					testimonials_title: "Cosa dicono i nostri utenti",
+					testimonials_description:
+						"Scopri come il nostro creatore di curriculum ha aiutato i professionisti a raggiungere i loro obiettivi di carriera.",
+					testimonial_1_name: "Sarah Johnson",
+					testimonial_1_text:
+						"Questo creatore di curriculum mi ha permesso di creare un CV professionale in pochi minuti!",
+					testimonial_2_name: "David Lee",
+					testimonial_2_text:
+						"Ho ottenuto il lavoro dei miei sogni grazie a questo strumento! Altamente raccomandato.",
+				},
+				how_it_works: {
+					title: "Come Funziona",
+					description:
+						"Segui questi semplici passaggi per creare il tuo curriculum perfetto.",
+					steps: [
+						{
+							title: "Scegli un Modello",
+							description:
+								"Seleziona tra una varietà di modelli di curriculum professionali.",
+						},
+						{
+							title: "Compila i Tuoi Dati",
+							description:
+								"Inserisci le tue informazioni e lascia che la nostra IA migliori il tuo contenuto.",
+						},
+						{
+							title: "Scarica e Candidati",
+							description:
+								"Esporta il tuo curriculum e inizia a candidarti con fiducia.",
+						},
+					],
+				},
+				faq: {
+					title: "Domande Frequenti",
+					questions: [
+						{
+							question: "Il generatore di curriculum è gratuito?",
+							answer:
+								"Sì! Puoi creare e scaricare il tuo curriculum gratuitamente.",
+						},
+						{
+							question:
+								"Posso modificare il mio curriculum dopo averlo creato?",
+							answer:
+								"Certo! Puoi modificarlo in qualsiasi momento prima di scaricarlo.",
+						},
+						{
+							question: "In quali formati posso esportare il mio curriculum?",
+							answer: "Puoi esportarlo in formato PDF e Word.",
+						},
+					],
+				},
+				final_cta: {
+					title: "Inizia Subito!",
+					description:
+						"Crea il tuo curriculum professionale in pochi minuti e trova il lavoro dei tuoi sogni.",
+					cta_text: "Crea il Mio Curriculum",
+				},
+			},
+			templates: {
+				choose_from_many: "Scegli tra centinaia di modelli",
 			},
 		},
 		template_names: {

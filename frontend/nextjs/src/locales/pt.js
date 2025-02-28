@@ -11,6 +11,9 @@ export default {
 				edit: "Editar",
 				layout: "Design",
 				next: "Próximo",
+				reset_all_inputs: "Redefinir todas as entradas",
+				confirm_clear_inputs:
+					"Tem certeza de que deseja redefinir todas as entradas? Você perderá todo o progresso feito.",
 				add_more_sections: "Adicionar mais seções",
 				template_selector: {
 					selected_template: "Modelo Selecionado",
@@ -130,6 +133,67 @@ export default {
 					export_options_description:
 						"Baixe seu currículo nos formatos PDF ou Word.",
 				},
+				testimonials: {
+					testimonials_title: "O que nossos usuários dizem",
+					testimonials_description:
+						"Veja como nosso criador de currículos ajudou profissionais a alcançar seus objetivos de carreira.",
+					testimonial_1_name: "Sarah Johnson",
+					testimonial_1_text:
+						"Este criador de currículos tornou muito fácil criar um currículo profissional em minutos!",
+					testimonial_2_name: "David Lee",
+					testimonial_2_text:
+						"Consegui o emprego dos meus sonhos graças a esta ferramenta! Altamente recomendado.",
+				},
+				how_it_works: {
+					title: "Como Funciona",
+					description:
+						"Siga estes passos simples para criar seu currículo perfeito.",
+					steps: [
+						{
+							title: "Escolha um Modelo",
+							description:
+								"Selecione entre uma variedade de modelos de currículos profissionais.",
+						},
+						{
+							title: "Preencha Seus Dados",
+							description:
+								"Insira suas informações e deixe nossa IA aprimorar seu conteúdo.",
+						},
+						{
+							title: "Baixe e Candidate-se",
+							description:
+								"Exporte seu currículo e comece a se candidatar com confiança.",
+						},
+					],
+				},
+				faq: {
+					title: "Perguntas Frequentes",
+					questions: [
+						{
+							question: "O gerador de currículos é gratuito?",
+							answer:
+								"Sim! Você pode criar e baixar seu currículo gratuitamente.",
+						},
+						{
+							question: "Posso editar meu currículo depois de criá-lo?",
+							answer:
+								"Claro! Você pode fazer alterações a qualquer momento antes de baixá-lo.",
+						},
+						{
+							question: "Em quais formatos posso exportar meu currículo?",
+							answer: "Você pode exportá-lo em formatos PDF e Word.",
+						},
+					],
+				},
+				final_cta: {
+					title: "Comece Agora!",
+					description:
+						"Crie seu currículo profissional em minutos e conquiste o emprego dos seus sonhos.",
+					cta_text: "Criar Meu Currículo",
+				},
+			},
+			templates: {
+				choose_from_many: "Escolha entre centenas de modelos",
 			},
 		},
 		template_names: {

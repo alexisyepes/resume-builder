@@ -11,6 +11,9 @@ export default {
 				edit: "edit",
 				layout: "layout",
 				next: "next",
+				reset_all_inputs: "Reset all inputs",
+				confirm_clear_inputs:
+					"Are you sure you want to reset all your inputs? You will lose any progress you've made.",
 				add_more_sections: "Add more Sections",
 				template_selector: {
 					selected_template: "Selected Template",
@@ -130,6 +133,66 @@ export default {
 					export_options_description:
 						"Download your resume in PDF or Word formats.",
 				},
+				testimonials: {
+					testimonials_title: "What Our Users Say",
+					testimonials_description:
+						"See how our resume builder has helped professionals achieve their career goals.",
+					testimonial_1_name: "Sarah Johnson",
+					testimonial_1_text:
+						"This resume builder made it so easy to create a professional resume in minutes!",
+					testimonial_2_name: "David Lee",
+					testimonial_2_text:
+						"I landed my dream job thanks to this tool! Highly recommended.",
+				},
+				how_it_works: {
+					title: "How It Works",
+					description:
+						"Follow these simple steps to create your perfect resume.",
+					steps: [
+						{
+							title: "Choose a Template",
+							description:
+								"Select from a variety of professional resume templates.",
+						},
+						{
+							title: "Fill in Your Details",
+							description:
+								"Enter your information and let our AI enhance your content.",
+						},
+						{
+							title: "Download & Apply",
+							description:
+								"Export your resume and start applying for jobs with confidence.",
+						},
+					],
+				},
+				faq: {
+					title: "Frequently Asked Questions",
+					questions: [
+						{
+							question: "Is the resume builder free to use?",
+							answer: "Yes! You can create and download your resume for free.",
+						},
+						{
+							question: "Can I edit my resume after creating it?",
+							answer:
+								"Of course! You can make changes anytime before downloading.",
+						},
+						{
+							question: "What file formats can I export my resume in?",
+							answer: "You can export your resume in PDF and Word formats.",
+						},
+					],
+				},
+				final_cta: {
+					title: "Get Started Today!",
+					description:
+						"Create your professional resume in minutes and land your dream job.",
+					cta_text: "Build My Resume",
+				},
+			},
+			templates: {
+				choose_from_many: "Choose from hundreds of templates",
 			},
 		},
 		template_names: {
