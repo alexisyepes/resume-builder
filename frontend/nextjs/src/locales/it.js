@@ -196,6 +196,56 @@ export default {
 			templates: {
 				choose_from_many: "Scegli tra centinaia di modelli",
 			},
+			about: {
+				title: "Chi Siamo",
+				subtitle:
+					"Stiamo rivoluzionando il modo in cui vengono creati i curriculum con l'IA.",
+				mission: {
+					title: "La Nostra Missione",
+					description:
+						"La nostra missione è fornire ai candidati strumenti che rendano la creazione del curriculum semplice, efficiente ed efficace. Sfruttiamo l'IA per aiutarti a distinguerti in un mercato del lavoro competitivo.",
+				},
+				values: [
+					{
+						icon: "FaLightbulb",
+						title: "Innovazione",
+						description:
+							"Innoviamo costantemente per offrire soluzioni all'avanguardia per la creazione di curriculum.",
+					},
+					{
+						icon: "FaUsers",
+						title: "Centrato sull'Utente",
+						description:
+							"I nostri strumenti sono progettati pensando all'utente, garantendo un'esperienza fluida.",
+					},
+					{
+						icon: "FaHandshake",
+						title: "Integrità",
+						description:
+							"Crediamo nella trasparenza e nell'onestà in tutto ciò che facciamo.",
+					},
+				],
+				whyChooseUs: [
+					{
+						icon: "FaRocket",
+						title: "Basato sull'IA",
+						description:
+							"La nostra piattaforma utilizza un'IA avanzata per creare curriculum che attirano l'attenzione dei datori di lavoro.",
+					},
+					{
+						icon: "FaClock",
+						title: "Risparmia Tempo",
+						description:
+							"Crea un curriculum professionale in pochi minuti, non ore.",
+					},
+					{
+						icon: "FaUserCheck",
+						title: "Personalizzato per Te",
+						description:
+							"Personalizza il tuo curriculum per ruoli e settori specifici.",
+					},
+				],
+			},
 		},
 		template_names: {
 			classic: "Classico",

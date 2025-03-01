@@ -4,6 +4,7 @@ import "@/styles/globals.css"
 import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
 import useResumeStore from "@/store/useResumeStore"
+import { AuthProvider } from "@/contexts/AuthContext"
 
 export default function App({ Component, pageProps }) {
 	const resumeStore = useResumeStore()
@@ -54,18 +55,20 @@ export default function App({ Component, pageProps }) {
 	}
 
 	return (
-		<Layout>
-			<RESUME_CONTEXT.Provider
-				value={{
-					t,
-					langPrefix,
-					handleImageUpload,
-					templateDesigns,
-					...resumeStore,
-				}}
-			>
-				<Component {...pageProps} />
-			</RESUME_CONTEXT.Provider>
-		</Layout>
+		<AuthProvider>
+			<Layout>
+				<RESUME_CONTEXT.Provider
+					value={{
+						t,
+						langPrefix,
+						handleImageUpload,
+						templateDesigns,
+						...resumeStore,
+					}}
+				>
+					<Component {...pageProps} />
+				</RESUME_CONTEXT.Provider>
+			</Layout>
+		</AuthProvider>
 	)
 }

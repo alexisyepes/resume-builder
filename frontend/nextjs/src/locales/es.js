@@ -194,6 +194,56 @@ export default {
 			templates: {
 				choose_from_many: "Elige entre cientos de plantillas",
 			},
+			about: {
+				title: "Sobre Nosotros",
+				subtitle:
+					"Estamos revolucionando la forma en que se crean los currículums con IA.",
+				mission: {
+					title: "Nuestra Misión",
+					description:
+						"Nuestra misión es empoderar a los buscadores de empleo con herramientas que hacen que la creación de currículums sea sencilla, eficiente y efectiva. Utilizamos IA para ayudarte a destacar en un mercado laboral competitivo.",
+				},
+				values: [
+					{
+						icon: "FaLightbulb",
+						title: "Innovación",
+						description:
+							"Innovamos constantemente para ofrecer soluciones de vanguardia en la creación de currículums.",
+					},
+					{
+						icon: "FaUsers",
+						title: "Centrado en el Usuario",
+						description:
+							"Nuestras herramientas están diseñadas pensando en el usuario, garantizando una experiencia fluida.",
+					},
+					{
+						icon: "FaHandshake",
+						title: "Integridad",
+						description:
+							"Creemos en la transparencia y la honestidad en todo lo que hacemos.",
+					},
+				],
+				whyChooseUs: [
+					{
+						icon: "FaRocket",
+						title: "Impulsado por IA",
+						description:
+							"Nuestra plataforma utiliza IA avanzada para crear currículums que llamen la atención de los empleadores.",
+					},
+					{
+						icon: "FaClock",
+						title: "Ahorra Tiempo",
+						description:
+							"Crea un currículum profesional en minutos, no en horas.",
+					},
+					{
+						icon: "FaUserCheck",
+						title: "Hecho para Ti",
+						description:
+							"Personaliza tu currículum para roles específicos y sectores industriales.",
+					},
+				],
+			},
 		},
 		template_names: {
 			classic: "Clásico",

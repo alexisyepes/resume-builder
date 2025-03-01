@@ -194,6 +194,54 @@ export default {
 			templates: {
 				choose_from_many: "Choose from hundreds of templates",
 			},
+			about: {
+				title: "About Us",
+				subtitle: "We are revolutionizing the way resumes are built using AI.",
+				mission: {
+					title: "Our Mission",
+					description:
+						"Our mission is to empower job seekers with tools that make resume building effortless, efficient, and effective. We leverage AI to help you stand out in a competitive job market.",
+				},
+				values: [
+					{
+						icon: "FaLightbulb",
+						title: "Innovation",
+						description:
+							"We constantly innovate to provide cutting-edge solutions for resume building.",
+					},
+					{
+						icon: "FaUsers",
+						title: "User-Centric",
+						description:
+							"Our tools are designed with the user in mind, ensuring a seamless experience.",
+					},
+					{
+						icon: "FaHandshake",
+						title: "Integrity",
+						description:
+							"We believe in transparency and honesty in everything we do.",
+					},
+				],
+				whyChooseUs: [
+					{
+						icon: "FaRocket",
+						title: "AI-Powered",
+						description:
+							"Our platform uses advanced AI to create resumes that stand out to employers.",
+					},
+					{
+						icon: "FaClock",
+						title: "Save Time",
+						description: "Build a professional resume in minutes, not hours.",
+					},
+					{
+						icon: "FaUserCheck",
+						title: "Tailored for You",
+						description:
+							"Customize your resume for specific job roles and industries.",
+					},
+				],
+			},
 		},
 		template_names: {
 			classic: "classic",

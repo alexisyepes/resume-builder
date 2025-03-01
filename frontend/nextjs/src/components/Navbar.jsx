@@ -41,12 +41,12 @@ const Navbar = () => {
 					>
 						{t.resume_builder.navigation.services}
 					</Link>
-					<Link
+					{/* <Link
 						href="/contact"
 						className="hover:text-blue-500 capitalize transition"
 					>
 						{t.resume_builder.navigation.contact}
-					</Link>
+					</Link> */}
 				</div>
 				<div className="hidden md:flex space-x-6">
 					<LanguageSelector />
@@ -84,13 +84,13 @@ const Navbar = () => {
 						>
 							Services
 						</Link>
-						<Link
+						{/* <Link
 							href="/contact"
 							className="hover:text-blue-500 transition"
 							onClick={() => setIsOpen(false)}
 						>
 							Contact
-						</Link>
+						</Link> */}
 					</div>
 					<LanguageSelector />
 				</motion.div>

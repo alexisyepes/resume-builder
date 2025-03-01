@@ -182,6 +182,50 @@ export default {
 			templates: {
 				choose_from_many: "从数百个模板中选择",
 			},
+			about: {
+				title: "关于我们",
+				subtitle: "我们正在利用人工智能彻底改变简历的制作方式。",
+				mission: {
+					title: "我们的使命",
+					description:
+						"我们的使命是为求职者提供工具，使简历制作变得轻松、高效和有力。我们利用人工智能帮助您在竞争激烈的就业市场中脱颖而出。",
+				},
+				values: [
+					{
+						icon: "FaLightbulb",
+						title: "创新",
+						description: "我们不断创新，提供最前沿的简历制作解决方案。",
+					},
+					{
+						icon: "FaUsers",
+						title: "以用户为中心",
+						description: "我们的工具以用户体验为核心，确保流畅的使用体验。",
+					},
+					{
+						icon: "FaHandshake",
+						title: "诚信",
+						description: "我们在所有事务中坚持透明和诚实的原则。",
+					},
+				],
+				whyChooseUs: [
+					{
+						icon: "FaRocket",
+						title: "人工智能驱动",
+						description:
+							"我们的平台利用先进的人工智能技术，帮助您的简历在招聘者面前脱颖而出。",
+					},
+					{
+						icon: "FaClock",
+						title: "节省时间",
+						description: "几分钟内即可创建专业简历，而非数小时。",
+					},
+					{
+						icon: "FaUserCheck",
+						title: "为您量身定制",
+						description: "根据具体职位和行业定制您的简历。",
+					},
+				],
+			},
 		},
 		template_names: {
 			classic: "经典",

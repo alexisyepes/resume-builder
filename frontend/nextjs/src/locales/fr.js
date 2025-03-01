@@ -194,6 +194,55 @@ export default {
 			templates: {
 				choose_from_many: "Choisissez parmi des centaines de modèles",
 			},
+			about: {
+				title: "À Propos de Nous",
+				subtitle: "Nous révolutionnons la création de CV grâce à l'IA.",
+				mission: {
+					title: "Notre Mission",
+					description:
+						"Notre mission est d'autonomiser les chercheurs d'emploi en leur fournissant des outils qui rendent la création de CV simple, efficace et performante. Nous utilisons l'IA pour vous aider à vous démarquer sur un marché du travail compétitif.",
+				},
+				values: [
+					{
+						icon: "FaLightbulb",
+						title: "Innovation",
+						description:
+							"Nous innovons constamment pour offrir des solutions de pointe pour la création de CV.",
+					},
+					{
+						icon: "FaUsers",
+						title: "Axé sur l'Utilisateur",
+						description:
+							"Nos outils sont conçus en tenant compte des besoins des utilisateurs pour garantir une expérience fluide.",
+					},
+					{
+						icon: "FaHandshake",
+						title: "Intégrité",
+						description:
+							"Nous croyons en la transparence et l'honnêteté dans tout ce que nous faisons.",
+					},
+				],
+				whyChooseUs: [
+					{
+						icon: "FaRocket",
+						title: "Propulsé par l'IA",
+						description:
+							"Notre plateforme utilise une IA avancée pour créer des CV qui attirent l'attention des employeurs.",
+					},
+					{
+						icon: "FaClock",
+						title: "Gagnez du Temps",
+						description:
+							"Créez un CV professionnel en quelques minutes, pas en heures.",
+					},
+					{
+						icon: "FaUserCheck",
+						title: "Adapté pour Vous",
+						description:
+							"Personnalisez votre CV en fonction des postes et des industries ciblés.",
+					},
+				],
+			},
 		},
 		template_names: {
 			classic: "Classique",

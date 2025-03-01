@@ -1,15 +1,22 @@
 const express = require("express")
-const app = express()
-const PORT = 4000
 const cors = require("cors")
-const punycode = require("punycode/")
-
 require("dotenv").config()
-app.use(cors())
-const aiRoutes = require("./routes/ai")
-app.use(express.json())
-app.use(aiRoutes)
 
-app.listen(PORT, () => {
-	console.log("Server listening on port: " + PORT)
+const { sequelize } = require("./models")
+const db = require("./models")
+
+const app = express()
+const PORT = process.env.PORT || 4000
+
+// Middleware
+app.use(cors())
+app.use(express.json())
+
+// Routes
+const aiRoutes = require("./routes/ai")
+app.use(aiRoutes)
+sequelize.sync({ force: false }).then(function () {
+	app.listen(PORT, () => {
+		console.log(`🌎 ==> API server now on port ${PORT} and Database synced ✅!`)
+	})
 })
