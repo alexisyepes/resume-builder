@@ -142,7 +142,7 @@ const ResumeGenerator = () => {
 		try {
 			setIsLoading(true)
 			const response = await axios.post(
-				"http://localhost:4000/generate-skills",
+				`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/generate-skills`,
 				{
 					jobTitle,
 					langPrefix,

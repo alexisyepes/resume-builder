@@ -1,21 +1,47 @@
-import React, { createContext, useState, useContext } from "react"
+import useResumeStore from "@/store/useResumeStore"
+import axios from "axios"
+import { useRouter } from "next/router"
+import { createContext, useContext } from "react"
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null)
-	const [isAuthenticated, setIsAuthenticated] = useState(false)
+	const { isAuthenticated, setIsAuthenticated, user, setUser, setAuthError } =
+		useResumeStore()
+	const router = useRouter()
 
 	const login = async (email, password) => {
-		console.log("Logging in with:", email, password)
-		setUser({ email })
-		setIsAuthenticated(true)
+		try {
+			const response = await axios.post(`http://localhost:4000/login`, {
+				email,
+				password,
+			})
+			localStorage.setItem("token", response.data.token)
+			setUser(response.data.user)
+			setIsAuthenticated(true)
+			router.push("/builder")
+		} catch (error) {
+			console.error("Login failed:", error.response.data.message)
+			setAuthError(error.response.data.message)
+		}
 	}
 
-	const register = async (username, email, password) => {
-		console.log("Registering with:", username, email, password)
-		setUser({ username, email })
-		setIsAuthenticated(true)
+	const register = async (email, password, provider) => {
+		console.log("Server", process.env.NEXT_PUBLIC_BACKEND_SERVER)
+		try {
+			const response = await axios.post(`http://localhost:4000/register`, {
+				provider,
+				email,
+				password,
+			})
+			localStorage.setItem("token", response.data.token)
+			setUser(response.data.user)
+			setIsAuthenticated(true)
+			router.push("/builder")
+		} catch (error) {
+			console.error("Registration failed:", error)
+			alert("Registration failed. Please try again.")
+		}
 	}
 
 	const signInWithGoogle = async () => {
@@ -25,8 +51,10 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	const logout = () => {
+		localStorage.removeItem("token")
 		setUser(null)
 		setIsAuthenticated(false)
+		router.push("/signin")
 	}
 
 	return (

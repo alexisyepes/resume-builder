@@ -8,11 +8,15 @@ import LanguageSelector from "./LanguageSelector"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
+import useResumeStore from "@/store/useResumeStore"
+import { useAuth } from "@/contexts/AuthContext"
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const router = useRouter()
 	const t = loadTranslations(router)
+	const { isAuthenticated } = useResumeStore()
+	const { logout } = useAuth()
 
 	return (
 		<nav className="bg-white shadow-md fixed w-full z-50">
@@ -41,12 +45,23 @@ const Navbar = () => {
 					>
 						{t.resume_builder.navigation.services}
 					</Link>
-					{/* <Link
-						href="/contact"
-						className="hover:text-blue-500 capitalize transition"
-					>
-						{t.resume_builder.navigation.contact}
-					</Link> */}
+					{isAuthenticated && (
+						<div className="flex ml-8">
+							<Link
+								href="/builder"
+								className="hover:text-blue-500 text-cyan-700 transition"
+								onClick={() => setIsOpen(false)}
+							>
+								Dashboard
+							</Link>
+							<p
+								onClick={logout}
+								className="cursor-pointer ml-4 hover:text-yellow-600 text-yellow-500"
+							>
+								Logout
+							</p>
+						</div>
+					)}
 				</div>
 				<div className="hidden md:flex space-x-6">
 					<LanguageSelector />
@@ -84,6 +99,23 @@ const Navbar = () => {
 						>
 							Services
 						</Link>
+						{isAuthenticated && (
+							<div>
+								<Link
+									href="/builder"
+									className="hover:text-blue-500 transition"
+									onClick={() => setIsOpen(false)}
+								>
+									Dashboard
+								</Link>
+								<p
+									onClick={logout}
+									className="cursor-pointer ml-4 hover:text-yellow-600 text-yellow-500"
+								>
+									Logout
+								</p>
+							</div>
+						)}
 						{/* <Link
 							href="/contact"
 							className="hover:text-blue-500 transition"

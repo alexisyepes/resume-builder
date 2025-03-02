@@ -1,17 +1,22 @@
-// src/components/ProtectedRoute.js
 import { useEffect } from "react"
 import { useRouter } from "next/router"
-import { useAuth } from "@/contexts/AuthContext"
+import useResumeStore from "@/store/useResumeStore"
+import { validateToken } from "@/utils"
 
 const ProtectedRoute = ({ children }) => {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated } = useResumeStore()
 	const router = useRouter()
 
 	useEffect(() => {
-		if (!isAuthenticated) {
-			router.push("/signin")
+		const checkAuth = async () => {
+			const isValid = await validateToken()
+			if (!isValid) {
+				router.push("/signin")
+			}
 		}
-	}, [isAuthenticated, router])
+
+		checkAuth()
+	}, [router])
 
 	return isAuthenticated ? children : null
 }

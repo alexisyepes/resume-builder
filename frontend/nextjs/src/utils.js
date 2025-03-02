@@ -1,3 +1,4 @@
+import axios from "axios"
 import en from "./locales/en"
 import es from "./locales/es"
 import fr from "./locales/fr"
@@ -6,6 +7,7 @@ import pt from "./locales/pt"
 import zh from "./locales/zh"
 import hi from "./locales/hi"
 import ar from "./locales/ar"
+import useResumeStore from "./store/useResumeStore"
 
 export const defaultResume = {
 	resume: {
@@ -117,4 +119,31 @@ export const loadTranslations = (router) => {
 
 export const getLangPrefix = (lang) => {
 	return lang === "es" ? "/es" : ""
+}
+
+export const validateToken = async () => {
+	const token = localStorage.getItem("token")
+	if (!token) {
+		return false
+	}
+
+	try {
+		const response = await axios.get(`http://localhost:4000/validate-token`, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+
+		if (response.data.isValid) {
+			const { setIsAuthenticated, setUser } = useResumeStore.getState()
+			setIsAuthenticated(true)
+			setUser(response.data.user)
+			return true
+		} else {
+			localStorage.removeItem("token")
+			return false
+		}
+	} catch (error) {
+		console.error("Token validation failed:", error)
+		localStorage.removeItem("token")
+		return false
+	}
 }

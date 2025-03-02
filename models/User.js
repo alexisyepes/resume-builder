@@ -5,10 +5,12 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
 			primaryKey: true,
 		},
-		name: { type: DataTypes.STRING, allowNull: false },
+		provider: { type: DataTypes.STRING, allowNull: false },
+		firstName: { type: DataTypes.STRING, allowNull: true },
+		lastName: { type: DataTypes.STRING, allowNull: true },
 		email: { type: DataTypes.STRING, allowNull: false, unique: true },
 		password: { type: DataTypes.STRING, allowNull: false },
-		role: { type: DataTypes.ENUM("free", "paid"), defaultValue: "free" },
+		plan: { type: DataTypes.ENUM("free", "paid"), defaultValue: "free" },
 	})
 
 	return User

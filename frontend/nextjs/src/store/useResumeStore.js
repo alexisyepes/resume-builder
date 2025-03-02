@@ -209,10 +209,22 @@ const useResumeStore = create(
 
 			editing: null,
 			setEditing: (editing) => set({ editing }),
+
+			user: null,
+			setUser: (user) => set({ user }),
+
+			authError: null,
+			setAuthError: (authError) => set({ authError }),
+
+			isAuthenticated: false,
+			setIsAuthenticated: (auth) => set({ isAuthenticated: auth }),
 		}),
 		{
 			name: "resume-storage", // Key for localStorage
 			partialize: (state) => ({
+				isAuthenticated: state.isAuthenticated,
+				authError: state.authError,
+				user: state.user,
 				firstName: state.firstName,
 				lastName: state.lastName,
 				jobTitle: state.jobTitle,
