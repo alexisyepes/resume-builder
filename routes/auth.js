@@ -8,7 +8,9 @@ router.get("/validate-token", async (req, res) => {
 	const token = req.headers.authorization?.split(" ")[1]
 
 	if (!token) {
-		return res.status(401).json({ isValid: false })
+		return res
+			.status(401)
+			.json({ isValid: false, message: "No token provided" })
 	}
 
 	try {
@@ -18,12 +20,14 @@ router.get("/validate-token", async (req, res) => {
 		})
 
 		if (!user) {
-			return res.status(401).json({ isValid: false })
+			return res.status(401).json({ isValid: false, message: "User not found" })
 		}
 
 		res.json({ isValid: true, user })
 	} catch (error) {
-		res.status(401).json({ isValid: false })
+		res
+			.status(401)
+			.json({ isValid: false, message: "Invalid or expired token" })
 	}
 })
 

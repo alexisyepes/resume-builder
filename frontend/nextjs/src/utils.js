@@ -8,6 +8,7 @@ import zh from "./locales/zh"
 import hi from "./locales/hi"
 import ar from "./locales/ar"
 import useResumeStore from "./store/useResumeStore"
+import { useRouter } from "next/router"
 
 export const defaultResume = {
 	resume: {
@@ -121,29 +122,58 @@ export const getLangPrefix = (lang) => {
 	return lang === "es" ? "/es" : ""
 }
 
-export const validateToken = async () => {
+export const validateToken = async (router) => {
 	const token = localStorage.getItem("token")
 	if (!token) {
+		if (router) {
+			router.push("/signin")
+		}
 		return false
 	}
+
+	const { setIsAuthenticated, setUser } = useResumeStore.getState()
 
 	try {
 		const response = await axios.get(`http://localhost:4000/validate-token`, {
 			headers: { Authorization: `Bearer ${token}` },
+			validateStatus: (status) => status === 200 || status === 401,
 		})
 
-		if (response.data.isValid) {
-			const { setIsAuthenticated, setUser } = useResumeStore.getState()
+		if (response.status === 200 && response.data.isValid) {
 			setIsAuthenticated(true)
 			setUser(response.data.user)
 			return true
 		} else {
+			setIsAuthenticated(false)
 			localStorage.removeItem("token")
+			if (router) {
+				router.push("/signin")
+			}
 			return false
 		}
 	} catch (error) {
 		console.error("Token validation failed:", error)
+		setIsAuthenticated(false)
 		localStorage.removeItem("token")
+		if (router) {
+			router.push("/signin")
+		}
 		return false
 	}
+}
+
+export const setupAxiosInterceptors = () => {
+	axios.interceptors.response.use(
+		(response) => response,
+		(error) => {
+			if (error.response?.status === 401) {
+				const { setIsAuthenticated, setUser } = useResumeStore.getState()
+				setIsAuthenticated(false)
+				setUser(null)
+				localStorage.removeItem("token")
+				window.location.href = "/signin"
+			}
+			return Promise.reject(error)
+		}
+	)
 }

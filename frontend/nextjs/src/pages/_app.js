@@ -2,9 +2,10 @@ import Layout from "@/components/Layout"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import "@/styles/globals.css"
 import { useRouter } from "next/router"
-import { loadTranslations } from "@/utils"
+import { loadTranslations, setupAxiosInterceptors } from "@/utils"
 import useResumeStore from "@/store/useResumeStore"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { useEffect } from "react"
 
 export default function App({ Component, pageProps }) {
 	const resumeStore = useResumeStore()
@@ -13,6 +14,10 @@ export default function App({ Component, pageProps }) {
 	const { locale } = router
 	const langPrefix = locale
 	const { setPhoto } = useResumeStore()
+
+	useEffect(() => {
+		setupAxiosInterceptors()
+	}, [])
 
 	const templateDesigns = [
 		{
