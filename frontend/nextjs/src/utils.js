@@ -8,7 +8,6 @@ import zh from "./locales/zh"
 import hi from "./locales/hi"
 import ar from "./locales/ar"
 import useResumeStore from "./store/useResumeStore"
-import { useRouter } from "next/router"
 
 export const defaultResume = {
 	resume: {
@@ -160,20 +159,4 @@ export const validateToken = async (router) => {
 		}
 		return false
 	}
-}
-
-export const setupAxiosInterceptors = () => {
-	axios.interceptors.response.use(
-		(response) => response,
-		(error) => {
-			if (error.response?.status === 401) {
-				const { setIsAuthenticated, setUser } = useResumeStore.getState()
-				setIsAuthenticated(false)
-				setUser(null)
-				localStorage.removeItem("token")
-				window.location.href = "/signin"
-			}
-			return Promise.reject(error)
-		}
-	)
 }

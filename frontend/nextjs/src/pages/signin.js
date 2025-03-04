@@ -34,12 +34,13 @@ const Signin = ({ props }) => {
 
 	const handleSubmit = async (e, provider) => {
 		e.preventDefault()
+		if (!email || !password) {
+			return alert("You must enter email and password!")
+		}
 
 		try {
 			if (isLogin) {
-				const authResponse = await login(email, password)
-				console.log("Auth Response", authResponse)
-				// router.push("/builder")
+				await login(email, password)
 			} else {
 				if (password !== confirmPassword) {
 					alert("Passwords do not match!")
@@ -85,26 +86,6 @@ const Signin = ({ props }) => {
 					{isLogin ? "Login" : "Register"}
 				</h2>
 				<form onSubmit={handleSubmit}>
-					{!isLogin && (
-						<motion.div
-							initial={{ opacity: 0, x: -20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.5 }}
-							className="mb-4"
-						>
-							<label className="block text-sm font-medium mb-2">Username</label>
-							<div className="relative">
-								<FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-								<input
-									type="text"
-									placeholder="Username"
-									value={username}
-									onChange={(e) => setUsername(e.target.value)}
-									className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-								/>
-							</div>
-						</motion.div>
-					)}
 					<div className="mb-4">
 						<label className="block text-sm font-medium mb-2">Email</label>
 						<div className="relative">

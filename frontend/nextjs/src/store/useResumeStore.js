@@ -218,6 +218,46 @@ const useResumeStore = create(
 
 			isAuthenticated: false,
 			setIsAuthenticated: (auth) => set({ isAuthenticated: auth }),
+
+			// Reset function
+			reset: () => {
+				set({
+					firstName: "",
+					lastName: "",
+					jobTitle: "",
+					photo: "",
+					fileName: "",
+					email: "",
+					phone: "",
+					address: "",
+					cityPostCode: "",
+					tabs: [
+						PERSONAL_DETAILS,
+						CONTACT_INFORMATION,
+						PROFESSIONAL_SUMMARY,
+						SKILLS,
+						EMPLOYMENT_HISTORY,
+						EDUCATION,
+					],
+					skills: [],
+					suggestedSkills: [],
+					languages: [],
+					experience: [],
+					certifications: [],
+					references: [],
+					educations: [],
+					links: [],
+					hobbies: [],
+					objective: "",
+					generatedResume: defaultResume,
+					activeTab: PERSONAL_DETAILS,
+					showSlider: false,
+					customSections: [],
+					customTitles: { ...initialCustomTitles },
+					editing: null,
+					authError: null,
+				})
+			},
 		}),
 		{
 			name: "resume-storage", // Key for localStorage

@@ -1,10 +1,13 @@
+import useResumeStore from "@/store/useResumeStore"
 import { CiEdit } from "react-icons/ci"
 import { IoHammerOutline } from "react-icons/io5"
 import { RxReload } from "react-icons/rx"
 
 export default function TemplateSelector({ setShowSlider, showSlider, t }) {
+	const resetResume = useResumeStore((state) => state.reset)
+
 	return (
-		<div className="flex template_selector_buttons items-center mx-auto w-1/2 justify-start gap-4">
+		<div className="flex template_selector_buttons px-2 items-center mx-auto justify-start mt-2 gap-4">
 			<button
 				onClick={() => setShowSlider(false)}
 				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
@@ -16,8 +19,8 @@ export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 			</button>
 			<button
 				onClick={() => setShowSlider(true)}
-				className={`bg-teal-500 capitalize text-white text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-teal-600 ${
-					showSlider ? "ring-cyan-800 ring-2" : ""
+				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
+					showSlider ? "ring-teal-500 ring-2" : ""
 				}`}
 			>
 				<IoHammerOutline className="inline mr-2" />{" "}
@@ -27,13 +30,10 @@ export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 				onClick={() => {
 					if (
 						window.confirm(t.resume_builder.labels.general.confirm_clear_inputs)
-					) {
-						localStorage.clear()
-						window.location.reload()
-					}
+					)
+						resetResume()
 				}}
-				className={`bg-red-400 capitalize text-white text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-red-600 ${
-					showSlider ? "ring-red-800 ring-2" : ""
+				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100
 				}`}
 			>
 				<RxReload className="inline mr-2" />{" "}

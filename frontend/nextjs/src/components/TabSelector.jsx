@@ -76,12 +76,15 @@ const DraggableTab = ({
 			className={`${
 				activeTab === tab
 					? "bg-cyan-500 text-white"
-					: "bg-cyan-100 text-gray-700 hover:bg-blue-100"
-			} flex justify-between items-center rounded-sm px-4 py-2 cursor-${
+					: "text-black hover:bg-gray-200"
+			} flex justify-between items-center rounded-sm px-4 py-3 cursor-${
 				isReadOnly ? "default" : "grab"
 			} ${isDragging ? "opacity-50" : ""}`}
 		>
-			<button className="w-full text-left" onClick={() => onTabChange(tab)}>
+			<button
+				className="w-full font-bold text-left"
+				onClick={() => onTabChange(tab)}
+			>
 				{!READ_ONLY_TABS.includes(tab) && (
 					<MdOutlineDragIndicator className="cursor-move inline mr-2" />
 				)}
@@ -165,7 +168,7 @@ export default function TabSelector({
 	moveTabHandler,
 	setActiveTab,
 }) {
-	const [isAddSectionOpen, setIsAddSectionOpen] = useState(false)
+	const [isAddSectionOpen, setIsAddSectionOpen] = useState(true)
 	const { tabs } = useResumeStore()
 
 	const AVAILABLE_SECTIONS = [
@@ -182,7 +185,7 @@ export default function TabSelector({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div className="w-full  bg-white p-4 border rounded-md shadow-md">
+			<div className="w-full bg-gray-100 p-4 min-h-screen border rounded-md shadow-md">
 				<ul className="space-y-2">
 					{tabs.map((tab, index) => (
 						<DraggableTab
