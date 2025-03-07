@@ -13,7 +13,7 @@ import {
 	REFERENCES,
 	LANGUAGES,
 } from "@/constants"
-import { defaultResume } from "@/utils"
+import { defaultResume } from "@/defaultResume"
 
 const initialCustomTitles = {
 	[PROFESSIONAL_SUMMARY]: "",

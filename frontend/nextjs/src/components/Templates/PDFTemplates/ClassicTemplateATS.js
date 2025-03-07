@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
 })
 
 export const ClassicTemplateATS = ({ resumeData, photo }) => {
+	console.log(photo)
 	const sectionMap = {
 		[EMPLOYMENT_HISTORY]: (
 			<View style={styles.section}>
@@ -220,10 +221,10 @@ export const ClassicTemplateATS = ({ resumeData, photo }) => {
 		<Document>
 			<Page size="LETTER" style={styles.page}>
 				<View style={{ textAlign: "center", marginBottom: 20 }}>
-					{photo && (
+					{resumeData.photo && (
 						<View style={{ alignItems: "center", marginBottom: 10 }}>
 							<Image
-								src={photo}
+								src={resumeData.photo}
 								style={{ width: 80, height: 80, borderRadius: 40 }}
 							/>
 						</View>

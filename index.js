@@ -8,14 +8,18 @@ require("dotenv").config()
 
 // Middleware
 app.use(cors())
-app.use(express.json())
+// Use express.json with increased limit for larger payloads
+app.use(express.json({ limit: "150mb" }))
+app.use(express.urlencoded({ limit: "150mb", extended: true }))
 
 // Routes
 const authRoutes = require("./routes/auth")
 const aiRoutes = require("./routes/ai")
+const resumeRoutes = require("./routes/resume")
 
 app.use(aiRoutes)
 app.use(authRoutes)
+app.use(resumeRoutes)
 
 sequelize.sync({ force: false }).then(function () {
 	app.listen(PORT, () => {

@@ -7,6 +7,7 @@ import { GrLinkNext } from "react-icons/gr"
 import useResumeStore from "@/store/useResumeStore"
 import { SKILLS } from "@/constants"
 import { CiEdit } from "react-icons/ci"
+import { BsStars } from "react-icons/bs"
 import CustomTitleInput from "./CustomTitleInput"
 
 export default function SkillsInput({
@@ -98,13 +99,14 @@ export default function SkillsInput({
 				</h5>
 				<button
 					onClick={regenerateSkillsSuggestions}
-					className="bg-purple-500 rounded-md px-2 py-1 text-white w-full inline-block"
+					className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 rounded-md px-2 py-1 text-white w-full inline-block"
 				>
-					<RxReload color="" className="inline mr-2" />
+					{/* <RxReload color="" className="inline mr-2" /> */}
 					{!suggestedSkills.length
 						? t.resume_builder.labels.skills.cta_1
 						: t.resume_builder.labels.skills.cta_2}{" "}
-					{t.resume_builder.labels.skills.cta_3}
+					{t.resume_builder.labels.skills.cta_3}{" "}
+					<BsStars size={30} className="inline ml-4" />
 				</button>
 				{isLoading ? (
 					<RingLoader className="mx-auto my-8" size={55} color="purple" />

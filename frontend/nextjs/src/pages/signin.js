@@ -13,7 +13,6 @@ import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
 
 const Signin = ({ props }) => {
-	console.log("props", props)
 	const [isLogin, setIsLogin] = useState(true)
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")

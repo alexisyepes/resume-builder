@@ -1,10 +1,10 @@
 import { useRef, useEffect, useContext } from "react"
+import ReactDOMServer from "react-dom/server"
 import axios from "axios"
 import { FaLongArrowAltLeft } from "react-icons/fa"
 import { IoIosClose } from "react-icons/io"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
-import { defaultResume } from "@/utils"
 import Inputs from "./Inputs"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
@@ -23,6 +23,8 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
+import { defaultResume } from "@/defaultResume"
+import ClassicTemaplateATS from "./Templates/ClassicTemplateATS"
 
 const ResumeGenerator = () => {
 	const {

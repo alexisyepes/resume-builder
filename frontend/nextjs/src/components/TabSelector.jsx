@@ -75,14 +75,14 @@ const DraggableTab = ({
 			ref={!isReadOnly ? (node) => drag(drop(node)) : null}
 			className={`${
 				activeTab === tab
-					? "bg-cyan-500 text-white"
+					? "bg-cyan-500 text-white outline-none border-none"
 					: "text-black hover:bg-gray-200"
 			} flex justify-between items-center rounded-sm px-4 py-3 cursor-${
 				isReadOnly ? "default" : "grab"
 			} ${isDragging ? "opacity-50" : ""}`}
 		>
-			<button
-				className="w-full font-bold text-left"
+			<span
+				className="w-full cursor-pointer outline-none border-none text-left"
 				onClick={() => onTabChange(tab)}
 			>
 				{!READ_ONLY_TABS.includes(tab) && (
@@ -141,7 +141,7 @@ const DraggableTab = ({
 					: tab === HOBBIES
 					? t.resume_builder.labels.hobbies.title
 					: tab}
-			</button>
+			</span>
 			{!isReadOnly && (
 				<RiDeleteBin5Line
 					onClick={() => {
@@ -185,7 +185,7 @@ export default function TabSelector({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div className="w-full bg-gray-100 p-4 min-h-screen border rounded-md shadow-md">
+			<div className="w-full bg-gray-200 p-4 min-h-screen border rounded-md shadow-md">
 				<ul className="space-y-2">
 					{tabs.map((tab, index) => (
 						<DraggableTab

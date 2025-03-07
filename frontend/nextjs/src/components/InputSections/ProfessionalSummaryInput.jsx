@@ -7,7 +7,7 @@ import { CiEdit } from "react-icons/ci"
 import CustomTitleInput from "./CustomTitleInput"
 import { GrLinkNext } from "react-icons/gr"
 import useResumeStore from "@/store/useResumeStore"
-import { FaRobot } from "react-icons/fa"
+import { BsStars } from "react-icons/bs"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
@@ -102,14 +102,14 @@ export default function ProfessionalSummaryInput({
 						className={`w-full ${
 							isLoading || objective.length < 10 || counter === 5
 								? "bg-purple-400"
-								: "bg-purple-500"
+								: "bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600"
 						}  text-white p-2 rounded`}
 					>
-						<RxReload color="" className="inline mr-2" />
+						{/* <RxReload color="" className="inline mr-2" /> */}
 						{isLoading
 							? t.resume_builder.labels.professional_summary.cta_1
 							: t.resume_builder.labels.professional_summary.cta_2}
-						<FaRobot size={30} className="inline ml-4" />
+						<BsStars size={30} className="inline ml-4" />
 					</button>
 					{objective.length > 12 && (
 						<button

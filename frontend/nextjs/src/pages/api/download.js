@@ -31,6 +31,7 @@ export default async function handler(req, res) {
 					"Content-Disposition",
 					'attachment; filename="resume.pdf"'
 				)
+				console.log(resumeData)
 				return pdfStream.pipe(res)
 			} else {
 				return res
