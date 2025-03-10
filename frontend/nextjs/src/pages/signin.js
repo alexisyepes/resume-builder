@@ -1,12 +1,11 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
 import { FaLock, FaEnvelope, FaArrowRight, FaGoogle } from "react-icons/fa"
 import { useAuth } from "@/contexts/AuthContext"
 import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
-import { RESUME_CONTEXT } from "@/contexts/resumeContext"
-import { loadTranslations } from "@/utils"
+\import { loadTranslations } from "@/utils"
 
 const Signin = () => {
 	const [isLogin, setIsLogin] = useState(true)

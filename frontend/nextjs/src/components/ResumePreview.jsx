@@ -62,7 +62,7 @@ export default function ResumePreview({
 		if (pages.length === 0) {
 			paginateContent()
 		}
-	}, [])
+	}, [pages])
 
 	useLayoutEffect(() => {
 		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
@@ -86,77 +86,9 @@ export default function ResumePreview({
 		cityPostCode,
 		objective,
 		skills,
-		tabs,
-	])
-
-	useEffect(() => {
-		requestAnimationFrame(() => {
-			paginateContent()
-		})
-	}, [tabs])
-
-	const paginateContent = () => {
-		const content = resumeRef.current
-		if (!content) return
-
-		const newPages = []
-		let currentPage = []
-		let currentHeight = 0
-		tabs.forEach((tab) => {
-			// if (tab === CONTACT_INFORMATION) return
-			// if (!(tab in sectionRefs)) return
-
-			const section = sectionRefs[tab].current
-			if (!section) return
-
-			const sectionHeight = section.offsetHeight || 0
-
-			if (currentHeight + sectionHeight > letterSizeHeight) {
-				newPages.push(currentPage)
-				currentPage = []
-				currentHeight = 0
-			}
-			currentPage.push(
-				React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
-			)
-			currentHeight += sectionHeight
-		})
-
-		if (currentPage.length) {
-			newPages.push(currentPage)
-		}
-
-		// ✅ Ensure at least one empty page if nothing is set
-		if (newPages.length === 0) {
-			newPages.push([])
-		}
-
-		setPages(newPages)
-	}
-
-	useEffect(() => {
-		paginateContent()
-	}, [
-		photo,
-		firstName,
-		lastName,
-		jobTitle,
-		email,
-		phone,
-		address,
-		cityPostCode,
-		objective,
-		tabs,
-		experience,
-		skills,
 		certifications,
-		educations,
-		references,
-		links,
-		hobbies,
-		customSections,
 		languages,
-		customTitles,
+		tabs,
 	])
 
 	const sectionRefs = {
@@ -173,6 +105,51 @@ export default function ResumePreview({
 		[HOBBIES]: useRef(null),
 		[CUSTOM_SECTION]: useRef(null),
 	}
+
+	const paginateContent = () => {
+		const content = resumeRef.current
+		if (!content) return
+
+		const newPages = []
+		let currentPage = []
+		let currentHeight = 0
+
+		tabs.forEach((tab) => {
+			const section = sectionRefs[tab].current
+			if (!section) return
+
+			const sectionHeight = section.offsetHeight || 0
+
+			if (currentHeight + sectionHeight > letterSizeHeight) {
+				newPages.push(currentPage)
+				currentPage = []
+				currentHeight = 0
+			}
+
+			currentPage.push(
+				React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
+			)
+			currentHeight += sectionHeight
+		})
+
+		if (currentPage.length) {
+			newPages.push(currentPage)
+		}
+
+		if (newPages.length === 0) {
+			newPages.push([])
+		}
+
+		setPages(newPages)
+	}
+
+	useLayoutEffect(() => {
+		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
+	}, [tabs])
+
+	useEffect(() => {
+		paginateContent()
+	}, [pages])
 
 	const handleDownload = async () => {
 		const htmlContent = `
