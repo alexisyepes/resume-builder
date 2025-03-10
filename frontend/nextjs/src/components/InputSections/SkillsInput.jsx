@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { MdOutlineEdit, MdOutlineDeleteOutline } from "react-icons/md"
-import { RxReload } from "react-icons/rx"
 import RingLoader from "react-spinners/RingLoader"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { GrLinkNext } from "react-icons/gr"

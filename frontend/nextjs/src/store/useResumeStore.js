@@ -17,6 +17,7 @@ import { defaultResume } from "@/defaultResume"
 
 const initialCustomTitles = {
 	[PROFESSIONAL_SUMMARY]: "",
+	[CONTACT_INFORMATION]: "",
 	[EDUCATION]: "",
 	[SKILLS]: "",
 	[EMPLOYMENT_HISTORY]: "",
@@ -74,7 +75,14 @@ const useResumeStore = create(
 				})),
 
 			skills: [],
-			setSkills: (skills) => set({ skills }),
+			setSkills: (updater) =>
+				set((state) => {
+					const newData =
+						typeof updater === "function" ? updater(state.skills) : updater
+					return {
+						skills: Array.isArray(newData) ? [...newData] : [...state.skills],
+					}
+				}),
 
 			suggestedSkills: [],
 			setSuggestedSkills: (suggestedSkills) => set({ suggestedSkills }),

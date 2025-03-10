@@ -7,6 +7,12 @@ import { loadTranslations } from "@/utils"
 import { AiOutlineRobot } from "react-icons/ai"
 import { MdDesignServices, MdFileDownload, MdVerified } from "react-icons/md"
 import FAQSection from "./FAQSection"
+import dynamic from "next/dynamic" // Import dynamic from Next.js
+
+// Dynamically import TransparentTouchscreen with SSR disabled
+const TransparentTouchscreen = dynamic(() => import("../TouchScreen"), {
+	ssr: false,
+})
 
 const heroImage = "/images/home_hero2.jpg" // Update with your home page hero image
 
@@ -110,6 +116,11 @@ const Home = () => {
 						</motion.div>
 					))}
 				</div>
+			</div>
+
+			{/* Transparent Touchscreen Demo */}
+			<div className="w-full mt-20">
+				<TransparentTouchscreen />
 			</div>
 
 			{/* FAQ Section */}

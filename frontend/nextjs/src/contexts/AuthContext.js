@@ -2,6 +2,7 @@ import useResumeStore from "@/store/useResumeStore"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { createContext, useContext } from "react"
+import { loadTranslations } from "@/utils"
 
 const AuthContext = createContext()
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
 	const { isAuthenticated, setIsAuthenticated, user, setUser, setAuthError } =
 		useResumeStore()
 	const router = useRouter()
+	const t = loadTranslations(router)
 
 	const login = async (email, password) => {
 		try {
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 			router.push("/builder")
 		} catch (error) {
 			console.error("Login failed:", error.response.data.message)
-			setAuthError(error.response.data.message)
+			setAuthError(t.resume_builder.pages.signin.invalid_credentials)
 		}
 	}
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }) => {
 
 	const signInWithGoogle = async () => {
 		console.log("Signing in with Google")
+		//@TODO
 		setUser({ email: "googleuser@example.com" })
 		setIsAuthenticated(true)
 	}

@@ -223,7 +223,7 @@ export default function TabSelector({
 									onClick={() => {
 										addTabHandler(section)
 										setActiveTab(section)
-										setIsAddSectionOpen(!isAddSectionOpen)
+										// setIsAddSectionOpen(!isAddSectionOpen)
 									}}
 									disabled={tabs.includes(section)}
 									className={`${

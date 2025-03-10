@@ -1,5 +1,4 @@
 import { useRef, useEffect, useContext } from "react"
-import ReactDOMServer from "react-dom/server"
 import axios from "axios"
 import { FaLongArrowAltLeft } from "react-icons/fa"
 import { IoIosClose } from "react-icons/io"
@@ -24,7 +23,6 @@ import {
 	SKILLS,
 } from "@/constants"
 import { defaultResume } from "@/defaultResume"
-import ClassicTemaplateATS from "./Templates/ClassicTemplateATS"
 
 const ResumeGenerator = () => {
 	const {
@@ -91,11 +89,6 @@ const ResumeGenerator = () => {
 	const inputRef = useRef(null)
 
 	useEffect(() => {
-		// if (!firstName && !lastName && !jobTitle && defaultResume) {
-		// 	setFirstName(generatedResume.name)
-		// 	setJobTitle(generatedResume.jobTitle)
-		// 	setJobTitle(generatedResume.jobTitle)
-		// }
 		setGeneratedResume(defaultResume)
 	}, [])
 

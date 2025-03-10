@@ -5,6 +5,7 @@ export default {
 			about: "关于我们",
 			services: "服务",
 			contact: "联系我们",
+			signin: "登录",
 		},
 		labels: {
 			general: {
@@ -225,6 +226,23 @@ export default {
 						description: "根据具体职位和行业定制您的简历。",
 					},
 				],
+			},
+			signin: {
+				title: "登录",
+				email: "电子邮件",
+				password: "密码",
+				confirm_password: "确认密码",
+				cta: "登录",
+				no_account: "还没有账户？",
+				register: "注册",
+				or: "或",
+				signup_with_google: "使用 Google 注册",
+				already_an_account: "已有账户？",
+				invalid_credentials: "无效的凭据",
+				account_exists: "您的电子邮件已关联一个账户",
+				cta_forgot_password: "点击忘记密码",
+				try_again: "请再试一次",
+				forgot_password: "忘记密码",
 			},
 		},
 		template_names: {

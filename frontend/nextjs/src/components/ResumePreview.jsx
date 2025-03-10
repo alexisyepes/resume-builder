@@ -46,7 +46,7 @@ export default function ResumePreview({
 	customSections,
 	photo,
 	template,
-	handleDownloadPDF,
+	// handleDownloadPDF, // Old method
 	languages,
 }) {
 	const [pages, setPages] = useState([])
@@ -58,15 +58,15 @@ export default function ResumePreview({
 	const t = loadTranslations(router)
 	const mt_sections = "mt-4"
 
-	useEffect(() => {
-		console.log(pages)
-	}, [pages])
-
 	useLayoutEffect(() => {
 		if (pages.length === 0) {
 			paginateContent()
 		}
 	}, [])
+
+	useLayoutEffect(() => {
+		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
+	}, [tabs])
 
 	useLayoutEffect(() => {
 		if (pages.length === 0) {
@@ -85,6 +85,7 @@ export default function ResumePreview({
 		address,
 		cityPostCode,
 		objective,
+		skills,
 		tabs,
 	])
 
@@ -102,9 +103,8 @@ export default function ResumePreview({
 		let currentPage = []
 		let currentHeight = 0
 		tabs.forEach((tab) => {
-			console.log(tab)
-			if (tab === CONTACT_INFORMATION) return
-			if (!(tab in sectionRefs)) return
+			// if (tab === CONTACT_INFORMATION) return
+			// if (!(tab in sectionRefs)) return
 
 			const section = sectionRefs[tab].current
 			if (!section) return
@@ -116,7 +116,6 @@ export default function ResumePreview({
 				currentPage = []
 				currentHeight = 0
 			}
-
 			currentPage.push(
 				React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
 			)
@@ -158,11 +157,11 @@ export default function ResumePreview({
 		customSections,
 		languages,
 		customTitles,
-		// paginateContent,
 	])
 
 	const sectionRefs = {
 		[PERSONAL_DETAILS]: useRef(null),
+		[CONTACT_INFORMATION]: useRef(null),
 		[PROFESSIONAL_SUMMARY]: useRef(null),
 		[EMPLOYMENT_HISTORY]: useRef(null),
 		[EDUCATION]: useRef(null),
@@ -275,10 +274,11 @@ export default function ResumePreview({
 						</div>
 					)}
 					<h1 className="text-2xl capitalize font-bold">
-						{firstName || resume.firstName} {lastName || resume.lastName}
+						{firstName || generatedResume.firstName}{" "}
+						{lastName || generatedResume.lastName}
 					</h1>
 					<p className="text-sm font-bold text-black capitalize">
-						{jobTitle || resume.jobTitle}
+						{jobTitle || generatedResume.jobTitle}
 					</p>
 					<p className="text-sm">
 						{email} {email && phone && "|"} {phone}
@@ -290,7 +290,6 @@ export default function ResumePreview({
 				</div>
 			</section>
 		),
-
 		[PROFESSIONAL_SUMMARY]: (
 			<section ref={sectionRefs[PROFESSIONAL_SUMMARY]} className="mb-4">
 				<h2 className="text-lg relative border-b-2 border-black font-semibold mb-2">

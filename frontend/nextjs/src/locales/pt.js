@@ -5,6 +5,7 @@ export default {
 			about: "Sobre",
 			services: "Serviços",
 			contact: "Contato",
+			signin: "Entrar",
 		},
 		labels: {
 			general: {
@@ -244,6 +245,23 @@ export default {
 							"Personalize seu currículo para funções e setores específicos.",
 					},
 				],
+			},
+			signin: {
+				title: "Entrar",
+				email: "Email",
+				password: "Senha",
+				confirm_password: "Confirmar Senha",
+				cta: "Entrar",
+				no_account: "Ainda não tem uma conta",
+				register: "Registrar",
+				or: "ou",
+				signup_with_google: "Cadastre-se com o Google",
+				already_an_account: "Já tem uma conta",
+				invalid_credentials: "Credenciais inválidas",
+				account_exists: "Já existe uma conta associada ao seu email",
+				cta_forgot_password: "Clique em esqueci a senha",
+				try_again: "Por favor, tente novamente",
+				forgot_password: "Esqueci a senha",
 			},
 		},
 		template_names: {

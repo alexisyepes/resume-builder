@@ -45,7 +45,7 @@ const Navbar = () => {
 					>
 						{t.resume_builder.navigation.services}
 					</Link>
-					{isAuthenticated && (
+					{isAuthenticated ? (
 						<div className="flex ml-8">
 							<Link
 								href="/builder"
@@ -61,6 +61,13 @@ const Navbar = () => {
 								Logout
 							</p>
 						</div>
+					) : (
+						<Link
+							href="/signin"
+							className="hover:text-blue-500 capitalize transition"
+						>
+							{t.resume_builder.navigation.signin}
+						</Link>
 					)}
 				</div>
 				<div className="hidden md:flex space-x-6">

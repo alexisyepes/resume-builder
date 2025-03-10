@@ -5,6 +5,7 @@ export default {
 			about: "Chi siamo",
 			services: "Servizi",
 			contact: "Contatto",
+			signin: "Accedi",
 		},
 		labels: {
 			general: {
@@ -245,6 +246,23 @@ export default {
 							"Personalizza il tuo curriculum per ruoli e settori specifici.",
 					},
 				],
+			},
+			signin: {
+				title: "Accedi",
+				email: "Email",
+				password: "Password",
+				confirm_password: "Conferma Password",
+				cta: "Accedi",
+				no_account: "Non hai ancora un account",
+				register: "Registrati",
+				or: "o",
+				signup_with_google: "Registrati con Google",
+				already_an_account: "Hai già un account",
+				invalid_credentials: "Credenziali non valide",
+				account_exists: "Esiste già un account associato alla tua email",
+				cta_forgot_password: "Clicca su password dimenticata",
+				try_again: "Per favore riprova",
+				forgot_password: "Password dimenticata",
 			},
 		},
 		template_names: {

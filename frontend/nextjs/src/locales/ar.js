@@ -5,6 +5,7 @@ export default {
 			about: "معلومات عنا",
 			services: "الخدمات",
 			contact: "اتصل بنا",
+			signin: "تسجيل الدخول",
 		},
 		labels: {
 			general: {
@@ -241,6 +242,23 @@ export default {
 							"قم بتخصيص سيرتك الذاتية وفقًا للأدوار الوظيفية والصناعات المختلفة.",
 					},
 				],
+			},
+			signin: {
+				title: "تسجيل الدخول",
+				email: "البريد الإلكتروني",
+				password: "كلمة المرور",
+				confirm_password: "تأكيد كلمة المرور",
+				cta: "تسجيل الدخول",
+				no_account: "ليس لديك حساب بعد؟",
+				register: "تسجيل",
+				or: "أو",
+				signup_with_google: "سجل باستخدام جوجل",
+				already_an_account: "هل لديك حساب بالفعل؟",
+				invalid_credentials: "بيانات الاعتماد غير صالحة",
+				account_exists: "هناك بالفعل حساب مرتبط ببريدك الإلكتروني",
+				cta_forgot_password: "اضغط على نسيت كلمة المرور",
+				try_again: "يرجى المحاولة مرة أخرى",
+				forgot_password: "نسيت كلمة المرور",
 			},
 		},
 		template_names: {

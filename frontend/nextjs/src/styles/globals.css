@@ -188,6 +188,7 @@ body {
 		width: 100%;
 		overflow-x: auto;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 	}
 
@@ -219,6 +220,7 @@ body {
 		width: 100%;
 		overflow-x: auto;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 	}
 
@@ -252,3 +254,22 @@ body {
 		page-break-inside: avoid;
 	}
 } */
+
+@keyframes holographic {
+	0% {
+		text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 20px #8b5cf6,
+			0 0 40px #8b5cf6;
+	}
+	50% {
+		text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 40px #3b82f6,
+			0 0 80px #3b82f6;
+	}
+	100% {
+		text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 20px #8b5cf6,
+			0 0 40px #8b5cf6;
+	}
+}
+
+.holographic-text {
+	animation: holographic 3s infinite;
+}

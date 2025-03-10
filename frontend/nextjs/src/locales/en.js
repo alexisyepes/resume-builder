@@ -5,6 +5,7 @@ export default {
 			about: "about",
 			services: "services",
 			contact: "contact",
+			signin: "sign in",
 		},
 		labels: {
 			general: {
@@ -241,6 +242,30 @@ export default {
 							"Customize your resume for specific job roles and industries.",
 					},
 				],
+			},
+			signin: {
+				title: "Log in",
+				email: "Email",
+				password: "Password",
+				confirm_password: "Confirm Password",
+				cta: "Log in",
+				no_account: "Don't have an account yet",
+				register: "Register",
+				or: "or",
+				signup_with_google: "Sign up with Google",
+				already_an_account: "Already have an account",
+				invalid_credentials: "Invalid credentials",
+				account_exists:
+					"There is already an account associated with your email",
+				cta_forgot_password: "Click on forgot password",
+				try_again: "Please try again",
+				forgot_password: "Forgot Password",
+				errors: {
+					validation: "You must enter email and password",
+					passwords_no_match: "Passwords do not match",
+					auth_failed: "Authentication failed. Please try again",
+					google_auth_failed: "Google sign-in failed. Please try again",
+				},
 			},
 		},
 		template_names: {

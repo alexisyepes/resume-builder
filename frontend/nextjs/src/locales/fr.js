@@ -5,6 +5,7 @@ export default {
 			about: "À propos",
 			services: "Services",
 			contact: "Contact",
+			signin: "Se Connecter",
 		},
 		labels: {
 			general: {
@@ -242,6 +243,23 @@ export default {
 							"Personnalisez votre CV en fonction des postes et des industries ciblés.",
 					},
 				],
+			},
+			signin: {
+				title: "Connexion",
+				email: "Email",
+				password: "Mot de passe",
+				confirm_password: "Confirmer le mot de passe",
+				cta: "Se connecter",
+				no_account: "Vous n'avez pas encore de compte",
+				register: "S'inscrire",
+				or: "ou",
+				signup_with_google: "S'inscrire avec Google",
+				already_an_account: "Vous avez déjà un compte",
+				invalid_credentials: "Identifiants invalides",
+				account_exists: "Un compte est déjà associé à votre email",
+				cta_forgot_password: "Cliquez sur mot de passe oublié",
+				try_again: "Veuillez réessayer",
+				forgot_password: "Mot de passe oublié",
 			},
 		},
 		template_names: {

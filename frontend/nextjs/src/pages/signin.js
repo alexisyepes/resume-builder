@@ -1,20 +1,15 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
-import {
-	FaUser,
-	FaLock,
-	FaEnvelope,
-	FaArrowRight,
-	FaGoogle,
-} from "react-icons/fa"
+import { FaLock, FaEnvelope, FaArrowRight, FaGoogle } from "react-icons/fa"
 import { useAuth } from "@/contexts/AuthContext"
 import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 
-const Signin = ({ props }) => {
+const Signin = () => {
+	const { t } = useContext(RESUME_CONTEXT)
 	const [isLogin, setIsLogin] = useState(true)
-	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
@@ -56,7 +51,6 @@ const Signin = ({ props }) => {
 	const handleGoogleSignIn = async () => {
 		try {
 			await signInWithGoogle()
-			// Redirect to the intended destination or a default page
 			router.push("/builder")
 		} catch (error) {
 			console.error("Google sign-in failed:", error)
@@ -82,16 +76,20 @@ const Signin = ({ props }) => {
 				</div>
 				<hr className="my-4" />
 				<h2 className="text-2xl font-bold mb-6 text-center">
-					{isLogin ? "Login" : "Register"}
+					{isLogin
+						? t.resume_builder.pages.signin.title
+						: t.resume_builder.pages.signin.register}
 				</h2>
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
-						<label className="block text-sm font-medium mb-2">Email</label>
+						<label className="block text-sm font-medium mb-2">
+							{t.resume_builder.pages.signin.email}
+						</label>
 						<div className="relative">
 							<FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
 							<input
 								type="email"
-								placeholder="Email"
+								placeholder={t.resume_builder.pages.signin.email}
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -99,12 +97,14 @@ const Signin = ({ props }) => {
 						</div>
 					</div>
 					<div className="mb-4">
-						<label className="block text-sm font-medium mb-2">Password</label>
+						<label className="block text-sm font-medium mb-2">
+							{t.resume_builder.pages.signin.password}
+						</label>
 						<div className="relative">
 							<FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
 							<input
 								type="password"
-								placeholder="Password"
+								placeholder={t.resume_builder.pages.signin.password}
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -119,13 +119,13 @@ const Signin = ({ props }) => {
 							className="mb-6"
 						>
 							<label className="block text-sm font-medium mb-2">
-								Confirm Password
+								{t.resume_builder.pages.signin.confirm_password}
 							</label>
 							<div className="relative">
 								<FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
 								<input
 									type="password"
-									placeholder="Confirm Password"
+									placeholder={t.resume_builder.pages.signin.confirm_password}
 									value={confirmPassword}
 									onChange={(e) => setConfirmPassword(e.target.value)}
 									className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -149,16 +149,19 @@ const Signin = ({ props }) => {
 								type="submit"
 								className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center"
 							>
-								Register
+								{t.resume_builder.pages.signin.register}
 								<FaArrowRight className="ml-2" />
 							</button>
-							<p className="my-4 text-center">Or</p>
+							<p className="my-4 text-center">
+								{t.resume_builder.pages.signin.or}
+							</p>
 							<button
 								type="button"
 								onClick={handleGoogleSignIn}
 								className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center"
 							>
-								<FaGoogle className="mr-2" /> Sign up with Google
+								<FaGoogle className="mr-2" />
+								{t.resume_builder.pages.signin.signup_with_google}
 							</button>
 						</motion.div>
 					) : (
@@ -166,17 +169,22 @@ const Signin = ({ props }) => {
 							type="submit"
 							className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center"
 						>
-							Login <FaArrowRight className="ml-2" />
+							{t.resume_builder.pages.signin.title}{" "}
+							<FaArrowRight className="ml-2" />
 						</button>
 					)}
 				</form>
 				<p className="mt-4 text-center">
-					{isLogin ? "Don't have an account? " : "Already have an account? "}
+					{isLogin
+						? `${t.resume_builder.pages.signin.no_account} `
+						: `${t.resume_builder.pages.signin.already_an_account} `}
 					<button
 						onClick={toggleForm}
 						className="text-blue-500 hover:underline focus:outline-none"
 					>
-						{isLogin ? "Register" : "Login"}
+						{isLogin
+							? t.resume_builder.pages.signin.register
+							: t.resume_builder.pages.signin.title}
 					</button>
 				</p>
 			</motion.div>

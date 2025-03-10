@@ -5,6 +5,7 @@ export default {
 			about: "हमारे बारे में",
 			services: "सेवाएँ",
 			contact: "संपर्क करें",
+			signin: "साइन इन",
 		},
 		labels: {
 			general: {
@@ -247,6 +248,23 @@ export default {
 							"विशिष्ट नौकरी भूमिकाओं और उद्योगों के लिए अपने रिज़्यूमे को अनुकूलित करें।",
 					},
 				],
+			},
+			signin: {
+				title: "लॉग इन करें",
+				email: "ईमेल",
+				password: "पासवर्ड",
+				confirm_password: "पासवर्ड की पुष्टि करें",
+				cta: "लॉग इन करें",
+				no_account: "अभी तक कोई खाता नहीं है",
+				register: "रजिस्टर करें",
+				or: "या",
+				signup_with_google: "Google के साथ साइन अप करें",
+				already_an_account: "पहले से ही एक खाता है",
+				invalid_credentials: "अमान्य प्रमाण पत्र",
+				account_exists: "पहले से ही आपके ईमेल से जुड़ा एक खाता मौजूद है",
+				cta_forgot_password: "पासवर्ड भूल गए पर क्लिक करें",
+				try_again: "कृपया पुनः प्रयास करें",
+				forgot_password: "पासवर्ड भूल गए",
 			},
 		},
 		template_names: {

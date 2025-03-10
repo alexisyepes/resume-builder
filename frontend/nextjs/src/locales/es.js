@@ -5,6 +5,7 @@ export default {
 			about: "Acerca de",
 			services: "Servicios",
 			contact: "Contacto",
+			signin: "Iniciar Sesión",
 		},
 		labels: {
 			general: {
@@ -243,6 +244,23 @@ export default {
 							"Personaliza tu currículum para roles específicos y sectores industriales.",
 					},
 				],
+			},
+			signin: {
+				title: "Iniciar sesión",
+				email: "Correo electrónico",
+				password: "Contraseña",
+				confirm_password: "Confirmar contraseña",
+				cta: "Iniciar sesión",
+				no_account: "¿No tienes una cuenta?",
+				register: "Registrarse",
+				or: "o",
+				signup_with_google: "Regístrate con Google",
+				already_an_account: "¿Ya tienes una cuenta?",
+				invalid_credentials: "Credenciales inválidas",
+				account_exists: "Ya existe una cuenta asociada a tu correo electrónico",
+				cta_forgot_password: "Haz clic en olvidar contraseña",
+				try_again: "Por favor, inténtalo de nuevo",
+				forgot_password: "Olvidé mi contraseña",
 			},
 		},
 		template_names: {
