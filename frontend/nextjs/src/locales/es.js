@@ -261,6 +261,13 @@ export default {
 				cta_forgot_password: "Haz clic en olvidar contraseña",
 				try_again: "Por favor, inténtalo de nuevo",
 				forgot_password: "Olvidé mi contraseña",
+				errors: {
+					validation: "Debes ingresar correo electrónico y contraseña",
+					passwords_no_match: "Las contraseñas no coinciden",
+					auth_failed: "Error de autenticación. Por favor, inténtalo de nuevo",
+					google_auth_failed:
+						"Error al iniciar sesión con Google. Por favor, inténtalo de nuevo",
+				},
 			},
 		},
 		template_names: {

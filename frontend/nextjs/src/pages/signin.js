@@ -6,9 +6,9 @@ import { useAuth } from "@/contexts/AuthContext"
 import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import { loadTranslations } from "@/utils"
 
 const Signin = () => {
-	const { t } = useContext(RESUME_CONTEXT)
 	const [isLogin, setIsLogin] = useState(true)
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
@@ -17,6 +17,7 @@ const Signin = () => {
 	const { login, register, signInWithGoogle } = useAuth()
 	const { authError, setAuthError } = useResumeStore()
 	const router = useRouter()
+	const t = loadTranslations(router)
 
 	useEffect(() => {
 		setAuthError(false)
@@ -29,7 +30,7 @@ const Signin = () => {
 	const handleSubmit = async (e, provider) => {
 		e.preventDefault()
 		if (!email || !password) {
-			return alert("You must enter email and password!")
+			return alert(t.resume_builder.pages.signin.errors.validation)
 		}
 
 		try {

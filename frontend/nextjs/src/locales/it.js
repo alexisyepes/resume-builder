@@ -263,6 +263,12 @@ export default {
 				cta_forgot_password: "Clicca su password dimenticata",
 				try_again: "Per favore riprova",
 				forgot_password: "Password dimenticata",
+				errors: {
+					validation: "Devi inserire email e password",
+					passwords_no_match: "Le password non corrispondono",
+					auth_failed: "Autenticazione fallita. Per favore riprova",
+					google_auth_failed: "Accesso con Google fallito. Per favore riprova",
+				},
 			},
 		},
 		template_names: {

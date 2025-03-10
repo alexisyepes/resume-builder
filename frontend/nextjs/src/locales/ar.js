@@ -259,6 +259,13 @@ export default {
 				cta_forgot_password: "اضغط على نسيت كلمة المرور",
 				try_again: "يرجى المحاولة مرة أخرى",
 				forgot_password: "نسيت كلمة المرور",
+				errors: {
+					validation: "يجب إدخال البريد الإلكتروني وكلمة المرور",
+					passwords_no_match: "كلمات المرور غير متطابقة",
+					auth_failed: "فشل التحقق من الهوية. يرجى المحاولة مرة أخرى",
+					google_auth_failed:
+						"فشل تسجيل الدخول باستخدام جوجل. يرجى المحاولة مرة أخرى",
+				},
 			},
 		},
 		template_names: {

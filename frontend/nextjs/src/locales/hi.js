@@ -265,6 +265,12 @@ export default {
 				cta_forgot_password: "पासवर्ड भूल गए पर क्लिक करें",
 				try_again: "कृपया पुनः प्रयास करें",
 				forgot_password: "पासवर्ड भूल गए",
+				errors: {
+					validation: "आपको ईमेल और पासवर्ड दर्ज करना होगा",
+					passwords_no_match: "पासवर्ड मेल नहीं खाते",
+					auth_failed: "प्रमाणीकरण विफल। कृपया पुनः प्रयास करें",
+					google_auth_failed: "गूगल साइन-इन विफल। कृपया पुनः प्रयास करें",
+				},
 			},
 		},
 		template_names: {

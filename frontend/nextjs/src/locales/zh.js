@@ -243,6 +243,12 @@ export default {
 				cta_forgot_password: "点击忘记密码",
 				try_again: "请再试一次",
 				forgot_password: "忘记密码",
+				errors: {
+					validation: "您必须输入电子邮件和密码",
+					passwords_no_match: "密码不匹配",
+					auth_failed: "身份验证失败。请再试一次",
+					google_auth_failed: "Google 登录失败。请再试一次",
+				},
 			},
 		},
 		template_names: {

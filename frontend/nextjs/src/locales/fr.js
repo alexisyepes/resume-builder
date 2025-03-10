@@ -260,6 +260,13 @@ export default {
 				cta_forgot_password: "Cliquez sur mot de passe oublié",
 				try_again: "Veuillez réessayer",
 				forgot_password: "Mot de passe oublié",
+				errors: {
+					validation: "Vous devez entrer un email et un mot de passe",
+					passwords_no_match: "Les mots de passe ne correspondent pas",
+					auth_failed: "Échec de l'authentification. Veuillez réessayer",
+					google_auth_failed:
+						"Échec de la connexion Google. Veuillez réessayer",
+				},
 			},
 		},
 		template_names: {
