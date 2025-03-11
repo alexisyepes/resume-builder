@@ -266,6 +266,27 @@ const useResumeStore = create(
 					authError: null,
 				})
 			},
+
+			resetOrderedTabs: () => {
+				set((state) => {
+					const initialTabs = [
+						PERSONAL_DETAILS,
+						CONTACT_INFORMATION,
+						PROFESSIONAL_SUMMARY,
+						SKILLS,
+						EMPLOYMENT_HISTORY,
+						EDUCATION,
+					]
+
+					const addedTabs = state.tabs.filter(
+						(tab) => !initialTabs.includes(tab)
+					)
+
+					const newTabs = [...new Set([...initialTabs, ...addedTabs])]
+
+					return { tabs: newTabs }
+				})
+			},
 		}),
 		{
 			name: "resume-storage", // Key for localStorage
@@ -298,6 +319,7 @@ const useResumeStore = create(
 				activeTab: state.activeTab,
 				customSections: state.customSections,
 				customTitles: state.customTitles,
+				pageContentRefresh: state.pageContentRefresh,
 			}),
 		}
 	)

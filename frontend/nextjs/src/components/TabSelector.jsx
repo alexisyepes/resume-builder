@@ -40,6 +40,7 @@ const DraggableTab = ({
 	onTabChange,
 	removeTabHandler,
 	activeTab,
+	template,
 }) => {
 	const READ_ONLY_TABS = [
 		PERSONAL_DETAILS,
@@ -53,7 +54,7 @@ const DraggableTab = ({
 	const [{ isDragging }, drag] = useDrag({
 		type: "TAB",
 		item: { index },
-		canDrag: !isReadOnly, // Prevent dragging read-only tabs
+		canDrag: !isReadOnly && !(template === "modern" && tab === SKILLS),
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
@@ -72,7 +73,9 @@ const DraggableTab = ({
 
 	return (
 		<li
-			ref={!isReadOnly ? (node) => drag(drop(node)) : null}
+			ref={
+				!isReadOnly || template !== "modern" ? (node) => drag(drop(node)) : null
+			}
 			className={`${
 				activeTab === tab
 					? "bg-cyan-500 text-white outline-none border-none"
@@ -85,7 +88,7 @@ const DraggableTab = ({
 				className="w-full cursor-pointer outline-none border-none text-left"
 				onClick={() => onTabChange(tab)}
 			>
-				{!READ_ONLY_TABS.includes(tab) && (
+				{!isReadOnly && !(template === "modern" && tab === SKILLS) && (
 					<MdOutlineDragIndicator className="cursor-move inline mr-2" />
 				)}
 				{tab === PERSONAL_DETAILS && (
@@ -142,7 +145,7 @@ const DraggableTab = ({
 					? t.resume_builder.labels.hobbies.title
 					: tab}
 			</span>
-			{!isReadOnly && (
+			{!isReadOnly && !(template === "modern" && tab === SKILLS) && (
 				<RiDeleteBin5Line
 					onClick={() => {
 						const nextTabIndex =
@@ -167,6 +170,7 @@ export default function TabSelector({
 	addTabHandler,
 	moveTabHandler,
 	setActiveTab,
+	template,
 }) {
 	const [isAddSectionOpen, setIsAddSectionOpen] = useState(true)
 	const { tabs } = useResumeStore()
@@ -198,6 +202,7 @@ export default function TabSelector({
 							onTabChange={onTabChange}
 							removeTabHandler={removeTabHandler}
 							activeTab={activeTab}
+							template={template}
 						/>
 					))}
 				</ul>

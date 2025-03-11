@@ -2,12 +2,18 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import "swiper/css/pagination"
 import { Pagination } from "swiper/modules"
+import useResumeStore from "@/store/useResumeStore"
+import { useContext } from "react"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 
 export default function TemplateSlider({
 	setTemplate,
 	template,
 	templateDesigns,
 }) {
+	const { setPageContentRefresh } = useResumeStore()
+	const { setResumeContentTriggered } = useContext(RESUME_CONTEXT)
+
 	return (
 		<Swiper
 			slidesPerView={3.5}
@@ -28,7 +34,10 @@ export default function TemplateSlider({
 				<SwiperSlide key={section.name}>
 					<div
 						className={`flex h-[30rem] flex-col items-center cursor-pointer`}
-						onClick={() => setTemplate(section.value)}
+						onClick={() => {
+							setResumeContentTriggered(true)
+							setTemplate(section.value)
+						}}
 					>
 						<img
 							src={section.image}

@@ -5,8 +5,10 @@ import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
 import useResumeStore from "@/store/useResumeStore"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { useState } from "react"
 
 export default function App({ Component, pageProps }) {
+	const [resumeContentTriggered, setResumeContentTriggered] = useState(false)
 	const resumeStore = useResumeStore()
 	const router = useRouter()
 	const t = loadTranslations(router)
@@ -63,6 +65,8 @@ export default function App({ Component, pageProps }) {
 						langPrefix,
 						handleImageUpload,
 						templateDesigns,
+						resumeContentTriggered,
+						setResumeContentTriggered,
 						...resumeStore,
 					}}
 				>

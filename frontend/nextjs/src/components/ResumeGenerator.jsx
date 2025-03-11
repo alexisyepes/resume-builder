@@ -82,11 +82,19 @@ const ResumeGenerator = () => {
 		setCustomTitles,
 		editing,
 		setEditing,
+		resetOrderedTabs,
 	} = useResumeStore()
 	const { t, langPrefix, templateDesigns } = useContext(RESUME_CONTEXT)
 
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
+
+	useEffect(() => {
+		if (template === "modern") {
+			// Resets the tabs order so skills section becomes unmutable for the moder design
+			resetOrderedTabs()
+		}
+	}, [template])
 
 	useEffect(() => {
 		setGeneratedResume(defaultResume)
@@ -347,6 +355,7 @@ const ResumeGenerator = () => {
 									addTabHandler={addTabHandler}
 									moveTabHandler={moveTabHandler}
 									setActiveTab={setActiveTab}
+									template={template}
 								/>
 							</div>
 							<div className="element2 element">

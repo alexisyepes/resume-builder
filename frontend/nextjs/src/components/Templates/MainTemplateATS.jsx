@@ -1,9 +1,4 @@
-export default function ClassicTemaplateATS({
-	resume,
-	isPdf,
-	pages,
-	resumeRef,
-}) {
+export default function MainTemplateATS({ resume, isPdf, pages, resumeRef }) {
 	if (!resume) return <p>Loading resume data...</p>
 
 	return (

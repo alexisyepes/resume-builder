@@ -1,10 +1,16 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from "react"
+import React, {
+	useState,
+	useRef,
+	useLayoutEffect,
+	useEffect,
+	useContext,
+} from "react"
 import { FaDownload } from "react-icons/fa"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import ElegantTemplate from "./Templates/ElegantTemplate"
-import ClassicTemplateATS from "./Templates/ClassicTemplateATS"
+import MainTemplate from "./Templates/MainTemplateATS"
 import ReactDOMServer from "react-dom/server"
 import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
@@ -23,7 +29,8 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
-import DOMPurify from "dompurify"
+import ClassicATSSectionMap from "./TemplateSections/ClassicATSSections"
+import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 
 export default function ResumePreview({
 	generatedResume,
@@ -46,34 +53,97 @@ export default function ResumePreview({
 	customSections,
 	photo,
 	template,
-	// handleDownloadPDF, // Old method
 	languages,
+	// handleDownloadPDF, // Old method
 }) {
+	const [downloadInProgress, setDownloadInProgress] = useState(false)
 	const [pages, setPages] = useState([])
 	const { customTitles } = useResumeStore()
 	const resumeRef = useRef(null)
+	const videoRef = useRef(null)
+	const { resumeContentTriggered, setResumeContentTriggered } =
+		useContext(RESUME_CONTEXT)
 	const letterSizeHeight = 850
 
 	const router = useRouter()
 	const t = loadTranslations(router)
-	const mt_sections = "mt-4"
+	const { locale } = router
+	const langPrefix = locale
+
+	const commonProps = {
+		resumeRef,
+		resume: generatedResume,
+		photo,
+		firstName,
+		lastName,
+		jobTitle,
+		email,
+		phone,
+		address,
+		cityPostCode,
+		experience,
+		orderedTabs: tabs,
+		certifications,
+		educations,
+		references,
+		links,
+		hobbies,
+		customSections,
+		languages,
+		objective,
+		skills,
+		customTitles,
+		t,
+		pages,
+	}
+
+	const resumeData = {
+		photo,
+		firstName,
+		lastName,
+		jobTitle,
+		email,
+		phone,
+		address,
+		cityPostCode,
+		objective,
+		skills,
+		experience,
+		certifications,
+		educations,
+		references,
+		links,
+		hobbies,
+		customSections,
+		languages,
+	}
+
+	useEffect(() => {
+		if (resumeContentTriggered) {
+			paginateContent().then(() => {
+				setResumeContentTriggered(false)
+			})
+		}
+	}, [resumeContentTriggered])
 
 	useLayoutEffect(() => {
 		if (pages.length === 0) {
 			paginateContent()
 		}
-	}, [pages])
+	}, [])
 
 	useLayoutEffect(() => {
 		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
-	}, [tabs])
+	}, [tabs, resumeContentTriggered])
 
 	useLayoutEffect(() => {
-		if (pages.length === 0) {
-			setPages([
-				[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)],
-			])
-		}
+		setTimeout(() => {
+			if (pages.length === 0) {
+				setPages([
+					[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)],
+				])
+			}
+		}, 300)
 	}, [
 		photo,
 		pages,
@@ -86,9 +156,80 @@ export default function ResumePreview({
 		cityPostCode,
 		objective,
 		skills,
-		certifications,
-		languages,
+	])
+
+	useEffect(() => {
+		requestAnimationFrame(() => {
+			paginateContent()
+		})
+	}, [tabs])
+
+	const paginateContent = async () => {
+		return new Promise((resolve) => {
+			const content = resumeRef.current
+			if (!content) return resolve()
+
+			const newPages = []
+			let currentPage = []
+			let currentHeight = 0
+
+			tabs.forEach((tab) => {
+				const section = sectionRefs[tab].current
+				if (!section) return
+
+				const sectionHeight = section.offsetHeight || 0
+
+				if (currentHeight + sectionHeight > letterSizeHeight) {
+					newPages.push(currentPage)
+					currentPage = []
+					currentHeight = 0
+				}
+
+				currentPage.push(
+					React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
+				)
+				currentHeight += sectionHeight
+			})
+
+			if (currentPage.length) {
+				newPages.push(currentPage)
+			}
+
+			if (newPages.length === 0) {
+				newPages.push([])
+			}
+
+			setPages(newPages)
+
+			// ✅ Resolve after state update
+			resolve()
+		})
+	}
+
+	useEffect(() => {
+		paginateContent()
+	}, [
+		t,
+		photo,
+		firstName,
+		lastName,
+		jobTitle,
+		email,
+		phone,
+		address,
+		cityPostCode,
+		objective,
 		tabs,
+		experience,
+		skills,
+		certifications,
+		educations,
+		references,
+		links,
+		hobbies,
+		customSections,
+		languages,
+		customTitles,
 	])
 
 	const sectionRefs = {
@@ -106,55 +247,25 @@ export default function ResumePreview({
 		[CUSTOM_SECTION]: useRef(null),
 	}
 
-	const paginateContent = () => {
-		const content = resumeRef.current
-		if (!content) return
-
-		const newPages = []
-		let currentPage = []
-		let currentHeight = 0
-
-		tabs.forEach((tab) => {
-			const section = sectionRefs[tab].current
-			if (!section) return
-
-			const sectionHeight = section.offsetHeight || 0
-
-			if (currentHeight + sectionHeight > letterSizeHeight) {
-				newPages.push(currentPage)
-				currentPage = []
-				currentHeight = 0
-			}
-
-			currentPage.push(
-				React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
-			)
-			currentHeight += sectionHeight
-		})
-
-		if (currentPage.length) {
-			newPages.push(currentPage)
-		}
-
-		if (newPages.length === 0) {
-			newPages.push([])
-		}
-
-		setPages(newPages)
-	}
-
-	useLayoutEffect(() => {
-		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
-	}, [tabs])
-
-	useEffect(() => {
-		paginateContent()
-	}, [pages])
-
 	const handleDownload = async () => {
+		setDownloadInProgress(true)
+		await paginateContent()
+		let selectedTemplate
+		switch (template) {
+			case "classic-ats":
+				selectedTemplate = <MainTemplate {...commonProps} isPdf />
+				break
+			case "modern":
+				selectedTemplate = <ModernTemplate {...commonProps} />
+				break
+			default:
+				selectedTemplate = <MainTemplate {...commonProps} isPdf />
+				break
+		}
+
 		const htmlContent = `
 			<!DOCTYPE html>
-			<html lang="en">
+			<html lang="${langPrefix}">
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -163,42 +274,28 @@ export default function ResumePreview({
 				<link rel="stylesheet" href="http://localhost:3000/tailwind.css">
 				<link rel="stylesheet" href="http://localhost:3000/styles/globals.css">
 				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
+			
+				<!-- Add a font that supports Chinese characters -->
+				<style>
+					body {
+						font-family: "Inter", system-ui, Arial, Helvetica, sans-serif;
+					}
+			
+					/* Apply Chinese fonts only to Chinese characters */
+					@font-face {
+						font-family: 'Noto Sans CJK SC';
+						src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk/NotoSansSC-Regular.otf') format('opentype');
+					}
+			
+					:lang(zh) {
+						font-family: "Noto Sans CJK SC", "Inter", system-ui, Arial, Helvetica, sans-serif;
+					}
+				</style>
 			</head>
 			<body>
-				${ReactDOMServer.renderToString(
-					<ClassicTemplateATS
-						t={t}
-						orderedTabs={tabs}
-						paginateContent={paginateContent}
-						pages={pages}
-						tabs={tabs}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						resume={generatedResume}
-						skills={skills}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						template={template}
-						languages={languages}
-						customTitles={customTitles}
-						isPdf
-					/>
-				)}
+				${ReactDOMServer.renderToString(selectedTemplate)}
 			</body>
-			</html>
-		`
+		</html>`
 
 		try {
 			const response = await fetch("http://localhost:4000/generate-pdf", {
@@ -206,10 +303,11 @@ export default function ResumePreview({
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ html: htmlContent }),
+				body: JSON.stringify({ html: htmlContent, firstName }),
 			})
 
 			if (!response.ok) {
+				setDownloadInProgress(false)
 				throw new Error("Failed to generate PDF")
 			}
 
@@ -223,408 +321,78 @@ export default function ResumePreview({
 			// Create a hidden download link and click it
 			const a = document.createElement("a")
 			a.href = url
-			a.download = "generated.pdf"
+			a.download = `${firstName}_resume.pdf`
 			document.body.appendChild(a)
 			a.click()
 
 			// Cleanup
 			document.body.removeChild(a)
 			window.URL.revokeObjectURL(url)
+			setDownloadInProgress(false)
 		} catch (error) {
+			setDownloadInProgress(false)
 			console.error("Error:", error)
 		}
 	}
 
-	const cleanHTML = DOMPurify.sanitize(objective, { ALLOWED_ATTR: ["style"] })
-
-	const sectionMap = {
-		[PERSONAL_DETAILS]: (
-			<section ref={sectionRefs[PERSONAL_DETAILS]} className="mb-4">
-				<div className="relative text-center pb-4 mb-4">
-					{photo && (
-						<div className="w-16 h-16 mx-auto my-4 overflow-hidden rounded-full">
-							<img
-								src={photo}
-								alt="Uploaded preview"
-								className="w-full h-full object-cover"
-							/>
-						</div>
-					)}
-					<h1 className="text-2xl capitalize font-bold">
-						{firstName || generatedResume.firstName}{" "}
-						{lastName || generatedResume.lastName}
-					</h1>
-					<p className="text-sm font-bold text-black capitalize">
-						{jobTitle || generatedResume.jobTitle}
-					</p>
-					<p className="text-sm">
-						{email} {email && phone && "|"} {phone}
-					</p>
-					<p className="text-sm">
-						{address}
-						{address && cityPostCode && ","} {cityPostCode}
-					</p>
-				</div>
-			</section>
-		),
-		[PROFESSIONAL_SUMMARY]: (
-			<section ref={sectionRefs[PROFESSIONAL_SUMMARY]} className="mb-4">
-				<h2 className="text-lg relative border-b-2 border-black font-semibold mb-2">
-					{customTitles[PROFESSIONAL_SUMMARY] ||
-						t.resume_builder.labels.professional_summary.title}
-				</h2>
-				<span
-					className="text-sm text-gray-700"
-					dangerouslySetInnerHTML={{
-						__html: cleanHTML,
-					}}
-				/>
-			</section>
-		),
-		[EMPLOYMENT_HISTORY]: (
-			<section ref={sectionRefs[EMPLOYMENT_HISTORY]} className={mt_sections}>
-				{experience.length ? (
-					<>
-						<h2
-							style={{ letterSpacing: "0.01px" }}
-							className="text-lg font-semibold border-b-2 border-black"
-						>
-							{customTitles[t.resume_builder.labels.employment_history.title] ||
-								t.resume_builder.labels.employment_history.title}
-						</h2>
-
-						{experience &&
-							experience.map((exp, index) => (
-								<div key={index} className="mb-3 mt-2">
-									<h3 className="capitalize flex justify-between text-sm font-semibold">
-										<span>
-											{exp.company} - {exp.role}
-										</span>
-										<span>{exp.year}</span>
-									</h3>
-									{exp.responsibilities && (
-										<ul className="list-disc pl-5 text-sm text-gray-700">
-											{exp.responsibilities.map((task, i) => (
-												<li className="capitalize" key={`${exp.company}-${i}`}>
-													{task}
-												</li>
-											))}
-										</ul>
-									)}
-								</div>
-							))}
-					</>
-				) : null}
-			</section>
-		),
-		[EDUCATION]: (
-			<section ref={sectionRefs[EDUCATION]} className={mt_sections}>
-				{educations.length ? (
-					<>
-						<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1 mb-2">
-							{customTitles[t.resume_builder.labels.education.title] ||
-								t.resume_builder.labels.education.title}
-						</h2>
-						{educations.map((edu, index) => (
-							<h3
-								key={`${edu.institution}-${edu.degree}`}
-								className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
-							>
-								<span>
-									{edu.degree} - {edu.institution}
-								</span>
-								<span>{edu.year}</span>
-							</h3>
-						))}
-					</>
-				) : null}
-			</section>
-		),
-		[SKILLS]: (
-			<section ref={sectionRefs[SKILLS]} className={mt_sections}>
-				{skills.length ? (
-					<>
-						<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1 mt-2">
-							{customTitles[SKILLS] || t.resume_builder.labels.skills.title}
-						</h2>
-						{skills.map((skill, index) => {
-							return (
-								<span
-									key={index}
-									className="text-sm mr-1 capitalize text-gray-700"
-								>
-									{skill}
-									{index === skills.length - 1 ? "." : ","}
-								</span>
-							)
-						})}
-					</>
-				) : null}
-			</section>
-		),
-		[CERTIFICATIONS]: (
-			<section ref={sectionRefs[CERTIFICATIONS]} className={mt_sections}>
-				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[t.resume_builder.labels.certifications.title] ||
-						t.resume_builder.labels.certifications.title}
-				</h2>
-				{certifications &&
-					certifications.map((cert, index) => (
-						<h3
-							key={`${cert.institution}-${cert.year}`}
-							className="mb-2 flex text-sm font-semibold justify-between items-center capitalize"
-						>
-							<span>
-								{cert.institution} - {cert.certificationName}
-							</span>
-							<span>{cert.year}</span>
-						</h3>
-					))}
-			</section>
-		),
-		[REFERENCES]: (
-			<section ref={sectionRefs[REFERENCES]} className={mt_sections}>
-				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[REFERENCES] || t.resume_builder.labels.references.title}
-				</h2>
-				{references &&
-					references.map((reference, index) => (
-						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
-							<li className="capitalize">
-								{reference.name} {reference.company} {reference.email_phone}
-							</li>
-						</ul>
-					))}
-			</section>
-		),
-		[LINKS]: (
-			<section ref={sectionRefs[LINKS]} className={mt_sections}>
-				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[t.resume_builder.labels.links.title] ||
-						t.resume_builder.labels.links.title}
-				</h2>
-				{links &&
-					links.map((link, index) => (
-						<ul key={index} className="list-disc pl-5 text-sm text-gray-700">
-							<li>
-								<span className="capitalize">{link.name}</span>: {link.link}
-							</li>
-						</ul>
-					))}
-			</section>
-		),
-		[LANGUAGES]: (
-			<section ref={sectionRefs[LANGUAGES]} className={mt_sections}>
-				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[LANGUAGES] || t.resume_builder.labels.languages.title}
-				</h2>
-				{languages &&
-					languages.map((language, index) => (
-						<span key={index} className="text-sm mr-1 capitalize text-gray-700">
-							{language.language}
-							{index === languages.length - 1 ? "." : ","}
-						</span>
-					))}
-			</section>
-		),
-		[HOBBIES]: (
-			<section ref={sectionRefs[HOBBIES]} className={mt_sections}>
-				<h2 className="text-lg border-b-2 border-black font-semibold relative pb-1">
-					{customTitles[t.resume_builder.labels.hobbies.title] ||
-						t.resume_builder.labels.hobbies.title}
-				</h2>
-				{hobbies &&
-					hobbies.map((hobby, index) => (
-						<span
-							className="capitalize text-sm mr-1"
-							key={`${hobby.hobbies}-${index}`}
-						>
-							{hobby.hobbies}
-							{index === hobbies.length - 1 ? "." : ","}
-						</span>
-					))}
-			</section>
-		),
-		[CUSTOM_SECTION]: (
-			<section ref={sectionRefs[CUSTOM_SECTION]} className={mt_sections}>
-				{customSections &&
-					customSections.map((section, index) => {
-						return (
-							<div className="text-sm" key={`${section.header}-${index}`}>
-								{section.header && (
-									<h2 className="text-lg font-semibold relative">
-										{section.header}
-									</h2>
-								)}
-								{section.subHeader && (
-									<h3 className="text-md font-semibold relative">
-										{section.subHeader}
-									</h3>
-								)}
-								{section.content && (
-									<div
-										className="ql-editor ql-editor-custom-section text-gray-700 cursor-pointer"
-										dangerouslySetInnerHTML={{ __html: section.content }}
-									/>
-								)}
-							</div>
-						)
-					})}
-			</section>
-		),
-	}
+	const sectionMap =
+		template === "classic-ats"
+			? ClassicATSSectionMap({
+					sectionRefs,
+					t,
+					customTitles,
+					resumeData,
+					generatedResume,
+			  })
+			: ClassicATSSectionMap({
+					sectionRefs,
+					t,
+					customTitles,
+					resumeData,
+					generatedResume,
+			  })
 
 	return (
-		<div className="border ring-4 ring-gray-50 p-2 bg-gray-200 rounded-md">
-			<div className="flex download-section justify-between items-center">
-				<span className="text-black font-bold ml-6 text-lg capitalize">
-					{t.resume_builder.labels.general.template_selector.selected_template}:{" "}
-					{template}
-				</span>
-				<button
-					className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
-					onClick={() => handleDownload()}
-				>
-					<FaDownload className="inline mr-2" />
-					{t.resume_builder.labels.general.template_selector.download}
-				</button>
-				{/* <button onClick={() => handleDownloadPDF("docx")}>
+		<div className="relative border ring-4 ring-gray-50 p-2 bg-gray-200 rounded-md overflow-hidden">
+			<video
+				ref={videoRef}
+				autoPlay
+				loop
+				muted
+				playsInline
+				className="absolute top-0 left-0 w-full h-full object-cover z-0 smooth-video"
+			>
+				<source src="/videos/bg_ai_office.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+			<div className="relative z-10">
+				<div className="flex download-section justify-between items-center">
+					<span className="text-white font-extrabold ml-6 text-xl capitalize">
+						{
+							t.resume_builder.labels.general.template_selector
+								.selected_template
+						}
+						: {template}
+					</span>
+					<button
+						disabled={downloadInProgress}
+						className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
+						onClick={() => handleDownload()}
+					>
+						<FaDownload className="inline mr-2" />
+						{t.resume_builder.labels.general.template_selector.download}
+					</button>
+					{/* <button onClick={() => handleDownloadPDF("docx")}>
 					Download as DOCX
 				</button> */}
-			</div>
-			<div className="rounded py-8">
-				{template === "classic" && (
-					<ClassicTemplate
-						resumeRef={resumeRef}
-						sectionRefs={sectionRefs}
-						orderedTabs={tabs}
-						tabs={tabs}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						resume={generatedResume}
-						skills={skills}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						languages={languages}
-						pages={pages}
-						setPages={setPages}
-						customTitles={customTitles}
-					/>
-				)}
-				{template === "classic-ats" && (
-					<ClassicTemplateATS
-						resumeRef={resumeRef}
-						resume={generatedResume}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						skills={skills}
-						orderedTabs={tabs}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						languages={languages}
-						t={t}
-						pages={pages}
-					/>
-				)}
-				{template === "elegant" && (
-					<ElegantTemplate
-						orderedTabs={tabs}
-						tabs={tabs}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						resume={generatedResume}
-						skills={skills}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						languages={languages}
-					/>
-				)}
-				{template === "modern" && (
-					<ModernTemplate
-						orderedTabs={tabs}
-						tabs={tabs}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						resume={generatedResume}
-						skills={skills}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						languages={languages}
-					/>
-				)}
-				{template === "creative" && (
-					<CreativeTemplate
-						orderedTabs={tabs}
-						tabs={tabs}
-						email={email}
-						firstName={firstName}
-						lastName={lastName}
-						jobTitle={jobTitle}
-						phone={phone}
-						address={address}
-						cityPostCode={cityPostCode}
-						objective={objective}
-						experience={experience}
-						resume={generatedResume}
-						skills={skills}
-						certifications={certifications}
-						educations={educations}
-						references={references}
-						links={links}
-						hobbies={hobbies}
-						customSections={customSections}
-						photo={photo}
-						languages={languages}
-					/>
-				)}
+				</div>
+				<div className="rounded py-8">
+					{template === "classic" && <ClassicTemplate {...commonProps} />}
+					{template === "classic-ats" && <MainTemplate {...commonProps} />}
+					{template === "elegant" && <ElegantTemplate {...commonProps} />}
+					{template === "modern" && <ModernTemplate {...commonProps} />}
+					{template === "creative" && <CreativeTemplate {...commonProps} />}
+				</div>
 			</div>
 		</div>
 	)

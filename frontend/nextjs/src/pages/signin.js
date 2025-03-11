@@ -5,7 +5,7 @@ import { FaLock, FaEnvelope, FaArrowRight, FaGoogle } from "react-icons/fa"
 import { useAuth } from "@/contexts/AuthContext"
 import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
-\import { loadTranslations } from "@/utils"
+import { loadTranslations } from "@/utils"
 
 const Signin = () => {
 	const [isLogin, setIsLogin] = useState(true)
