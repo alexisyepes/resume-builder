@@ -169,8 +169,19 @@ const useResumeStore = create(
 					}
 				}),
 
+			// Professional Summary
 			objective: "",
 			setObjective: (objective) => set({ objective }),
+			counter: 0,
+			setCounter: (value) => set({ counter: value }),
+			countdown: 300000,
+			setCountdown: (value) =>
+				set((state) => ({
+					countdown:
+						typeof value === "function" ? value(state.countdown) : value,
+				})),
+			running: false,
+			setRunning: (value) => set({ running: value }),
 
 			generatedResume: defaultResume,
 			setGeneratedResume: (resume) => set({ generatedResume: resume }),
@@ -314,6 +325,9 @@ const useResumeStore = create(
 				links: state.links,
 				hobbies: state.hobbies,
 				objective: state.objective,
+				counter: state.counter,
+				countdown: state.countdown,
+				running: state.running,
 				generatedResume: state.generatedResume,
 				template: state.template,
 				activeTab: state.activeTab,

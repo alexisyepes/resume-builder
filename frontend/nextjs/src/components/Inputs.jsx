@@ -19,6 +19,7 @@ import {
 } from "@/constants"
 import UniversalInput from "./InputSections/UniverslaInputs"
 import { motion, AnimatePresence } from "framer-motion"
+import useResumeStore from "@/store/useResumeStore"
 
 export default function Inputs({
 	t,
@@ -63,9 +64,11 @@ export default function Inputs({
 	setEditing,
 	inputRef,
 }) {
-	const [counter, setCounter] = useState(0)
-	const [countdown, setCountdown] = useState(300000) // 5 minutes
-	const [running, setRunning] = useState(false)
+	// const [counter, setCounter] = useState(0)
+	// const [countdown, setCountdown] = useState(300000)
+	// const [running, setRunning] = useState(false)
+	const { counter, setCounter, countdown, setCountdown, running, setRunning } =
+		useResumeStore()
 	const [editingId, setEditingId] = useState(null)
 
 	const commonProps = {
@@ -90,7 +93,10 @@ export default function Inputs({
 	}, [counter])
 
 	useEffect(() => {
-		if (!running || countdown <= 0) return resetCountdown()
+		if (!running || countdown <= 0) {
+			if (countdown <= 0) resetCountdown()
+			return
+		}
 
 		const interval = setInterval(() => {
 			setCountdown((prevCountdown) => prevCountdown - 1000)
