@@ -1,65 +1,75 @@
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
-import "swiper/css/pagination"
-import { Pagination } from "swiper/modules"
-import useResumeStore from "@/store/useResumeStore"
+import "swiper/css/navigation"
+import { Navigation } from "swiper/modules"
 import { useContext } from "react"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa" // Import icons for arrows
 
 export default function TemplateSlider({
 	setTemplate,
 	template,
 	templateDesigns,
 }) {
-	const { setPageContentRefresh } = useResumeStore()
 	const { setResumeContentTriggered } = useContext(RESUME_CONTEXT)
 
 	return (
-		<Swiper
-			slidesPerView={3.5}
-			spaceBetween={10}
-			pagination={{ clickable: true }}
-			modules={[Pagination]}
-			loop
-			style={{
-				"--swiper-pagination-color": "#6ce0de",
-				"--swiper-pagination-bullet-inactive-color": "#d3dbde",
-				"--swiper-pagination-bullet-inactive-opacity": "1",
-				"--swiper-pagination-bullet-size": "16px",
-				"--swiper-pagination-bullet-horizontal-gap": "6px",
-			}}
-			className="w-full mt-4"
-		>
-			{templateDesigns.map((section) => (
-				<SwiperSlide key={section.name}>
-					<div
-						className={`flex h-[30rem] flex-col items-center cursor-pointer`}
-						onClick={() => {
-							setResumeContentTriggered(true)
-							setTemplate(section.value)
-						}}
-					>
-						<img
-							src={section.image}
-							alt={section.name}
-							className={`${
-								template === section.value
-									? "shadow-lg shadow-green-400 border-4 border-green-400"
-									: ""
-							} w-full shadow-slate-500 shadow-lg h-auto object-cover rounded-lg`}
-						/>
-						<h2
-							className={`${
-								template === section.value
-									? "rounded-md p-2 border-4 border-green-400"
-									: "border-slate-600"
-							} mt-4 font-bold capitalize p-2 rounded-md border  text-black text-center text-lg`}
+		<div className="relative w-full mt-4 pb-10">
+			{/* Custom Left Arrow */}
+			<button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg swiper-button-prev">
+				<FaChevronLeft className="text-gray-600 text-2xl" />
+			</button>
+
+			{/* Custom Right Arrow */}
+			<button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg swiper-button-next">
+				<FaChevronRight className="text-gray-600 text-2xl" />
+			</button>
+
+			<Swiper
+				slidesPerView={3.5}
+				spaceBetween={10}
+				modules={[Navigation]}
+				loop
+				navigation={{
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				}}
+				className="w-full"
+			>
+				{templateDesigns.map((section) => (
+					<SwiperSlide key={section.name} className="!w-[18rem]">
+						<div
+							className="flex h-[26rem] w-full flex-col items-center cursor-pointer"
+							onClick={() => {
+								setResumeContentTriggered(true)
+								setTemplate(section.value)
+							}}
 						>
-							{section.name}
-						</h2>
-					</div>
-				</SwiperSlide>
-			))}
-		</Swiper>
+							<div className="w-full h-[22rem] overflow-hidden rounded-lg">
+								<img
+									src={section.image}
+									alt={section.name}
+									className={`${
+										template === section.value
+											? "shadow-lg shadow-green-400 border-4 border-green-400"
+											: ""
+									} w-full h-full shadow-slate-500 shadow-lg object-cover`}
+								/>
+							</div>
+
+							<h2
+								className={`${
+									template === section.value
+										? "rounded-md p-2 border-4 border-green-400"
+										: "border-slate-600"
+								} mt-4 font-bold capitalize p-2 rounded-md border text-black text-center text-lg`}
+							>
+								{section.name}
+							</h2>
+						</div>
+					</SwiperSlide>
+				))}
+			</Swiper>
+		</div>
 	)
 }
