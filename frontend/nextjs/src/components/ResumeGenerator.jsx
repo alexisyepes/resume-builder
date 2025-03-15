@@ -26,6 +26,7 @@ import { defaultResume } from "@/defaultResume"
 
 const ResumeGenerator = () => {
 	const {
+		apiBaseUrl,
 		tabs,
 		setTabs,
 		photo,
@@ -162,15 +163,12 @@ const ResumeGenerator = () => {
 	const handleGenerateResume = async () => {
 		try {
 			setIsLoading(true)
-			const response = await axios.post(
-				"http://localhost:4000/generate-objective",
-				{
-					jobTitle,
-					objective,
-					skills,
-					langPrefix,
-				}
-			)
+			const response = await axios.post(`${apiBaseUrl}/generate-objective`, {
+				jobTitle,
+				objective,
+				skills,
+				langPrefix,
+			})
 			setIsLoading(false)
 			setSuggestedSkills(response.data.resume.skills)
 			setObjective(response.data.resume.objective)

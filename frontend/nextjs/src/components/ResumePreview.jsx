@@ -58,7 +58,7 @@ export default function ResumePreview({
 }) {
 	const [downloadInProgress, setDownloadInProgress] = useState(false)
 	const [pages, setPages] = useState([])
-	const { customTitles } = useResumeStore()
+	const { customTitles, apiBaseUrl } = useResumeStore()
 	const resumeRef = useRef(null)
 	const videoRef = useRef(null)
 	const { resumeContentTriggered, setResumeContentTriggered } =
@@ -298,7 +298,7 @@ export default function ResumePreview({
 		</html>`
 
 		try {
-			const response = await fetch("http://localhost:4000/generate-pdf", {
+			const response = await fetch(`${apiBaseUrl}/generate-pdf`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

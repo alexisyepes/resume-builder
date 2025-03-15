@@ -31,6 +31,8 @@ const initialCustomTitles = {
 const useResumeStore = create(
 	persist(
 		(set, get) => ({
+			apiBaseUrl: process.env.NEXT_PUBLIC_BACKEND_SERVER,
+
 			// Basic Info
 			firstName: "",
 			setFirstName: (name) => set({ firstName: name }),
@@ -302,6 +304,7 @@ const useResumeStore = create(
 		{
 			name: "resume-storage", // Key for localStorage
 			partialize: (state) => ({
+				apiBaseUrl: state.apiBaseUrl,
 				isAuthenticated: state.isAuthenticated,
 				authError: state.authError,
 				user: state.user,

@@ -51,10 +51,10 @@ export const validateToken = async (router) => {
 		return false
 	}
 
-	const { setIsAuthenticated, setUser } = useResumeStore.getState()
+	const { apiBaseUrl, setIsAuthenticated, setUser } = useResumeStore.getState()
 
 	try {
-		const response = await axios.get(`http://localhost:4000/validate-token`, {
+		const response = await axios.get(`${apiBaseUrl}/validate-token`, {
 			headers: { Authorization: `Bearer ${token}` },
 			validateStatus: (status) => status === 200 || status === 401,
 		})

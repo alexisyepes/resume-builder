@@ -7,14 +7,20 @@ import { loadTranslations } from "@/utils"
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-	const { isAuthenticated, setIsAuthenticated, user, setUser, setAuthError } =
-		useResumeStore()
+	const {
+		apiBaseUrl,
+		isAuthenticated,
+		setIsAuthenticated,
+		user,
+		setUser,
+		setAuthError,
+	} = useResumeStore()
 	const router = useRouter()
 	const t = loadTranslations(router)
 
 	const login = async (email, password) => {
 		try {
-			const response = await axios.post(`http://localhost:4000/login`, {
+			const response = await axios.post(`${apiBaseUrl}/login`, {
 				email,
 				password,
 			})
@@ -29,9 +35,8 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	const register = async (email, password, provider) => {
-		console.log("Server", process.env.NEXT_PUBLIC_BACKEND_SERVER)
 		try {
-			const response = await axios.post(`http://localhost:4000/register`, {
+			const response = await axios.post(`${apiBaseUrl}/register`, {
 				provider,
 				email,
 				password,
