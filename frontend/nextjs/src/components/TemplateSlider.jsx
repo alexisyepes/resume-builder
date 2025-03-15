@@ -11,7 +11,8 @@ export default function TemplateSlider({
 	template,
 	templateDesigns,
 }) {
-	const { setResumeContentTriggered } = useContext(RESUME_CONTEXT)
+	const { setResumeContentTriggered, setShowSlider } =
+		useContext(RESUME_CONTEXT)
 
 	return (
 		<div className="relative w-full mt-4 pb-10">
@@ -43,6 +44,7 @@ export default function TemplateSlider({
 							onClick={() => {
 								setResumeContentTriggered(true)
 								setTemplate(section.value)
+								setShowSlider(false)
 							}}
 						>
 							<div className="w-full h-[22rem] overflow-hidden rounded-lg">

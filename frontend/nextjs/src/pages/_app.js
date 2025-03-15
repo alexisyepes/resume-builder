@@ -18,11 +18,6 @@ export default function App({ Component, pageProps }) {
 
 	const templateDesigns = [
 		{
-			name: t.resume_builder.template_names.classic,
-			value: "classic",
-			image: "/images/templateDesigns/classic.png",
-		},
-		{
 			name: t.resume_builder.template_names.classic_ats,
 			value: "classic-ats",
 			image: "/images/templateDesigns/classic.png",

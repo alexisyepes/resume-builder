@@ -4,6 +4,34 @@ const jwt = require("jsonwebtoken")
 const { User } = require("../models")
 const router = express.Router()
 
+// Function to generate an access token @TODO
+const generateAccessToken = (user) => {
+	console.log(user)
+	return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "10s" })
+}
+
+// Validate and refresh token on page refresh @TODO
+router.post("/refresh-token", async (req, res) => {
+	const token = req.body.token
+	console.log("TOKEN", token)
+
+	if (!token) return res.status(401).json({ message: "No token provided" })
+
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET)
+		const user = await User.findByPk(decoded.id, {
+			attributes: { exclude: ["password"] },
+		})
+
+		if (!user) return res.status(401).json({ message: "User not found" })
+
+		const newAccessToken = generateAccessToken(user)
+		res.json({ accessToken: newAccessToken })
+	} catch (error) {
+		res.status(401).json({ message: "Invalid or expired token" })
+	}
+})
+
 router.get("/validate-token", async (req, res) => {
 	const token = req.headers.authorization?.split(" ")[1]
 
@@ -15,6 +43,7 @@ router.get("/validate-token", async (req, res) => {
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
 		const user = await User.findByPk(decoded.id, {
 			attributes: { exclude: ["password"] },
 		})
@@ -23,9 +52,13 @@ router.get("/validate-token", async (req, res) => {
 			return res.status(401).json({ isValid: false, message: "User not found" })
 		}
 
-		res.json({ isValid: true, user })
+		const newToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+			expiresIn: "1h",
+		})
+
+		res.json({ isValid: true, user, token: newToken })
 	} catch (error) {
-		res
+		return res
 			.status(401)
 			.json({ isValid: false, message: "Invalid or expired token" })
 	}

@@ -42,12 +42,12 @@ export const getLangPrefix = (lang) => {
 	return lang === "es" ? "/es" : ""
 }
 
+// Validates token and also refreshes the token if the old token is still valid
 export const validateToken = async (router) => {
-	const token = localStorage.getItem("token")
+	let token = localStorage.getItem("token")
+
 	if (!token) {
-		if (router) {
-			router.push("/signin")
-		}
+		if (router) router.push("/signin")
 		return false
 	}
 
@@ -62,22 +62,23 @@ export const validateToken = async (router) => {
 		if (response.status === 200 && response.data.isValid) {
 			setIsAuthenticated(true)
 			setUser(response.data.user)
+
+			if (response.data.token) {
+				localStorage.setItem("token", response.data.token)
+			}
+
 			return true
 		} else {
 			setIsAuthenticated(false)
 			localStorage.removeItem("token")
-			if (router) {
-				router.push("/signin")
-			}
+			if (router) router.push("/signin")
 			return false
 		}
 	} catch (error) {
 		console.error("Token validation failed:", error)
 		setIsAuthenticated(false)
 		localStorage.removeItem("token")
-		if (router) {
-			router.push("/signin")
-		}
+		if (router) router.push("/signin")
 		return false
 	}
 }
