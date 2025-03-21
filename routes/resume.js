@@ -18,7 +18,9 @@ router.post("/generate-pdf", async (req, res) => {
 		const page = await browser.newPage()
 		await page.setContent(html, { waitUntil: "domcontentloaded" })
 		await page.waitForSelector("body")
-		await page.evaluateHandle("document.fonts.ready")
+		await page.evaluate(
+			() => new Promise((resolve) => setTimeout(resolve, 500))
+		)
 		await page.setViewport({ width: 850, height: 1100 }) // 8.5in x 11in in pixels (approx)
 
 		const pdfBuffer = await page.pdf({

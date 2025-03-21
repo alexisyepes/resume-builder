@@ -7,7 +7,7 @@ export default function MainTemplateATS({ resume, isPdf, pages, resumeRef }) {
 				pages.map((pageContent, pageIndex) => (
 					<div
 						key={pageIndex}
-						className={`element element3 resume-page p-10 bg-white mx-auto rounded-md
+						className={`element element3 resume-page p-10 bg-white mx-auto rounded-sm
 						${isPdf ? "  " : "shadow-[0_10px_30px_rgba(0,0,0,0.4)] ring-slate-200 ring-2"}`}
 					>
 						{pageContent.map((section, index) => (

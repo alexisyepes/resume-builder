@@ -9,15 +9,15 @@ import hi from "./locales/hi"
 import ar from "./locales/ar"
 import useResumeStore from "./store/useResumeStore"
 
-export const tabs = [
-	"Personal details",
-	"Contact information",
-	"Professional summary",
-	"Employment history",
-	"Skills",
-	"Education",
-	"References",
-]
+// export const tabs = [
+// 	"Personal details",
+// 	"Contact information",
+// 	"Professional summary",
+// 	"Employment history",
+// 	"Skills",
+// 	"Education",
+// 	"References",
+// ]
 
 export const capitalizeEachWord = (string) => {
 	return string

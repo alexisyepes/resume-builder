@@ -247,6 +247,18 @@ export default function ResumePreview({
 		[CUSTOM_SECTION]: useRef(null),
 	}
 
+	const bgStyle =
+		template === "elegant"
+			? `
+				.elegant-template {
+					background: url('${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/images/template-bg-1.png') no-repeat center center !important;
+					background-size: cover !important;
+					-webkit-print-color-adjust: exact;
+					print-color-adjust: exact;
+				}
+			`
+			: ""
+
 	const handleDownload = async () => {
 		setDownloadInProgress(true)
 		await paginateContent()
@@ -257,6 +269,11 @@ export default function ResumePreview({
 				break
 			case "modern":
 				selectedTemplate = <ModernTemplate {...commonProps} />
+				break
+			case "elegant":
+				selectedTemplate = (
+					<ElegantTemplate {...commonProps} bg="/images/template-bg-1.png" />
+				)
 				break
 			default:
 				selectedTemplate = <MainTemplate {...commonProps} isPdf />
@@ -287,9 +304,11 @@ export default function ResumePreview({
 						src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk/NotoSansSC-Regular.otf') format('opentype');
 					}
 			
-					:lang(zh) {
+					:lang(${langPrefix}) {
 						font-family: "Noto Sans CJK SC", "Inter", system-ui, Arial, Helvetica, sans-serif;
 					}
+
+					${bgStyle}
 				</style>
 			</head>
 			<body>
@@ -389,7 +408,9 @@ export default function ResumePreview({
 				<div className="rounded py-8">
 					{template === "classic" && <ClassicTemplate {...commonProps} />}
 					{template === "classic-ats" && <MainTemplate {...commonProps} />}
-					{template === "elegant" && <ElegantTemplate {...commonProps} />}
+					{template === "elegant" && (
+						<ElegantTemplate bg="/images/template-bg-1.png" {...commonProps} />
+					)}
 					{template === "modern" && <ModernTemplate {...commonProps} />}
 					{template === "creative" && <CreativeTemplate {...commonProps} />}
 				</div>
