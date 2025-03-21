@@ -29,7 +29,7 @@ import {
 	REFERENCES,
 	SKILLS,
 } from "@/constants"
-import ClassicATSSectionMap from "./TemplateSections/ClassicATSSections"
+import StandardATSSectionMap from "./TemplateSections/StandardATSSections"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 
 export default function ResumePreview({
@@ -137,13 +137,11 @@ export default function ResumePreview({
 	}, [tabs, resumeContentTriggered])
 
 	useLayoutEffect(() => {
-		setTimeout(() => {
-			if (pages.length === 0) {
-				setPages([
-					[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)],
-				])
-			}
-		}, 300)
+		if (pages.length === 0) {
+			setPages([
+				[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)],
+			])
+		}
 	}, [
 		photo,
 		pages,
@@ -156,6 +154,7 @@ export default function ResumePreview({
 		cityPostCode,
 		objective,
 		skills,
+		tabs,
 	])
 
 	useEffect(() => {
@@ -198,6 +197,7 @@ export default function ResumePreview({
 			if (newPages.length === 0) {
 				newPages.push([])
 			}
+			console.log("newPages", newPages)
 
 			setPages(newPages)
 
@@ -272,7 +272,11 @@ export default function ResumePreview({
 				break
 			case "elegant":
 				selectedTemplate = (
-					<ElegantTemplate {...commonProps} bg="/images/template-bg-1.png" />
+					<MainTemplate
+						template={template}
+						bg="/images/template-bg-1.png"
+						{...commonProps}
+					/>
 				)
 				break
 			default:
@@ -356,19 +360,21 @@ export default function ResumePreview({
 
 	const sectionMap =
 		template === "classic-ats"
-			? ClassicATSSectionMap({
+			? StandardATSSectionMap({
 					sectionRefs,
 					t,
 					customTitles,
 					resumeData,
 					generatedResume,
+					template,
 			  })
-			: ClassicATSSectionMap({
+			: StandardATSSectionMap({
 					sectionRefs,
 					t,
 					customTitles,
 					resumeData,
 					generatedResume,
+					template,
 			  })
 
 	return (
@@ -409,7 +415,7 @@ export default function ResumePreview({
 					{template === "classic" && <ClassicTemplate {...commonProps} />}
 					{template === "classic-ats" && <MainTemplate {...commonProps} />}
 					{template === "elegant" && (
-						<ElegantTemplate bg="/images/template-bg-1.png" {...commonProps} />
+						<MainTemplate bg="/images/template-bg-1.png" {...commonProps} />
 					)}
 					{template === "modern" && <ModernTemplate {...commonProps} />}
 					{template === "creative" && <CreativeTemplate {...commonProps} />}

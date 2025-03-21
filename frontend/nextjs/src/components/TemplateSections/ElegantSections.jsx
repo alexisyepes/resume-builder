@@ -13,7 +13,7 @@ import {
 	CUSTOM_SECTION,
 } from "@/constants"
 
-export default function ClassicATSSectionMap({
+export default function ElegantSectionMap({
 	sectionRefs,
 	t,
 	customTitles,
@@ -48,16 +48,7 @@ export default function ClassicATSSectionMap({
 	return {
 		[PERSONAL_DETAILS]: (
 			<section ref={sectionRefs[PERSONAL_DETAILS]} className="mb-4">
-				<div className="relative text-center pb-4 mb-4">
-					{photo && (
-						<div className="w-16 h-16 mx-auto my-4 overflow-hidden rounded-full">
-							<img
-								src={photo}
-								alt="Uploaded preview"
-								className="w-full h-full object-cover"
-							/>
-						</div>
-					)}
+				<div className="relative pb-4 mb-4">
 					<h1 className="text-2xl capitalize font-bold">
 						{firstName || generatedResume.firstName}{" "}
 						{lastName || generatedResume.lastName}
