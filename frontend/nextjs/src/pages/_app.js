@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
 import useResumeStore from "@/store/useResumeStore"
 import { AuthProvider } from "@/contexts/AuthContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function App({ Component, pageProps }) {
 	const [resumeContentTriggered, setResumeContentTriggered] = useState(false)
@@ -15,6 +15,10 @@ export default function App({ Component, pageProps }) {
 	const { locale } = router
 	const langPrefix = locale
 	const { setPhoto } = useResumeStore()
+
+	useEffect(() => {
+		console.log(resumeContentTriggered)
+	}, [resumeContentTriggered])
 
 	const templateDesigns = [
 		{

@@ -118,14 +118,16 @@ export default function ResumePreview({
 	}
 
 	useEffect(() => {
+		const refreshContent = async () => {
+			await paginateContent()
+		}
 		if (resumeContentTriggered) {
-			paginateContent().then(() => {
-				setResumeContentTriggered(false)
-			})
+			refreshContent()
 		}
 	}, [resumeContentTriggered])
 
 	useLayoutEffect(() => {
+		setResumeContentTriggered(false)
 		if (pages.length === 0) {
 			paginateContent()
 		}
@@ -196,7 +198,6 @@ export default function ResumePreview({
 			if (newPages.length === 0) {
 				newPages.push([])
 			}
-			console.log("newPages", newPages)
 
 			setPages(newPages)
 
