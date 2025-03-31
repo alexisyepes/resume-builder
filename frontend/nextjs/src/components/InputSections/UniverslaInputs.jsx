@@ -103,16 +103,23 @@ export default function UniversalInput({
 		const { value } = e.target
 		const updatedData = [...data]
 
+		let formattedValue = value.split("\n")
+
+		if (formattedValue.length === 1 && formattedValue[0].trim() === "") {
+			formattedValue = []
+		}
+
 		updatedData[index] = {
 			...updatedData[index],
 			[field]:
 				field === "responsibilities" || field === "languages"
-					? value.split("\n")
-					: value, // Ensure responsibilities stay as an array
+					? formattedValue
+					: value,
 		}
 
 		setData(updatedData)
 	}
+
 	const handleRichTextEditChange = (value, index, field) => {
 		const updatedData = [...data]
 		updatedData[index] = { ...updatedData[index], [field]: value }
@@ -219,13 +226,15 @@ export default function UniversalInput({
 					+ {cta_label}
 				</button>
 			</form>
-			<button
-				onClick={nextTabHandler}
-				className="w-full capitalize mt-4 bg-cyan-500 text-white p-2 rounded"
-			>
-				{t.resume_builder.labels.general.next}
-				<GrLinkNext className="inline ml-2" />
-			</button>
+			{data.length ? (
+				<button
+					onClick={nextTabHandler}
+					className="w-full capitalize mt-4 bg-cyan-500 text-white p-2 rounded"
+				>
+					{t.resume_builder.labels.general.next}
+					<GrLinkNext className="inline ml-2" />
+				</button>
+			) : null}
 
 			{data.length ? <hr className="mt-6" /> : null}
 
