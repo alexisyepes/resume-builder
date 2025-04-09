@@ -30,6 +30,7 @@ import {
 } from "@/constants"
 import StandardATSSectionMap from "./TemplateSections/StandardATSSections"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import { TfiReload } from "react-icons/tfi"
 
 export default function ResumePreview({
 	generatedResume,
@@ -121,7 +122,7 @@ export default function ResumePreview({
 		const refreshContent = async () => {
 			await paginateContent()
 		}
-		if (resumeContentTriggered) {
+		if (template !== "modern" && resumeContentTriggered) {
 			refreshContent()
 		}
 	}, [resumeContentTriggered])
@@ -392,6 +393,15 @@ export default function ResumePreview({
 			</video>
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
+					<button
+						className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
+						onClick={() => {
+							window.location.reload()
+						}}
+					>
+						<TfiReload className="inline mr-2" />
+						Synchronize Content
+					</button>
 					<span className="text-white font-extrabold ml-6 text-xl capitalize">
 						{
 							t.resume_builder.labels.general.template_selector

@@ -244,12 +244,14 @@ const ModernTemplate = ({
 						t.resume_builder.labels.professional_summary.title}
 				</h2>
 				<div className="w-full border-b border-white mb-2 mt-[-2px]"></div>
-				<span
-					className="text-sm text-justify hyphens-auto whitespace-normal"
-					dangerouslySetInnerHTML={{
-						__html: cleanHTML,
-					}}
-				/>
+				<div className="max-h-[440px] overflow-y-auto pr-2">
+					<span
+						className="text-sm text-justify hyphens-auto whitespace-normal"
+						dangerouslySetInnerHTML={{
+							__html: cleanHTML,
+						}}
+					/>
+				</div>
 
 				<p className="w-[220px] text-sm mt-4 break-words break-all whitespace-normal">
 					<TfiEmail className="inline mr-1" /> {email || resume.contact?.email}

@@ -21,7 +21,7 @@ export default function MainTemplateATS({
 
 	return (
 		<div ref={resumeRef}>
-			{pages.length > 0 ? (
+			{pages && pages.length > 0 ? (
 				pages.map((pageContent, pageIndex) => (
 					<div
 						style={bgStyle}

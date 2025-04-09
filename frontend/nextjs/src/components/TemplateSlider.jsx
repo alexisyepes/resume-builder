@@ -42,7 +42,11 @@ export default function TemplateSlider({
 						<div
 							className="flex h-[26rem] w-full flex-col items-center cursor-pointer"
 							onClick={() => {
-								setResumeContentTriggered(true)
+								if (section.value === "modern") {
+									setResumeContentTriggered(false)
+								} else {
+									setResumeContentTriggered(true)
+								}
 								setTemplate(section.value)
 								setShowSlider(false)
 							}}
