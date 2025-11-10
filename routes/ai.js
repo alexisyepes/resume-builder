@@ -1,5 +1,4 @@
 const router = require("express").Router()
-const axios = require("axios")
 const OpenAI = require("openai")
 const defaultSkillPool = require("../utils/defaultSkills")
 

@@ -13,7 +13,7 @@ router.post(
 			event = stripe.webhooks.constructEvent(
 				req.body,
 				req.headers["stripe-signature"],
-				process.env.STRIPE_WEBHOOK_SECRET
+				process.env.STRIPE_WEBHOOK_SECRET // @TODO: set this in env variables
 			)
 		} catch (err) {
 			return res.status(400).send(`Webhook Error: ${err.message}`)

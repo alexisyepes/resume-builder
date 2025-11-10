@@ -122,13 +122,16 @@ export default function ResumePreview({
 		const refreshContent = async () => {
 			await paginateContent()
 		}
-		if (template !== "modern" && resumeContentTriggered) {
+		// Always refresh content when resumeContentTriggered changes
+		if (resumeContentTriggered) {
 			refreshContent()
+			// Reset the trigger after refreshing
+			setResumeContentTriggered(false)
 		}
-	}, [resumeContentTriggered])
+	}, [resumeContentTriggered, template])
 
 	useLayoutEffect(() => {
-		setResumeContentTriggered(false)
+		// Initial content setup
 		if (pages.length === 0) {
 			paginateContent()
 		}
