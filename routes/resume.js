@@ -13,6 +13,7 @@ router.post("/generate-pdf", async (req, res) => {
 		const browser = await puppeteer.launch({
 			headless: "new",
 			args: ["--no-sandbox", "--disable-setuid-sandbox"],
+			executablePath: "/chrome/linux-142.0.7444.61/chrome-linux64/chrome",
 		})
 
 		const page = await browser.newPage()
