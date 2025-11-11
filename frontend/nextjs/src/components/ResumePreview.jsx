@@ -406,7 +406,7 @@ export default function ResumePreview({
 						}}
 					>
 						<TfiReload className="inline mr-2" />
-						Synchronize Content
+						{t.resume_builder.labels.general.template_selector.synch_content}
 					</button>
 					<span className="text-white font-extrabold ml-6 text-xl capitalize">
 						{

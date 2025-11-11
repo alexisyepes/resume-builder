@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useRouter } from "next/router"
+import { loadTranslations } from "@/utils"
 
 export const servicesData = {
 	en: {
@@ -77,7 +79,9 @@ export const servicesData = {
 }
 
 const Services = () => {
-	const { title, subtitle, services, testimonials, pricing } = servicesData.en
+	const router = useRouter()
+	const t = loadTranslations(router)
+	// const { title, subtitle, services, testimonials, pricing } = servicesData.en
 
 	// Map icons dynamically
 	const iconComponents = {
@@ -97,7 +101,7 @@ const Services = () => {
 					transition={{ duration: 0.6 }}
 					className="text-3xl mt-8 font-extrabold text-gray-900 sm:text-5xl"
 				>
-					Build Your Dream Career
+					{t.resume_builder.pages.services.title}
 				</motion.h1>
 				<motion.p
 					initial={{ opacity: 0, y: 20 }}
@@ -105,7 +109,7 @@ const Services = () => {
 					transition={{ duration: 0.6, delay: 0.3 }}
 					className="mt-4 text-xl text-gray-600"
 				>
-					Create a professional resume in minutes with our AI-powered tools.
+					{t.resume_builder.pages.services.create_resume_in_minutes}
 				</motion.p>
 				<motion.div
 					initial={{ opacity: 0, scale: 0.9 }}
@@ -115,7 +119,7 @@ const Services = () => {
 				>
 					<Link href="/builder">
 						<button className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 text-lg">
-							Get Started for Free
+							{t.resume_builder.pages.services.get_started}
 						</button>
 					</Link>
 				</motion.div>
@@ -125,12 +129,14 @@ const Services = () => {
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center">
 					<h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-						{title}
+						{t.resume_builder.pages.services.title}
 					</h2>
-					<p className="mt-4 text-xl text-gray-500">{subtitle}</p>
+					<p className="mt-4 text-xl text-gray-500">
+						{t.resume_builder.pages.services.subtitle}
+					</p>
 				</div>
 				<div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-					{services.map((service, index) => {
+					{t.resume_builder.pages.services.services.map((service, index) => {
 						const Icon = iconComponents[service.icon]
 						return (
 							<motion.div
@@ -162,44 +168,46 @@ const Services = () => {
 			{/* Testimonials Section */}
 			<div className="max-w-7xl mx-auto mt-24">
 				<h2 className="text-3xl font-extrabold text-gray-900 text-center sm:text-4xl">
-					What Our Users Say
+					{t.resume_builder.pages.services.what_our_users_say}
 				</h2>
 				<div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
-					{testimonials.map((testimonial, index) => (
-						<motion.div
-							key={index}
-							initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.6, delay: index * 0.2 }}
-							className="bg-white p-8 rounded-lg shadow-lg"
-						>
-							<FaQuoteLeft className="text-cyan-500 w-8 h-8 mb-4" />
-							<p className="text-gray-600 italic">"{testimonial.quote}"</p>
-							<div className="mt-4 flex items-center">
-								<div className="flex-shrink-0">
-									<div className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold">
-										{testimonial.author[0]}
+					{t.resume_builder.pages.services.testimonials.map(
+						(testimonial, index) => (
+							<motion.div
+								key={index}
+								initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+								whileInView={{ opacity: 1, x: 0 }}
+								transition={{ duration: 0.6, delay: index * 0.2 }}
+								className="bg-white p-8 rounded-lg shadow-lg"
+							>
+								<FaQuoteLeft className="text-cyan-500 w-8 h-8 mb-4" />
+								<p className="text-gray-600 italic">"{testimonial.quote}"</p>
+								<div className="mt-4 flex items-center">
+									<div className="flex-shrink-0">
+										<div className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold">
+											{testimonial.author[0]}
+										</div>
+									</div>
+									<div className="ml-4">
+										<p className="text-gray-900 font-semibold">
+											{testimonial.author}
+										</p>
+										<p className="text-gray-500">{testimonial.role}</p>
 									</div>
 								</div>
-								<div className="ml-4">
-									<p className="text-gray-900 font-semibold">
-										{testimonial.author}
-									</p>
-									<p className="text-gray-500">{testimonial.role}</p>
-								</div>
-							</div>
-						</motion.div>
-					))}
+							</motion.div>
+						)
+					)}
 				</div>
 			</div>
 
 			{/* Pricing Section */}
 			<div className="max-w-7xl mx-auto mt-24">
 				<h2 className="text-3xl font-extrabold text-gray-900 text-center sm:text-4xl">
-					Pricing Plans
+					{t.resume_builder.pages.services.pricing_plans}
 				</h2>
 				<div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
-					{pricing.map((plan, index) => (
+					{t.resume_builder.pages.services.pricing.map((plan, index) => (
 						<motion.div
 							key={index}
 							initial={{ opacity: 0, y: 20 }}

@@ -6,6 +6,8 @@ export default {
 			services: "Services",
 			contact: "Contact",
 			signin: "Se Connecter",
+			dashboard: "Tableau de Bord",
+			logout: "Déconnexion",
 		},
 		labels: {
 			general: {
@@ -21,6 +23,7 @@ export default {
 					download: "Télécharger",
 					write: "Écrire",
 					choose_layout: "Choisir une mise en page",
+					synch_content: "Synchroniser le Contenu",
 				},
 			},
 			personal_information: {
@@ -191,6 +194,15 @@ export default {
 						"Créez votre CV professionnel en quelques minutes et obtenez l'emploi de vos rêves.",
 					cta_text: "Créer Mon CV",
 				},
+				demo_animation: {
+					generating_text: "...génération de votre CV",
+					cloud_sync: "Synchronisation Cloud",
+					ai_analysis: "Analyse IA",
+					analytics: "Analytiques",
+					default_first_name: "Jean",
+					default_last_name: "Dupont",
+					default_job_title: "Chef de Projet",
+				},
 			},
 			templates: {
 				choose_from_many: "Choisissez parmi des centaines de modèles",
@@ -203,6 +215,8 @@ export default {
 					description:
 						"Notre mission est d'autonomiser les chercheurs d'emploi en leur fournissant des outils qui rendent la création de CV simple, efficace et performante. Nous utilisons l'IA pour vous aider à vous démarquer sur un marché du travail compétitif.",
 				},
+				our_values_title: "Nos Valeurs",
+				whyChooseUs_title: "Pourquoi Nous Choisir",
 				values: [
 					{
 						icon: "FaLightbulb",
@@ -268,6 +282,75 @@ export default {
 						"Échec de la connexion Google. Veuillez réessayer",
 				},
 			},
+			services: {
+				title: "Construisez Votre Carrière de Rêve",
+				subtitle:
+					"Utilisez l'IA pour créer le CV parfait et booster votre carrière.",
+				services: [
+					{
+						icon: "FaFileAlt",
+						title: "Créateur de CV Alimenté par l'IA",
+						description:
+							"Créez des CV professionnels et compatibles ATS en quelques minutes avec notre créateur de CV piloté par l'IA.",
+					},
+					{
+						icon: "FaEdit",
+						title: "Personnalisation de CV",
+						description:
+							"Adaptez votre CV à des postes et secteurs spécifiques avec des recommandations d'experts.",
+					},
+					{
+						icon: "FaChartLine",
+						title: "Informations sur la Carrière",
+						description:
+							"Obtenez des insights actionnables pour améliorer votre CV et augmenter vos chances d'obtenir des entretiens.",
+					},
+					{
+						icon: "FaDownload",
+						title: "Télécharger et Postuler",
+						description:
+							"Téléchargez facilement votre CV et commencez à postuler à vos emplois de rêve.",
+					},
+				],
+				testimonials: [
+					{
+						quote:
+							"Ce créateur de CV IA m'a aidé à décrocher mon emploi de rêve ! Vivement recommandé.",
+						author: "John Doe",
+						role: "Ingénieur Logiciel",
+					},
+					{
+						quote:
+							"Les options de personnalisation sont fantastiques. Mon CV a l'air professionnel et soigné.",
+						author: "Jane Smith",
+						role: "Responsable Marketing",
+					},
+				],
+				pricing: [
+					{
+						title: "Basique",
+						price: "Gratuit",
+						features: ["1 CV", "Modèles de base", "Personnalisation Limitée"],
+						cta: "Commencer",
+					},
+					{
+						title: "Pro",
+						price: "9,99 $/mois",
+						features: [
+							"CV Illimités",
+							"Modèles Premium",
+							"Personnalisation Avancée",
+							"Informations sur la Carrière",
+						],
+						cta: "S'abonner",
+					},
+				],
+				get_started: "Commencer Gratuitement",
+				what_our_users_say: "Ce que disent nos utilisateurs",
+				create_resume_in_minutes:
+					"Créez un CV professionnel en quelques minutes avec nos outils alimentés par l'IA.",
+				pricing_plans: "Forfaits Tarifaires",
+			},
 		},
 		template_names: {
 			classic: "Classique",
@@ -275,5 +358,6 @@ export default {
 			elegant: "Élégant",
 			modern: "Moderne",
 		},
+		footer: "2025 Créateur de CV IA. Tous droits réservés.",
 	},
 }

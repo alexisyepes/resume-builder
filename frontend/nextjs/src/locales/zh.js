@@ -6,6 +6,8 @@ export default {
 			services: "服务",
 			contact: "联系我们",
 			signin: "登录",
+			dashboard: "仪表板",
+			logout: "退出登录",
 		},
 		labels: {
 			general: {
@@ -20,6 +22,7 @@ export default {
 					download: "下载",
 					write: "书写",
 					choose_layout: "选择布局",
+					synch_content: "同步内容",
 				},
 			},
 			personal_information: {
@@ -179,6 +182,15 @@ export default {
 					description: "几分钟内创建您的专业简历，找到您的梦想工作。",
 					cta_text: "创建我的简历",
 				},
+				demo_animation: {
+					generating_text: "...正在生成您的简历",
+					cloud_sync: "云同步",
+					ai_analysis: "AI分析",
+					analytics: "数据分析",
+					default_first_name: "张",
+					default_last_name: "伟",
+					default_job_title: "项目经理",
+				},
 			},
 			templates: {
 				choose_from_many: "从数百个模板中选择",
@@ -191,6 +203,8 @@ export default {
 					description:
 						"我们的使命是为求职者提供工具，使简历制作变得轻松、高效和有力。我们利用人工智能帮助您在竞争激烈的就业市场中脱颖而出。",
 				},
+				our_values_title: "我们的价值观",
+				whyChooseUs_title: "为什么选择我们",
 				values: [
 					{
 						icon: "FaLightbulb",
@@ -250,6 +264,64 @@ export default {
 					google_auth_failed: "Google 登录失败。请再试一次",
 				},
 			},
+			services: {
+				title: "打造你的梦想职业",
+				subtitle: "利用AI创建完美简历，提升你的职业生涯。",
+				services: [
+					{
+						icon: "FaFileAlt",
+						title: "AI智能简历生成器",
+						description:
+							"使用我们的AI驱动简历生成器，几分钟内即可创建专业、ATS友好的简历。",
+					},
+					{
+						icon: "FaEdit",
+						title: "简历定制",
+						description: "根据专家建议，为特定职位和行业量身定制你的简历。",
+					},
+					{
+						icon: "FaChartLine",
+						title: "职业洞察",
+						description: "获取可行的建议来改进你的简历，增加获得面试的机会。",
+					},
+					{
+						icon: "FaDownload",
+						title: "下载并申请",
+						description: "轻松下载你的简历，开始申请梦想的工作。",
+					},
+				],
+				testimonials: [
+					{
+						quote: "这个AI简历生成器帮我找到了梦想的工作！强烈推荐。",
+						author: "约翰·多伊",
+						role: "软件工程师",
+					},
+					{
+						quote: "定制选项非常棒。我的简历看起来专业又精致。",
+						author: "简·史密斯",
+						role: "市场经理",
+					},
+				],
+				pricing: [
+					{
+						title: "基础版",
+						price: "免费",
+						features: ["1份简历", "基础模板", "有限定制"],
+						cta: "免费开始",
+					},
+					{
+						title: "专业版",
+						price: "$9.99/月",
+						features: ["无限简历", "高级模板", "高级定制", "职业洞察"],
+						cta: "立即订阅",
+					},
+				],
+				get_started: "免费开始",
+				what_our_users_say: "用户评价",
+				create_resume_in_minutes:
+					"使用我们的AI工具，几分钟内即可创建专业简历。",
+				pricing_plans: "价格方案",
+			},
 		},
 		template_names: {
 			classic: "经典",
@@ -257,5 +329,6 @@ export default {
 			elegant: "优雅",
 			modern: "现代",
 		},
+		footer: "2025 AI简历生成器。版权所有。",
 	},
 }

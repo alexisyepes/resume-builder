@@ -6,6 +6,8 @@ export default {
 			services: "services",
 			contact: "contact",
 			signin: "sign in",
+			dashboard: "Dashboard",
+			logout: "Logout",
 		},
 		labels: {
 			general: {
@@ -21,6 +23,7 @@ export default {
 					download: "Download",
 					write: "Write",
 					choose_layout: "Choose a Layout",
+					synch_content: "Sync Content",
 				},
 			},
 			personal_information: {
@@ -191,6 +194,15 @@ export default {
 						"Create your professional resume in minutes and land your dream job.",
 					cta_text: "Build My Resume",
 				},
+				demo_animation: {
+					generating_text: "...generating your resume",
+					cloud_sync: "Cloud Sync",
+					ai_analysis: "AI Analysis",
+					analytics: "Analytics",
+					default_first_name: "John",
+					default_last_name: "Connor",
+					default_job_title: "Project manager",
+				},
 			},
 			templates: {
 				choose_from_many: "Choose from hundreds of templates",
@@ -203,6 +215,8 @@ export default {
 					description:
 						"Our mission is to empower job seekers with tools that make resume building effortless, efficient, and effective. We leverage AI to help you stand out in a competitive job market.",
 				},
+				our_values_title: "Our Values",
+				whyChooseUs_title: "Why Choose Us",
 				values: [
 					{
 						icon: "FaLightbulb",
@@ -267,6 +281,75 @@ export default {
 					google_auth_failed: "Google sign-in failed. Please try again",
 				},
 			},
+			services: {
+				title: "Build Your Dream Career",
+				subtitle:
+					"Leverage AI to create the perfect resume and boost your career.",
+				services: [
+					{
+						icon: "FaFileAlt",
+						title: "AI-Powered Resume Builder",
+						description:
+							"Create professional, ATS-friendly resumes in minutes with our AI-driven resume builder.",
+					},
+					{
+						icon: "FaEdit",
+						title: "Resume Customization",
+						description:
+							"Tailor your resume for specific job roles and industries with expert recommendations.",
+					},
+					{
+						icon: "FaChartLine",
+						title: "Career Insights",
+						description:
+							"Get actionable insights to improve your resume and increase your chances of landing interviews.",
+					},
+					{
+						icon: "FaDownload",
+						title: "Download & Apply",
+						description:
+							"Easily download your resume and start applying to your dream jobs.",
+					},
+				],
+				testimonials: [
+					{
+						quote:
+							"This AI resume builder helped me land my dream job! Highly recommended.",
+						author: "John Doe",
+						role: "Software Engineer",
+					},
+					{
+						quote:
+							"The customization options are fantastic. My resume looks professional and polished.",
+						author: "Jane Smith",
+						role: "Marketing Manager",
+					},
+				],
+				pricing: [
+					{
+						title: "Basic",
+						price: "Free",
+						features: ["1 Resume", "Basic Templates", "Limited Customization"],
+						cta: "Get Started",
+					},
+					{
+						title: "Pro",
+						price: "$9.99/month",
+						features: [
+							"Unlimited Resumes",
+							"Premium Templates",
+							"Advanced Customization",
+							"Career Insights",
+						],
+						cta: "Subscribe",
+					},
+				],
+				get_started: "Get Started for Free",
+				what_our_users_say: "What our users say",
+				create_resume_in_minutes:
+					"Create a professional resume in minutes with our AI-powered tools.",
+				pricing_plans: "Pricing Plans",
+			},
 		},
 		template_names: {
 			classic: "classic",
@@ -274,5 +357,6 @@ export default {
 			elegant: "elegant",
 			modern: "modern",
 		},
+		footer: "2025 AI Resume Builder. All rights reserved.",
 	},
 }

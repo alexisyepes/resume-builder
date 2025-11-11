@@ -6,6 +6,8 @@ export default {
 			services: "Servizi",
 			contact: "Contatto",
 			signin: "Accedi",
+			dashboard: "Cruscotto",
+			logout: "Disconnetti",
 		},
 		labels: {
 			general: {
@@ -21,6 +23,7 @@ export default {
 					download: "Scaricare",
 					write: "Scrivi",
 					choose_layout: "Scegli un layout",
+					synch_content: "Sincronizza Contenuto",
 				},
 			},
 			personal_information: {
@@ -193,6 +196,15 @@ export default {
 						"Crea il tuo curriculum professionale in pochi minuti e trova il lavoro dei tuoi sogni.",
 					cta_text: "Crea il Mio Curriculum",
 				},
+				demo_animation: {
+					generating_text: "...generazione del tuo curriculum",
+					cloud_sync: "Sincronizzazione Cloud",
+					ai_analysis: "Analisi IA",
+					analytics: "Analitiche",
+					default_first_name: "Marco",
+					default_last_name: "Rossi",
+					default_job_title: "Project Manager",
+				},
 			},
 			templates: {
 				choose_from_many: "Scegli tra centinaia di modelli",
@@ -206,6 +218,8 @@ export default {
 					description:
 						"La nostra missione è fornire ai candidati strumenti che rendano la creazione del curriculum semplice, efficiente ed efficace. Sfruttiamo l'IA per aiutarti a distinguerti in un mercato del lavoro competitivo.",
 				},
+				our_values_title: "I Nostri Valori",
+				whyChooseUs_title: "Perché Sceglierci",
 				values: [
 					{
 						icon: "FaLightbulb",
@@ -270,6 +284,79 @@ export default {
 					google_auth_failed: "Accesso con Google fallito. Per favore riprova",
 				},
 			},
+			services: {
+				title: "Costruisci la Tua Carriera dei Sogni",
+				subtitle:
+					"Sfrutta l'IA per creare il curriculum perfetto e far decollare la tua carriera.",
+				services: [
+					{
+						icon: "FaFileAlt",
+						title: "Creatore di Curriculum con IA",
+						description:
+							"Crea curriculum professionali e compatibili con i sistemi ATS in pochi minuti con il nostro creatore di curriculum basato sull'IA.",
+					},
+					{
+						icon: "FaEdit",
+						title: "Personalizzazione del Curriculum",
+						description:
+							"Personalizza il tuo curriculum per ruoli lavorativi e settori specifici con i consigli di esperti.",
+					},
+					{
+						icon: "FaChartLine",
+						title: "Informazioni sulla Carriera",
+						description:
+							"Ottieni approfondimenti pratici per migliorare il tuo curriculum e aumentare le tue possibilità di ottenere colloqui.",
+					},
+					{
+						icon: "FaDownload",
+						title: "Scarica e Candidati",
+						description:
+							"Scarica facilmente il tuo curriculum e inizia a candidarti per i lavori dei tuoi sogni.",
+					},
+				],
+				testimonials: [
+					{
+						quote:
+							"Questo creatore di curriculum con IA mi ha aiutato a ottenere il lavoro dei miei sogni! Altamente raccomandato.",
+						author: "John Doe",
+						role: "Ingegnere del Software",
+					},
+					{
+						quote:
+							"Le opzioni di personalizzazione sono fantastiche. Il mio curriculum appare professionale e rifinito.",
+						author: "Jane Smith",
+						role: "Responsabile Marketing",
+					},
+				],
+				pricing: [
+					{
+						title: "Base",
+						price: "Gratuito",
+						features: [
+							"1 Curriculum",
+							"Modelli Base",
+							"Personalizzazione Limitata",
+						],
+						cta: "Inizia",
+					},
+					{
+						title: "Pro",
+						price: "9,99 $/mese",
+						features: [
+							"Curriculum Illimitati",
+							"Modelli Premium",
+							"Personalizzazione Avanzata",
+							"Informazioni sulla Carriera",
+						],
+						cta: "Abbonati",
+					},
+				],
+				get_started: "Inizia Gratuitamente",
+				what_our_users_say: "Cosa dicono i nostri utenti",
+				create_resume_in_minutes:
+					"Crea un curriculum professionale in pochi minuti con i nostri strumenti basati sull'IA.",
+				pricing_plans: "Piani di Prezzo",
+			},
 		},
 		template_names: {
 			classic: "Classico",
@@ -277,5 +364,6 @@ export default {
 			elegant: "Elegante",
 			modern: "Moderno",
 		},
+		footer: "2025 Creatore di CV IA. Tutti i diritti riservati.",
 	},
 }
