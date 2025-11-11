@@ -1,7 +1,18 @@
 const express = require("express")
 const { Resume } = require("../models")
 const router = express.Router()
-const puppeteer = require("puppeteer")
+
+const isProduction = process.env.NODE_ENV === "production"
+
+let puppeteer
+let chromium
+
+if (isProduction) {
+	chromium = require("@sparticuz/chromium")
+	puppeteer = require("puppeteer-core")
+} else {
+	puppeteer = require("puppeteer")
+}
 
 router.post("/generate-pdf", async (req, res) => {
 	try {
@@ -10,11 +21,22 @@ router.post("/generate-pdf", async (req, res) => {
 			return res.status(400).json({ error: "No HTML content provided" })
 		}
 
-		const browser = await puppeteer.launch({
-			headless: "new",
-			args: ["--no-sandbox", "--disable-setuid-sandbox"],
-			executablePath: "/chrome/linux-142.0.7444.61/chrome-linux64/chrome",
-		})
+		let browser
+		if (isProduction) {
+			const executablePath = await chromium.executablePath()
+			console.log("Using Chromium from:", executablePath)
+
+			browser = await puppeteer.launch({
+				args: chromium.args,
+				defaultViewport: chromium.defaultViewport,
+				executablePath,
+				headless: chromium.headless,
+			})
+		} else {
+			browser = await puppeteer.launch({
+				headless: true,
+			})
+		}
 
 		const page = await browser.newPage()
 		await page.setContent(html, { waitUntil: "domcontentloaded" })
@@ -22,12 +44,12 @@ router.post("/generate-pdf", async (req, res) => {
 		await page.evaluate(
 			() => new Promise((resolve) => setTimeout(resolve, 500))
 		)
-		await page.setViewport({ width: 850, height: 1100 }) // 8.5in x 11in in pixels (approx)
+		await page.setViewport({ width: 850, height: 1100 })
 
 		const pdfBuffer = await page.pdf({
 			format: "LETTER",
 			printBackground: true,
-			margin: { top: 0, right: 0, bottom: 0, left: 0 }, // Remove extra spacing
+			margin: { top: 0, right: 0, bottom: 0, left: 0 },
 			width: "8.5in",
 			height: "11in",
 		})
@@ -48,16 +70,13 @@ router.post("/generate-pdf", async (req, res) => {
 	}
 })
 
-// Get user resumes
 router.get("/:userId", async (req, res) => {
 	const resumes = await Resume.findAll({ where: { userId: req.params.userId } })
 	res.json(resumes)
 })
 
-// Upload Resume
 router.post("/", async (req, res) => {
 	const { userId, fileUrl } = req.body
-
 	const resume = await Resume.create({ userId, fileUrl })
 	res.status(201).json(resume)
 })
