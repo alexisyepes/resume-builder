@@ -263,6 +263,9 @@ export default function ResumePreview({
 			`
 			: ""
 
+	const baseUrl =
+		process.env.NEXT_PUBLIC_FRONTEND_SERVER || "http://localhost:3000"
+
 	const handleDownload = async () => {
 		setDownloadInProgress(true)
 		await paginateContent()
@@ -296,8 +299,8 @@ export default function ResumePreview({
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>Resume</title>
 				<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-				<link rel="stylesheet" href="http://localhost:3000/tailwind.css">
-				<link rel="stylesheet" href="http://localhost:3000/styles/globals.css">
+				<link rel="stylesheet" href="${baseUrl}/tailwind.css">
+				<link rel="stylesheet" href="${baseUrl}/styles/globals.css">
 				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
 			
 				<!-- Add a font that supports Chinese characters -->
