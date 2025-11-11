@@ -6,7 +6,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
 		"start:prod": "node index.js",
-		"start:dev": "nodemon index.js"
+		"start:dev": "nodemon index.js",
+		"postinstall": "npx puppeteer browsers install chrome"
 	},
 	"keywords": [],
 	"author": "",
