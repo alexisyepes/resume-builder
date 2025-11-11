@@ -3,6 +3,7 @@ import axios from "axios"
 import { useRouter } from "next/router"
 import { createContext, useContext } from "react"
 import { loadTranslations } from "@/utils"
+import { first } from "lodash"
 
 const AuthContext = createContext()
 
@@ -29,25 +30,47 @@ export const AuthProvider = ({ children }) => {
 			setIsAuthenticated(true)
 			router.push("/builder")
 		} catch (error) {
-			console.error("Login failed:", error.response.data.message)
-			setAuthError(t.resume_builder.pages.signin.invalid_credentials)
+			console.error("Login failed:", error.response?.data)
+
+			const errorMessage = error.response?.data?.message
+
+			if (errorMessage === "Invalid email or password") {
+				setAuthError(t.resume_builder.pages.signin.errors.invalid_credentials)
+			} else if (errorMessage === "You must enter email and password") {
+				setAuthError(t.resume_builder.pages.signin.errors.validation)
+			} else {
+				setAuthError(t.resume_builder.pages.signin.errors.auth_failed)
+			}
 		}
 	}
 
-	const register = async (email, password, provider) => {
+	const register = async (firstName, lastName, email, password) => {
 		try {
 			const response = await axios.post(`${apiBaseUrl}/register`, {
-				provider,
+				firstName,
+				lastName,
 				email,
 				password,
+				provider: "email",
 			})
+
 			localStorage.setItem("token", response.data.token)
 			setUser(response.data.user)
 			setIsAuthenticated(true)
 			router.push("/builder")
 		} catch (error) {
-			console.error("Registration failed:", error)
-			alert("Registration failed. Please try again.")
+			console.error("Registration failed:", error.response?.data)
+			const errorMessage = error.response?.data?.message
+
+			if (errorMessage === "Email already exists") {
+				setAuthError(t.resume_builder.pages.signin.errors.email_exists)
+			} else if (errorMessage === "All fields are required") {
+				setAuthError(t.resume_builder.pages.signin.errors.all_fields_required)
+			} else if (errorMessage === "Password must be at least 8 characters") {
+				setAuthError(t.resume_builder.pages.signin.errors.password_min_length)
+			} else {
+				setAuthError(t.resume_builder.pages.signin.errors.error_creating_user)
+			}
 		}
 	}
 

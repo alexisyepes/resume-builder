@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
 import { FaLock, FaEnvelope, FaArrowRight, FaGoogle } from "react-icons/fa"
+import { CiUser } from "react-icons/ci"
 import { useAuth } from "@/contexts/AuthContext"
 import useResumeStore from "@/store/useResumeStore"
 import Image from "next/image"
@@ -11,6 +12,8 @@ const Signin = () => {
 	const [isLogin, setIsLogin] = useState(true)
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
+	const [firstName, setFirstName] = useState("")
+	const [lastName, setLastName] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
 
 	const { login, register, signInWithGoogle } = useAuth()
@@ -40,7 +43,7 @@ const Signin = () => {
 					alert("Passwords do not match!")
 					return
 				}
-				await register(email, password, provider)
+				await register(firstName, lastName, email, password, provider)
 			}
 		} catch (error) {
 			console.error("Authentication failed:", error)
@@ -81,6 +84,46 @@ const Signin = () => {
 						: t.resume_builder.pages.signin.register}
 				</h2>
 				<form onSubmit={handleSubmit}>
+					{!isLogin && (
+						<>
+							<div className="mb-4">
+								<label className="block text-sm font-medium mb-2">
+									{t.resume_builder.pages.signin.firstName}
+								</label>
+								<div className="relative">
+									<CiUser
+										size={20}
+										className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+									/>
+									<input
+										type="text"
+										placeholder={t.resume_builder.pages.signin.firstName}
+										value={firstName}
+										onChange={(e) => setFirstName(e.target.value)}
+										className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									/>
+								</div>
+							</div>
+							<div className="mb-4">
+								<label className="block text-sm font-medium mb-2">
+									{t.resume_builder.pages.signin.lastName}
+								</label>
+								<div className="relative">
+									<CiUser
+										size={20}
+										className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+									/>
+									<input
+										type="text"
+										placeholder={t.resume_builder.pages.signin.lastName}
+										value={lastName}
+										onChange={(e) => setLastName(e.target.value)}
+										className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									/>
+								</div>
+							</div>
+						</>
+					)}
 					<div className="mb-4">
 						<label className="block text-sm font-medium mb-2">
 							{t.resume_builder.pages.signin.email}
@@ -156,12 +199,14 @@ const Signin = () => {
 								{t.resume_builder.pages.signin.or}
 							</p>
 							<button
+								disabled // @TODO: Implement Google Sign-Up
 								type="button"
 								onClick={handleGoogleSignIn}
-								className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center"
+								className={`w-full disabled:bg-red-300 disabled:cursor-not-allowed bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center`}
 							>
 								<FaGoogle className="mr-2" />
-								{t.resume_builder.pages.signin.signup_with_google}
+								{t.resume_builder.pages.signin.signup_with_google}{" "}
+								<span className="text-xs ml-2">(Disabled at the moment)</span>
 							</button>
 						</motion.div>
 					) : (

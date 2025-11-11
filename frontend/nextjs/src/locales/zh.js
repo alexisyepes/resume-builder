@@ -243,6 +243,8 @@ export default {
 			},
 			signin: {
 				title: "登录",
+				firstName: "名字",
+				lastName: "姓氏",
 				email: "电子邮件",
 				password: "密码",
 				confirm_password: "确认密码",
@@ -258,10 +260,14 @@ export default {
 				try_again: "请再试一次",
 				forgot_password: "忘记密码",
 				errors: {
-					validation: "您必须输入电子邮件和密码",
+					validation: "您必须输入邮箱和密码",
 					passwords_no_match: "密码不匹配",
-					auth_failed: "身份验证失败。请再试一次",
-					google_auth_failed: "Google 登录失败。请再试一次",
+					auth_failed: "认证失败。请重试",
+					google_auth_failed: "Google 登录失败。请重试",
+					all_fields_required: "所有字段都是必需的",
+					password_min_length: "密码必须至少8个字符",
+					email_exists: "邮箱已存在",
+					invalid_credentials: "邮箱或密码无效",
 				},
 			},
 			services: {

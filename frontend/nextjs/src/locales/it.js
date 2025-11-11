@@ -263,6 +263,8 @@ export default {
 			},
 			signin: {
 				title: "Accedi",
+				firstName: "Nome",
+				lastName: "Cognome",
 				email: "Email",
 				password: "Password",
 				confirm_password: "Conferma Password",
@@ -280,8 +282,12 @@ export default {
 				errors: {
 					validation: "Devi inserire email e password",
 					passwords_no_match: "Le password non corrispondono",
-					auth_failed: "Autenticazione fallita. Per favore riprova",
-					google_auth_failed: "Accesso con Google fallito. Per favore riprova",
+					auth_failed: "Autenticazione fallita. Riprova",
+					google_auth_failed: "Accesso Google fallito. Riprova",
+					all_fields_required: "Tutti i campi sono obbligatori",
+					password_min_length: "La password deve essere di almeno 8 caratteri",
+					email_exists: "L'email esiste già",
+					invalid_credentials: "Email o password non validi",
 				},
 			},
 			services: {

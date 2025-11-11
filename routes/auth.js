@@ -66,11 +66,30 @@ router.get("/validate-token", async (req, res) => {
 
 // Register (Email & Password)
 router.post("/register", async (req, res) => {
-	const { provider, email, password } = req.body
+	const { provider, firstName, lastName, email, password } = req.body
+
+	if (!email || !password || !firstName || !lastName) {
+		return res.status(400).json({ message: "All fields are required" })
+	}
+
+	if (password.length < 8) {
+		return res
+			.status(400)
+			.json({ message: "Password must be at least 8 characters" })
+	}
+
 	const hashedPassword = await bcrypt.hash(password, 10)
 
 	try {
+		const existingUser = await User.findOne({ where: { email } })
+
+		if (existingUser) {
+			return res.status(400).json({ message: "Email already exists" })
+		}
+
 		const user = await User.create({
+			firstName,
+			lastName,
 			email,
 			password: hashedPassword,
 			provider,

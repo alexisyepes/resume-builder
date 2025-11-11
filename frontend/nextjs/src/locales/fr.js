@@ -260,6 +260,8 @@ export default {
 			},
 			signin: {
 				title: "Connexion",
+				firstName: "Prénom",
+				lastName: "Nom de Famille",
 				email: "Email",
 				password: "Mot de passe",
 				confirm_password: "Confirmer le mot de passe",
@@ -275,11 +277,16 @@ export default {
 				try_again: "Veuillez réessayer",
 				forgot_password: "Mot de passe oublié",
 				errors: {
-					validation: "Vous devez entrer un email et un mot de passe",
+					validation: "Vous devez saisir l'email et le mot de passe",
 					passwords_no_match: "Les mots de passe ne correspondent pas",
 					auth_failed: "Échec de l'authentification. Veuillez réessayer",
 					google_auth_failed:
 						"Échec de la connexion Google. Veuillez réessayer",
+					all_fields_required: "Tous les champs sont obligatoires",
+					password_min_length:
+						"Le mot de passe doit contenir au moins 8 caractères",
+					email_exists: "L'email existe déjà",
+					invalid_credentials: "Email ou mot de passe invalide",
 				},
 			},
 			services: {
