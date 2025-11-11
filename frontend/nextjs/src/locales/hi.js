@@ -265,6 +265,8 @@ export default {
 			},
 			signin: {
 				title: "लॉग इन करें",
+				firstName: "पहला नाम",
+				lastName: "उपनाम",
 				email: "ईमेल",
 				password: "पासवर्ड",
 				confirm_password: "पासवर्ड की पुष्टि करें",
@@ -281,9 +283,13 @@ export default {
 				forgot_password: "पासवर्ड भूल गए",
 				errors: {
 					validation: "आपको ईमेल और पासवर्ड दर्ज करना होगा",
-					passwords_no_match: "पासवर्ड मेल नहीं खाते",
+					passwords_no_match: "पासवर्ड मेल नहीं खा रहे हैं",
 					auth_failed: "प्रमाणीकरण विफल। कृपया पुनः प्रयास करें",
-					google_auth_failed: "गूगल साइन-इन विफल। कृपया पुनः प्रयास करें",
+					google_auth_failed: "Google साइन-इन विफल। कृपया पुनः प्रयास करें",
+					all_fields_required: "सभी फ़ील्ड आवश्यक हैं",
+					password_min_length: "पासवर्ड कम से कम 8 वर्णों का होना चाहिए",
+					email_exists: "ईमेल पहले से मौजूद है",
+					invalid_credentials: "अमान्य ईमेल या पासवर्ड",
 				},
 			},
 			services: {

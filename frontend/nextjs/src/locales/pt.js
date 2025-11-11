@@ -262,6 +262,8 @@ export default {
 			},
 			signin: {
 				title: "Entrar",
+				firstName: "Nome",
+				lastName: "Sobrenome",
 				email: "Email",
 				password: "Senha",
 				confirm_password: "Confirmar Senha",
@@ -277,11 +279,15 @@ export default {
 				try_again: "Por favor, tente novamente",
 				forgot_password: "Esqueci a senha",
 				errors: {
-					validation: "Você deve inserir e-mail e senha",
+					validation: "Você deve inserir email e senha",
 					passwords_no_match: "As senhas não coincidem",
 					auth_failed: "Falha na autenticação. Por favor, tente novamente",
 					google_auth_failed:
-						"Falha no login com o Google. Por favor, tente novamente",
+						"Falha no login do Google. Por favor, tente novamente",
+					all_fields_required: "Todos os campos são obrigatórios",
+					password_min_length: "A senha deve ter pelo menos 8 caracteres",
+					email_exists: "O email já existe",
+					invalid_credentials: "Email ou senha inválidos",
 				},
 			},
 			services: {

@@ -259,6 +259,8 @@ export default {
 			},
 			signin: {
 				title: "Log in",
+				firstName: "First Name",
+				lastName: "Last Name",
 				email: "Email",
 				password: "Password",
 				confirm_password: "Confirm Password",
@@ -279,6 +281,10 @@ export default {
 					passwords_no_match: "Passwords do not match",
 					auth_failed: "Authentication failed. Please try again",
 					google_auth_failed: "Google sign-in failed. Please try again",
+					all_fields_required: "All fields are required",
+					password_min_length: "Password must be at least 8 characters",
+					email_exists: "Email already exists",
+					invalid_credentials: "Invalid email or password",
 				},
 			},
 			services: {

@@ -261,6 +261,8 @@ export default {
 			},
 			signin: {
 				title: "Iniciar sesión",
+				firstName: "Nombre",
+				lastName: "Apellido",
 				email: "Correo electrónico",
 				password: "Contraseña",
 				confirm_password: "Confirmar contraseña",
@@ -278,9 +280,13 @@ export default {
 				errors: {
 					validation: "Debes ingresar correo electrónico y contraseña",
 					passwords_no_match: "Las contraseñas no coinciden",
-					auth_failed: "Error de autenticación. Por favor, inténtalo de nuevo",
+					auth_failed: "Error de autenticación. Por favor, intenta de nuevo",
 					google_auth_failed:
-						"Error al iniciar sesión con Google. Por favor, inténtalo de nuevo",
+						"Error al iniciar sesión con Google. Por favor, intenta de nuevo",
+					all_fields_required: "Todos los campos son obligatorios",
+					password_min_length: "La contraseña debe tener al menos 8 caracteres",
+					email_exists: "El correo electrónico ya existe",
+					invalid_credentials: "Correo electrónico o contraseña inválidos",
 				},
 			},
 			services: {
