@@ -6,6 +6,8 @@ export default {
 			services: "Serviços",
 			contact: "Contato",
 			signin: "Entrar",
+			dashboard: "Painel de Controle",
+			logout: "Sair",
 		},
 		labels: {
 			general: {
@@ -21,6 +23,7 @@ export default {
 					download: "Baixar",
 					write: "Escrever",
 					choose_layout: "Escolher um layout",
+					synch_content: "Sincronizar Conteúdo",
 				},
 			},
 			personal_information: {
@@ -192,6 +195,15 @@ export default {
 						"Crie seu currículo profissional em minutos e conquiste o emprego dos seus sonhos.",
 					cta_text: "Criar Meu Currículo",
 				},
+				demo_animation: {
+					generating_text: "...gerando seu currículo",
+					cloud_sync: "Sincronização na Nuvem",
+					ai_analysis: "Análise com IA",
+					analytics: "Análises",
+					default_first_name: "João",
+					default_last_name: "Silva",
+					default_job_title: "Gerente de Projetos",
+				},
 			},
 			templates: {
 				choose_from_many: "Escolha entre centenas de modelos",
@@ -205,6 +217,8 @@ export default {
 					description:
 						"Nossa missão é capacitar os candidatos a emprego com ferramentas que tornam a criação de currículos fácil, eficiente e eficaz. Utilizamos IA para ajudá-lo a se destacar em um mercado de trabalho competitivo.",
 				},
+				our_values_title: "Nossos Valores",
+				whyChooseUs_title: "Por Que Nos Escolher",
 				values: [
 					{
 						icon: "FaLightbulb",
@@ -270,6 +284,79 @@ export default {
 						"Falha no login com o Google. Por favor, tente novamente",
 				},
 			},
+			services: {
+				title: "Construa Sua Carreira dos Sonhos",
+				subtitle:
+					"Use a IA para criar o currículo perfeito e impulsione sua carreira.",
+				services: [
+					{
+						icon: "FaFileAlt",
+						title: "Construtor de Currículo com IA",
+						description:
+							"Crie currículos profissionais e compatíveis com ATS em minutos com nosso construtor de currículo baseado em IA.",
+					},
+					{
+						icon: "FaEdit",
+						title: "Personalização de Currículo",
+						description:
+							"Adapte seu currículo para funções e setores específicos com recomendações de especialistas.",
+					},
+					{
+						icon: "FaChartLine",
+						title: "Insights de Carreira",
+						description:
+							"Obtenha insights acionáveis para melhorar seu currículo e aumentar suas chances de conseguir entrevistas.",
+					},
+					{
+						icon: "FaDownload",
+						title: "Baixar e Aplicar",
+						description:
+							"Baixe seu currículo facilmente e comece a se candidatar aos empregos dos seus sonhos.",
+					},
+				],
+				testimonials: [
+					{
+						quote:
+							"Este construtor de currículo com IA me ajudou a conseguir meu emprego dos sonhos! Altamente recomendado.",
+						author: "John Doe",
+						role: "Engenheiro de Software",
+					},
+					{
+						quote:
+							"As opções de personalização são fantásticas. Meu currículo parece profissional e polido.",
+						author: "Jane Smith",
+						role: "Gerente de Marketing",
+					},
+				],
+				pricing: [
+					{
+						title: "Básico",
+						price: "Grátis",
+						features: [
+							"1 Currículo",
+							"Modelos Básicos",
+							"Personalização Limitada",
+						],
+						cta: "Começar",
+					},
+					{
+						title: "Pro",
+						price: "R$9,99/mês",
+						features: [
+							"Currículos Ilimitados",
+							"Modelos Premium",
+							"Personalização Avançada",
+							"Insights de Carreira",
+						],
+						cta: "Assinar",
+					},
+				],
+				get_started: "Começar de Graça",
+				what_our_users_say: "O que nossos usuários dizem",
+				create_resume_in_minutes:
+					"Crie um currículo profissional em minutos com nossas ferramentas com IA.",
+				pricing_plans: "Planos de Preços",
+			},
 		},
 		template_names: {
 			classic: "Clássico",
@@ -277,5 +364,6 @@ export default {
 			elegant: "Elegante",
 			modern: "Moderno",
 		},
+		footer: "2025 Construtor de Currículo IA. Todos os direitos reservados.",
 	},
 }

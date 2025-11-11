@@ -4,8 +4,13 @@ import { loadFull } from "tsparticles"
 import { BsPersonVcard } from "react-icons/bs"
 import { FaCloud, FaBrain, FaChartLine } from "react-icons/fa"
 import { PieChart, Pie, Cell } from "recharts"
+import { useRouter } from "next/router"
+import { loadTranslations } from "@/utils"
 
 const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
+	const router = useRouter()
+	const t = loadTranslations(router)
+
 	// Typing animation variants
 	const typingVariants = {
 		hidden: { opacity: 0 },
@@ -113,10 +118,23 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 					<div className="flex flex-col items-center justify-center text-gradient-to-br from-blue-500/20 to-purple-500/20 animate-pulse">
 						<BsPersonVcard size={100} />
 						<h2 className="text-xl capitalize holographic-text">
-							{firstName ? firstName : "John"} {lastName ? lastName : "Connor"}
+							{firstName
+								? firstName
+								: t.resume_builder.pages.home.demo_animation
+										.default_first_name}{" "}
+							{lastName
+								? lastName
+								: t.resume_builder.pages.home.demo_animation
+										.default_last_name}{" "}
 						</h2>
 						<h3 className="text-lg capitalize">
-							{jobTitle ? jobTitle : "Project manager"}
+							{jobTitle ? (
+								jobTitle
+							) : (
+								<t className="resume_builder pages home demo_animation default_job_title">
+									{t.resume_builder.pages.home.demo_animation.default_job_title}
+								</t>
+							)}
 						</h3>
 
 						{/* Typing Animation */}
@@ -126,16 +144,18 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 							initial="hidden"
 							animate="visible"
 						>
-							{typingText.split("").map((char, index) => (
-								<motion.span
-									key={index}
-									variants={characterVariants}
-									style={{ display: "inline-block" }}
-								>
-									{char === " " ? "\u00A0" : char}{" "}
-									{/* Replace spaces with non-breaking spaces */}
-								</motion.span>
-							))}
+							{t.resume_builder.pages.home.demo_animation.generating_text
+								.split("")
+								.map((char, index) => (
+									<motion.span
+										key={index}
+										variants={characterVariants}
+										style={{ display: "inline-block" }}
+									>
+										{char === " " ? "\u00A0" : char}{" "}
+										{/* Replace spaces with non-breaking spaces */}
+									</motion.span>
+								))}
 						</motion.h3>
 
 						{/* Progress Bar Animation */}
@@ -175,7 +195,9 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 								}}
 							>
 								<FaCloud className="text-3xl text-purple-500" />
-								<p className="mt-2 text-sm">Cloud Sync</p>
+								<p className="mt-2 text-sm">
+									{t.resume_builder.pages.home.demo_animation.cloud_sync}
+								</p>
 							</motion.div>
 							<motion.div
 								className="p-4 bg-black/20 backdrop-blur-sm border border-blue-500/50 rounded-lg cursor-pointer"
@@ -185,7 +207,9 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 								}}
 							>
 								<FaBrain className="text-3xl text-blue-500" />
-								<p className="mt-2 text-sm">AI Analysis</p>
+								<p className="mt-2 text-sm">
+									{t.resume_builder.pages.home.demo_animation.ai_analysis}
+								</p>
 							</motion.div>
 							<motion.div
 								className="p-4 bg-black/20 backdrop-blur-sm border border-purple-500/50 rounded-lg cursor-pointer"
@@ -195,7 +219,9 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 								}}
 							>
 								<FaChartLine className="text-3xl text-purple-500" />
-								<p className="mt-2 text-sm">Analytics</p>
+								<p className="mt-2 text-sm">
+									{t.resume_builder.pages.home.demo_animation.analytics}
+								</p>
 							</motion.div>
 						</div>
 
