@@ -372,5 +372,12 @@ export default {
 			modern: "Moderno",
 		},
 		footer: "2025 Construtor de Currículo IA. Todos os direitos reservados.",
+		general: {
+			software_on_large_screens:
+				"Este software só pode ser usado em telas maiores (tablets, laptops, desktops). Por favor, mude para um dispositivo maior para usar o Construtor de Currículo",
+			tab_selector: "Seletor de Abas",
+			input_selector: "Seletor de Entrada",
+			preview_selector: "Seletor de Visualização",
+		},
 	},
 }

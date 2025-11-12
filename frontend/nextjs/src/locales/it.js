@@ -372,5 +372,12 @@ export default {
 			modern: "Moderno",
 		},
 		footer: "2025 Creatore di CV IA. Tutti i diritti riservati.",
+		general: {
+			software_on_large_screens:
+				"Questo software può essere utilizzato solo su schermi più grandi (tablet, laptop, desktop). Si prega di passare a un dispositivo più grande per utilizzare il Creatore di Curriculum",
+			tab_selector: "Selettore di Schede",
+			input_selector: "Selettore di Input",
+			preview_selector: "Selettore di Anteprima",
+		},
 	},
 }

@@ -367,5 +367,12 @@ export default {
 			modern: "Moderne",
 		},
 		footer: "2025 Créateur de CV IA. Tous droits réservés.",
+		general: {
+			software_on_large_screens:
+				"Ce logiciel ne peut être utilisé que sur des écrans plus grands (tablettes, ordinateurs portables, ordinateurs de bureau). Veuillez passer à un appareil plus grand pour utiliser le Créateur de CV",
+			tab_selector: "Sélecteur d'Onglets",
+			input_selector: "Sélecteur de Saisie",
+			preview_selector: "Sélecteur d'Aperçu",
+		},
 	},
 }

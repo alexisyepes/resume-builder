@@ -385,8 +385,8 @@ export default function ResumePreview({
 			  })
 
 	return (
-		<div className="relative border ring-4 ring-gray-50 p-2 bg-gray-200 rounded-md overflow-hidden">
-			<video
+		<div className="relative border ring-4 ring-gray-50 p-2 bg-cyan-950 rounded-md overflow-hidden">
+			{/* <video
 				ref={videoRef}
 				autoPlay
 				loop
@@ -396,7 +396,7 @@ export default function ResumePreview({
 			>
 				<source src="/videos/bg_ai_office.mp4" type="video/mp4" />
 				Your browser does not support the video tag.
-			</video>
+			</video> */}
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
 					<button

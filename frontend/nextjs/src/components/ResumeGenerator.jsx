@@ -1,6 +1,7 @@
-import { useRef, useEffect, useContext } from "react"
+import { useRef, useEffect, useContext, useState } from "react"
 import axios from "axios"
 import { FaLongArrowAltLeft } from "react-icons/fa"
+import { GiLaptop } from "react-icons/gi"
 import { IoIosClose } from "react-icons/io"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
@@ -11,6 +12,7 @@ import TemplateSelector from "./TemplateSelector"
 import TemplateSlider from "./TemplateSlider"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import useResumeStore from "@/store/useResumeStore"
+import { useWindowSize } from "@/hooks/useWindowSize"
 import {
 	CERTIFICATIONS,
 	EDUCATION,
@@ -23,6 +25,7 @@ import {
 	SKILLS,
 } from "@/constants"
 import { defaultResume } from "@/defaultResume"
+import { AnimatePresence, motion } from "framer-motion"
 
 const ResumeGenerator = () => {
 	const {
@@ -86,9 +89,10 @@ const ResumeGenerator = () => {
 		resetOrderedTabs,
 	} = useResumeStore()
 	const { t, langPrefix, templateDesigns } = useContext(RESUME_CONTEXT)
-
+	const { width } = useWindowSize()
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
+	const [activeMobileView, setActiveMobileView] = useState("preview")
 
 	useEffect(() => {
 		if (template === "modern") {
@@ -301,16 +305,23 @@ const ResumeGenerator = () => {
 	return (
 		<div className="w-full bg-white pt-12">
 			<div className="mb-4">
-				<TemplateSelector
-					t={t}
-					handleDownloadPDF={handleDownload}
-					setTemplate={setTemplate}
-					showSlider={showSlider}
-					setShowSlider={setShowSlider}
-				/>
+				{width > 768 ? (
+					<TemplateSelector
+						t={t}
+						handleDownloadPDF={handleDownload}
+						setTemplate={setTemplate}
+						showSlider={showSlider}
+						setShowSlider={setShowSlider}
+					/>
+				) : (
+					<div className="p-12 text-center">
+						<p>{t.resume_builder.general.software_on_large_screens}</p>
+						<GiLaptop color="purple" size={60} className="mx-auto mt-8" />
+					</div>
+				)}
 			</div>
 			<div className="">
-				<div className="flex flex-wrap">
+				<div className="">
 					{showSlider ? (
 						<div className="w-full bg-cyan-50 sm:w-[49%] rounded-md mr-2 p-8 border">
 							<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
@@ -342,116 +353,289 @@ const ResumeGenerator = () => {
 							/>
 						</div>
 					) : (
-						<div className="wrapper">
-							<div className="element1 element">
-								<TabSelector
-									t={t}
-									suggestedSkills={suggestedSkills}
-									activeTab={activeTab}
-									onTabChange={handleTabChange}
-									removeTabHandler={removeTabHandler}
-									addTabHandler={addTabHandler}
-									moveTabHandler={moveTabHandler}
-									setActiveTab={setActiveTab}
-									template={template}
-								/>
-							</div>
-							<div className="element2 element">
-								<Inputs
-									langPrefix={langPrefix}
-									t={t}
-									fileName={fileName}
-									setFileName={setFileName}
-									inputRef={inputRef}
-									editing={editing}
-									setEditing={setEditing}
-									customTitles={customTitles}
-									handleCustomTitleOnChange={handleCustomTitleOnChange}
-									nextTabHandler={nextTab}
-									email={email}
-									phone={phone}
-									address={address}
-									cityPostCode={cityPostCode}
-									setEmail={setEmail}
-									setPhone={setPhone}
-									setAddress={setAddress}
-									setCityPostCode={setCityPostCode}
-									firstName={firstName}
-									setFirstName={setFirstName}
-									lastName={lastName}
-									setLastName={setLastName}
-									setJobTitle={setJobTitle}
-									setSkills={setSkills}
-									setExperience={setExperience}
-									certifications={certifications}
-									setCertifications={setCertifications}
-									jobTitle={jobTitle}
-									skills={skills}
-									suggestedSkills={suggestedSkills}
-									setSuggestedSkills={setSuggestedSkills}
-									experience={experience}
-									handleGenerateResume={handleGenerateResume}
-									selectedTab={activeTab}
-									setObjective={setObjective}
-									objective={objective}
-									isLoading={isLoading}
-									regenerateSkillsSuggestions={regenerateSkillsSuggestions}
-									educations={educations}
-									setEducations={setEducations}
-									references={references}
-									setReferences={setReferences}
-									links={links}
-									setLinks={setLinks}
-									hobbies={hobbies}
-									setHobbies={setHobbies}
-									customSections={customSections}
-									setCustomSections={setCustomSections}
-									// handleImageUpload={handleImageUpload}
-									photo={photo}
-									removeTabHandler={removeTabHandler}
-									activeTab={activeTab}
-									setActiveTab={setActiveTab}
-									tabs={tabs}
-									setTabs={setTabs}
-									setPhoto={setPhoto}
-									template={template}
-									languages={languages}
-									setLanguages={setLanguages}
-								/>
-							</div>
+						<div className="">
+							{width > 1200 ? (
+								<div className="flex flex-wrap">
+									<div className="wrapper">
+										<div className="element1 element">
+											<TabSelector
+												t={t}
+												suggestedSkills={suggestedSkills}
+												activeTab={activeTab}
+												onTabChange={handleTabChange}
+												removeTabHandler={removeTabHandler}
+												addTabHandler={addTabHandler}
+												moveTabHandler={moveTabHandler}
+												setActiveTab={setActiveTab}
+												template={template}
+											/>
+										</div>
+										<div className="element2 element">
+											<Inputs
+												langPrefix={langPrefix}
+												t={t}
+												fileName={fileName}
+												setFileName={setFileName}
+												inputRef={inputRef}
+												editing={editing}
+												setEditing={setEditing}
+												customTitles={customTitles}
+												handleCustomTitleOnChange={handleCustomTitleOnChange}
+												nextTabHandler={nextTab}
+												email={email}
+												phone={phone}
+												address={address}
+												cityPostCode={cityPostCode}
+												setEmail={setEmail}
+												setPhone={setPhone}
+												setAddress={setAddress}
+												setCityPostCode={setCityPostCode}
+												firstName={firstName}
+												setFirstName={setFirstName}
+												lastName={lastName}
+												setLastName={setLastName}
+												setJobTitle={setJobTitle}
+												setSkills={setSkills}
+												setExperience={setExperience}
+												certifications={certifications}
+												setCertifications={setCertifications}
+												jobTitle={jobTitle}
+												skills={skills}
+												suggestedSkills={suggestedSkills}
+												setSuggestedSkills={setSuggestedSkills}
+												experience={experience}
+												handleGenerateResume={handleGenerateResume}
+												selectedTab={activeTab}
+												setObjective={setObjective}
+												objective={objective}
+												isLoading={isLoading}
+												regenerateSkillsSuggestions={
+													regenerateSkillsSuggestions
+												}
+												educations={educations}
+												setEducations={setEducations}
+												references={references}
+												setReferences={setReferences}
+												links={links}
+												setLinks={setLinks}
+												hobbies={hobbies}
+												setHobbies={setHobbies}
+												customSections={customSections}
+												setCustomSections={setCustomSections}
+												// handleImageUpload={handleImageUpload}
+												photo={photo}
+												removeTabHandler={removeTabHandler}
+												activeTab={activeTab}
+												setActiveTab={setActiveTab}
+												tabs={tabs}
+												setTabs={setTabs}
+												setPhoto={setPhoto}
+												template={template}
+												languages={languages}
+												setLanguages={setLanguages}
+											/>
+										</div>
+									</div>
+									<div className="element3_wrapper">
+										<ResumePreview
+											t={t}
+											resumeRef={resumeRef}
+											generatedResume={generatedResume.resume}
+											handleDownloadPDF={handleDownload}
+											email={email}
+											phone={phone}
+											address={address}
+											cityPostCode={cityPostCode}
+											firstName={firstName}
+											lastName={lastName}
+											skills={skills}
+											experience={experience}
+											objective={objective}
+											jobTitle={jobTitle}
+											tabs={tabs}
+											certifications={certifications}
+											educations={educations}
+											references={references}
+											links={links}
+											hobbies={hobbies}
+											customSections={customSections}
+											photo={photo}
+											template={template}
+											setTemplate={setTemplate}
+											languages={languages}
+											customTitles={customTitles}
+										/>
+									</div>
+								</div>
+							) : (
+								width > 768 && (
+									<div>
+										<div className="flex justify-center flex-row gap-4">
+											<button
+												onClick={() => setActiveMobileView("tab")}
+												className={`border p-2 ${
+													activeMobileView === "tab" ? "bg-cyan-200" : ""
+												}`}
+											>
+												{t.resume_builder.general.tab_selector}
+											</button>
+											<button
+												onClick={() => setActiveMobileView("inputs")}
+												className={`border p-2 ${
+													activeMobileView === "inputs" ? "bg-cyan-200" : ""
+												}`}
+											>
+												{t.resume_builder.general.input_selector}
+											</button>
+											<button
+												onClick={() => setActiveMobileView("preview")}
+												className={`border p-2 ${
+													activeMobileView === "preview" ? "bg-cyan-200" : ""
+												}`}
+											>
+												{t.resume_builder.general.preview_selector}
+											</button>
+										</div>
+										<div className="">
+											{/* <div className="wrapper"> */}
+											<div className="w-full px-12 mt-4">
+												{activeMobileView === "tab" && (
+													<AnimatePresence mode="wait">
+														<motion.div
+															key="tab"
+															initial={{ opacity: 0, y: -10 }}
+															animate={{ opacity: 1, y: 0 }}
+															exit={{ opacity: 0, y: 10 }}
+															transition={{ duration: 0.5 }}
+														>
+															<TabSelector
+																t={t}
+																suggestedSkills={suggestedSkills}
+																activeTab={activeTab}
+																onTabChange={handleTabChange}
+																removeTabHandler={removeTabHandler}
+																addTabHandler={addTabHandler}
+																moveTabHandler={moveTabHandler}
+																setActiveTab={setActiveTab}
+																template={template}
+															/>
+														</motion.div>
+													</AnimatePresence>
+												)}
+												{activeMobileView === "inputs" && (
+													<Inputs
+														langPrefix={langPrefix}
+														t={t}
+														fileName={fileName}
+														setFileName={setFileName}
+														inputRef={inputRef}
+														editing={editing}
+														setEditing={setEditing}
+														customTitles={customTitles}
+														handleCustomTitleOnChange={
+															handleCustomTitleOnChange
+														}
+														nextTabHandler={nextTab}
+														email={email}
+														phone={phone}
+														address={address}
+														cityPostCode={cityPostCode}
+														setEmail={setEmail}
+														setPhone={setPhone}
+														setAddress={setAddress}
+														setCityPostCode={setCityPostCode}
+														firstName={firstName}
+														setFirstName={setFirstName}
+														lastName={lastName}
+														setLastName={setLastName}
+														setJobTitle={setJobTitle}
+														setSkills={setSkills}
+														setExperience={setExperience}
+														certifications={certifications}
+														setCertifications={setCertifications}
+														jobTitle={jobTitle}
+														skills={skills}
+														suggestedSkills={suggestedSkills}
+														setSuggestedSkills={setSuggestedSkills}
+														experience={experience}
+														handleGenerateResume={handleGenerateResume}
+														selectedTab={activeTab}
+														setObjective={setObjective}
+														objective={objective}
+														isLoading={isLoading}
+														regenerateSkillsSuggestions={
+															regenerateSkillsSuggestions
+														}
+														educations={educations}
+														setEducations={setEducations}
+														references={references}
+														setReferences={setReferences}
+														links={links}
+														setLinks={setLinks}
+														hobbies={hobbies}
+														setHobbies={setHobbies}
+														customSections={customSections}
+														setCustomSections={setCustomSections}
+														// handleImageUpload={handleImageUpload}
+														photo={photo}
+														removeTabHandler={removeTabHandler}
+														activeTab={activeTab}
+														setActiveTab={setActiveTab}
+														tabs={tabs}
+														setTabs={setTabs}
+														setPhoto={setPhoto}
+														template={template}
+														languages={languages}
+														setLanguages={setLanguages}
+													/>
+												)}
+												{activeMobileView === "preview" && (
+													<AnimatePresence mode="wait">
+														<motion.div
+															key="tab"
+															initial={{ opacity: 0, y: -10 }}
+															animate={{ opacity: 1, y: 0 }}
+															exit={{ opacity: 0, y: 10 }}
+															transition={{ duration: 0.5 }}
+														>
+															<ResumePreview
+																t={t}
+																resumeRef={resumeRef}
+																generatedResume={generatedResume.resume}
+																handleDownloadPDF={handleDownload}
+																email={email}
+																phone={phone}
+																address={address}
+																cityPostCode={cityPostCode}
+																firstName={firstName}
+																lastName={lastName}
+																skills={skills}
+																experience={experience}
+																objective={objective}
+																jobTitle={jobTitle}
+																tabs={tabs}
+																certifications={certifications}
+																educations={educations}
+																references={references}
+																links={links}
+																hobbies={hobbies}
+																customSections={customSections}
+																photo={photo}
+																template={template}
+																setTemplate={setTemplate}
+																languages={languages}
+																customTitles={customTitles}
+															/>
+														</motion.div>
+													</AnimatePresence>
+												)}
+											</div>
+										</div>
+									</div>
+								)
+							)}
 						</div>
 					)}
-
-					<div className="element3_wrapper">
-						<ResumePreview
-							t={t}
-							resumeRef={resumeRef}
-							generatedResume={generatedResume.resume}
-							handleDownloadPDF={handleDownload}
-							email={email}
-							phone={phone}
-							address={address}
-							cityPostCode={cityPostCode}
-							firstName={firstName}
-							lastName={lastName}
-							skills={skills}
-							experience={experience}
-							objective={objective}
-							jobTitle={jobTitle}
-							tabs={tabs}
-							certifications={certifications}
-							educations={educations}
-							references={references}
-							links={links}
-							hobbies={hobbies}
-							customSections={customSections}
-							photo={photo}
-							template={template}
-							setTemplate={setTemplate}
-							languages={languages}
-							customTitles={customTitles}
-						/>
-					</div>
 				</div>
 			</div>
 		</div>
