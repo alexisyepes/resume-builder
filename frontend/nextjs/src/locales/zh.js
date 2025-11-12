@@ -337,5 +337,12 @@ export default {
 			modern: "现代",
 		},
 		footer: "2025 AI简历生成器。版权所有。",
+		general: {
+			software_on_large_screens:
+				"此软件只能在较大的屏幕（平板电脑、笔记本电脑、台式机）上使用。请切换到更大的设备以使用简历生成器",
+			tab_selector: "标签选择器",
+			input_selector: "输入选择器",
+			preview_selector: "预览选择器",
+		},
 	},
 }

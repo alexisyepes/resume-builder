@@ -371,5 +371,12 @@ export default {
 			modern: "Moderno",
 		},
 		footer: "2025 Creador de Currículums IA. Todos los derechos reservados.",
+		general: {
+			software_on_large_screens:
+				"Este software solo puede usarse en pantallas más grandes (tabletas, laptops, computadoras de escritorio). Por favor, cambia a un dispositivo más grande para usar el Creador de Currículums",
+			tab_selector: "Selector de Pestañas",
+			input_selector: "Selector de Entrada",
+			preview_selector: "Selector de Vista Previa",
+		},
 	},
 }

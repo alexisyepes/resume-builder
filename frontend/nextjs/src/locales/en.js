@@ -365,5 +365,12 @@ export default {
 			modern: "modern",
 		},
 		footer: "2025 AI Resume Builder. All rights reserved.",
+		general: {
+			software_on_large_screens:
+				"This Software can only be used on larger screens (tablets, laptops, desktops). Please switch to a larger device to use the Resume Builder",
+			tab_selector: "Tab Selector",
+			input_selector: "Input Selector",
+			preview_selector: "Preview Selector",
+		},
 	},
 }
