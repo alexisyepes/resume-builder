@@ -16,10 +16,6 @@ export default function App({ Component, pageProps }) {
 	const langPrefix = locale
 	const { setPhoto } = useResumeStore()
 
-	useEffect(() => {
-		console.log(resumeContentTriggered)
-	}, [resumeContentTriggered])
-
 	const templateDesigns = [
 		{
 			name: t.resume_builder.template_names.classic_ats,

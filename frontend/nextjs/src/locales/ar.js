@@ -8,6 +8,7 @@ export default {
 			signin: "تسجيل الدخول",
 			dashboard: "لوحة التحكم",
 			logout: "تسجيل الخروج",
+			home: "الرئيسية",
 		},
 		labels: {
 			general: {

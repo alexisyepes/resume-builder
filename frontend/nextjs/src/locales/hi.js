@@ -8,6 +8,7 @@ export default {
 			signin: "साइन इन",
 			dashboard: "डैशबोर्ड",
 			logout: "लॉग आउट",
+			home: "होम",
 		},
 		labels: {
 			general: {

@@ -17,8 +17,8 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 		visible: {
 			opacity: 1,
 			transition: {
-				delay: 1, // Delay before the animation starts
-				staggerChildren: 0.2, // Delay between each character
+				delay: 1,
+				staggerChildren: 0.2,
 			},
 		},
 	}
@@ -28,9 +28,6 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 		hidden: { opacity: 0, y: 10 },
 		visible: { opacity: 1, y: 0 },
 	}
-
-	// Text to be animated
-	const typingText = "...generating your resume"
 
 	// Data for the pie chart
 	const data = [
@@ -93,7 +90,7 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 	}, [])
 
 	return (
-		<div className="relative flex items-start justify-center min-h-screen bg-black overflow-hidden">
+		<div className="relative flex items-center justify-center min-h-screen bg-black overflow-hidden px-4 sm:px-6 lg:px-8">
 			{/* Background Video */}
 			<video
 				autoPlay
@@ -106,7 +103,17 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 			</video>
 
 			{/* 3D Transparent Touchscreen Container */}
-			<div className="relative w-[70%] max-w-4xl mt-12 h-[800px] bg-black/20 backdrop-blur-lg border-8 border-purple-600/50 rounded-3xl shadow-[0_0_40px_rgba(99,102,241,0.5)] transform perspective-1000 rotate-x-6 rotate-y-6 overflow-hidden z-10">
+			<div
+				className="relative w-full sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] max-w-4xl 
+				h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] 
+				mt-4 sm:mt-8 md:mt-12 
+				bg-black/20 backdrop-blur-lg 
+				border-4 sm:border-6 lg:border-8 border-purple-600/50 
+				rounded-xl sm:rounded-2xl lg:rounded-3xl 
+				shadow-[0_0_20px_rgba(99,102,241,0.3)] sm:shadow-[0_0_30px_rgba(99,102,241,0.4)] lg:shadow-[0_0_40px_rgba(99,102,241,0.5)] 
+				transform perspective-1000 rotate-x-2 rotate-y-2 sm:rotate-x-4 sm:rotate-y-4 lg:rotate-x-6 lg:rotate-y-6 
+				overflow-hidden z-10"
+			>
 				{/* Particle Animation */}
 				<div id="tsparticles" className="absolute inset-0 z-0"></div>
 
@@ -114,32 +121,29 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 				<div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 animate-pulse rounded-lg"></div>
 
 				{/* Screen Content */}
-				<div className="relative z-10 flex flex-col justify-start h-full p-4 text-white">
-					<div className="flex flex-col items-center justify-center text-gradient-to-br from-blue-500/20 to-purple-500/20 animate-pulse">
-						<BsPersonVcard size={100} />
-						<h2 className="text-xl capitalize holographic-text">
-							{firstName
-								? firstName
-								: t.resume_builder.pages.home.demo_animation
-										.default_first_name}{" "}
-							{lastName
-								? lastName
-								: t.resume_builder.pages.home.demo_animation
-										.default_last_name}{" "}
+				<div className="relative z-10 flex flex-col justify-center items-center h-full p-3 sm:p-4 text-white">
+					<div className="flex flex-col items-center justify-center text-center w-full max-w-md mx-auto">
+						{/* Profile Icon */}
+						<BsPersonVcard className="text-4xl sm:text-6xl lg:text-8xl mb-2 sm:mb-4" />
+
+						{/* Name */}
+						<h2 className="text-lg sm:text-xl lg:text-2xl capitalize holographic-text mb-1 sm:mb-2 px-2">
+							{firstName ||
+								t.resume_builder.pages.home.demo_animation
+									.default_first_name}{" "}
+							{lastName ||
+								t.resume_builder.pages.home.demo_animation.default_last_name}
 						</h2>
-						<h3 className="text-lg capitalize">
-							{jobTitle ? (
-								jobTitle
-							) : (
-								<t className="resume_builder pages home demo_animation default_job_title">
-									{t.resume_builder.pages.home.demo_animation.default_job_title}
-								</t>
-							)}
+
+						{/* Job Title */}
+						<h3 className="text-base sm:text-lg lg:text-xl capitalize mb-3 sm:mb-4 px-2">
+							{jobTitle ||
+								t.resume_builder.pages.home.demo_animation.default_job_title}
 						</h3>
 
 						{/* Typing Animation */}
 						<motion.h3
-							className="text-lg mt-4 whitespace-pre-wrap"
+							className="text-sm sm:text-base lg:text-lg mt-2 sm:mt-4 whitespace-pre-wrap px-2 sm:px-4"
 							variants={typingVariants}
 							initial="hidden"
 							animate="visible"
@@ -152,15 +156,14 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 										variants={characterVariants}
 										style={{ display: "inline-block" }}
 									>
-										{char === " " ? "\u00A0" : char}{" "}
-										{/* Replace spaces with non-breaking spaces */}
+										{char === " " ? "\u00A0" : char}
 									</motion.span>
 								))}
 						</motion.h3>
 
 						{/* Progress Bar Animation */}
 						<motion.div
-							className="w-full h-2 bg-purple-500/20 rounded-full mt-6 overflow-hidden"
+							className="w-full max-w-xs sm:max-w-sm h-1 sm:h-2 bg-purple-500/20 rounded-full mt-4 sm:mt-6 overflow-hidden"
 							initial={{ width: 0 }}
 							animate={{ width: "100%" }}
 							transition={{
@@ -186,54 +189,58 @@ const TransparentTouchscreen = ({ firstName, lastName, jobTitle }) => {
 						</motion.div>
 
 						{/* Glowing Icons for Features */}
-						<div className="flex gap-6 mt-8">
+						<div className="flex flex-wrap justify-center gap-2 sm:gap-4 lg:gap-6 mt-4 sm:mt-6 lg:mt-8 px-2">
 							<motion.div
-								className="p-4 bg-black/20 backdrop-blur-sm border border-purple-500/50 rounded-lg cursor-pointer"
+								className="p-2 sm:p-3 lg:p-4 bg-black/20 backdrop-blur-sm border border-purple-500/50 rounded-lg cursor-pointer flex-1 min-w-[100px] max-w-[120px] sm:max-w-none"
 								whileHover={{
-									scale: 1.1,
-									boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)",
+									scale: 1.05,
+									boxShadow: "0 0 15px rgba(99, 102, 241, 0.5)",
 								}}
 							>
-								<FaCloud className="text-3xl text-purple-500" />
-								<p className="mt-2 text-sm">
+								<FaCloud className="text-xl sm:text-2xl lg:text-3xl text-purple-500 mx-auto" />
+								<p className="mt-1 sm:mt-2 text-xs sm:text-sm text-center">
 									{t.resume_builder.pages.home.demo_animation.cloud_sync}
 								</p>
 							</motion.div>
 							<motion.div
-								className="p-4 bg-black/20 backdrop-blur-sm border border-blue-500/50 rounded-lg cursor-pointer"
+								className="p-2 sm:p-3 lg:p-4 bg-black/20 backdrop-blur-sm border border-blue-500/50 rounded-lg cursor-pointer flex-1 min-w-[100px] max-w-[120px] sm:max-w-none"
 								whileHover={{
-									scale: 1.1,
-									boxShadow: "0 0 20px rgba(59, 130, 246, 0.5)",
+									scale: 1.05,
+									boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
 								}}
 							>
-								<FaBrain className="text-3xl text-blue-500" />
-								<p className="mt-2 text-sm">
+								<FaBrain className="text-xl sm:text-2xl lg:text-3xl text-blue-500 mx-auto" />
+								<p className="mt-1 sm:mt-2 text-xs sm:text-sm text-center">
 									{t.resume_builder.pages.home.demo_animation.ai_analysis}
 								</p>
 							</motion.div>
 							<motion.div
-								className="p-4 bg-black/20 backdrop-blur-sm border border-purple-500/50 rounded-lg cursor-pointer"
+								className="p-2 sm:p-3 lg:p-4 bg-black/20 backdrop-blur-sm border border-purple-500/50 rounded-lg cursor-pointer flex-1 min-w-[100px] max-w-[120px] sm:max-w-none"
 								whileHover={{
-									scale: 1.1,
-									boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)",
+									scale: 1.05,
+									boxShadow: "0 0 15px rgba(99, 102, 241, 0.5)",
 								}}
 							>
-								<FaChartLine className="text-3xl text-purple-500" />
-								<p className="mt-2 text-sm">
+								<FaChartLine className="text-xl sm:text-2xl lg:text-3xl text-purple-500 mx-auto" />
+								<p className="mt-1 sm:mt-2 text-xs sm:text-sm text-center">
 									{t.resume_builder.pages.home.demo_animation.analytics}
 								</p>
 							</motion.div>
 						</div>
 
 						{/* Animated Data Visualization */}
-						<div className="mt-8">
-							<PieChart width={200} height={200}>
+						<div className="mt-4 sm:mt-6 lg:mt-8 scale-75 sm:scale-90 lg:scale-100">
+							<PieChart
+								width={150}
+								height={150}
+								className="sm:w-[200px] sm:h-[200px]"
+							>
 								<Pie
 									data={data}
-									cx={100}
-									cy={100}
-									innerRadius={60}
-									outerRadius={80}
+									cx={75}
+									cy={75}
+									innerRadius={40}
+									outerRadius={60}
 									fill="#8884d8"
 									dataKey="value"
 								>

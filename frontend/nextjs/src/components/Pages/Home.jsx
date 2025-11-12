@@ -5,23 +5,23 @@ import { motion } from "framer-motion"
 import { useRouter } from "next/router"
 import { loadTranslations } from "@/utils"
 import { AiOutlineRobot } from "react-icons/ai"
-import { MdDesignServices, MdFileDownload, MdVerified } from "react-icons/md"
+import { MdDesignServices, MdFileDownload } from "react-icons/md"
 import FAQSection from "./FAQSection"
-import dynamic from "next/dynamic" // Import dynamic from Next.js
+import dynamic from "next/dynamic"
 
 // Dynamically import TransparentTouchscreen with SSR disabled
 const TransparentTouchscreen = dynamic(() => import("../TouchScreen"), {
 	ssr: false,
 })
 
-const heroImage = "/images/home_hero2.jpg" // Update with your home page hero image
+const heroImage = "/images/home_hero2.jpg"
 
 const Home = () => {
 	const router = useRouter()
 	const t = loadTranslations(router)
 
 	return (
-		<div className="min-h-screen mb-4 w-full flex flex-col items-center bg-cyan-50">
+		<div className="min-h-screen mt-8 sm:mt-0 mb-4 w-full flex flex-col items-center bg-cyan-50">
 			{/* Hero Section with Image */}
 			<div className="relative w-full h-96 sm:h-[500px]">
 				<img
