@@ -8,6 +8,7 @@ export default {
 			signin: "登录",
 			dashboard: "仪表板",
 			logout: "退出登录",
+			home: "首页",
 		},
 		labels: {
 			general: {

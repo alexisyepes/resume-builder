@@ -8,6 +8,7 @@ export default {
 			signin: "Entrar",
 			dashboard: "Painel de Controle",
 			logout: "Sair",
+			home: "Início",
 		},
 		labels: {
 			general: {

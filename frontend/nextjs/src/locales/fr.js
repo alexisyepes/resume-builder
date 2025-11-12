@@ -8,6 +8,7 @@ export default {
 			signin: "Se Connecter",
 			dashboard: "Tableau de Bord",
 			logout: "Déconnexion",
+			home: "Accueil",
 		},
 		labels: {
 			general: {

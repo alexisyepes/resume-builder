@@ -1,4 +1,3 @@
-// import { templateDesigns } from "@/constants"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import Image from "next/image"
 import { useContext } from "react"
