@@ -57,7 +57,7 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 
 ## Clone the project
 
-CLone the project by running: `git@github.com:alexisyepes/resume-builder.git`
+Clone the project from: `git@github.com:alexisyepes/resume-builder.git`
 
 ## Environment Variables
 
