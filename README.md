@@ -55,6 +55,12 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 
 ---
 
+## ⚖️ License
+
+This repository is shared publicly **for portfolio and educational purposes only**.  
+All rights reserved © 2025 **Alex Y Sanabria**.  
+Unauthorized use, reproduction, or distribution of this code is prohibited.
+
 ## Clone the project
 
 Clone the project from: `git@github.com:alexisyepes/resume-builder.git`
