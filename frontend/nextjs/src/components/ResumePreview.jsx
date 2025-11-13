@@ -5,7 +5,7 @@ import React, {
 	useEffect,
 	useContext,
 } from "react"
-import { FaDownload } from "react-icons/fa"
+import { FaDownload, FaSpinner } from "react-icons/fa"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
@@ -60,7 +60,6 @@ export default function ResumePreview({
 	const [pages, setPages] = useState([])
 	const { customTitles, apiBaseUrl } = useResumeStore()
 	const resumeRef = useRef(null)
-	const videoRef = useRef(null)
 	const { resumeContentTriggered, setResumeContentTriggered } =
 		useContext(RESUME_CONTEXT)
 	const letterSizeHeight = 850
@@ -205,7 +204,6 @@ export default function ResumePreview({
 
 			setPages(newPages)
 
-			// ✅ Resolve after state update
 			resolve()
 		})
 	}
@@ -267,6 +265,8 @@ export default function ResumePreview({
 		process.env.NEXT_PUBLIC_FRONTEND_SERVER || "http://localhost:3000"
 
 	const handleDownload = async () => {
+		if (downloadInProgress) return
+
 		setDownloadInProgress(true)
 		await paginateContent()
 		let selectedTemplate
@@ -386,17 +386,6 @@ export default function ResumePreview({
 
 	return (
 		<div className="relative border ring-4 ring-gray-50 p-2 bg-cyan-950 rounded-md overflow-hidden">
-			{/* <video
-				ref={videoRef}
-				autoPlay
-				loop
-				muted
-				playsInline
-				className="absolute top-0 left-0 w-full h-full object-cover z-0 smooth-video"
-			>
-				<source src="/videos/bg_ai_office.mp4" type="video/mp4" />
-				Your browser does not support the video tag.
-			</video> */}
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
 					<button
@@ -417,15 +406,25 @@ export default function ResumePreview({
 					</span>
 					<button
 						disabled={downloadInProgress}
-						className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg"
-						onClick={() => handleDownload()}
+						className={`flex items-center justify-center gap-2 font-bold px-4 py-2 rounded-md text-lg transition-all ${
+							downloadInProgress
+								? "bg-gray-400 cursor-not-allowed"
+								: "bg-cyan-500 hover:bg-cyan-600 text-white"
+						}`}
+						onClick={handleDownload}
 					>
-						<FaDownload className="inline mr-2" />
-						{t.resume_builder.labels.general.template_selector.download}
+						{downloadInProgress ? (
+							<>
+								<FaSpinner className="inline animate-spin" />
+								{t.resume_builder.labels.general.template_selector.downloading}
+							</>
+						) : (
+							<>
+								<FaDownload className="inline" />
+								{t.resume_builder.labels.general.template_selector.download}
+							</>
+						)}
 					</button>
-					{/* <button onClick={() => handleDownloadPDF("docx")}>
-					Download as DOCX
-				</button> */}
 				</div>
 				<div className="rounded py-8">
 					{template === "classic" && <ClassicTemplate {...commonProps} />}
