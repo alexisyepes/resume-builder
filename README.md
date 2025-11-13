@@ -2,17 +2,17 @@
 
 A **full-stack SaaS application** that allows users to create, edit, and download professional resumes — powered by **AI-generated summaries and skills sugestions**, **customizable templates**, and **multi-language support**.
 
-Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Sequelize**, this project demonstrates modern full-stack architecture, authentication, responsive UI, and internationalization (i18n).
+Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Sequelize**, this project demonstrates modern full-stack architecture, authentication, responsive UI, and internationalization (i18n) support for 8 languages.
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 🔗 **Frontend (Vercel):** [https://resume-builder-virid-xi.vercel.app/](https://resume-builder-virid-xi.vercel.app/)
 
 ---
 
-## 🧩 Features
+## Features
 
 - **AI-powered summaries** – Uses OpenAI API to generate professional resume summaries.
 - **Full-stack architecture** – Next.js frontend + Node.js/Express backend + MySQL database.
@@ -55,12 +55,13 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 
 ---
 
-## 🧰 Environment Variables
+## Clone the project
 
-Create a `.env` file in the frontend/nextjs folder and in backend (at root) `.env.local` using the example files.
+CLone the project by running: `git@github.com:alexisyepes/resume-builder.git`
 
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+## Environment Variables
+
+Create a `.env.local` file in the frontend/nextjs folder and in backend (at root) `.env` file using the example files.
 
 ## Install dependencies
 
@@ -76,3 +77,13 @@ npm run dev
 
 cd frontend
 npm run dev
+
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot1.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot2.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot3.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot4.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot5.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot6.png)
+![IMAGE](/frontend/nextjs/public/images/readme/Screenshot7.png)
+![IMAGE](/frontend/nextjs/public/images/readme/ai-demo.gif)
+![IMAGE](/frontend/nextjs/public/images/readme/ai-demo-2.gif)
