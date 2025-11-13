@@ -370,6 +370,11 @@ export default {
 			tab_selector: "محدد علامات التبويب",
 			input_selector: "محدد الإدخال",
 			preview_selector: "محدد المعاينة",
+			instructional_message:
+				"حدد إحدى علامات التبويب أعلاه لبدء إنشاء سيرتك الذاتية",
+			organize_sections: "تنظيم أقسام السيرة الذاتية",
+			fill_in_information: "املأ معلوماتك",
+			preview_your_resume: "معاينة سيرتك الذاتية",
 		},
 	},
 }

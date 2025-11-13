@@ -400,7 +400,7 @@ export default function ResumePreview({
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
 					<button
-						className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
+						className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg"
 						onClick={() => {
 							window.location.reload()
 						}}
@@ -417,7 +417,7 @@ export default function ResumePreview({
 					</span>
 					<button
 						disabled={downloadInProgress}
-						className="bg-cyan-500 text-white font-bold p-3 rounded-md text-lg"
+						className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg"
 						onClick={() => handleDownload()}
 					>
 						<FaDownload className="inline mr-2" />

@@ -378,6 +378,11 @@ export default {
 			tab_selector: "Seletor de Abas",
 			input_selector: "Seletor de Entrada",
 			preview_selector: "Seletor de Visualização",
+			instructional_message:
+				"Selecione uma das abas acima para começar a criar seu currículo",
+			organize_sections: "Organizar seções do currículo",
+			fill_in_information: "Preencha suas informações",
+			preview_your_resume: "Visualizar seu currículo",
 		},
 	},
 }

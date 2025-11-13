@@ -377,6 +377,11 @@ export default {
 			tab_selector: "Selector de Pestañas",
 			input_selector: "Selector de Entrada",
 			preview_selector: "Selector de Vista Previa",
+			instructional_message:
+				"Selecciona una de las pestañas de arriba para comenzar a crear tu currículum",
+			organize_sections: "Organizar secciones del currículum",
+			fill_in_information: "Completa tu información",
+			preview_your_resume: "Vista previa de tu currículum",
 		},
 	},
 }

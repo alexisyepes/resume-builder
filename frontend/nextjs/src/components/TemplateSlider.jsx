@@ -27,15 +27,15 @@ export default function TemplateSlider({
 			</button>
 
 			<Swiper
-				slidesPerView={3.5}
+				slidesPerView={"auto"}
 				spaceBetween={10}
 				modules={[Navigation]}
-				loop
 				navigation={{
 					nextEl: ".swiper-button-next",
 					prevEl: ".swiper-button-prev",
 				}}
-				className="w-full"
+				loop
+				// className="w-full"
 			>
 				{templateDesigns.map((section) => (
 					<SwiperSlide key={section.name} className="!w-[18rem]">

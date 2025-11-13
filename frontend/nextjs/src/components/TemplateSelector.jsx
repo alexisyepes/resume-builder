@@ -10,7 +10,7 @@ export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 		<div className="flex template_selector_buttons px-2 items-center mx-auto justify-start mt-2 gap-4">
 			<button
 				onClick={() => setShowSlider(false)}
-				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
+				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
 					!showSlider ? "ring-teal-500 ring-2" : ""
 				}`}
 			>
@@ -19,7 +19,7 @@ export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 			</button>
 			<button
 				onClick={() => setShowSlider(true)}
-				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
+				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
 					showSlider ? "ring-teal-500 ring-2" : ""
 				}`}
 			>
@@ -33,7 +33,7 @@ export default function TemplateSelector({ setShowSlider, showSlider, t }) {
 					)
 						resetResume()
 				}}
-				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-1/2 p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100
+				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100
 				}`}
 			>
 				<RxReload className="inline mr-2" />{" "}

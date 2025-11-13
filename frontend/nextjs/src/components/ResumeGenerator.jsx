@@ -1,8 +1,9 @@
 import { useRef, useEffect, useContext, useState } from "react"
 import axios from "axios"
-import { FaLongArrowAltLeft } from "react-icons/fa"
+import { FaEye, FaKeyboard, FaLongArrowAltLeft, FaThList } from "react-icons/fa"
 import { GiLaptop } from "react-icons/gi"
 import { IoIosClose } from "react-icons/io"
+import { FaRegHandPointUp } from "react-icons/fa"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
 import Inputs from "./Inputs"
@@ -92,7 +93,7 @@ const ResumeGenerator = () => {
 	const { width } = useWindowSize()
 	const resumeRef = useRef()
 	const inputRef = useRef(null)
-	const [activeMobileView, setActiveMobileView] = useState("preview")
+	const [activeMobileView, setActiveMobileView] = useState("")
 
 	useEffect(() => {
 		if (template === "modern") {
@@ -323,7 +324,7 @@ const ResumeGenerator = () => {
 			<div className="">
 				<div className="">
 					{showSlider ? (
-						<div className="w-full bg-cyan-50 sm:w-[49%] rounded-md mr-2 p-8 border">
+						<div className="w-full bg-cyan-50 rounded-md mr-2 p-8 border">
 							<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
 								<span
 									onClick={() => setShowSlider(false)}
@@ -470,167 +471,241 @@ const ResumeGenerator = () => {
 							) : (
 								width > 768 && (
 									<div>
-										<div className="flex justify-center flex-row gap-4">
-											<button
-												onClick={() => setActiveMobileView("tab")}
-												className={`border p-2 ${
-													activeMobileView === "tab" ? "bg-cyan-200" : ""
-												}`}
-											>
-												{t.resume_builder.general.tab_selector}
-											</button>
-											<button
-												onClick={() => setActiveMobileView("inputs")}
-												className={`border p-2 ${
-													activeMobileView === "inputs" ? "bg-cyan-200" : ""
-												}`}
-											>
-												{t.resume_builder.general.input_selector}
-											</button>
-											<button
-												onClick={() => setActiveMobileView("preview")}
-												className={`border p-2 ${
-													activeMobileView === "preview" ? "bg-cyan-200" : ""
-												}`}
-											>
-												{t.resume_builder.general.preview_selector}
-											</button>
-										</div>
-										<div className="">
-											{/* <div className="wrapper"> */}
-											<div className="w-full px-12 mt-4">
-												{activeMobileView === "tab" && (
-													<AnimatePresence mode="wait">
-														<motion.div
-															key="tab"
-															initial={{ opacity: 0, y: -10 }}
-															animate={{ opacity: 1, y: 0 }}
-															exit={{ opacity: 0, y: 10 }}
-															transition={{ duration: 0.5 }}
-														>
-															<TabSelector
-																t={t}
-																suggestedSkills={suggestedSkills}
-																activeTab={activeTab}
-																onTabChange={handleTabChange}
-																removeTabHandler={removeTabHandler}
-																addTabHandler={addTabHandler}
-																moveTabHandler={moveTabHandler}
-																setActiveTab={setActiveTab}
-																template={template}
-															/>
-														</motion.div>
-													</AnimatePresence>
-												)}
-												{activeMobileView === "inputs" && (
-													<Inputs
-														langPrefix={langPrefix}
-														t={t}
-														fileName={fileName}
-														setFileName={setFileName}
-														inputRef={inputRef}
-														editing={editing}
-														setEditing={setEditing}
-														customTitles={customTitles}
-														handleCustomTitleOnChange={
-															handleCustomTitleOnChange
-														}
-														nextTabHandler={nextTab}
-														email={email}
-														phone={phone}
-														address={address}
-														cityPostCode={cityPostCode}
-														setEmail={setEmail}
-														setPhone={setPhone}
-														setAddress={setAddress}
-														setCityPostCode={setCityPostCode}
-														firstName={firstName}
-														setFirstName={setFirstName}
-														lastName={lastName}
-														setLastName={setLastName}
-														setJobTitle={setJobTitle}
-														setSkills={setSkills}
-														setExperience={setExperience}
-														certifications={certifications}
-														setCertifications={setCertifications}
-														jobTitle={jobTitle}
-														skills={skills}
-														suggestedSkills={suggestedSkills}
-														setSuggestedSkills={setSuggestedSkills}
-														experience={experience}
-														handleGenerateResume={handleGenerateResume}
-														selectedTab={activeTab}
-														setObjective={setObjective}
-														objective={objective}
-														isLoading={isLoading}
-														regenerateSkillsSuggestions={
-															regenerateSkillsSuggestions
-														}
-														educations={educations}
-														setEducations={setEducations}
-														references={references}
-														setReferences={setReferences}
-														links={links}
-														setLinks={setLinks}
-														hobbies={hobbies}
-														setHobbies={setHobbies}
-														customSections={customSections}
-														setCustomSections={setCustomSections}
-														// handleImageUpload={handleImageUpload}
-														photo={photo}
-														removeTabHandler={removeTabHandler}
-														activeTab={activeTab}
-														setActiveTab={setActiveTab}
-														tabs={tabs}
-														setTabs={setTabs}
-														setPhoto={setPhoto}
-														template={template}
-														languages={languages}
-														setLanguages={setLanguages}
-													/>
-												)}
-												{activeMobileView === "preview" && (
-													<AnimatePresence mode="wait">
-														<motion.div
-															key="tab"
-															initial={{ opacity: 0, y: -10 }}
-															animate={{ opacity: 1, y: 0 }}
-															exit={{ opacity: 0, y: 10 }}
-															transition={{ duration: 0.5 }}
-														>
-															<ResumePreview
-																t={t}
-																resumeRef={resumeRef}
-																generatedResume={generatedResume.resume}
-																handleDownloadPDF={handleDownload}
-																email={email}
-																phone={phone}
-																address={address}
-																cityPostCode={cityPostCode}
-																firstName={firstName}
-																lastName={lastName}
-																skills={skills}
-																experience={experience}
-																objective={objective}
-																jobTitle={jobTitle}
-																tabs={tabs}
-																certifications={certifications}
-																educations={educations}
-																references={references}
-																links={links}
-																hobbies={hobbies}
-																customSections={customSections}
-																photo={photo}
-																template={template}
-																setTemplate={setTemplate}
-																languages={languages}
-																customTitles={customTitles}
-															/>
-														</motion.div>
-													</AnimatePresence>
-												)}
+										<>
+											{/* Blurry backdrop */}
+											{!activeMobileView && (
+												<div
+													className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+													style={{ top: "var(--navbar-height, 63px)" }}
+												/>
+											)}
+
+											{/* Buttons Container */}
+											<div className="flex justify-center flex-row gap-4 border-t-2 pt-2 my-2 relative z-40">
+												{/* Tab Selector Button with Icon */}
+												<div className="flex border p-2 flex-col items-center">
+													<div className="relative group mb-2">
+														<FaThList
+															size={20}
+															className={`${
+																activeMobileView
+																	? "text-gray-600"
+																	: "text-white"
+															}`}
+														/>
+														<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+															{t.resume_builder.general.organize_sections}
+														</div>
+													</div>
+													<button
+														onClick={() => setActiveMobileView("tab")}
+														className={`rounded-md border p-2 transition-colors duration-200 hover:bg-blue-500 hover:text-white ${
+															activeMobileView === "tab" ? "bg-cyan-200" : ""
+														} ${!activeMobileView ? "animate-blue-flash" : ""}`}
+													>
+														{t.resume_builder.general.tab_selector}
+													</button>
+												</div>
+												{/* Input Selector Button with Icon */}
+												<div className="flex border p-2 flex-col items-center">
+													<div className="relative group mb-2">
+														<FaKeyboard
+															size={20}
+															className={`${
+																activeMobileView
+																	? "text-gray-600"
+																	: "text-white"
+															}`}
+														/>
+														<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+															{t.resume_builder.general.fill_in_information}
+														</div>
+													</div>
+													<button
+														onClick={() => setActiveMobileView("inputs")}
+														className={`rounded-md border p-2 transition-colors duration-200 hover:bg-blue-500 hover:text-white ${
+															activeMobileView === "inputs" ? "bg-cyan-200" : ""
+														} ${!activeMobileView ? "animate-blue-flash" : ""}`}
+													>
+														{t.resume_builder.general.input_selector}
+													</button>
+												</div>
+												{/* Preview Selector Button with Icon */}
+												<div className="flex border p-2  flex-col items-center">
+													<div className="relative group mb-2">
+														<FaEye
+															size={20}
+															className={`${
+																activeMobileView
+																	? "text-gray-600"
+																	: "text-white"
+															}`}
+														/>
+														<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+															{t.resume_builder.general.preview_selector}
+														</div>
+													</div>
+													<button
+														onClick={() => setActiveMobileView("preview")}
+														className={`rounded-md border p-2 transition-colors duration-200 hover:bg-blue-500 hover:text-white ${
+															activeMobileView === "preview"
+																? "bg-cyan-200"
+																: ""
+														} ${!activeMobileView ? "animate-blue-flash" : ""}`}
+													>
+														{t.resume_builder.general.preview_selector}
+													</button>
+												</div>
 											</div>
-										</div>
+
+											{/* Instructional message - only shows before selection */}
+											{!activeMobileView && (
+												<div className="border-t-2 text-white font-bold my-8 p-12 flex flex-col items-center text-center relative z-40">
+													<FaRegHandPointUp className="mb-3" size={30} />
+													<p className="text-lg">
+														{t.resume_builder.general.instructional_message}
+													</p>
+												</div>
+											)}
+										</>
+										{activeMobileView && (
+											<div className="">
+												{/* <div className="wrapper"> */}
+												<div className="w-full px-12 mt-4">
+													{activeMobileView === "tab" && (
+														<AnimatePresence mode="wait">
+															<motion.div
+																key="tab"
+																initial={{ opacity: 0, y: -10 }}
+																animate={{ opacity: 1, y: 0 }}
+																exit={{ opacity: 0, y: 10 }}
+																transition={{ duration: 0.5 }}
+																onClick={() => setActiveMobileView("inputs")}
+															>
+																<TabSelector
+																	t={t}
+																	suggestedSkills={suggestedSkills}
+																	activeTab={activeTab}
+																	onTabChange={handleTabChange}
+																	removeTabHandler={removeTabHandler}
+																	addTabHandler={addTabHandler}
+																	moveTabHandler={moveTabHandler}
+																	setActiveTab={setActiveTab}
+																	template={template}
+																/>
+															</motion.div>
+														</AnimatePresence>
+													)}
+													{activeMobileView === "inputs" && (
+														<Inputs
+															langPrefix={langPrefix}
+															t={t}
+															fileName={fileName}
+															setFileName={setFileName}
+															inputRef={inputRef}
+															editing={editing}
+															setEditing={setEditing}
+															customTitles={customTitles}
+															handleCustomTitleOnChange={
+																handleCustomTitleOnChange
+															}
+															nextTabHandler={nextTab}
+															email={email}
+															phone={phone}
+															address={address}
+															cityPostCode={cityPostCode}
+															setEmail={setEmail}
+															setPhone={setPhone}
+															setAddress={setAddress}
+															setCityPostCode={setCityPostCode}
+															firstName={firstName}
+															setFirstName={setFirstName}
+															lastName={lastName}
+															setLastName={setLastName}
+															setJobTitle={setJobTitle}
+															setSkills={setSkills}
+															setExperience={setExperience}
+															certifications={certifications}
+															setCertifications={setCertifications}
+															jobTitle={jobTitle}
+															skills={skills}
+															suggestedSkills={suggestedSkills}
+															setSuggestedSkills={setSuggestedSkills}
+															experience={experience}
+															handleGenerateResume={handleGenerateResume}
+															selectedTab={activeTab}
+															setObjective={setObjective}
+															objective={objective}
+															isLoading={isLoading}
+															regenerateSkillsSuggestions={
+																regenerateSkillsSuggestions
+															}
+															educations={educations}
+															setEducations={setEducations}
+															references={references}
+															setReferences={setReferences}
+															links={links}
+															setLinks={setLinks}
+															hobbies={hobbies}
+															setHobbies={setHobbies}
+															customSections={customSections}
+															setCustomSections={setCustomSections}
+															// handleImageUpload={handleImageUpload}
+															photo={photo}
+															removeTabHandler={removeTabHandler}
+															activeTab={activeTab}
+															setActiveTab={setActiveTab}
+															tabs={tabs}
+															setTabs={setTabs}
+															setPhoto={setPhoto}
+															template={template}
+															languages={languages}
+															setLanguages={setLanguages}
+														/>
+													)}
+													{activeMobileView === "preview" && (
+														<AnimatePresence mode="wait">
+															<motion.div
+																key="tab"
+																initial={{ opacity: 0, y: -10 }}
+																animate={{ opacity: 1, y: 0 }}
+																exit={{ opacity: 0, y: 10 }}
+																transition={{ duration: 0.5 }}
+															>
+																<ResumePreview
+																	t={t}
+																	resumeRef={resumeRef}
+																	generatedResume={generatedResume.resume}
+																	handleDownloadPDF={handleDownload}
+																	email={email}
+																	phone={phone}
+																	address={address}
+																	cityPostCode={cityPostCode}
+																	firstName={firstName}
+																	lastName={lastName}
+																	skills={skills}
+																	experience={experience}
+																	objective={objective}
+																	jobTitle={jobTitle}
+																	tabs={tabs}
+																	certifications={certifications}
+																	educations={educations}
+																	references={references}
+																	links={links}
+																	hobbies={hobbies}
+																	customSections={customSections}
+																	photo={photo}
+																	template={template}
+																	setTemplate={setTemplate}
+																	languages={languages}
+																	customTitles={customTitles}
+																/>
+															</motion.div>
+														</AnimatePresence>
+													)}
+												</div>
+											</div>
+										)}
 									</div>
 								)
 							)}
