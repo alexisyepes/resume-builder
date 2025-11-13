@@ -148,6 +148,7 @@ const ResumeGenerator = () => {
 	}
 
 	const regenerateSkillsSuggestions = async () => {
+		const token = localStorage.getItem("token")
 		try {
 			setIsLoading(true)
 			const response = await axios.post(
@@ -155,6 +156,9 @@ const ResumeGenerator = () => {
 				{
 					jobTitle,
 					langPrefix,
+				},
+				{
+					headers: { Authorization: `Bearer ${token}` },
 				}
 			)
 			setIsLoading(false)
@@ -166,14 +170,21 @@ const ResumeGenerator = () => {
 	}
 
 	const handleGenerateResume = async () => {
+		const token = localStorage.getItem("token")
 		try {
 			setIsLoading(true)
-			const response = await axios.post(`${apiBaseUrl}/generate-objective`, {
-				jobTitle,
-				objective,
-				skills,
-				langPrefix,
-			})
+			const response = await axios.post(
+				`${apiBaseUrl}/generate-objective`,
+				{
+					jobTitle,
+					objective,
+					skills,
+					langPrefix,
+				},
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
 			setIsLoading(false)
 			setSuggestedSkills(response.data.resume.skills)
 			setObjective(response.data.resume.objective)
