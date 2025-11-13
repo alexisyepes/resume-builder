@@ -376,6 +376,11 @@ export default {
 			tab_selector: "टैब चयनकर्ता",
 			input_selector: "इनपुट चयनकर्ता",
 			preview_selector: "पूर्वावलोकन चयनकर्ता",
+			instructional_message:
+				"अपना रेज़्यूमे बनाना शुरू करने के लिए ऊपर दिए गए टैब में से एक चुनें",
+			organize_sections: "रेज़्यूमे सेक्शन व्यवस्थित करें",
+			fill_in_information: "अपनी जानकारी भरें",
+			preview_your_resume: "अपने रेज़्यूमे का पूर्वावलोकन करें",
 		},
 	},
 }

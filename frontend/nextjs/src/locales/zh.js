@@ -343,6 +343,10 @@ export default {
 			tab_selector: "标签选择器",
 			input_selector: "输入选择器",
 			preview_selector: "预览选择器",
+			instructional_message: "选择上面的一个标签开始创建您的简历",
+			organize_sections: "组织简历部分",
+			fill_in_information: "填写您的信息",
+			preview_your_resume: "预览您的简历",
 		},
 	},
 }

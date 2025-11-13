@@ -371,6 +371,11 @@ export default {
 			tab_selector: "Tab Selector",
 			input_selector: "Input Selector",
 			preview_selector: "Preview Selector",
+			instructional_message:
+				"Select one of the tabs above to start building your resume",
+			organize_sections: "Organize resume sections",
+			fill_in_information: "Fill in your information",
+			preview_your_resume: "Preview your resume",
 		},
 	},
 }

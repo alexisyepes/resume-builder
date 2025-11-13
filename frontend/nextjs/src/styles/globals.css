@@ -271,6 +271,26 @@ body {
 	}
 }
 
+@keyframes blueToLightBlue {
+	0%,
+	100% {
+		background-color: theme("colors.blue.200");
+	}
+	50% {
+		background-color: theme("colors.sky.100");
+	}
+}
+
+.animate-blue-flash {
+	animation: blueToLightBlue 1s ease-in-out infinite;
+}
+
+.animate-blue-flash:hover {
+	animation: none !important;
+	background-color: #3bbef6 !important; /* blue-500 */
+	color: white !important;
+}
+
 .holographic-text {
 	animation: holographic 3s infinite;
 }

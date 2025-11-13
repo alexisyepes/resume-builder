@@ -373,6 +373,11 @@ export default {
 			tab_selector: "Sélecteur d'Onglets",
 			input_selector: "Sélecteur de Saisie",
 			preview_selector: "Sélecteur d'Aperçu",
+			instructional_message:
+				"Sélectionnez l'un des onglets ci-dessus pour commencer à créer votre CV",
+			organize_sections: "Organiser les sections du CV",
+			fill_in_information: "Remplissez vos informations",
+			preview_your_resume: "Aperçu de votre CV",
 		},
 	},
 }

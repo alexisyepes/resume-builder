@@ -378,6 +378,11 @@ export default {
 			tab_selector: "Selettore di Schede",
 			input_selector: "Selettore di Input",
 			preview_selector: "Selettore di Anteprima",
+			instructional_message:
+				"Seleziona una delle schede sopra per iniziare a creare il tuo curriculum",
+			organize_sections: "Organizza le sezioni del curriculum",
+			fill_in_information: "Compila le tue informazioni",
+			preview_your_resume: "Anteprima del tuo curriculum",
 		},
 	},
 }
