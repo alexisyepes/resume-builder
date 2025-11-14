@@ -76,7 +76,7 @@ For Frontend, `cd frontend/nextjs` and then run: `npm install`
 
 # Start backend
 
-cd backend
+From the root, run:
 npm run dev
 
 # Start frontend
