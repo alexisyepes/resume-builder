@@ -77,11 +77,11 @@ For Frontend, `cd frontend/nextjs` and then run: `npm install`
 # Start backend
 
 From the root, run:
-npm run dev
+npm start
 
 # Start frontend
 
-cd frontend
+cd frontend/nextjs
 npm run dev
 
 ![IMAGE](/frontend/nextjs/public/images/readme/Screenshot1.png)
