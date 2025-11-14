@@ -4,15 +4,14 @@ import "swiper/css/navigation"
 import { Navigation } from "swiper/modules"
 import { useContext } from "react"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa" // Import icons for arrows
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 
 export default function TemplateSlider({
 	setTemplate,
 	template,
 	templateDesigns,
 }) {
-	const { setResumeContentTriggered, setShowSlider } =
-		useContext(RESUME_CONTEXT)
+	const { setShowSlider } = useContext(RESUME_CONTEXT)
 
 	return (
 		<div className="relative w-full mt-4 pb-10">
@@ -35,18 +34,12 @@ export default function TemplateSlider({
 					prevEl: ".swiper-button-prev",
 				}}
 				loop
-				// className="w-full"
 			>
 				{templateDesigns.map((section) => (
 					<SwiperSlide key={section.name} className="!w-[18rem]">
 						<div
 							className="flex h-[26rem] w-full flex-col items-center cursor-pointer"
 							onClick={() => {
-								if (section.value === "modern") {
-									setResumeContentTriggered(false)
-								} else {
-									setResumeContentTriggered(true)
-								}
 								setTemplate(section.value)
 								setShowSlider(false)
 							}}

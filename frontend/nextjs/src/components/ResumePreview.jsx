@@ -1,11 +1,6 @@
-import React, {
-	useState,
-	useRef,
-	useLayoutEffect,
-	useEffect,
-	useContext,
-} from "react"
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react"
 import { FaDownload, FaSpinner } from "react-icons/fa"
+import { TfiReload } from "react-icons/tfi"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
@@ -29,8 +24,19 @@ import {
 	SKILLS,
 } from "@/constants"
 import StandardATSSectionMap from "./TemplateSections/StandardATSSections"
-import { RESUME_CONTEXT } from "@/contexts/resumeContext"
-import { TfiReload } from "react-icons/tfi"
+
+// Constants
+const LETTER_SIZE_HEIGHT = 850
+const TEMPLATE_STYLES = {
+	elegant: `
+		.elegant-template {
+			background: url('${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/images/template-bg-1.png') no-repeat center center !important;
+			background-size: cover !important;
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
+		}
+	`,
+}
 
 export default function ResumePreview({
 	generatedResume,
@@ -44,7 +50,7 @@ export default function ResumePreview({
 	experience,
 	objective,
 	jobTitle,
-	tabs,
+	tabs = [],
 	certifications,
 	educations,
 	references,
@@ -52,244 +58,305 @@ export default function ResumePreview({
 	hobbies,
 	customSections,
 	photo,
-	template,
 	languages,
-	// handleDownloadPDF, // Old method
 }) {
 	const [downloadInProgress, setDownloadInProgress] = useState(false)
 	const [pages, setPages] = useState([])
-	const { customTitles, apiBaseUrl } = useResumeStore()
+	const [templateKey, setTemplateKey] = useState(0)
+	const { customTitles, apiBaseUrl, template } = useResumeStore()
 	const resumeRef = useRef(null)
-	const { resumeContentTriggered, setResumeContentTriggered } =
-		useContext(RESUME_CONTEXT)
-	const letterSizeHeight = 850
+
+	// Section refs
+	const personalDetailsRef = useRef(null)
+	const contactInformationRef = useRef(null)
+	const professionalSummaryRef = useRef(null)
+	const employmentHistoryRef = useRef(null)
+	const educationRef = useRef(null)
+	const skillsRef = useRef(null)
+	const certificationsRef = useRef(null)
+	const referencesRef = useRef(null)
+	const linksRef = useRef(null)
+	const languagesRef = useRef(null)
+	const hobbiesRef = useRef(null)
+	const customSectionRef = useRef(null)
 
 	const router = useRouter()
 	const t = loadTranslations(router)
 	const { locale } = router
 	const langPrefix = locale
 
-	const commonProps = {
-		resumeRef,
-		resume: generatedResume,
-		photo,
-		firstName,
-		lastName,
-		jobTitle,
-		email,
-		phone,
-		address,
-		cityPostCode,
-		experience,
-		orderedTabs: tabs,
-		certifications,
-		educations,
-		references,
-		links,
-		hobbies,
-		customSections,
-		languages,
-		objective,
-		skills,
-		customTitles,
-		t,
-		pages,
-	}
+	// Memoized resume data
+	const resumeData = useMemo(
+		() => ({
+			photo,
+			firstName,
+			lastName,
+			jobTitle,
+			email,
+			phone,
+			address,
+			cityPostCode,
+			objective,
+			skills,
+			experience,
+			certifications,
+			educations,
+			references,
+			links,
+			hobbies,
+			customSections,
+			languages,
+		}),
+		[
+			photo,
+			firstName,
+			lastName,
+			jobTitle,
+			email,
+			phone,
+			address,
+			cityPostCode,
+			objective,
+			skills,
+			experience,
+			certifications,
+			educations,
+			references,
+			links,
+			hobbies,
+			customSections,
+			languages,
+		]
+	)
 
-	const resumeData = {
-		photo,
-		firstName,
-		lastName,
-		jobTitle,
-		email,
-		phone,
-		address,
-		cityPostCode,
-		objective,
-		skills,
-		experience,
-		certifications,
-		educations,
-		references,
-		links,
-		hobbies,
-		customSections,
-		languages,
-	}
+	// Section refs object
+	const sectionRefs = useMemo(
+		() => ({
+			[PERSONAL_DETAILS]: personalDetailsRef,
+			[CONTACT_INFORMATION]: contactInformationRef,
+			[PROFESSIONAL_SUMMARY]: professionalSummaryRef,
+			[EMPLOYMENT_HISTORY]: employmentHistoryRef,
+			[EDUCATION]: educationRef,
+			[SKILLS]: skillsRef,
+			[CERTIFICATIONS]: certificationsRef,
+			[REFERENCES]: referencesRef,
+			[LINKS]: linksRef,
+			[LANGUAGES]: languagesRef,
+			[HOBBIES]: hobbiesRef,
+			[CUSTOM_SECTION]: customSectionRef,
+		}),
+		[]
+	)
 
-	useEffect(() => {
-		const refreshContent = async () => {
-			await paginateContent()
+	// Section map with memoization
+	const sectionMap = useMemo(() => {
+		try {
+			const map = StandardATSSectionMap({
+				sectionRefs,
+				t,
+				customTitles,
+				resumeData,
+				generatedResume,
+				template,
+			})
+			return map || {}
+		} catch (error) {
+			console.error("Error creating section map:", error)
+			return {}
 		}
-		// Always refresh content when resumeContentTriggered changes
-		if (resumeContentTriggered) {
-			refreshContent()
-			// Reset the trigger after refreshing
-			setResumeContentTriggered(false)
-		}
-	}, [resumeContentTriggered, template])
+	}, [sectionRefs, t, customTitles, resumeData, generatedResume, template])
 
-	useLayoutEffect(() => {
-		// Initial content setup
-		if (pages.length === 0) {
-			paginateContent()
-		}
-	}, [])
+	// Common props with memoization
+	const commonProps = useMemo(
+		() => ({
+			resumeRef,
+			resume: generatedResume,
+			photo,
+			firstName,
+			lastName,
+			jobTitle,
+			email,
+			phone,
+			address,
+			cityPostCode,
+			experience,
+			orderedTabs: tabs,
+			certifications,
+			educations,
+			references,
+			links,
+			hobbies,
+			customSections,
+			languages,
+			objective,
+			skills,
+			customTitles,
+			t,
+			pages,
+			template,
+		}),
+		[
+			generatedResume,
+			photo,
+			firstName,
+			lastName,
+			jobTitle,
+			email,
+			phone,
+			address,
+			cityPostCode,
+			experience,
+			tabs,
+			certifications,
+			educations,
+			references,
+			links,
+			hobbies,
+			customSections,
+			languages,
+			objective,
+			skills,
+			customTitles,
+			t,
+			pages,
+			template,
+		]
+	)
 
-	useLayoutEffect(() => {
-		setPages([[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)]])
-	}, [tabs, resumeContentTriggered])
-
-	useLayoutEffect(() => {
-		if (pages.length === 0) {
-			setPages([
-				[...tabs.map((tab, i) => <div key={i}>{sectionMap[tab]}</div>)],
-			])
-		}
-	}, [
-		photo,
-		pages,
-		firstName,
-		lastName,
-		jobTitle,
-		email,
-		phone,
-		address,
-		cityPostCode,
-		objective,
-		skills,
-		tabs,
-	])
-
-	useEffect(() => {
-		requestAnimationFrame(() => {
-			paginateContent()
-		})
-	}, [tabs])
-
-	const paginateContent = async () => {
+	// Pagination function
+	const paginateContent = useCallback(() => {
 		return new Promise((resolve) => {
 			const content = resumeRef.current
-			if (!content) return resolve()
+			if (!content) {
+				return resolve()
+			}
 
 			const newPages = []
 			let currentPage = []
 			let currentHeight = 0
 
-			tabs.forEach((tab) => {
-				const section = sectionRefs[tab].current
+			const safeTabs = Array.isArray(tabs) ? tabs : []
+
+			safeTabs.forEach((tab) => {
+				const section = sectionRefs[tab]?.current
 				if (!section) return
 
 				const sectionHeight = section.offsetHeight || 0
 
-				if (currentHeight + sectionHeight > letterSizeHeight) {
+				if (currentHeight + sectionHeight > LETTER_SIZE_HEIGHT) {
 					newPages.push(currentPage)
 					currentPage = []
 					currentHeight = 0
 				}
 
-				currentPage.push(
-					React.cloneElement(sectionMap[tab], { key: tab + newPages.length })
-				)
-				currentHeight += sectionHeight
+				const sectionElement = sectionMap[tab]
+				if (sectionElement && React.isValidElement(sectionElement)) {
+					currentPage.push(
+						React.cloneElement(sectionElement, {
+							key: `${tab}-${newPages.length}`,
+						})
+					)
+					currentHeight += sectionHeight
+				}
 			})
 
-			if (currentPage.length) {
+			if (currentPage.length > 0) {
 				newPages.push(currentPage)
 			}
 
-			if (newPages.length === 0) {
-				newPages.push([])
-			}
-
-			setPages(newPages)
-
+			setPages(newPages.length > 0 ? newPages : [[]])
 			resolve()
 		})
-	}
+	}, [tabs, sectionRefs, sectionMap])
 
+	// UNICO EFECTO para manejar TODO
 	useEffect(() => {
-		paginateContent()
-	}, [
-		t,
-		photo,
-		firstName,
-		lastName,
-		jobTitle,
-		email,
-		phone,
-		address,
-		cityPostCode,
-		objective,
-		tabs,
-		experience,
-		skills,
-		certifications,
-		educations,
-		references,
-		links,
-		hobbies,
-		customSections,
-		languages,
-		customTitles,
-	])
+		console.log("🔄 Effect running - template:", template)
 
-	const sectionRefs = {
-		[PERSONAL_DETAILS]: useRef(null),
-		[CONTACT_INFORMATION]: useRef(null),
-		[PROFESSIONAL_SUMMARY]: useRef(null),
-		[EMPLOYMENT_HISTORY]: useRef(null),
-		[EDUCATION]: useRef(null),
-		[SKILLS]: useRef(null),
-		[CERTIFICATIONS]: useRef(null),
-		[REFERENCES]: useRef(null),
-		[LINKS]: useRef(null),
-		[LANGUAGES]: useRef(null),
-		[HOBBIES]: useRef(null),
-		[CUSTOM_SECTION]: useRef(null),
-	}
+		let isMounted = true
+		let timeoutId
 
-	const bgStyle =
-		template === "elegant"
-			? `
-				.elegant-template {
-					background: url('${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/images/template-bg-1.png') no-repeat center center !important;
-					background-size: cover !important;
-					-webkit-print-color-adjust: exact;
-					print-color-adjust: exact;
+		const initializeContent = async () => {
+			if (!isMounted) return
+
+			// Crear páginas iniciales
+			if (Array.isArray(tabs) && tabs.length > 0) {
+				const initialPages = tabs
+					.map((tab, i) => {
+						const sectionElement = sectionMap[tab]
+						return sectionElement ? <div key={i}>{sectionElement}</div> : null
+					})
+					.filter(Boolean)
+
+				if (isMounted && initialPages.length > 0) {
+					setPages([initialPages])
 				}
-			`
-			: ""
+			}
 
-	const baseUrl =
-		process.env.NEXT_PUBLIC_FRONTEND_SERVER || "http://localhost:3000"
+			// Paginar después de delay
+			timeoutId = setTimeout(() => {
+				if (isMounted) {
+					paginateContent()
+				}
+			}, 300)
+		}
 
-	const handleDownload = async () => {
+		initializeContent()
+
+		return () => {
+			isMounted = false
+			clearTimeout(timeoutId)
+		}
+	}, [tabs, sectionMap, paginateContent, template])
+
+	// Effect para template changes - solo actualiza templateKey
+	useEffect(() => {
+		console.log("🎨 Template changed to:", template)
+		setTemplateKey((prev) => prev + 1)
+	}, [template])
+
+	// Template selection
+	const getSelectedTemplate = useCallback(
+		(isPdf = false) => {
+			const templateProps = isPdf
+				? { ...commonProps, isPdf, template }
+				: { ...commonProps, template }
+
+			switch (template) {
+				case "classic-ats":
+					return <MainTemplate key={templateKey} {...templateProps} />
+				case "modern":
+					return <ModernTemplate key={templateKey} {...templateProps} />
+				case "elegant":
+					return (
+						<MainTemplate
+							key={templateKey}
+							bg="/images/template-bg-1.png"
+							{...templateProps}
+						/>
+					)
+				case "classic":
+					return <ClassicTemplate key={templateKey} {...templateProps} />
+				case "creative":
+					return <CreativeTemplate key={templateKey} {...templateProps} />
+				default:
+					return <MainTemplate key={templateKey} {...templateProps} />
+			}
+		},
+		[template, commonProps, templateKey]
+	)
+
+	// Download handler
+	const handleDownload = useCallback(async () => {
 		if (downloadInProgress) return
 
 		setDownloadInProgress(true)
 		await paginateContent()
-		let selectedTemplate
-		switch (template) {
-			case "classic-ats":
-				selectedTemplate = <MainTemplate {...commonProps} isPdf />
-				break
-			case "modern":
-				selectedTemplate = <ModernTemplate {...commonProps} />
-				break
-			case "elegant":
-				selectedTemplate = (
-					<MainTemplate
-						template={template}
-						bg="/images/template-bg-1.png"
-						{...commonProps}
-					/>
-				)
-				break
-			default:
-				selectedTemplate = <MainTemplate {...commonProps} isPdf />
-				break
-		}
+
+		const baseUrl =
+			process.env.NEXT_PUBLIC_FRONTEND_SERVER || "http://localhost:3000"
+		const selectedTemplate = getSelectedTemplate(true)
+		const bgStyle = TEMPLATE_STYLES[template] || ""
 
 		const htmlContent = `
 			<!DOCTYPE html>
@@ -297,144 +364,123 @@ export default function ResumePreview({
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Resume</title>
+				<title>Resume - ${firstName}</title>
 				<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 				<link rel="stylesheet" href="${baseUrl}/tailwind.css">
 				<link rel="stylesheet" href="${baseUrl}/styles/globals.css">
 				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
-			
-				<!-- Add a font that supports Chinese characters -->
+				
 				<style>
-					body {
-						font-family: "Inter", system-ui, Arial, Helvetica, sans-serif;
-					}
-			
-					/* Apply Chinese fonts only to Chinese characters */
+					body { font-family: "Inter", system-ui, Arial, Helvetica, sans-serif; }
+					
 					@font-face {
 						font-family: 'Noto Sans CJK SC';
 						src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk/NotoSansSC-Regular.otf') format('opentype');
 					}
-			
+					
 					:lang(${langPrefix}) {
 						font-family: "Noto Sans CJK SC", "Inter", system-ui, Arial, Helvetica, sans-serif;
 					}
-
 					${bgStyle}
 				</style>
 			</head>
 			<body>
 				${ReactDOMServer.renderToString(selectedTemplate)}
 			</body>
-		</html>`
+			</html>`
 
 		try {
 			const response = await fetch(`${apiBaseUrl}/generate-pdf`, {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ html: htmlContent, firstName }),
 			})
 
-			if (!response.ok) {
-				setDownloadInProgress(false)
-				throw new Error("Failed to generate PDF")
-			}
+			if (!response.ok) throw new Error("Failed to generate PDF")
 
-			// Convert response to an ArrayBuffer (to avoid data corruption)
 			const arrayBuffer = await response.arrayBuffer()
 			const blob = new Blob([arrayBuffer], { type: "application/pdf" })
-
-			// Create a temporary URL for the PDF
 			const url = window.URL.createObjectURL(blob)
 
-			// Create a hidden download link and click it
 			const a = document.createElement("a")
 			a.href = url
 			a.download = `${firstName}_resume.pdf`
 			document.body.appendChild(a)
 			a.click()
-
-			// Cleanup
 			document.body.removeChild(a)
 			window.URL.revokeObjectURL(url)
-			setDownloadInProgress(false)
 		} catch (error) {
+			console.error("Error generating PDF:", error)
+		} finally {
 			setDownloadInProgress(false)
-			console.error("Error:", error)
 		}
-	}
+	}, [
+		downloadInProgress,
+		paginateContent,
+		getSelectedTemplate,
+		template,
+		langPrefix,
+		firstName,
+		apiBaseUrl,
+	])
 
-	const sectionMap =
-		template === "classic-ats"
-			? StandardATSSectionMap({
-					sectionRefs,
-					t,
-					customTitles,
-					resumeData,
-					generatedResume,
-					template,
-			  })
-			: StandardATSSectionMap({
-					sectionRefs,
-					t,
-					customTitles,
-					resumeData,
-					generatedResume,
-					template,
-			  })
+	// Refresh handler
+	const handleRefreshContent = useCallback(async () => {
+		console.log("🔄 Manual refresh triggered")
+		await paginateContent()
+	}, [paginateContent])
+
+	// UI helpers
+	const renderDownloadButton = () => (
+		<button
+			disabled={downloadInProgress}
+			className={`flex items-center justify-center gap-2 font-bold px-4 py-2 rounded-md text-lg transition-all ${
+				downloadInProgress
+					? "bg-gray-400 cursor-not-allowed"
+					: "bg-cyan-500 hover:bg-cyan-600 text-white"
+			}`}
+			onClick={handleDownload}
+		>
+			{downloadInProgress ? (
+				<>
+					<FaSpinner className="inline animate-spin" />
+					{t.resume_builder.labels.general.template_selector.downloading}
+				</>
+			) : (
+				<>
+					<FaDownload className="inline" />
+					{t.resume_builder.labels.general.template_selector.download}
+				</>
+			)}
+		</button>
+	)
+
+	const renderRefreshButton = () => (
+		<button
+			className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg hover:bg-cyan-600 transition-colors"
+			onClick={handleRefreshContent}
+		>
+			<TfiReload className="inline mr-2" />
+			{t.resume_builder.labels.general.template_selector.synch_content}
+		</button>
+	)
+
+	const renderTemplateInfo = () => (
+		<span className="text-white font-extrabold ml-6 text-xl capitalize">
+			{t.resume_builder.labels.general.template_selector.selected_template}:{" "}
+			{template}
+		</span>
+	)
 
 	return (
 		<div className="relative border ring-4 ring-gray-50 p-2 bg-cyan-950 rounded-md overflow-hidden">
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
-					<button
-						className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg"
-						onClick={() => {
-							window.location.reload()
-						}}
-					>
-						<TfiReload className="inline mr-2" />
-						{t.resume_builder.labels.general.template_selector.synch_content}
-					</button>
-					<span className="text-white font-extrabold ml-6 text-xl capitalize">
-						{
-							t.resume_builder.labels.general.template_selector
-								.selected_template
-						}
-						: {template}
-					</span>
-					<button
-						disabled={downloadInProgress}
-						className={`flex items-center justify-center gap-2 font-bold px-4 py-2 rounded-md text-lg transition-all ${
-							downloadInProgress
-								? "bg-gray-400 cursor-not-allowed"
-								: "bg-cyan-500 hover:bg-cyan-600 text-white"
-						}`}
-						onClick={handleDownload}
-					>
-						{downloadInProgress ? (
-							<>
-								<FaSpinner className="inline animate-spin" />
-								{t.resume_builder.labels.general.template_selector.downloading}
-							</>
-						) : (
-							<>
-								<FaDownload className="inline" />
-								{t.resume_builder.labels.general.template_selector.download}
-							</>
-						)}
-					</button>
+					{renderRefreshButton()}
+					{renderTemplateInfo()}
+					{renderDownloadButton()}
 				</div>
-				<div className="rounded py-8">
-					{template === "classic" && <ClassicTemplate {...commonProps} />}
-					{template === "classic-ats" && <MainTemplate {...commonProps} />}
-					{template === "elegant" && (
-						<MainTemplate bg="/images/template-bg-1.png" {...commonProps} />
-					)}
-					{template === "modern" && <ModernTemplate {...commonProps} />}
-					{template === "creative" && <CreativeTemplate {...commonProps} />}
-				</div>
+				<div className="rounded py-8">{getSelectedTemplate()}</div>
 			</div>
 		</div>
 	)
