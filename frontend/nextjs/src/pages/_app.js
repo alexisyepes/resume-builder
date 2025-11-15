@@ -33,19 +33,9 @@ export default function App({ Component, pageProps }) {
 			image: "/images/templateDesigns/modern.png",
 		},
 		{
-			name: t.resume_builder.template_names.classic_ats,
-			value: "classic-ats",
-			image: "/images/templateDesigns/classic.png",
-		},
-		{
-			name: t.resume_builder.template_names.elegant,
-			value: "elegant",
-			image: "/images/templateDesigns/elegant.png",
-		},
-		{
-			name: t.resume_builder.template_names.modern,
-			value: "modern",
-			image: "/images/templateDesigns/modern.png",
+			name: t.resume_builder.template_names.minimalist,
+			value: "minimalist",
+			image: "/images/templateDesigns/minimalist.png",
 		},
 	]
 

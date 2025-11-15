@@ -44,7 +44,7 @@ export default function TemplateSlider({
 								setShowSlider(false)
 							}}
 						>
-							<div className="w-full h-[22rem] overflow-hidden rounded-lg">
+							<div className="h-[22rem] overflow-hidden rounded-lg">
 								<img
 									src={section.image}
 									alt={section.name}

@@ -363,6 +363,7 @@ export default {
 			classic_ats: "classic-ats",
 			elegant: "elegant",
 			modern: "modern",
+			minimalist: "minimalist",
 		},
 		footer: "2025 AI Resume Builder. All rights reserved.",
 		general: {
