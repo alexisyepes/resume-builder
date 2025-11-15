@@ -1,31 +1,30 @@
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
-import Image from "next/image"
 import { useContext } from "react"
 
 const ResumeTemplates = () => {
 	const { t, templateDesigns } = useContext(RESUME_CONTEXT)
 
 	return (
-		<div className="container mx-auto p-4 pt-16">
+		<div className="mx-auto p-4 pt-16">
 			<h2 className="text-2xl font-semibold mb-4 text-center">
 				{t.resume_builder.pages.templates.choose_from_many}
 			</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-				{templateDesigns.map((template) => (
-					<div
-						key={template.value}
-						className="flex flex-col items-center border rounded-lg bg-white p-4"
-					>
-						<Image
-							width={210}
-							height={270}
-							src={template.image}
-							alt={template.name}
-							className="w-full h-full object-contain"
-						/>
-						<div className="p-3 text-center">
-							<h3 className="text-lg font-medium">{template.name}</h3>
+				{templateDesigns.map((section) => (
+					<div className="flex h-[26rem] w-full flex-col items-center">
+						<div className="h-[22rem] overflow-hidden rounded-lg">
+							<img
+								src={section.image}
+								alt={section.name}
+								className={` w-full h-full shadow-slate-500 shadow-lg object-cover`}
+							/>
 						</div>
+
+						<h2
+							className={` mt-4 font-bold capitalize p-2 rounded-md border text-black text-center text-lg`}
+						>
+							{section.name}
+						</h2>
 					</div>
 				))}
 			</div>
