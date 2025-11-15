@@ -335,8 +335,8 @@ const ResumeGenerator = () => {
 			<div className="">
 				<div className="">
 					{showSlider ? (
-						<div className="w-full bg-cyan-50 rounded-md mr-2 p-8 border">
-							<div className="text-black flex justify-between text-center font-bold mb-2 text-xl relative">
+						<div className="w-full bg-gray-900 rounded-md mr-2 p-8 border">
+							<div className="text-white flex justify-between text-center font-bold mb-2 text-xl relative">
 								<span
 									onClick={() => setShowSlider(false)}
 									className="cursor-pointer hover:text-teal-500"

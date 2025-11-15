@@ -17,12 +17,12 @@ export default function TemplateSlider({
 		<div className="relative w-full mt-4 pb-10">
 			{/* Custom Left Arrow */}
 			<button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg swiper-button-prev">
-				<FaChevronLeft className="text-gray-600 text-2xl" />
+				<FaChevronLeft className="text-white text-2xl" />
 			</button>
 
 			{/* Custom Right Arrow */}
 			<button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg swiper-button-next">
-				<FaChevronRight className="text-gray-600 text-2xl" />
+				<FaChevronRight className="text-white text-2xl" />
 			</button>
 
 			<Swiper
@@ -60,8 +60,8 @@ export default function TemplateSlider({
 								className={`${
 									template === section.value
 										? "rounded-md p-2 border-4 border-green-400"
-										: "border-slate-600"
-								} mt-4 font-bold capitalize p-2 rounded-md border text-black text-center text-lg`}
+										: "border-slate-300"
+								} mt-4 font-bold capitalize p-2 rounded-md border text-white text-center text-lg`}
 							>
 								{section.name}
 							</h2>
