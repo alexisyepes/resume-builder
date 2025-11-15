@@ -6,13 +6,6 @@ export default function MainTemplateATS({
 	bg,
 	template,
 }) {
-	console.log("MainTemplateATS props:", {
-		template,
-		pagesLength: pages?.length,
-		hasResume: !!resume,
-		bg,
-	})
-
 	const bgStyle = bg
 		? {
 				backgroundImage: `url(${bg})`,

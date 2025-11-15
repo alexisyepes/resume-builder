@@ -24,19 +24,11 @@ import {
 	SKILLS,
 } from "@/constants"
 import StandardATSSectionMap from "./TemplateSections/StandardATSSections"
+import MinimalistTemplate from "./Templates/MinimalistTemplate"
+import TEMPLATE_STYLES from "./Templates/TemplateStyles"
 
 // Constants
 const LETTER_SIZE_HEIGHT = 850
-const TEMPLATE_STYLES = {
-	elegant: `
-		.elegant-template {
-			background: url('${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/images/template-bg-1.png') no-repeat center center !important;
-			background-size: cover !important;
-			-webkit-print-color-adjust: exact;
-			print-color-adjust: exact;
-		}
-	`,
-}
 
 export default function ResumePreview({
 	generatedResume,
@@ -243,6 +235,10 @@ export default function ResumePreview({
 
 				const sectionHeight = section.offsetHeight || 0
 
+				console.log(
+					`Section: ${tab}, Height: ${sectionHeight}, Current Page Height: ${currentHeight}`
+				)
+
 				if (currentHeight + sectionHeight > LETTER_SIZE_HEIGHT) {
 					newPages.push(currentPage)
 					currentPage = []
@@ -269,17 +265,14 @@ export default function ResumePreview({
 		})
 	}, [tabs, sectionRefs, sectionMap])
 
-	// UNICO EFECTO para manejar TODO
 	useEffect(() => {
-		console.log("🔄 Effect running - template:", template)
-
 		let isMounted = true
 		let timeoutId
 
 		const initializeContent = async () => {
 			if (!isMounted) return
 
-			// Crear páginas iniciales
+			// Build initial pages
 			if (Array.isArray(tabs) && tabs.length > 0) {
 				const initialPages = tabs
 					.map((tab, i) => {
@@ -293,7 +286,7 @@ export default function ResumePreview({
 				}
 			}
 
-			// Paginar después de delay
+			// Paginate after a short delay
 			timeoutId = setTimeout(() => {
 				if (isMounted) {
 					paginateContent()
@@ -309,9 +302,8 @@ export default function ResumePreview({
 		}
 	}, [tabs, sectionMap, paginateContent, template])
 
-	// Effect para template changes - solo actualiza templateKey
+	// Effect for template change
 	useEffect(() => {
-		console.log("🎨 Template changed to:", template)
 		setTemplateKey((prev) => prev + 1)
 	}, [template])
 
@@ -335,6 +327,8 @@ export default function ResumePreview({
 							{...templateProps}
 						/>
 					)
+				case "minimalist":
+					return <MinimalistTemplate key={templateKey} {...templateProps} />
 				case "classic":
 					return <ClassicTemplate key={templateKey} {...templateProps} />
 				case "creative":
