@@ -3,6 +3,7 @@ import { FaDownload, FaSpinner } from "react-icons/fa"
 import { TfiReload } from "react-icons/tfi"
 import ClassicTemplate from "../components/Templates/ClassicTemplate"
 import ModernTemplate from "./Templates/ModernTemplate"
+import StudentTemplate from "./Templates/StudentTemplate"
 import CreativeTemplate from "./Templates/CreativeTemplate"
 import MainTemplate from "./Templates/MainTemplateATS"
 import ReactDOMServer from "react-dom/server"
@@ -319,6 +320,9 @@ export default function ResumePreview({
 					return <MainTemplate key={templateKey} {...templateProps} />
 				case "modern":
 					return <ModernTemplate key={templateKey} {...templateProps} />
+				case "student":
+					console.log(template)
+					return <StudentTemplate key={templateKey} {...templateProps} />
 				case "elegant":
 					return (
 						<MainTemplate

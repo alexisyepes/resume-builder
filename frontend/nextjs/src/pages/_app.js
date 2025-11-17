@@ -37,6 +37,11 @@ export default function App({ Component, pageProps }) {
 			value: "minimalist",
 			image: "/images/templateDesigns/minimalist.png",
 		},
+		{
+			name: t.resume_builder.template_names.student,
+			value: "student",
+			image: "/images/templateDesigns/student.png",
+		},
 	]
 
 	const handleImageUpload = (event) => {
