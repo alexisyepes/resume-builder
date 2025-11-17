@@ -364,6 +364,7 @@ export default {
 			elegant: "elegant",
 			modern: "modern",
 			minimalist: "minimalist",
+			student: "student",
 		},
 		footer: "2025 AI Resume Builder. All rights reserved.",
 		general: {
