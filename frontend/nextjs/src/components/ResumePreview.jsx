@@ -453,16 +453,6 @@ export default function ResumePreview({
 		</button>
 	)
 
-	const renderRefreshButton = () => (
-		<button
-			className="bg-cyan-500 text-white font-bold px-2 rounded-md text-lg hover:bg-cyan-600 transition-colors"
-			onClick={handleRefreshContent}
-		>
-			<TfiReload className="inline mr-2" />
-			{t.resume_builder.labels.general.template_selector.synch_content}
-		</button>
-	)
-
 	const renderTemplateInfo = () => (
 		<span className="text-white font-extrabold ml-6 text-xl capitalize">
 			{t.resume_builder.labels.general.template_selector.selected_template}:{" "}
@@ -471,10 +461,9 @@ export default function ResumePreview({
 	)
 
 	return (
-		<div className="relative border ring-4 ring-gray-50 p-2 bg-cyan-950 rounded-md overflow-hidden">
+		<div className="relative border ring-4 ring-gray-50 p-2 bg-gray-950 rounded-md overflow-hidden">
 			<div className="relative z-10">
 				<div className="flex download-section justify-between items-center">
-					{renderRefreshButton()}
 					{renderTemplateInfo()}
 					{renderDownloadButton()}
 				</div>
