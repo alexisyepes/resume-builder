@@ -112,12 +112,12 @@ const Navbar = () => {
 							y: -10,
 							height: 0,
 							transition: {
-								duration: 0.2,
+								duration: 0.4,
 								ease: "easeOut",
 							},
 						}}
 						transition={{
-							duration: 0.3,
+							duration: 0.4,
 							ease: "easeOut",
 						}}
 						className=" bg-white -mt-12 shadow-md overflow-visible relative z-50"
@@ -155,7 +155,7 @@ const Navbar = () => {
 								>
 									{t.resume_builder.navigation.services}
 								</Link>
-								{isAuthenticated && (
+								{isAuthenticated ? (
 									<div className="flex flex-col items-center space-y-2 w-full">
 										<Link
 											href="/builder"
@@ -174,12 +174,20 @@ const Navbar = () => {
 											{t.resume_builder.navigation.logout}
 										</p>
 									</div>
+								) : (
+									<Link
+										href="/signin"
+										className="hover:text-blue-500 transition w-full text-center py-2"
+										onClick={() => setIsOpen(false)}
+									>
+										{t.resume_builder.navigation.signin}
+									</Link>
 								)}
 							</div>
 
 							{/* Language Selector Container */}
 							<div className="flex justify-center mt-4 pt-4 border-t border-gray-200">
-								<div className="w-full max-w-xs">
+								<div className="w-full flex justify-center max-w-xs">
 									<LanguageSelector
 										isMobile
 										setIsOpen={setIsOpen}

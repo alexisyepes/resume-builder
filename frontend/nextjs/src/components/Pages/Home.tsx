@@ -8,21 +8,75 @@ import { AiOutlineRobot } from "react-icons/ai"
 import { MdDesignServices, MdFileDownload } from "react-icons/md"
 import FAQSection from "./FAQSection"
 import dynamic from "next/dynamic"
+import { ReactElement } from "react"
+import useResumeStore from "@/store/useResumeStore"
 
-// Dynamically import TransparentTouchscreen with SSR disabled
 const TransparentTouchscreen = dynamic(() => import("../TouchScreen"), {
 	ssr: false,
 })
 
 const heroImage = "/images/home_hero2.jpg"
 
+interface Step {
+	title: string
+	description: string
+}
+
+interface HomeTranslations {
+	resume_builder: {
+		pages: {
+			home: {
+				title: string
+				description: string
+				cta_builder: string
+				cta_templates: string
+				features: Record<string, string>
+				how_it_works: {
+					title: string
+					description: string
+					steps: Step[]
+				}
+				final_cta: {
+					title: string
+					description: string
+					cta_text: string
+				}
+				faq?: any
+			}
+		}
+	}
+}
+
+interface Feature {
+	key: "customization" | "ai_assistance" | "export_options"
+	icon: () => ReactElement
+}
+
+const features: Feature[] = [
+	{
+		key: "customization",
+		icon: () => (
+			<MdDesignServices className="w-12 h-12 mx-auto text-blue-500" />
+		),
+	},
+	{
+		key: "ai_assistance",
+		icon: () => <AiOutlineRobot className="w-12 h-12 mx-auto text-blue-500" />,
+	},
+	{
+		key: "export_options",
+		icon: () => <MdFileDownload className="w-12 h-12 mx-auto text-blue-500" />,
+	},
+]
+
 const Home = () => {
 	const router = useRouter()
-	const t = loadTranslations(router)
+	const t: HomeTranslations = loadTranslations(router)
+	const { firstName, lastName, jobTitle } = useResumeStore()
 
 	return (
 		<div className="min-h-screen mt-8 sm:mt-0 mb-4 w-full flex flex-col items-center bg-cyan-50">
-			{/* Hero Section with Image */}
+			{/* Hero Section */}
 			<div className="relative w-full h-96 sm:h-[500px]">
 				<img
 					src={heroImage}
@@ -73,13 +127,13 @@ const Home = () => {
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 					{features.map((feature, index) => (
 						<motion.div
-							key={index}
+							key={feature.key}
 							initial={{ opacity: 0, y: 10 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.4, delay: index * 0.3 }}
 							className="bg-white p-6 shadow-lg rounded-xl text-center border-t-4 border-blue-500"
 						>
-							<feature.icon className="w-12 h-12 mx-auto text-blue-500" />
+							<feature.icon />
 							<h3 className="mt-4 text-xl font-semibold text-gray-800">
 								{t.resume_builder.pages.home.features[feature.key]}
 							</h3>
@@ -120,7 +174,11 @@ const Home = () => {
 
 			{/* Transparent Touchscreen Demo */}
 			<div className="w-full mt-20">
-				<TransparentTouchscreen />
+				<TransparentTouchscreen
+					firstName={firstName}
+					lastName={lastName}
+					jobTitle={jobTitle}
+				/>
 			</div>
 
 			{/* FAQ Section */}
@@ -143,22 +201,5 @@ const Home = () => {
 		</div>
 	)
 }
-
-const features = [
-	{
-		key: "customization",
-		icon: () => (
-			<MdDesignServices className="w-12 h-12 mx-auto text-blue-500" />
-		),
-	},
-	{
-		key: "ai_assistance",
-		icon: () => <AiOutlineRobot className="w-12 h-12 mx-auto text-blue-500" />,
-	},
-	{
-		key: "export_options",
-		icon: () => <MdFileDownload className="w-12 h-12 mx-auto text-blue-500" />,
-	},
-]
 
 export default Home

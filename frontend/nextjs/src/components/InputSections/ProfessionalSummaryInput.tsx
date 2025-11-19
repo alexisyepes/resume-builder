@@ -1,20 +1,32 @@
 import RingLoader from "react-spinners/RingLoader"
 import dynamic from "next/dynamic"
 import "react-quill-new/dist/quill.snow.css"
-import { RxReload } from "react-icons/rx"
 import { PROFESSIONAL_SUMMARY } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 import CustomTitleInput from "./CustomTitleInput"
 import { GrLinkNext } from "react-icons/gr"
 import useResumeStore from "@/store/useResumeStore"
 import { BsStars } from "react-icons/bs"
+import { RefObject } from "react"
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
 
+interface ProfessionalSummaryInputProps {
+	t: any
+	setCounter: (value: number) => void
+	counter: number
+	handleGenerateResume: () => void
+	minutes: number
+	seconds: number
+	nextTabHandler: () => void
+	editing: string | null
+	setEditing: (value: string | null) => void
+	handleCustomTitleOnChange: (key: string, value: string) => void
+	inputRef: RefObject<HTMLInputElement>
+}
+
 const modules = {
 	toolbar: [
-		// [{ header: [1, 2, true] }],
-		// [{ size: ["small", false, "large", "huge"] }],
 		["bold", "italic", "underline", "strike"],
 		[{ list: "ordered" }, { list: "bullet" }],
 		[{ color: [] }, { background: [] }],
@@ -33,7 +45,7 @@ export default function ProfessionalSummaryInput({
 	setEditing,
 	handleCustomTitleOnChange,
 	inputRef,
-}) {
+}: ProfessionalSummaryInputProps) {
 	const { objective, setObjective, isLoading, customTitles } = useResumeStore()
 
 	return (

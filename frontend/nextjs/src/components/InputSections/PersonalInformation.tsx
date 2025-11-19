@@ -3,16 +3,29 @@ import useResumeStore from "@/store/useResumeStore"
 import { useContext } from "react"
 import { GrLinkNext } from "react-icons/gr"
 
-export default function PersonalInformation({ nextTabHandler }) {
+interface PersonalInformationProps {
+	firstName?: string
+	setFirstName?: (value: string) => void
+	lastName?: string
+	setLastName?: (value: string) => void
+	jobTitle?: string
+	setJobTitle?: (value: string) => void
+	nextTabHandler: () => void
+	removeTabHandler?: (index: string) => void
+}
+
+export default function PersonalInformation({
+	nextTabHandler,
+}: PersonalInformationProps) {
 	const {
 		firstName = "",
-		setFirstName = "",
 		lastName = "",
-		setLastName = "",
 		jobTitle = "",
+		setFirstName,
+		setLastName,
 		setJobTitle,
-		photo,
 		setPhoto,
+		photo,
 	} = useResumeStore()
 	const { t, handleImageUpload } = useContext(RESUME_CONTEXT)
 
@@ -35,9 +48,7 @@ export default function PersonalInformation({ nextTabHandler }) {
 					{photo && (
 						<button
 							className="bg-red-200 capitalize w-1/2 mx-auto rounded-md px-2 inline-block text-sm"
-							onClick={() => {
-								setPhoto("")
-							}}
+							onClick={() => setPhoto("")}
 						>
 							{t.resume_builder.labels.personal_information.remove_photo}
 						</button>
@@ -85,9 +96,10 @@ export default function PersonalInformation({ nextTabHandler }) {
 				type="text"
 				placeholder="Sarah"
 				className="w-full p-2 border rounded mb-2"
-				value={firstName}
+				value={firstName || ""}
 				onChange={(e) => setFirstName(e.target.value)}
 			/>
+
 			<label
 				htmlFor="lastName"
 				className="block text-sm font-medium text-gray-700 mb-1 capitalize"
@@ -99,9 +111,10 @@ export default function PersonalInformation({ nextTabHandler }) {
 				type="text"
 				placeholder="Connor"
 				className="w-full p-2 border rounded mb-2"
-				value={lastName}
+				value={lastName || ""}
 				onChange={(e) => setLastName(e.target.value)}
 			/>
+
 			<label
 				htmlFor="jobTitle"
 				className="block text-sm font-medium text-gray-700 mb-1 capitalize"
@@ -115,9 +128,10 @@ export default function PersonalInformation({ nextTabHandler }) {
 					t.resume_builder.labels.personal_information.job_title_placeholder
 				}
 				className="w-full p-2 border rounded mb-2"
-				value={jobTitle}
+				value={jobTitle || ""}
 				onChange={(e) => setJobTitle(e.target.value)}
 			/>
+
 			<button
 				onClick={nextTabHandler}
 				className="w-full capitalize bg-cyan-500 text-white p-2 rounded"

@@ -13,9 +13,11 @@ import {
 	REFERENCES,
 	LANGUAGES,
 } from "@/constants"
-import { defaultResume } from "@/defaultResume"
 
-const initialCustomTitles = {
+import { defaultResume } from "@/defaultResume"
+import type { ResumeStore } from "@/types/store"
+
+const initialCustomTitles: Record<string, string> = {
 	[PROFESSIONAL_SUMMARY]: "",
 	[CONTACT_INFORMATION]: "",
 	[EDUCATION]: "",
@@ -28,27 +30,25 @@ const initialCustomTitles = {
 	[LANGUAGES]: "",
 }
 
-const useResumeStore = create(
+const useResumeStore = create<ResumeStore>()(
 	persist(
 		(set, get) => ({
 			apiBaseUrl: process.env.NEXT_PUBLIC_BACKEND_SERVER,
 
-			// Basic Info
 			firstName: "",
-			setFirstName: (name) => set({ firstName: name }),
+			setFirstName: (firstName) => set({ firstName }),
 
 			lastName: "",
-			setLastName: (name) => set({ lastName: name }),
+			setLastName: (lastName) => set({ lastName }),
 
 			jobTitle: "",
-			setJobTitle: (title) => set({ jobTitle: title }),
+			setJobTitle: (jobTitle) => set({ jobTitle }),
 
 			photo: "",
-			setPhoto: (photoFile) => set({ photo: photoFile }),
+			setPhoto: (photo) => set({ photo }),
 
 			fileName: "",
-			setFileName: (name) => set({ fileName: name || get().defaultFileName }),
-			defaultFileName: "",
+			setFileName: (fileName) => set({ fileName: fileName || get().fileName }),
 
 			email: "",
 			setEmail: (email) => set({ email }),
@@ -62,7 +62,6 @@ const useResumeStore = create(
 			cityPostCode: "",
 			setCityPostCode: (cityPostCode) => set({ cityPostCode }),
 
-			// Resume Sections
 			tabs: [
 				PERSONAL_DETAILS,
 				CONTACT_INFORMATION,
@@ -78,105 +77,85 @@ const useResumeStore = create(
 
 			skills: [],
 			setSkills: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.skills) : updater
-					return {
-						skills: Array.isArray(newData) ? [...newData] : [...state.skills],
-					}
-				}),
-
+				set((state) => ({
+					skills:
+						typeof updater === "function"
+							? [...updater(state.skills)]
+							: [...updater],
+				})),
 			suggestedSkills: [],
-			setSuggestedSkills: (suggestedSkills) => set({ suggestedSkills }),
+			setSuggestedSkills: (suggestedSkills) =>
+				set({ suggestedSkills: [...suggestedSkills] }),
 
 			languages: [],
 			setLanguages: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.languages) : updater
-					return {
-						languages: Array.isArray(newData)
-							? [...newData]
-							: [...state.languages],
-					}
-				}),
+				set((state) => ({
+					languages:
+						typeof updater === "function"
+							? [...updater(state.languages)]
+							: [...updater],
+				})),
 
 			experience: [],
 			setExperience: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.experience) : updater
-					return {
-						experience: Array.isArray(newData)
-							? [...newData]
-							: [...state.experience],
-					}
-				}),
+				set((state) => ({
+					experience:
+						typeof updater === "function"
+							? [...updater(state.experience)]
+							: [...updater],
+				})),
 
 			certifications: [],
 			setCertifications: (updater) =>
-				set((state) => {
-					const newData =
+				set((state) => ({
+					certifications:
 						typeof updater === "function"
-							? updater(state.certifications)
-							: updater
-					return {
-						certifications: Array.isArray(newData)
-							? [...newData]
-							: [...state.certifications],
-					}
-				}),
+							? [...updater(state.certifications)]
+							: [...updater],
+				})),
 
 			references: [],
 			setReferences: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.references) : updater
-					return {
-						references: Array.isArray(newData)
-							? [...newData]
-							: [...state.references],
-					}
-				}),
+				set((state) => ({
+					references:
+						typeof updater === "function"
+							? [...updater(state.references)]
+							: [...updater],
+				})),
 
 			educations: [],
 			setEducations: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.educations) : updater
-					return {
-						educations: Array.isArray(newData)
-							? [...newData]
-							: [...state.educations],
-					}
-				}),
+				set((state) => ({
+					educations:
+						typeof updater === "function"
+							? [...updater(state.educations)]
+							: [...updater],
+				})),
 
 			links: [],
 			setLinks: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.links) : updater
-					return {
-						links: Array.isArray(newData) ? [...newData] : [...state.links],
-					}
-				}),
+				set((state) => ({
+					links:
+						typeof updater === "function"
+							? [...updater(state.links)]
+							: [...updater],
+				})),
 
 			hobbies: [],
 			setHobbies: (updater) =>
-				set((state) => {
-					const newData =
-						typeof updater === "function" ? updater(state.hobbies) : updater
-					return {
-						hobbies: Array.isArray(newData) ? [...newData] : [...state.hobbies],
-					}
-				}),
+				set((state) => ({
+					hobbies:
+						typeof updater === "function"
+							? [...updater(state.hobbies)]
+							: [...updater],
+				})),
 
-			// Professional Summary
 			objective: "",
 			setObjective: (objective) => set({ objective }),
+
 			counter: 0,
 			setCounter: (value) => set({ counter: value }),
-			countdown: 300000,
+			countdown: 300_000,
 			setCountdown: (value) =>
 				set((state) => ({
 					countdown:
@@ -186,14 +165,13 @@ const useResumeStore = create(
 			setRunning: (value) => set({ running: value }),
 
 			generatedResume: defaultResume,
-			setGeneratedResume: (resume) => set({ generatedResume: resume }),
+			setGeneratedResume: (generatedResume) => set({ generatedResume }),
 
 			template: "classic-ats",
 			setTemplate: (template) => set({ template }),
 
-			// UI State
 			activeTab: PERSONAL_DETAILS,
-			setActiveTab: (tab) => set({ activeTab: tab }),
+			setActiveTab: (activeTab) => set({ activeTab }),
 
 			isLoading: false,
 			setIsLoading: (isLoading) => set({ isLoading }),
@@ -203,30 +181,20 @@ const useResumeStore = create(
 
 			customSections: [],
 			setCustomSections: (updater) =>
-				set((state) => {
-					const newData =
+				set((state) => ({
+					customSections:
 						typeof updater === "function"
-							? updater(state.customSections)
-							: updater
-
-					return {
-						customSections: Array.isArray(newData)
-							? [...newData]
-							: [...state.customSections],
-					}
-				}),
+							? [...updater(state.customSections)]
+							: [...updater],
+				})),
 
 			customTitles: { ...initialCustomTitles },
-
-			setCustomTitles: (update) => {
+			setCustomTitles: (update) =>
 				set((state) => ({
 					customTitles: { ...state.customTitles, ...update },
-				}))
-			},
-
-			resetCustomTitles: () => {
-				set({ customTitles: { ...initialCustomTitles } })
-			},
+				})),
+			resetCustomTitles: () =>
+				set({ customTitles: { ...initialCustomTitles } }),
 
 			editing: null,
 			setEditing: (editing) => set({ editing }),
@@ -234,14 +202,13 @@ const useResumeStore = create(
 			user: null,
 			setUser: (user) => set({ user }),
 
-			authError: null,
-			setAuthError: (authError) => set({ authError }),
-
 			isAuthenticated: false,
 			setIsAuthenticated: (auth) => set({ isAuthenticated: auth }),
 
-			// Reset function
-			reset: () => {
+			authError: null,
+			setAuthError: (authError) => set({ authError }),
+
+			reset: () =>
 				set({
 					firstName: "",
 					lastName: "",
@@ -277,10 +244,9 @@ const useResumeStore = create(
 					customTitles: { ...initialCustomTitles },
 					editing: null,
 					authError: null,
-				})
-			},
+				}),
 
-			resetOrderedTabs: () => {
+			resetOrderedTabs: () =>
 				set((state) => {
 					const initialTabs = [
 						PERSONAL_DETAILS,
@@ -295,14 +261,11 @@ const useResumeStore = create(
 						(tab) => !initialTabs.includes(tab)
 					)
 
-					const newTabs = [...new Set([...initialTabs, ...addedTabs])]
-
-					return { tabs: newTabs }
-				})
-			},
+					return { tabs: Array.from(new Set([...initialTabs, ...addedTabs])) }
+				}),
 		}),
 		{
-			name: "resume-storage", // Key for localStorage
+			name: "resume-storage",
 			partialize: (state) => ({
 				apiBaseUrl: state.apiBaseUrl,
 				isAuthenticated: state.isAuthenticated,
@@ -328,15 +291,11 @@ const useResumeStore = create(
 				links: state.links,
 				hobbies: state.hobbies,
 				objective: state.objective,
-				counter: state.counter,
-				countdown: state.countdown,
-				running: state.running,
 				generatedResume: state.generatedResume,
 				template: state.template,
 				activeTab: state.activeTab,
 				customSections: state.customSections,
 				customTitles: state.customTitles,
-				pageContentRefresh: state.pageContentRefresh,
 			}),
 		}
 	)
