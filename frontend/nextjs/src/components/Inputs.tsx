@@ -20,6 +20,8 @@ import {
 import UniversalInput from "./InputSections/UniverslaInputs"
 import { motion, AnimatePresence } from "framer-motion"
 import useResumeStore from "@/store/useResumeStore"
+import { InputsProps } from "@/types/inputs"
+import { ExperienceItem } from "@/types/resume"
 
 export default function Inputs({
 	t,
@@ -63,13 +65,10 @@ export default function Inputs({
 	editing,
 	setEditing,
 	inputRef,
-}) {
-	// const [counter, setCounter] = useState(0)
-	// const [countdown, setCountdown] = useState(300000)
-	// const [running, setRunning] = useState(false)
+}: InputsProps) {
 	const { counter, setCounter, countdown, setCountdown, running, setRunning } =
 		useResumeStore()
-	const [editingId, setEditingId] = useState(null)
+	const [editingId, setEditingId] = useState<number | null>(null)
 
 	const commonProps = {
 		inputRef,
@@ -115,14 +114,17 @@ export default function Inputs({
 	const minutes = Math.floor(countdown / 60000)
 	const seconds = Math.floor((countdown % 60000) / 1000)
 
-	const handleChange = (e, index) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number
+	) => {
 		const { value } = e.target
 		setSkills((prevSkills) =>
 			prevSkills.map((skill, i) => (i === index ? value : skill))
 		)
 	}
 
-	const handleEditClick = (id) => {
+	const handleEditClick = (id: number) => {
 		setEditingId(id)
 	}
 
@@ -192,41 +194,48 @@ export default function Inputs({
 							exit={{ opacity: 0, y: 10 }}
 							transition={{ duration: 0.5 }}
 						>
-							<UniversalInput
+							<UniversalInput<ExperienceItem>
 								{...commonProps}
-								title={`${t.resume_builder.labels.employment_history.title}`}
+								title={t.resume_builder.labels.employment_history.title}
 								fields={[
 									{
 										name: "company",
-										placeholder: `${t.resume_builder.labels.employment_history.company}`,
-										label: `${t.resume_builder.labels.employment_history.company}`,
+										placeholder:
+											t.resume_builder.labels.employment_history.company,
+										label: t.resume_builder.labels.employment_history.company,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "role",
-										label: `${t.resume_builder.labels.employment_history.role}`,
-										placeholder: `${t.resume_builder.labels.employment_history.role}`,
+										label: t.resume_builder.labels.employment_history.role,
+										placeholder:
+											t.resume_builder.labels.employment_history.role,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "year",
-										label: `${t.resume_builder.labels.employment_history.year}`,
-										placeholder: `${t.resume_builder.labels.employment_history.year}`,
+										label: t.resume_builder.labels.employment_history.year,
+										placeholder:
+											t.resume_builder.labels.employment_history.year,
 										type: "text",
 										required: true,
 									},
 									{
 										name: "responsibilities",
-										label: `${t.resume_builder.labels.employment_history.responsibilities}`,
-										placeholder: `${t.resume_builder.labels.employment_history.responsibilities}`,
+										label:
+											t.resume_builder.labels.employment_history
+												.responsibilities,
+										placeholder:
+											t.resume_builder.labels.employment_history
+												.responsibilities,
 										type: "textarea",
 									},
 								]}
 								data={experience}
 								setData={setExperience}
-								cta_label={`${t.resume_builder.labels.employment_history.title}`}
+								cta_label={t.resume_builder.labels.employment_history.title}
 							/>
 						</motion.div>
 					</AnimatePresence>

@@ -2,13 +2,20 @@ import { useContext, useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 
+interface FAQ {
+	question: string
+	answer: string
+}
+
 const FAQSection = () => {
-	const [openIndex, setOpenIndex] = useState(null)
+	const [openIndex, setOpenIndex] = useState<number | null>(null)
 	const { t } = useContext(RESUME_CONTEXT)
 
-	const toggleFAQ = (index) => {
+	const toggleFAQ = (index: number) => {
 		setOpenIndex(openIndex === index ? null : index)
 	}
+
+	const faqs: FAQ[] = t.resume_builder.pages.home.faq.questions as FAQ[]
 
 	return (
 		<div className="mt-20 w-1/2 mx-auto text-center">
@@ -16,7 +23,7 @@ const FAQSection = () => {
 				{t.resume_builder.pages.home.faq.title}
 			</h2>
 			<div className="mt-6 text-left space-y-4">
-				{t.resume_builder.pages.home.faq.questions.map((q, index) => (
+				{faqs.map((q, index) => (
 					<div key={index} className="border-b border-gray-300 pb-2">
 						<button
 							onClick={() => toggleFAQ(index)}

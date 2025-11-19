@@ -8,6 +8,31 @@ import { SKILLS } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 import { BsStars } from "react-icons/bs"
 import CustomTitleInput from "./CustomTitleInput"
+import { R } from "node_modules/framer-motion/dist/types.d-6pKw1mTI"
+
+interface SkillsInputProps {
+	t: any
+	inputRef: React.RefObject<HTMLInputElement>
+	editingId: number | null
+	setEditingId: (id: number | null) => void
+	customTitles: Record<string, string>
+	handleCustomTitleOnChange: (key: string, value: string) => void
+	regenerateSkillsSuggestions: () => void
+	suggestedSkills: string[]
+	isLoading: boolean
+	skills: string[]
+	setSkills: (skills: string[]) => void
+	editing: string | null
+	setEditing: (value: string | null) => void
+	handleChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void
+	handleEditClick: (index: number) => void
+	nextTabHandler: () => void
+	removeTabHandler: (index: string) => void
+	activeTab: string
+	tabs: string[]
+	setTabs: (tabs: string[] | ((prev: string[]) => string[])) => void
+	setActiveTab: (tab: string) => void
+}
 
 export default function SkillsInput({
 	inputRef,
@@ -28,7 +53,7 @@ export default function SkillsInput({
 	tabs,
 	setActiveTab,
 	t,
-}) {
+}: SkillsInputProps) {
 	const [skillToAdd, setSkillToAdd] = useState("")
 	const { suggestedSkills, customTitles } = useResumeStore()
 
@@ -40,7 +65,7 @@ export default function SkillsInput({
 				: currentActiveTabIndex + 1
 		const nextActiveTab = tabs[nextTabIndex]
 		setActiveTab(nextActiveTab)
-		removeTabHandler(currentActiveTabIndex)
+		removeTabHandler(activeTab)
 	}
 
 	return (

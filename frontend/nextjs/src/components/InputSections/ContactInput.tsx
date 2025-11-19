@@ -2,7 +2,12 @@ import useResumeStore from "@/store/useResumeStore"
 import { CiEdit } from "react-icons/ci"
 import { GrLinkNext } from "react-icons/gr"
 
-export default function ContactInput({ t, nextTabHandler }) {
+interface ContactInputProps {
+	t: any
+	nextTabHandler: () => void
+}
+
+export default function ContactInput({ t, nextTabHandler }: ContactInputProps) {
 	const {
 		email,
 		phone,
