@@ -1,4 +1,6 @@
 import { RefObject } from "react"
+
+import type { Translation } from "@/utils"
 import {
 	CertificationItem,
 	CustomSectionItem,
@@ -11,7 +13,7 @@ import {
 } from "./resume"
 
 export interface InputsProps {
-	t: any
+	t: Translation
 
 	firstName: string
 	setFirstName: (value: string) => void
@@ -47,6 +49,15 @@ export interface InputsProps {
 	isLoading: boolean
 	regenerateSkillsSuggestions: () => void
 
+	email?: string
+	setEmail?: (value: string) => void
+	phone?: string
+	setPhone?: (value: string) => void
+	address?: string
+	setAddress?: (value: string) => void
+	cityPostCode?: string
+	setCityPostCode?: (value: string) => void
+
 	// CERTIFICATIONS
 	certifications: CertificationItem[]
 	setCertifications: (
@@ -81,6 +92,9 @@ export interface InputsProps {
 			| ((prev: CustomSectionItem[]) => CustomSectionItem[])
 	) => void
 
+	setObjective?: (value: string) => void
+	objective?: string
+
 	removeTabHandler: (tab: string) => void
 
 	activeTab: string
@@ -92,6 +106,12 @@ export interface InputsProps {
 	setLanguages: (
 		value: LanguageItem[] | ((prev: LanguageItem[]) => LanguageItem[])
 	) => void
+
+	setSuggestedSkills?: (value: string[]) => void
+	photo?: string
+	setPhoto?: (value: string) => void
+	template?: string
+	setTemplate?: (value: string) => void
 
 	setActiveTab: (tab: string) => void
 

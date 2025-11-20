@@ -1,6 +1,5 @@
-import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import { useResumeContext } from "@/contexts/useResumeContext"
 import useResumeStore from "@/store/useResumeStore"
-import { useContext } from "react"
 import { GrLinkNext } from "react-icons/gr"
 
 interface PersonalInformationProps {
@@ -27,7 +26,7 @@ export default function PersonalInformation({
 		setPhoto,
 		photo,
 	} = useResumeStore()
-	const { t, handleImageUpload } = useContext(RESUME_CONTEXT)
+	const { t, handleImageUpload } = useResumeContext()
 
 	return (
 		<div className="w-full p-2">
