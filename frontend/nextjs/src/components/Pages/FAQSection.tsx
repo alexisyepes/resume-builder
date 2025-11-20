@@ -1,6 +1,6 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { RESUME_CONTEXT } from "@/contexts/resumeContext"
+import { useResumeContext } from "@/contexts/useResumeContext"
 
 interface FAQ {
 	question: string
@@ -9,7 +9,7 @@ interface FAQ {
 
 const FAQSection = () => {
 	const [openIndex, setOpenIndex] = useState<number | null>(null)
-	const { t } = useContext(RESUME_CONTEXT)
+	const { t } = useResumeContext()
 
 	const toggleFAQ = (index: number) => {
 		setOpenIndex(openIndex === index ? null : index)
