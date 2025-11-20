@@ -117,7 +117,7 @@ const Services = () => {
 								className="bg-white p-8 rounded-lg shadow-lg w-full"
 							>
 								<FaQuoteLeft className="text-cyan-500 w-8 h-8 mb-4" />
-								<p className="text-gray-600 italic">"{testimonial.quote}"</p>
+								<p className="text-gray-600 italic">{testimonial.quote}</p>
 								<div className="mt-4 flex items-center">
 									<div className="flex-shrink-0">
 										<div className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold">
