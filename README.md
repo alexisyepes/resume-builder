@@ -15,7 +15,7 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 ## Features
 
 - **AI-powered summaries** – Uses OpenAI API to generate professional resume summaries.
-- **Full-stack architecture** – Next.js frontend + Node.js/Express backend + MySQL database.
+- **Full-stack architecture** – Next.js/Typescript frontend + Node.js/Express backend + MySQL database.
 - **Authentication system** – Users can sign up, sign in, and save their resumes.
 - **Resume builder dashboard** – Dynamic tab selector, input fields, and live preview.
 - **Templates gallery** – Choose from multiple templates (3 available, more coming soon).
@@ -32,6 +32,7 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 **Frontend**
 
 - Next.js 15
+- Typescript
 - React
 - Zustand/Context (state management)
 - Tailwind CSS
