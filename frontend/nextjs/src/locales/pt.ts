@@ -370,6 +370,8 @@ export default {
 			classic_ats: "Clássico ATS",
 			elegant: "Elegante",
 			modern: "Moderno",
+			minimalist: "Minimalista",
+			student: "Estudante",
 		},
 		footer: "2025 Construtor de Currículo IA. Todos os direitos reservados.",
 		general: {

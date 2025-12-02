@@ -19,7 +19,7 @@ const resumeRoutes = require("./routes/resume")
 
 app.use(aiRoutes)
 app.use(authRoutes)
-app.use(resumeRoutes)
+app.use("/resumes", resumeRoutes)
 
 sequelize.sync({ force: false }).then(function () {
 	app.listen(PORT, () => {

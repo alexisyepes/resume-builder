@@ -13,5 +13,9 @@ module.exports = (sequelize, DataTypes) => {
 		plan: { type: DataTypes.ENUM("free", "paid"), defaultValue: "free" },
 	})
 
+	User.associate = (models) => {
+		User.hasMany(models.Resume, { foreignKey: "userId", as: "resumes" })
+	}
+
 	return User
 }

@@ -366,9 +366,11 @@ export default {
 		},
 		template_names: {
 			classic: "Clásico",
-			classic_ats: "Clásico ATS",
+			classic_ats: "Clásico-ATS",
 			elegant: "Elegante",
 			modern: "Moderno",
+			minimalist: "Minimalista",
+			student: "Estudiante",
 		},
 		footer: "2025 Creador de Currículums IA. Todos los derechos reservados.",
 		general: {

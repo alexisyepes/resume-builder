@@ -368,6 +368,8 @@ export default {
 			classic_ats: "क्लासिक ATS",
 			elegant: "शालीन",
 			modern: "आधुनिक",
+			minimalist: "न्यूनतमवादी",
+			student: "छात्र",
 		},
 		footer: "2025 AI रेज़्यूमे बिल्डर. सर्वाधिकार सुरक्षित.",
 		general: {
