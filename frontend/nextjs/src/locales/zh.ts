@@ -335,6 +335,8 @@ export default {
 			classic_ats: "经典 ATS",
 			elegant: "优雅",
 			modern: "现代",
+			minimalist: "极简",
+			student: "学生",
 		},
 		footer: "2025 AI简历生成器。版权所有。",
 		general: {

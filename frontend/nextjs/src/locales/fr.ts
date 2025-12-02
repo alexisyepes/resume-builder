@@ -365,6 +365,8 @@ export default {
 			classic_ats: "Classique ATS",
 			elegant: "Élégant",
 			modern: "Moderne",
+			minimalist: "Minimaliste",
+			student: "Étudiant",
 		},
 		footer: "2025 Créateur de CV IA. Tous droits réservés.",
 		general: {

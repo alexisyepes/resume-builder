@@ -1,8 +1,7 @@
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
-import { useState, type ChangeEvent } from "react"
-
+import { useEffect, useState, type ChangeEvent } from "react"
 import Layout from "@/components/Layout"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { RESUME_CONTEXT } from "@/contexts/resumeContext"
@@ -13,7 +12,7 @@ import { loadTranslations } from "@/utils"
 export default function App({ Component, pageProps }: AppProps) {
 	const [resumeContentTriggered, setResumeContentTriggered] = useState(false)
 	const resumeStore = useResumeStore()
-	const { setPhoto } = resumeStore
+	const { setPhoto, apiBaseUrl } = resumeStore
 	const router = useRouter()
 	const t = loadTranslations(router)
 	const { locale } = router
@@ -21,34 +20,50 @@ export default function App({ Component, pageProps }: AppProps) {
 	const templateNames = t.resume_builder.template_names ?? {}
 	const resolveTemplateName = (key: string, fallback: string) =>
 		(templateNames as Record<string, string | undefined>)[key] ?? fallback
+	const [templateDesigns, setTemplateDesigns] = useState<TemplateDesign[]>([])
 
-	const templateDesigns: TemplateDesign[] = [
-		{
-			name: resolveTemplateName("classic_ats", "Classic ATS"),
-			value: "classic-ats",
-			image: "/images/templateDesigns/classic.png",
-		},
-		{
-			name: resolveTemplateName("elegant", "Elegant"),
-			value: "elegant",
-			image: "/images/templateDesigns/elegant.png",
-		},
-		{
-			name: resolveTemplateName("modern", "Modern"),
-			value: "modern",
-			image: "/images/templateDesigns/modern.png",
-		},
-		{
-			name: resolveTemplateName("minimalist", "Minimalist"),
-			value: "minimalist",
-			image: "/images/templateDesigns/minimalist.png",
-		},
-		{
-			name: resolveTemplateName("student", "Student"),
-			value: "student",
-			image: "/images/templateDesigns/student.png",
-		},
-	]
+	useEffect(() => {
+		getAllTemplates()
+	}, [locale])
+
+	const getAllTemplates = async () => {
+		try {
+			const response = await fetch(`${apiBaseUrl}/resumes/all_templates`, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			})
+
+			if (!response.ok) {
+				throw new Error(
+					`Failed to fetch templates: ${response.status} ${response.statusText}`
+				)
+			}
+
+			const data = await response.json()
+
+			const mappedTemplates = data.map((template: any) => {
+				const translationKey = template.value.replace(/-/g, "_")
+
+				const translatedName = resolveTemplateName(
+					translationKey,
+					template.name
+				)
+
+				return {
+					name: translatedName,
+					value: template.value,
+					image:
+						template.image || `/images/templateDesigns/${template.value}.png`,
+				}
+			})
+
+			setTemplateDesigns(mappedTemplates)
+			return mappedTemplates
+		} catch (error) {
+			console.error("Error fetching template designs:", error)
+			return []
+		}
+	}
 
 	const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0]

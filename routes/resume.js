@@ -1,5 +1,6 @@
 const express = require("express")
 const { Resume } = require("../models")
+const { Template } = require("../models")
 const router = express.Router()
 
 const isProduction = process.env.NODE_ENV === "production"
@@ -13,6 +14,16 @@ if (isProduction) {
 } else {
 	puppeteer = require("puppeteer")
 }
+
+router.get("/all_templates", async (req, res) => {
+	try {
+		const templates = await Template.findAll()
+		res.json(templates)
+	} catch (error) {
+		console.error("Error fetching templates:", error)
+		res.status(500).json({ error: "Internal Server Error" })
+	}
+})
 
 router.post("/generate-pdf", async (req, res) => {
 	try {

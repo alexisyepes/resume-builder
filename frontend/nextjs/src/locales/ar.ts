@@ -362,6 +362,8 @@ export default {
 			classic_ats: "كلاسيكي ATS",
 			elegant: "أنيق",
 			modern: "حديث",
+			minimalist: "بسيط",
+			student: "طالب",
 		},
 		footer: "2025 منشئ السير الذاتية بالذكاء الاصطناعي. جميع الحقوق محفوظة.",
 		general: {
