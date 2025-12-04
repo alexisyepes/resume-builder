@@ -47,9 +47,11 @@ import type {
 } from "@/types/resume"
 import type { TemplateCommonProps } from "@/types/templates"
 import type { SectionRefs } from "@/types/sections"
-import type { Translation } from "@/utils"
+import { uploadBase64ToCloudinary, type Translation } from "@/utils"
 
 type ResumePreviewProps = {
+	userPlan: string | null | undefined
+	userId: string | null | undefined
 	t: Translation
 	generatedResume: ResumeData
 	email: string
@@ -79,6 +81,8 @@ type ResumePreviewProps = {
 const LETTER_SIZE_HEIGHT = 850
 
 export default function ResumePreview({
+	userPlan,
+	userId,
 	t,
 	generatedResume,
 	email,
@@ -196,7 +200,7 @@ export default function ResumePreview({
 				t,
 				customTitles,
 				resumeData,
-				generatedResume: (generatedResume as unknown) as ResumeSnapshot,
+				generatedResume: generatedResume as unknown as ResumeSnapshot,
 				template,
 			})
 			return map || {}
@@ -319,10 +323,7 @@ export default function ResumePreview({
 						const sectionElement = sectionMap[tab]
 						return sectionElement ? <div key={i}>{sectionElement}</div> : null
 					})
-					.filter(
-						(node): node is React.ReactElement =>
-							Boolean(node)
-					)
+					.filter((node): node is React.ReactElement => Boolean(node))
 
 				if (isMounted && initialPages.length > 0) {
 					setPages([initialPages])
@@ -391,7 +392,62 @@ export default function ResumePreview({
 		if (downloadInProgress) return
 
 		setDownloadInProgress(true)
+
+		const limitCheckResponse = await fetch(
+			`${apiBaseUrl}/users/${userId}/download-limit`,
+			{
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			}
+		)
+
+		if (!limitCheckResponse.ok) {
+			throw new Error("Failed to check download limit")
+		}
+
+		const limitCheck = await limitCheckResponse.json()
+
+		if (!limitCheck.canDownload) {
+			// Mostrar alerta apropiada
+			if (limitCheck.reason === "free_limit_reached") {
+				alert(
+					limitCheck.userPlan === "free"
+						? "You've already downloaded your free resume included in the free plan. Please subscribe to a paid plan to enjoy unlimited downloads."
+						: "You have reached your download limit. Please upgrade your plan to download more resumes."
+				)
+			} else {
+				alert("Unable to download. Please try again later.")
+			}
+
+			setDownloadInProgress(false)
+			return
+		}
+
+		console.log("Download limit check passed:", limitCheck)
+
 		await paginateContent()
+
+		let cloudinaryUrl: string = ""
+
+		if (photo) {
+			try {
+				const url = await uploadBase64ToCloudinary(photo, {
+					publicId: `resume_${firstName}_${lastName}_${Date.now()}`,
+					transformation: "q_auto,f_auto",
+					folder: "resumePhotos",
+				})
+
+				if (url) {
+					cloudinaryUrl = url
+				} else {
+					console.warn("Cloudinary returned null")
+				}
+			} catch (error) {
+				console.error("Error uploading to Cloudinary:", error)
+			}
+		} else {
+			console.log("No photo to upload to Cloudinary")
+		}
 
 		const baseUrl =
 			process.env.NEXT_PUBLIC_FRONTEND_SERVER || "http://localhost:3000"
@@ -430,10 +486,22 @@ export default function ResumePreview({
 			</html>`
 
 		try {
-			const response = await fetch(`${apiBaseUrl}/generate-pdf`, {
+			const response = await fetch(`${apiBaseUrl}/resumes/generate-pdf`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ html: htmlContent, firstName }),
+				body: JSON.stringify({
+					userId,
+					title: `${firstName}_resume.pdf`,
+					html: htmlContent,
+					templateName: template,
+					fileFormat: "pdf",
+					fileName: `${firstName}_resume.pdf`,
+					fileUrl: cloudinaryUrl,
+					fileSize: 0,
+					firstName,
+					lastName,
+					resumeData,
+				}),
 			})
 
 			if (!response.ok) throw new Error("Failed to generate PDF")

@@ -16,10 +16,12 @@ app.use(express.urlencoded({ limit: "150mb", extended: true }))
 const authRoutes = require("./routes/auth")
 const aiRoutes = require("./routes/ai")
 const resumeRoutes = require("./routes/resume")
+const userRoutes = require("./routes/users")
 
 app.use(aiRoutes)
 app.use(authRoutes)
 app.use("/resumes", resumeRoutes)
+app.use("/users", userRoutes)
 
 sequelize.sync({ force: false }).then(function () {
 	app.listen(PORT, () => {
