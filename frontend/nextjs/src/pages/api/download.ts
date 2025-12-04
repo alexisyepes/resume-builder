@@ -50,7 +50,7 @@ export default async function handler(
 					"Content-Disposition",
 					'attachment; filename="resume.pdf"'
 				)
-				console.log(resumeData)
+				console.log("Resume PDF Data", resumeData)
 				return pdfStream.pipe(res)
 			} else {
 				return res
@@ -70,6 +70,20 @@ export default async function handler(
 					.json({ error: "Invalid template selection for DOCX" })
 			}
 
+			// try {
+			// 	await saveResumeToDatabase(
+			// 		userId,
+			// 		fileName,
+			// 		fileBuffer,
+			// 		resumeData,
+			// 		format as string,
+			// 		template
+			// 	)
+			// } catch (saveError) {
+			// 	console.error("Error saving resume to database:", saveError)
+			// 	// No fallar la respuesta principal si hay error al guardar
+			// }
+
 			const buffer = await Packer.toBuffer(doc)
 			res.setHeader(
 				"Content-Type",
@@ -83,7 +97,9 @@ export default async function handler(
 		}
 	} catch (error: unknown) {
 		const message =
-			error instanceof Error ? error.message : "Unexpected error generating file"
+			error instanceof Error
+				? error.message
+				: "Unexpected error generating file"
 		console.error(`Error generating ${format} file:`, error)
 		res
 			.status(500)

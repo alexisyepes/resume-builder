@@ -30,6 +30,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 const ResumeGenerator = () => {
 	const {
+		user,
 		apiBaseUrl,
 		tabs,
 		setTabs,
@@ -445,6 +446,8 @@ const ResumeGenerator = () => {
 									</div>
 									<div className="element3_wrapper">
 										<ResumePreview
+											userPlan={user?.plan ? String(user.plan) : null}
+											userId={user?.id ? String(user.id) : null}
 											t={t}
 											resumeRef={resumeRef}
 											generatedResume={generatedResume.resume}
@@ -585,21 +588,21 @@ const ResumeGenerator = () => {
 																transition={{ duration: 0.5 }}
 																onClick={() => setActiveMobileView("inputs")}
 															>
-											<TabSelector
-												t={t}
-												activeTab={activeTab}
-												onTabChange={handleTabChange}
-												removeTabHandler={removeTabHandler}
-												addTabHandler={addTabHandler}
-												moveTabHandler={moveTabHandler}
-												setActiveTab={setActiveTab}
-												template={template}
-											/>
+																<TabSelector
+																	t={t}
+																	activeTab={activeTab}
+																	onTabChange={handleTabChange}
+																	removeTabHandler={removeTabHandler}
+																	addTabHandler={addTabHandler}
+																	moveTabHandler={moveTabHandler}
+																	setActiveTab={setActiveTab}
+																	template={template}
+																/>
 															</motion.div>
 														</AnimatePresence>
 													)}
 													{activeMobileView === "inputs" && (
-											<Inputs
+														<Inputs
 															t={t}
 															inputRef={inputRef}
 															editing={editing}
@@ -672,6 +675,10 @@ const ResumeGenerator = () => {
 																transition={{ duration: 0.5 }}
 															>
 																<ResumePreview
+																	userPlan={
+																		user?.plan ? String(user.plan) : null
+																	}
+																	userId={user?.id ? String(user.id) : null}
 																	t={t}
 																	resumeRef={resumeRef}
 																	generatedResume={generatedResume.resume}

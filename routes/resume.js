@@ -1,7 +1,10 @@
 const express = require("express")
-const { Resume } = require("../models")
-const { Template } = require("../models")
+const { Resume, Template, User } = require("../models")
+const { save } = require("pdfkit")
 const router = express.Router()
+const { Op } = require("sequelize")
+const { uploadPdfDirectToCloudinary } = require("../utils/cloudinaryService")
+const { incrementDownloadCount } = require("../utils/downloadLimiter")
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -27,9 +30,44 @@ router.get("/all_templates", async (req, res) => {
 
 router.post("/generate-pdf", async (req, res) => {
 	try {
-		const { html, firstName } = req.body
+		const {
+			userId,
+			title,
+			html,
+			templateName,
+			fileFormat,
+			fileUrl,
+			fileName,
+			fileSize,
+			firstName,
+			lastName,
+			resumeData,
+		} = req.body
 		if (!html) {
 			return res.status(400).json({ error: "No HTML content provided" })
+		}
+
+		const user = await User.findByPk(userId)
+
+		if (!user) {
+			return res.status(404).json({ error: "User not found" })
+		}
+
+		if (user.planType === "free") {
+			const downloadedResumesCount = await Resume.count({
+				where: { userId },
+			})
+
+			if (downloadedResumesCount >= 1) {
+				return res.status(403).json({
+					error: "Download limit reached",
+					message:
+						"You've already downloaded your free resume. Please upgrade to a paid plan for unlimited downloads.",
+					code: "FREE_LIMIT_REACHED",
+					limit: 1,
+					used: downloadedResumesCount,
+				})
+			}
 		}
 
 		let browser
@@ -67,6 +105,74 @@ router.post("/generate-pdf", async (req, res) => {
 
 		await browser.close()
 
+		let pdfCloudinaryUrl = null
+		try {
+			pdfCloudinaryUrl = await uploadPdfDirectToCloudinary(
+				pdfBuffer,
+				userId,
+				`${firstName}_${lastName}_resume.pdf`
+			)
+
+			if (pdfCloudinaryUrl) {
+				console.log("PDF uploaded to Cloudinary:", pdfCloudinaryUrl)
+			} else {
+				console.warn("PDF Cloudinary upload failed, but continuing...")
+			}
+		} catch (uploadError) {
+			console.warn(
+				"Cloudinary not configured, skipping PDF upload:",
+				uploadError
+			)
+		}
+
+		const template = await Template.findOne({
+			where: {
+				[Op.or]: [{ name: templateName }, { value: templateName }],
+			},
+			attributes: ["id"],
+		})
+
+		if (!template) {
+			console.error(`Template '${templateName}' not found`)
+			return res
+				.status(404)
+				.json({ error: `Template '${templateName}' not found` })
+		}
+
+		let savedResume
+
+		try {
+			savedResume = await Resume.create({
+				userId,
+				title: title || generateDefaultTitle(firstName, lastName),
+				templateId: template.id,
+				resumeData,
+				fileFormat,
+				fileName,
+				fileUrl,
+				pdfUrl: pdfCloudinaryUrl,
+				fileSize,
+				firstName,
+				lastName,
+			})
+			console.log("Resume saved to database:", {
+				id: savedResume.id,
+				pdfUrl: savedResume.pdfUrl,
+				fileUrl: savedResume.fileUrl,
+			})
+		} catch (error) {
+			console.error("Error saving resume to database:", error)
+		}
+
+		if (savedResume) {
+			try {
+				await incrementDownloadCount(userId)
+				console.log("Download count incremented for user:", userId)
+			} catch (incrementError) {
+				console.error("Error incrementing download count:", incrementError)
+			}
+		}
+
 		res.setHeader("Content-Type", "application/pdf")
 		res.setHeader(
 			"Content-Disposition",
@@ -86,10 +192,10 @@ router.get("/:userId", async (req, res) => {
 	res.json(resumes)
 })
 
-router.post("/", async (req, res) => {
-	const { userId, fileUrl } = req.body
-	const resume = await Resume.create({ userId, fileUrl })
-	res.status(201).json(resume)
-})
+function generateDefaultTitle(firstName, lastName) {
+	const date = new Date().toLocaleDateString("en-CA")
+	const namePart = firstName && lastName ? `${firstName}_${lastName}` : "Resume"
+	return `${namePart}_${date}`
+}
 
 module.exports = router
