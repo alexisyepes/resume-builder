@@ -31,7 +31,7 @@ Built with **Next.js**, **Node.js**, **Express**, **MySQL (Aiven)**, and **Seque
 
 **Frontend**
 
-- Next.js 15
+- Next.js (16)
 - Typescript
 - React
 - Zustand/Context (state management)
