@@ -18,8 +18,8 @@ const aiRoutes = require("./routes/ai")
 const resumeRoutes = require("./routes/resume")
 const userRoutes = require("./routes/users")
 
-app.use(aiRoutes)
-app.use(authRoutes)
+app.use("/auth", authRoutes)
+app.use("/ai", aiRoutes)
 app.use("/resumes", resumeRoutes)
 app.use("/users", userRoutes)
 

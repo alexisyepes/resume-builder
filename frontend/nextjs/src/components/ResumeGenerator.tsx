@@ -151,7 +151,7 @@ const ResumeGenerator = () => {
 		try {
 			setIsLoading(true)
 			const response = await axios.post(
-				`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/generate-skills`,
+				`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/ai/generate-skills`,
 				{
 					jobTitle,
 					langPrefix,
@@ -173,7 +173,7 @@ const ResumeGenerator = () => {
 		try {
 			setIsLoading(true)
 			const response = await axios.post(
-				`${apiBaseUrl}/generate-objective`,
+				`${apiBaseUrl}/ai/generate-objective`,
 				{
 					jobTitle,
 					objective,

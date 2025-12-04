@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const login = async (email: string, password: string) => {
 		try {
 			const response = await axios.post<AuthResponse>(
-				`${ensureApiBaseUrl(apiBaseUrl)}/login`,
+				`${ensureApiBaseUrl(apiBaseUrl)}/auth/login`,
 				{
 					email,
 					password,
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	) => {
 		try {
 			const response = await axios.post<AuthResponse>(
-				`${ensureApiBaseUrl(apiBaseUrl)}/register`,
+				`${ensureApiBaseUrl(apiBaseUrl)}/auth/register`,
 				{
 					firstName,
 					lastName,

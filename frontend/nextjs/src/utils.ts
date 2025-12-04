@@ -68,7 +68,7 @@ export const validateToken = async (router?: NextRouter): Promise<boolean> => {
 
 	try {
 		const response = await axios.get<ValidateTokenResponse>(
-			`${apiBaseUrl}/validate-token`,
+			`${apiBaseUrl}/auth/validate-token`,
 			{
 				headers: { Authorization: `Bearer ${token}` },
 				validateStatus: (status) => status === 200 || status === 401,
