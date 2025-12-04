@@ -8,7 +8,6 @@ import { SKILLS } from "@/constants"
 import { CiEdit } from "react-icons/ci"
 import { BsStars } from "react-icons/bs"
 import CustomTitleInput from "./CustomTitleInput"
-import { R } from "node_modules/framer-motion/dist/types.d-6pKw1mTI"
 
 interface SkillsInputProps {
 	t: any
