@@ -23,7 +23,8 @@ const Navbar = () => {
 	const { isAuthenticated, user } = useResumeStore()
 	const { logout } = useAuth()
 
-	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+	const apiBaseUrl =
+		process.env.NEXT_PUBLIC_BACKEND_SERVER || "http://localhost:4000"
 	const userId = (user?.id as string) || null
 
 	const {
