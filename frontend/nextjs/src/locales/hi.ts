@@ -4,14 +4,111 @@ export default {
 		navigation: {
 			about: "हमारे बारे में",
 			services: "सेवाएँ",
+			pricing: "मूल्य निर्धारण",
 			contact: "संपर्क करें",
 			signin: "साइन इन",
 			dashboard: "डैशबोर्ड",
 			logout: "लॉग आउट",
 			home: "होम",
 		},
+		profile_modal: {
+			title: "प्रोफाइल",
+			tabs: {
+				profile_info: "प्रोफाइल जानकारी",
+				plan_billing: "योजना और बिलिंग",
+			},
+			profile: {
+				current_plan: "वर्तमान योजना",
+				change_plan: "योजना बदलें",
+				first_name: "पहला नाम",
+				last_name: "उपनाम",
+				email_address: "ईमेल पता",
+				email_cannot_change: "ईमेल बदला नहीं जा सकता",
+				not_set: "सेट नहीं",
+				loading_error: "प्रोफाइल डेटा लोड करने में असमर्थ",
+				downloads_remaining: "शेष डाउनलोड:",
+				unlimited_downloads: "असीमित डाउनलोड",
+				plan_features: "योजना सुविधाएँ:",
+				plan: "योजना",
+			},
+			billing: {
+				current_plan_label: "वर्तमान योजना",
+				available_plans: "उपलब्ध योजनाएं",
+				month: "माह",
+				free_plan: {
+					name: "मुफ्त",
+					description: "व्यक्तियों के लिए",
+					price: "$0",
+					features: ["1 रेज़्यूमे डाउनलोड", "3 टेम्प्लेट", "बेसिक सपोर्ट"],
+				},
+				basic_plan: {
+					name: "बेसिक",
+					description: "पेशेवरों के लिए",
+					price: "$9.99",
+					price_mo: "$9.99/माह",
+					features: [
+						"5 रेज़्यूमे डाउनलोड",
+						"10 टेम्प्लेट",
+						"प्राथमिकता सपोर्ट",
+						"कोई विज्ञापन नहीं",
+					],
+				},
+				premium_plan: {
+					name: "प्रीमियम",
+					description: "पावर यूज़र्स के लिए",
+					price: "$19.99",
+					price_mo: "$19.99/माह",
+					features: [
+						"असीमित डाउनलोड",
+						"सभी टेम्प्लेट",
+						"एआई सुविधाएँ",
+						"DOCX में निर्यात",
+						"प्राथमिकता सपोर्ट",
+					],
+				},
+				enterprise_plan: {
+					name: "एंटरप्राइज़",
+					description: "टीमों और कंपनियों के लिए",
+					price: "कस्टम",
+					features: [
+						"प्रीमियम में सब कुछ",
+						"टीम सहयोग",
+						"कस्टम टेम्प्लेट",
+						"समर्पित सपोर्ट",
+						"व्हाइट लेबल",
+					],
+				},
+				view_all_plans: "सभी योजनाओं की विस्तृत तुलना देखें",
+				downgrade: "डाउनग्रेड",
+				upgrade_to_basic: "बेसिक में अपग्रेड करें",
+				upgrade_to_premium: "प्रीमियम में अपग्रेड करें",
+				current_plan_text: "वर्तमान योजना",
+			},
+			buttons: {
+				close: "बंद करें",
+				edit_profile: "प्रोफाइल संपादित करें",
+				cancel: "रद्द करें",
+				save_changes: "परिवर्तन सहेजें",
+				saving: "सहेजा जा रहा है...",
+				view_all_plans: "सभी योजनाएं देखें",
+			},
+			alerts: {
+				unsaved_changes: "आपके पास असहेजित परिवर्तन हैं। फिर भी बंद करें?",
+				save_success: "परिवर्तन सफलतापूर्वक सहेजे गए!",
+				save_error: "परिवर्तन सहेजने में विफल। कृपया पुनः प्रयास करें।",
+				unexpected_error: "एक अप्रत्याशित त्रुटि हुई। कृपया पुनः प्रयास करें।",
+			},
+			plan_names: {
+				free: "मुफ्त",
+				basic: "बेसिक",
+				premium: "प्रीमियम",
+				enterprise: "एंटरप्राइज़",
+			},
+		},
+
 		labels: {
 			general: {
+				build_your_resume: "अपना रेज़्यूमे बनाएं",
 				edit: "संपादित करें",
 				layout: "डिज़ाइन",
 				next: "अगला",
@@ -361,6 +458,255 @@ export default {
 				create_resume_in_minutes:
 					"हमारे AI-संचालित टूल के साथ मिनटों में एक पेशेवर रेज़्यूमे बनाएं।",
 				pricing_plans: "मूल्य योजनाएं",
+			},
+			pricing: {
+				title: "अपना सही प्लान चुनें",
+				subtitle:
+					"चाहे आप नौकरी ढूंढ रहे हों, पेशेवर हों या उद्यम, हमारे पास आपकी आवश्यकताओं के अनुरूप एक प्लान है।",
+				billing: {
+					monthly: "मासिक",
+					yearly: "वार्षिक",
+					save_20: "20% बचत",
+					no_contract: "कोई लंबे समय के अनुबंध नहीं। कभी भी रद्द करें।",
+				},
+				plans: {
+					most_popular: "सबसे लोकप्रिय",
+					billed_annually_a: "वार्षिक बिल ($",
+					billed_annually_b: "/माह)",
+					custom_pricing: "कस्टम मूल्य निर्धारण",
+					plans: [
+						{
+							name: "मुफ्त",
+							description: "आज़माने के लिए बिल्कुल सही",
+							features: [
+								{ text: "1 रेज़्यूमे डाउनलोड", included: true },
+								{ text: "3 पेशेवर टेम्प्लेट", included: true },
+								{ text: "बेसिक एआई सुझाव", included: true },
+								{ text: "ईमेल सपोर्ट", included: true },
+								{ text: "असीमित डाउनलोड", included: false },
+								{ text: "सभी टेम्प्लेट", included: false },
+								{ text: "उन्नत एआई सुविधाएँ", included: false },
+								{ text: "प्राथमिकता सपोर्ट", included: false },
+								{ text: "कोई विज्ञापन नहीं", included: false },
+							],
+							cta: "मुफ्त में शुरू करें",
+						},
+						{
+							name: "बेसिक",
+							description: "नौकरी चाहने वालों के लिए",
+							features: [
+								{ text: "प्रति माह 5 रेज़्यूमे डाउनलोड", included: true },
+								{ text: "10 पेशेवर टेम्प्लेट", included: true },
+								{ text: "बेसिक एआई सुझाव", included: true },
+								{ text: "प्राथमिकता ईमेल सपोर्ट", included: true },
+								{ text: "कोई विज्ञापन नहीं", included: true },
+								{ text: "असीमित डाउनलोड", included: false },
+								{ text: "सभी टेम्प्लेट", included: false },
+								{ text: "उन्नत एआई सुविधाएँ", included: false },
+								{ text: "फोन सपोर्ट", included: false },
+							],
+							cta: "बेसिक चुनें",
+						},
+						{
+							name: "प्रीमियम",
+							description: "पावर यूज़र्स के लिए",
+							features: [
+								{ text: "असीमित रेज़्यूमे डाउनलोड", included: true },
+								{ text: "सभी पेशेवर टेम्प्लेट", included: true },
+								{ text: "उन्नत एआई राइटिंग असिस्टेंट", included: true },
+								{ text: "प्राथमिकता फोन और ईमेल सपोर्ट", included: true },
+								{ text: "कोई विज्ञापन नहीं", included: true },
+								{ text: "PDF और DOCX में निर्यात", included: true },
+								{ text: "एटीएस ऑप्टिमाइज़ेशन", included: true },
+								{ text: "रेज़्यूमे एनालिटिक्स", included: true },
+								{ text: "कस्टम ब्रांडिंग", included: false },
+							],
+							cta: "प्रीमियम चुनें",
+						},
+						{
+							name: "एंटरप्राइज़",
+							description: "टीमों और कंपनियों के लिए",
+							features: [
+								{ text: "प्रीमियम में सब कुछ", included: true },
+								{ text: "टीम सहयोग", included: true },
+								{ text: "कस्टम टेम्प्लेट डिज़ाइन", included: true },
+								{ text: "समर्पित अकाउंट मैनेजर", included: true },
+								{ text: "व्हाइट लेबल समाधान", included: true },
+								{ text: "एपीआई एक्सेस", included: true },
+								{ text: "SSO और उन्नत सुरक्षा", included: true },
+								{ text: "कस्टम वर्कफ़्लो", included: true },
+								{ text: "प्रशिक्षण और ऑनबोर्डिंग", included: true },
+							],
+							cta: "बिक्री से संपर्क करें",
+						},
+					],
+				},
+				comparison_table: {
+					header: "सभी सुविधाओं की तुलना करें",
+					feature: "सुविधा",
+					plans: {
+						free: "मुफ्त",
+						basic: "बेसिक",
+						premium: "प्रीमियम",
+						enterprise: "एंटरप्राइज़",
+					},
+					featuresComparison: [
+						{
+							name: "रेज़्यूमे डाउनलोड",
+							free: "1",
+							basic: "5/माह",
+							premium: "असीमित",
+							enterprise: "असीमित",
+						},
+						{
+							name: "टेम्प्लेट",
+							free: "3",
+							basic: "10",
+							premium: "सभी",
+							enterprise: "कस्टम + सभी",
+						},
+						{
+							name: "एआई राइटिंग असिस्टेंट",
+							free: "बेसिक",
+							basic: "बेसिक",
+							premium: "उन्नत",
+							enterprise: "उन्नत",
+						},
+						{
+							name: "एक्सपोर्ट फॉर्मेट",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "सपोर्ट",
+							free: "ईमेल",
+							basic: "प्राथमिकता ईमेल",
+							premium: "फोन और ईमेल",
+							enterprise: "समर्पित",
+						},
+						{
+							name: "टीम सहयोग",
+							free: "नहीं",
+							basic: "नहीं",
+							premium: "नहीं",
+							enterprise: "हाँ",
+						},
+						{
+							name: "कस्टम ब्रांडिंग",
+							free: "नहीं",
+							basic: "नहीं",
+							premium: "नहीं",
+							enterprise: "हाँ",
+						},
+						{
+							name: "एपीआई एक्सेस",
+							free: "नहीं",
+							basic: "नहीं",
+							premium: "नहीं",
+							enterprise: "हाँ",
+						},
+					],
+				},
+				faq: {
+					header: "अक्सर पूछे जाने वाले प्रश्न",
+					questions: [
+						{
+							question: "क्या मैं किसी भी समय प्लान बदल सकता हूँ?",
+							answer:
+								"हां, आप किसी भी समय अपना प्लान अपग्रेड या डाउनग्रेड कर सकते हैं। परिवर्तन तुरंत प्रभावी हो जाते हैं।",
+						},
+						{
+							question: "क्या कोई मुफ्त परीक्षण है?",
+							answer:
+								"मुफ्त प्लान हमेशा मुफ्त है। भुगतान वाले प्लान 14 दिनों के निःशुल्क परीक्षण के साथ आते हैं।",
+						},
+						{
+							question: "आप कौन से भुगतान तरीके स्वीकार करते हैं?",
+							answer:
+								"हम सभी प्रमुख क्रेडिट कार्ड (Visa, MasterCard, American Express) और PayPal स्वीकार करते हैं।",
+						},
+						{
+							question: "क्या मैं अपनी सदस्यता रद्द कर सकता हूँ?",
+							answer:
+								"हां, आप किसी भी समय रद्द कर सकते हैं। कोई सवाल नहीं पूछा जाएगा।",
+						},
+						{
+							question:
+								"क्या आप छात्रों या गैर-लाभकारी संगठनों के लिए छूट प्रदान करते हैं?",
+							answer:
+								"हाँ! विशेष मूल्य के लिए हमारी बिक्री टीम से संपर्क करें।",
+						},
+					],
+					cta_section: {
+						title: "अपना करियर बढ़ाने के लिए तैयार हैं?",
+						subtitle:
+							"हजारों पेशेवरों में शामिल हों जिन्होंने हमारे रेज़्यूमे बिल्डर से अपनी सपनों की नौकरी पाई।",
+						start_free_trial: "निःशुल्क परीक्षण शुरू करें",
+						schedule_demo: "डेमो शेड्यूल करें",
+					},
+				},
+			},
+			contact: {
+				title: "संपर्क करें",
+				subtitle:
+					"प्रश्न हैं? हम मदद के लिए यहां हैं! हमसे संपर्क करें और हम जल्द से जल्द आपको जवाब देंगे।",
+				form: {
+					title: "हमें संदेश भेजें",
+					name_label: "पूरा नाम",
+					name_placeholder: "राहुल शर्मा",
+					email_label: "ईमेल पता",
+					email_placeholder: "rahul@example.com",
+					subject_label: "विषय",
+					subject_placeholder: "हम आपकी कैसे मदद कर सकते हैं?",
+					message_label: "संदेश",
+					message_placeholder: "अपनी पूछताछ के बारे में हमें और बताएं...",
+					submit_button: "संदेश भेजें",
+					sending: "भेजा जा रहा है...",
+					success_message:
+						"आपके संदेश के लिए धन्यवाद! हम जल्द ही आपको जवाब देंगे।",
+					error_message:
+						"संदेश भेजते समय एक त्रुटि हुई। कृपया पुनः प्रयास करें।",
+				},
+				info: {
+					email_title: "ईमेल",
+					email: "support@resumebuilder.com",
+					phone_title: "फोन",
+					phone: "+1 (555) 123-4567",
+					address_title: "पता",
+					address:
+						"रेज़्यूमे स्ट्रीट 123, सुइट 100\nसैन फ्रांसिस्को, सीए 94107",
+					hours_title: "कार्य घंटे",
+					hours:
+						"सोमवार - शुक्रवार: सुबह 9:00 - शाम 6:00\nशनिवार: सुबह 10:00 - दोपहर 2:00",
+				},
+				location_title: "हमारा स्थान",
+				location_description:
+					"हम सैन फ्रांसिस्को के दिल में स्थित हैं। हमारे कार्य घंटों के दौरान हमें मिलने आएं।",
+				faq_title: "अक्सर पूछे जाने वाले प्रश्न",
+				faqs: [
+					{
+						question: "मुझे तकनीकी सहायता कैसे मिल सकती है?",
+						answer:
+							"तकनीकी सहायता के लिए, हमारी सहायता टीम को support@resumebuilder.com पर ईमेल करें या ऊपर दिए गए संपर्क फॉर्म का उपयोग करें।",
+					},
+					{
+						question: "क्या आप उद्यम समाधान प्रदान करते हैं?",
+						answer:
+							"हाँ! अनुकूलित उद्यम समाधान और थोक छूट के लिए हमारी बिक्री टीम से संपर्क करें।",
+					},
+					{
+						question: "उत्तर प्राप्त करने में कितना समय लगता है?",
+						answer:
+							"हम आमतौर पर कार्य दिवसों पर 24 घंटों के भीतर जवाब देते हैं।",
+					},
+				],
+				cta_title: "शुरू करने के लिए तैयार हैं?",
+				cta_subtitle:
+					"आज ही अपना पेशेवर रेज़्यूमे बनाएं और अपने करियर में अगला कदम उठाएं।",
+				cta_button1: "निःशुल्क परीक्षण शुरू करें",
+				cta_button2: "मूल्य योजनाएं देखें",
 			},
 		},
 		template_names: {

@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
+import { CgProfile } from "react-icons/cg"
 import LanguageSelector from "./LanguageSelector"
 import Image from "next/image"
 import { useRouter } from "next/router"
@@ -11,18 +12,53 @@ import { loadTranslations } from "@/utils"
 import useResumeStore from "@/store/useResumeStore"
 import { useAuth } from "@/contexts/AuthContext"
 import { HiHomeModern } from "react-icons/hi2"
+import { useProfile } from "@/hooks/useProfile"
+import ProfileIcon from "./ProfileIcon"
+import ProfileModal from "./ProfileModal"
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const router = useRouter()
 	const t = loadTranslations(router)
-	const { isAuthenticated } = useResumeStore()
+	const { isAuthenticated, user } = useResumeStore()
 	const { logout } = useAuth()
+
+	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+	const userId = (user?.id as string) || null
+
+	const {
+		userProfile,
+		loading: profileLoading,
+		error: profileError,
+		isModalOpen,
+		openModal,
+		closeModal,
+		updateUserProfile,
+	} = useProfile(userId, apiBaseUrl)
+
+	const [userInitials, setUserInitials] = useState("")
+
+	useEffect(() => {
+		if (userProfile?.firstName && userProfile?.lastName) {
+			const initials = `${userProfile.firstName.charAt(
+				0
+			)}${userProfile.lastName.charAt(0)}`.toUpperCase()
+			setUserInitials(initials)
+		} else if (userProfile?.firstName) {
+			setUserInitials(userProfile.firstName.charAt(0).toUpperCase())
+		} else {
+			setUserInitials("")
+		}
+	}, [userProfile])
+
+	const handleUpdateProfile = async (data: any) => {
+		return await updateUserProfile(data)
+	}
 
 	return (
 		<nav className="bg-white shadow-md fixed w-full z-50">
 			<div className="mx-auto pl-6 flex justify-between items-center">
-				{/* Logo - Hidden on mobile, visible on desktop */}
+				{/* Logo */}
 				<Link href={"/"}>
 					<Image
 						alt="logo image"
@@ -34,33 +70,47 @@ const Navbar = () => {
 
 				{/* Desktop Menu */}
 				<div className="hidden ml-24 md:flex space-x-6">
-					<Link
-						href="/about"
-						className="hover:text-blue-500 capitalize transition"
-					>
-						{t.resume_builder.navigation.about}
-					</Link>
-					<Link
-						href="/services"
-						className="hover:text-blue-500 capitalize transition"
-					>
-						{t.resume_builder.navigation.services}
-					</Link>
+					<div className="flex space-x-6 ml-8 items-center">
+						<Link
+							href="/about"
+							className="hover:text-blue-500 capitalize transition"
+						>
+							{t.resume_builder.navigation.about}
+						</Link>
+						<Link
+							href="/services"
+							className="hover:text-blue-500 capitalize transition"
+						>
+							{t.resume_builder.navigation.services}
+						</Link>
+						<Link
+							href="/pricing"
+							className="hover:text-blue-500 capitalize transition"
+						>
+							{t.resume_builder.navigation.pricing}
+						</Link>
+					</div>
 					{isAuthenticated ? (
-						<div className="flex ml-8">
+						<div className="flex ml-8 items-center">
 							<Link
 								href="/builder"
 								className="hover:text-blue-500 text-cyan-700 transition"
-								onClick={() => setIsOpen(false)}
 							>
 								{t.resume_builder.navigation.dashboard}
 							</Link>
-							<p
+							<div className="ml-6">
+								<ProfileIcon
+									onClick={openModal}
+									userInitials={userInitials}
+									isLoading={profileLoading && !userProfile}
+								/>
+							</div>
+							<button
 								onClick={logout}
-								className="cursor-pointer ml-4 hover:text-yellow-600 text-yellow-500"
+								className="ml-6 px-3  border border-yellow-500 text-yellow-500 rounded-md hover:border-yellow-600 hover:text-yellow-600"
 							>
 								{t.resume_builder.navigation.logout}
-							</p>
+							</button>
 						</div>
 					) : (
 						<Link
@@ -76,7 +126,7 @@ const Navbar = () => {
 					<LanguageSelector />
 				</div>
 
-				{/* Mobile Menu Button - Always on the right with higher z-index */}
+				{/* Mobile Menu Button */}
 				<button
 					className="md:hidden pr-2 py-3 focus:outline-none relative z-60"
 					onClick={() => setIsOpen(!isOpen)}
@@ -100,7 +150,7 @@ const Navbar = () => {
 				)}
 			</AnimatePresence>
 
-			{/* Mobile Menu with AnimatePresence */}
+			{/* Mobile Menu */}
 			<AnimatePresence>
 				{isOpen && (
 					<motion.div
@@ -111,23 +161,13 @@ const Navbar = () => {
 							opacity: 0,
 							y: -10,
 							height: 0,
-							transition: {
-								duration: 0.4,
-								ease: "easeOut",
-							},
+							transition: { duration: 0.4, ease: "easeOut" },
 						}}
-						transition={{
-							duration: 0.4,
-							ease: "easeOut",
-						}}
-						className=" bg-white -mt-12 shadow-md overflow-visible relative z-50"
+						transition={{ duration: 0.4, ease: "easeOut" }}
+						className="bg-white -mt-12 shadow-md overflow-visible relative z-50"
 					>
-						{/* Close button */}
 						<div className="flex justify-end p-4 pb-0">
-							<button
-								className="focus:outline-none"
-								onClick={() => setIsOpen(false)}
-							>
+							<button onClick={() => setIsOpen(false)}>
 								<X className="w-6 h-6" />
 							</button>
 						</div>
@@ -155,8 +195,15 @@ const Navbar = () => {
 								>
 									{t.resume_builder.navigation.services}
 								</Link>
+								<Link
+									href="/pricing"
+									className="hover:text-blue-500 transition w-full text-center py-2"
+									onClick={() => setIsOpen(false)}
+								>
+									{t.resume_builder.navigation.pricing}
+								</Link>
 								{isAuthenticated ? (
-									<div className="flex flex-col items-center space-y-2 w-full">
+									<div className="flex flex-col items-center space-y-3 w-full">
 										<Link
 											href="/builder"
 											className="hover:text-blue-500 transition w-full text-center py-2"
@@ -164,15 +211,34 @@ const Navbar = () => {
 										>
 											{t.resume_builder.navigation.dashboard}
 										</Link>
-										<p
+										{/* Profile en móvil */}
+										<div className="border-t w-full border-t-gray-200 pt-4">
+											<button
+												onClick={() => {
+													openModal()
+													setIsOpen(false)
+												}}
+												className="flex items-center justify-center gap-2 w-full py-2"
+											>
+												{userInitials ? (
+													<div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-medium">
+														{userInitials}
+													</div>
+												) : (
+													<CgProfile size={25} />
+												)}
+												<span>Profile</span>
+											</button>
+										</div>
+										<button
 											onClick={() => {
 												logout()
 												setIsOpen(false)
 											}}
-											className="cursor-pointer hover:text-yellow-600 text-yellow-500 w-full text-center py-2"
+											className="border border-yellow-500 text-yellow-500 rounded-md hover:border-yellow-600 hover:text-yellow-600 py-2 px-4"
 										>
 											{t.resume_builder.navigation.logout}
-										</p>
+										</button>
 									</div>
 								) : (
 									<Link
@@ -185,7 +251,6 @@ const Navbar = () => {
 								)}
 							</div>
 
-							{/* Language Selector Container */}
 							<div className="flex justify-center mt-4 pt-4 border-t border-gray-200">
 								<div className="w-full flex justify-center max-w-xs">
 									<LanguageSelector
@@ -199,6 +264,17 @@ const Navbar = () => {
 					</motion.div>
 				)}
 			</AnimatePresence>
+
+			{/* Profile Modal */}
+			<ProfileModal
+				isOpen={isModalOpen}
+				onClose={closeModal}
+				userProfile={userProfile}
+				loading={profileLoading}
+				error={profileError}
+				onUpdateProfile={handleUpdateProfile}
+				profileModalTranslations={t.resume_builder.profile_modal}
+			/>
 		</nav>
 	)
 }

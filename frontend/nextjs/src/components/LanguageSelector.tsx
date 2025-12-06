@@ -58,7 +58,7 @@ export default function LanguageSelector({
 	}, [])
 
 	return (
-		<div className="w-48 relative" ref={dropdownRef}>
+		<div className="w-52 relative" ref={dropdownRef}>
 			{/* Custom dropdown button */}
 			<button
 				className={`w-full flex items-center justify-between text-black border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 hover:border-cyan-400 hover:text-cyan-400  focus:ring-cyan-200 ${

@@ -4,14 +4,111 @@ export default {
 		navigation: {
 			about: "Sobre",
 			services: "Serviços",
+			pricing: "Preços",
 			contact: "Contato",
 			signin: "Entrar",
 			dashboard: "Painel de Controle",
 			logout: "Sair",
 			home: "Início",
 		},
+		profile_modal: {
+			title: "Perfil",
+			tabs: {
+				profile_info: "Informações do Perfil",
+				plan_billing: "Plano e Cobrança",
+			},
+			profile: {
+				current_plan: "Plano Atual",
+				change_plan: "Mudar Plano",
+				first_name: "Nome",
+				last_name: "Sobrenome",
+				email_address: "Endereço de Email",
+				email_cannot_change: "Email não pode ser alterado",
+				not_set: "Não definido",
+				loading_error: "Não foi possível carregar dados do perfil",
+				downloads_remaining: "Downloads restantes:",
+				unlimited_downloads: "Downloads ilimitados",
+				plan_features: "Recursos do Plano:",
+				plan: "Plano",
+			},
+			billing: {
+				current_plan_label: "Plano atual",
+				available_plans: "Planos Disponíveis",
+				month: "mês",
+				free_plan: {
+					name: "Grátis",
+					description: "Para indivíduos",
+					price: "$0",
+					features: ["1 Download de Currículo", "3 Modelos", "Suporte Básico"],
+				},
+				basic_plan: {
+					name: "Básico",
+					description: "Para profissionais",
+					price: "$9.99/mês",
+					price_mo: "$9.99/mês",
+					features: [
+						"5 Downloads de Currículo",
+						"10 Modelos",
+						"Suporte Prioritário",
+						"Sem Anúncios",
+					],
+				},
+				premium_plan: {
+					name: "Premium",
+					description: "Para usuários avançados",
+					price: "$19.99",
+					price_mo: "$19.99/mês",
+					features: [
+						"Downloads Ilimitados",
+						"Todos os Modelos",
+						"Recursos de IA",
+						"Exportar para DOCX",
+						"Suporte Prioritário",
+					],
+				},
+				enterprise_plan: {
+					name: "Empresa",
+					description: "Para equipes e empresas",
+					price: "Personalizado",
+					features: [
+						"Tudo do Premium",
+						"Colaboração em Equipe",
+						"Modelos Personalizados",
+						"Suporte Dedicado",
+						"White Label",
+					],
+				},
+				view_all_plans: "Ver comparação detalhada de todos os planos",
+				downgrade: "Downgrade",
+				upgrade_to_basic: "Upgrade para Básico",
+				upgrade_to_premium: "Upgrade para Premium",
+				current_plan_text: "Plano Atual",
+			},
+			buttons: {
+				close: "Fechar",
+				edit_profile: "Editar Perfil",
+				cancel: "Cancelar",
+				save_changes: "Salvar Alterações",
+				saving: "Salvando...",
+				view_all_plans: "Ver Todos os Planos",
+			},
+			alerts: {
+				unsaved_changes: "Você tem alterações não salvas. Fechar mesmo assim?",
+				save_success: "Alterações salvas com sucesso!",
+				save_error: "Falha ao salvar alterações. Por favor, tente novamente.",
+				unexpected_error:
+					"Ocorreu um erro inesperado. Por favor, tente novamente.",
+			},
+			plan_names: {
+				free: "Grátis",
+				basic: "Básico",
+				premium: "Premium",
+				enterprise: "Empresa",
+			},
+		},
 		labels: {
 			general: {
+				build_your_resume: "Construa seu currículo",
 				edit: "Editar",
 				layout: "Design",
 				next: "Próximo",
@@ -363,6 +460,257 @@ export default {
 				create_resume_in_minutes:
 					"Crie um currículo profissional em minutos com nossas ferramentas com IA.",
 				pricing_plans: "Planos de Preços",
+			},
+			pricing: {
+				title: "Escolha Seu Plano Perfeito",
+				subtitle:
+					"Seja você um candidato a emprego, profissional ou empresa, temos um plano que atende às suas necessidades.",
+				billing: {
+					monthly: "Mensal",
+					yearly: "Anual",
+					save_20: "Economize 20%",
+					no_contract:
+						"Sem contratos de longo prazo. Cancele a qualquer momento.",
+				},
+				plans: {
+					most_popular: "Mais Popular",
+					billed_annually_a: "Cobrado anualmente ($",
+					billed_annually_b: "/mês)",
+					custom_pricing: "Preço Personalizado",
+					plans: [
+						{
+							name: "Grátis",
+							description: "Perfeito para experimentar",
+							features: [
+								{ text: "1 Download de Currículo", included: true },
+								{ text: "3 Modelos Profissionais", included: true },
+								{ text: "Sugestões Básicas de IA", included: true },
+								{ text: "Suporte por Email", included: true },
+								{ text: "Downloads Ilimitados", included: false },
+								{ text: "Todos os Modelos", included: false },
+								{ text: "Recursos Avançados de IA", included: false },
+								{ text: "Suporte Prioritário", included: false },
+								{ text: "Sem Anúncios", included: false },
+							],
+							cta: "Começar de Graça",
+						},
+						{
+							name: "Básico",
+							description: "Para candidatos a emprego",
+							features: [
+								{ text: "5 Downloads de Currículo por mês", included: true },
+								{ text: "10 Modelos Profissionais", included: true },
+								{ text: "Sugestões Básicas de IA", included: true },
+								{ text: "Suporte Prioritário por Email", included: true },
+								{ text: "Sem Anúncios", included: true },
+								{ text: "Downloads Ilimitados", included: false },
+								{ text: "Todos os Modelos", included: false },
+								{ text: "Recursos Avançados de IA", included: false },
+								{ text: "Suporte por Telefone", included: false },
+							],
+							cta: "Escolher Básico",
+						},
+						{
+							name: "Premium",
+							description: "Para usuários avançados",
+							features: [
+								{ text: "Downloads de Currículo Ilimitados", included: true },
+								{ text: "Todos os Modelos Profissionais", included: true },
+								{ text: "Assistente de Redação IA Avançado", included: true },
+								{
+									text: "Suporte Prioritário por Telefone e Email",
+									included: true,
+								},
+								{ text: "Sem Anúncios", included: true },
+								{ text: "Exportar para PDF e DOCX", included: true },
+								{ text: "Otimização ATS", included: true },
+								{ text: "Análises de Currículo", included: true },
+								{ text: "Marca Personalizada", included: false },
+							],
+							cta: "Escolher Premium",
+						},
+						{
+							name: "Empresa",
+							description: "Para equipes e empresas",
+							features: [
+								{ text: "Tudo do Premium", included: true },
+								{ text: "Colaboração em Equipe", included: true },
+								{ text: "Design de Modelos Personalizados", included: true },
+								{ text: "Gerente de Conta Dedicado", included: true },
+								{ text: "Solução White Label", included: true },
+								{ text: "Acesso à API", included: true },
+								{ text: "SSO e Segurança Avançada", included: true },
+								{ text: "Fluxos de Trabalho Personalizados", included: true },
+								{ text: "Treinamento e Integração", included: true },
+							],
+							cta: "Contatar Vendas",
+						},
+					],
+				},
+				comparison_table: {
+					header: "Comparar Todos os Recursos",
+					feature: "Recurso",
+					plans: {
+						free: "Grátis",
+						basic: "Básico",
+						premium: "Premium",
+						enterprise: "Empresa",
+					},
+					featuresComparison: [
+						{
+							name: "Downloads de Currículo",
+							free: "1",
+							basic: "5/mês",
+							premium: "Ilimitados",
+							enterprise: "Ilimitados",
+						},
+						{
+							name: "Modelos",
+							free: "3",
+							basic: "10",
+							premium: "Todos",
+							enterprise: "Personalizados + Todos",
+						},
+						{
+							name: "Assistente de Redação IA",
+							free: "Básico",
+							basic: "Básico",
+							premium: "Avançado",
+							enterprise: "Avançado",
+						},
+						{
+							name: "Formatos de Exportação",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "Suporte",
+							free: "Email",
+							basic: "Email Prioritário",
+							premium: "Telefone e Email",
+							enterprise: "Dedicado",
+						},
+						{
+							name: "Colaboração em Equipe",
+							free: "Não",
+							basic: "Não",
+							premium: "Não",
+							enterprise: "Sim",
+						},
+						{
+							name: "Marca Personalizada",
+							free: "Não",
+							basic: "Não",
+							premium: "Não",
+							enterprise: "Sim",
+						},
+						{
+							name: "Acesso à API",
+							free: "Não",
+							basic: "Não",
+							premium: "Não",
+							enterprise: "Sim",
+						},
+					],
+				},
+				faq: {
+					header: "Perguntas Frequentes",
+					questions: [
+						{
+							question: "Posso mudar de plano a qualquer momento?",
+							answer:
+								"Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As alterações têm efeito imediato.",
+						},
+						{
+							question: "Há um teste gratuito?",
+							answer:
+								"O plano Grátis é sempre gratuito. Os planos pagos vêm com um teste gratuito de 14 dias.",
+						},
+						{
+							question: "Quais métodos de pagamento são aceitos?",
+							answer:
+								"Aceitamos todos os principais cartões de crédito (Visa, MasterCard, American Express) e PayPal.",
+						},
+						{
+							question: "Posso cancelar minha assinatura?",
+							answer:
+								"Sim, você pode cancelar a qualquer momento. Sem perguntas.",
+						},
+						{
+							question:
+								"Oferecem descontos para estudantes ou organizações sem fins lucrativos?",
+							answer:
+								"Sim! Entre em contato com nossa equipe de vendas para preços especiais.",
+						},
+					],
+					cta_section: {
+						title: "Pronto para elevar sua carreira?",
+						subtitle:
+							"Junte-se a milhares de profissionais que encontraram seu emprego dos sonhos com nosso criador de currículos.",
+						start_free_trial: "Iniciar Teste Grátis",
+						schedule_demo: "Agendar Demonstração",
+					},
+				},
+			},
+			contact: {
+				title: "Contato",
+				subtitle:
+					"Tem perguntas? Estamos aqui para ajudar! Entre em contato e retornaremos o mais breve possível.",
+				form: {
+					title: "Envie-nos uma Mensagem",
+					name_label: "Nome Completo",
+					name_placeholder: "João Silva",
+					email_label: "Endereço de Email",
+					email_placeholder: "joao@exemplo.com",
+					subject_label: "Assunto",
+					subject_placeholder: "Como podemos ajudá-lo?",
+					message_label: "Mensagem",
+					message_placeholder: "Conte-nos mais sobre sua consulta...",
+					submit_button: "Enviar Mensagem",
+					sending: "Enviando...",
+					success_message:
+						"Obrigado pela sua mensagem! Entraremos em contato em breve.",
+					error_message:
+						"Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.",
+				},
+				info: {
+					email_title: "Email",
+					email: "support@resumebuilder.com",
+					phone_title: "Telefone",
+					phone: "+1 (555) 123-4567",
+					address_title: "Endereço",
+					address: "Rua do Currículo 123, Suite 100\nSan Francisco, CA 94107",
+					hours_title: "Horário Comercial",
+					hours:
+						"Segunda - Sexta: 9:00 AM - 6:00 PM\nSábado: 10:00 AM - 2:00 PM",
+				},
+				location_title: "Nossa Localização",
+				location_description:
+					"Estamos localizados no coração de San Francisco. Visite-nos durante nosso horário comercial.",
+				faq_title: "Perguntas Frequentes",
+				faqs: [
+					{
+						question: "Como posso obter suporte técnico?",
+						answer:
+							"Para suporte técnico, envie um email para nossa equipe de suporte em support@resumebuilder.com ou use o formulário de contato acima.",
+					},
+					{
+						question: "Vocês oferecem soluções empresariais?",
+						answer:
+							"Sim! Entre em contato com nossa equipe de vendas para soluções empresariais personalizadas e descontos por volume.",
+					},
+					{
+						question: "Quanto tempo leva para receber uma resposta?",
+						answer: "Normalmente respondemos dentro de 24 horas em dias úteis.",
+					},
+				],
+				cta_title: "Pronto para Começar?",
+				cta_subtitle:
+					"Crie seu currículo profissional hoje e dê o próximo passo em sua carreira.",
+				cta_button1: "Iniciar Teste Grátis",
+				cta_button2: "Ver Planos de Preço",
 			},
 		},
 		template_names: {

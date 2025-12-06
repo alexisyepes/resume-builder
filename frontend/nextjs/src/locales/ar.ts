@@ -4,14 +4,111 @@ export default {
 		navigation: {
 			about: "معلومات عنا",
 			services: "الخدمات",
+			pricing: "التسعير",
 			contact: "اتصل بنا",
 			signin: "تسجيل الدخول",
 			dashboard: "لوحة التحكم",
 			logout: "تسجيل الخروج",
 			home: "الرئيسية",
 		},
+		profile_modal: {
+			title: "الملف الشخصي",
+			tabs: {
+				profile_info: "معلومات الملف الشخصي",
+				plan_billing: "الخطة والفوترة",
+			},
+			profile: {
+				current_plan: "الخطة الحالية",
+				change_plan: "تغيير الخطة",
+				first_name: "الاسم الأول",
+				last_name: "اسم العائلة",
+				email_address: "البريد الإلكتروني",
+				email_cannot_change: "لا يمكن تغيير البريد الإلكتروني",
+				not_set: "غير مضبوط",
+				loading_error: "غير قادر على تحميل بيانات الملف الشخصي",
+				downloads_remaining: "التحميلات المتبقية:",
+				unlimited_downloads: "تحميلات غير محدودة",
+				plan_features: "مميزات الخطة:",
+				plan: "الخطة",
+			},
+			billing: {
+				current_plan_label: "الخطة الحالية",
+				available_plans: "الخطط المتاحة",
+				month: "شهر",
+				free_plan: {
+					name: "مجاني",
+					description: "للفرد",
+					price: "$0",
+					features: ["تحميل سيرة ذاتية واحدة", "3 قوالب", "دعم أساسي"],
+				},
+				basic_plan: {
+					name: "أساسي",
+					description: "للمحترفين",
+					price: "$9.99",
+					price_mo: "$9.99/شهر",
+					features: [
+						"5 تحميلات سيرة ذاتية",
+						"10 قوالب",
+						"دعم ذو أولوية",
+						"بدون إعلانات",
+					],
+				},
+				premium_plan: {
+					name: "متميز",
+					description: "للمستخدمين المتقدمين",
+					price: "$19.99",
+					price_mo: "$19.99/شهر",
+					features: [
+						"تحميلات غير محدودة",
+						"جميع القوالب",
+						"مميزات الذكاء الاصطناعي",
+						"تصدير إلى DOCX",
+						"دعم ذو أولوية",
+					],
+				},
+				enterprise_plan: {
+					name: "مؤسسة",
+					description: "للفرق والشركات",
+					price: "مخصص",
+					features: [
+						"كل شيء في المتميز",
+						"تعاون الفريق",
+						"قوالب مخصصة",
+						"دعم مخصص",
+						"وايت ليبل",
+					],
+				},
+				view_all_plans: "عرض مقارنة مفصلة لجميع الخطط",
+				downgrade: "تخفيض",
+				upgrade_to_basic: "الترقية إلى الأساسي",
+				upgrade_to_premium: "الترقية إلى المتميز",
+				current_plan_text: "الخطة الحالية",
+			},
+			buttons: {
+				close: "إغلاق",
+				edit_profile: "تعديل الملف الشخصي",
+				cancel: "إلغاء",
+				save_changes: "حفظ التغييرات",
+				saving: "جارٍ الحفظ...",
+				view_all_plans: "عرض جميع الخطط",
+			},
+			alerts: {
+				unsaved_changes: "لديك تغييرات غير محفوظة. هل تريد الإغلاق على أي حال؟",
+				save_success: "تم حفظ التغييرات بنجاح!",
+				save_error: "فشل في حفظ التغييرات. يرجى المحاولة مرة أخرى.",
+				unexpected_error: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+			},
+			plan_names: {
+				free: "مجاني",
+				basic: "أساسي",
+				premium: "متميز",
+				enterprise: "مؤسسة",
+			},
+		},
+
 		labels: {
 			general: {
+				build_your_resume: "أنشئ سيرتك الذاتية",
 				edit: "تعديل",
 				layout: "التخطيط",
 				next: "التالي",
@@ -355,6 +452,249 @@ export default {
 				create_resume_in_minutes:
 					"أنشئ سيرة ذاتية احترافية في دقائق باستخدام أدواتنا المدعومة بالذكاء الاصطناعي.",
 				pricing_plans: "الباقات السعرية",
+			},
+			pricing: {
+				title: "اختر خطتك المثالية",
+				subtitle:
+					"سواء كنت باحثًا عن عمل، محترفًا أو مؤسسة، لدينا خطة تناسب احتياجاتك.",
+				billing: {
+					monthly: "شهري",
+					yearly: "سنوي",
+					save_20: "وفر 20%",
+					no_contract: "لا عقود طويلة الأجل. إلغاء في أي وقت.",
+				},
+				plans: {
+					most_popular: "الأكثر شعبية",
+					billed_annually_a: "فاتورة سنوية ($",
+					billed_annually_b: "/شهر)",
+					custom_pricing: "تسعير مخصص",
+					plans: [
+						{
+							name: "مجاني",
+							description: "مثالي للتجربة",
+							features: [
+								{ text: "تحميل سيرة ذاتية واحدة", included: true },
+								{ text: "3 قوالب احترافية", included: true },
+								{ text: "اقتراحات ذكاء اصطناعي أساسية", included: true },
+								{ text: "دعم عبر البريد الإلكتروني", included: true },
+								{ text: "تحميلات غير محدودة", included: false },
+								{ text: "جميع القوالب", included: false },
+								{ text: "ميزات الذكاء الاصطناعي المتقدمة", included: false },
+								{ text: "دعم ذو أولوية", included: false },
+								{ text: "بدون إعلانات", included: false },
+							],
+							cta: "ابدأ مجانًا",
+						},
+						{
+							name: "أساسي",
+							description: "لباحثي العمل",
+							features: [
+								{ text: "5 تحميلات سيرة ذاتية شهريًا", included: true },
+								{ text: "10 قوالب احترافية", included: true },
+								{ text: "اقتراحات ذكاء اصطناعي أساسية", included: true },
+								{ text: "دعم ذو أولوية عبر البريد الإلكتروني", included: true },
+								{ text: "بدون إعلانات", included: true },
+								{ text: "تحميلات غير محدودة", included: false },
+								{ text: "جميع القوالب", included: false },
+								{ text: "ميزات الذكاء الاصطناعي المتقدمة", included: false },
+								{ text: "دعم هاتفي", included: false },
+							],
+							cta: "اختر الأساسي",
+						},
+						{
+							name: "متميز",
+							description: "للمستخدمين المتقدمين",
+							features: [
+								{ text: "تحميلات سيرة ذاتية غير محدودة", included: true },
+								{ text: "جميع القوالب الاحترافية", included: true },
+								{ text: "مساعد كتابة ذكاء اصطناعي متقدم", included: true },
+								{ text: "دعم ذو أولوية هاتفي وبريد إلكتروني", included: true },
+								{ text: "بدون إعلانات", included: true },
+								{ text: "تصدير إلى PDF و DOCX", included: true },
+								{ text: "تحسين ATS", included: true },
+								{ text: "تحليلات السيرة الذاتية", included: true },
+								{ text: "العلامة التجارية المخصصة", included: false },
+							],
+							cta: "اختر المتميز",
+						},
+						{
+							name: "مؤسسة",
+							description: "للفرق والشركات",
+							features: [
+								{ text: "كل شيء في المتميز", included: true },
+								{ text: "تعاون الفريق", included: true },
+								{ text: "تصميم قوالب مخصص", included: true },
+								{ text: "مدير حساب مخصص", included: true },
+								{ text: "حل White Label", included: true },
+								{ text: "وصول إلى API", included: true },
+								{ text: "SSO وأمان متقدم", included: true },
+								{ text: "سير عمل مخصصة", included: true },
+								{ text: "تدريب وتسليم", included: true },
+							],
+							cta: "اتصل بالمبيعات",
+						},
+					],
+				},
+				comparison_table: {
+					header: "قارن جميع الميزات",
+					feature: "الميزة",
+					plans: {
+						free: "مجاني",
+						basic: "أساسي",
+						premium: "متميز",
+						enterprise: "مؤسسة",
+					},
+					featuresComparison: [
+						{
+							name: "تحميلات السيرة الذاتية",
+							free: "1",
+							basic: "5/شهر",
+							premium: "غير محدود",
+							enterprise: "غير محدود",
+						},
+						{
+							name: "القوالب",
+							free: "3",
+							basic: "10",
+							premium: "الكل",
+							enterprise: "مخصص + الكل",
+						},
+						{
+							name: "مساعد الكتابة بالذكاء الاصطناعي",
+							free: "أساسي",
+							basic: "أساسي",
+							premium: "متقدم",
+							enterprise: "متقدم",
+						},
+						{
+							name: "صيغ التصدير",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "الدعم",
+							free: "بريد إلكتروني",
+							basic: "بريد إلكتروني ذو أولوية",
+							premium: "هاتف وبريد إلكتروني",
+							enterprise: "مخصص",
+						},
+						{
+							name: "تعاون الفريق",
+							free: "لا",
+							basic: "لا",
+							premium: "لا",
+							enterprise: "نعم",
+						},
+						{
+							name: "علامة تجارية مخصصة",
+							free: "لا",
+							basic: "لا",
+							premium: "لا",
+							enterprise: "نعم",
+						},
+						{
+							name: "وصول إلى API",
+							free: "لا",
+							basic: "لا",
+							premium: "لا",
+							enterprise: "نعم",
+						},
+					],
+				},
+				faq: {
+					header: "الأسئلة الشائعة",
+					questions: [
+						{
+							question: "هل يمكنني تغيير الخطة في أي وقت؟",
+							answer:
+								"نعم، يمكنك ترقية أو تخفيض خطتك في أي وقت. التغييرات سارية المفعول فورًا.",
+						},
+						{
+							question: "هل هناك نسخة تجريبية مجانية؟",
+							answer:
+								"الخطة المجانية دائمًا مجانية. الخطط المدفوعة تأتي مع نسخة تجريبية مجانية لمدة 14 يومًا.",
+						},
+						{
+							question: "ما هي طرق الدفع التي تقبلونها؟",
+							answer:
+								"نقبل جميع بطاقات الائتمان الرئيسية (Visa، MasterCard، American Express) وPayPal.",
+						},
+						{
+							question: "هل يمكنني إلغاء اشتراكي؟",
+							answer: "نعم، يمكنك الإلغاء في أي وقت. دون أسئلة.",
+						},
+						{
+							question: "هل تقدمون خصومات للطلاب أو المنظمات غير الربحية؟",
+							answer: "نعم! اتصل بفريق المبيعات للحصول على أسعار خاصة.",
+						},
+					],
+					cta_section: {
+						title: "مستعد لرفع مستوى مسيرتك المهنية؟",
+						subtitle:
+							"انضم إلى آلاف المحترفين الذين وجدوا وظيفة أحلامهم باستخدام منشئ السير الذاتية الخاص بنا.",
+						start_free_trial: "ابدأ النسخة التجريبية المجانية",
+						schedule_demo: "جدولة عرض توضيحي",
+					},
+				},
+			},
+			contact: {
+				title: "اتصل بنا",
+				subtitle:
+					"هل لديك أسئلة؟ نحن هنا للمساعدة! اتصل بنا وسنرد عليك في أقرب وقت ممكن.",
+				form: {
+					title: "أرسل لنا رسالة",
+					name_label: "الاسم الكامل",
+					name_placeholder: "أحمد محمد",
+					email_label: "البريد الإلكتروني",
+					email_placeholder: "ahmed@example.com",
+					subject_label: "الموضوع",
+					subject_placeholder: "كيف يمكننا مساعدتك؟",
+					message_label: "الرسالة",
+					message_placeholder: "أخبرنا المزيد عن استفسارك...",
+					submit_button: "إرسال الرسالة",
+					sending: "جارٍ الإرسال...",
+					success_message: "شكرًا لرسالتك! سنرد عليك قريبًا.",
+					error_message: "حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+				},
+				info: {
+					email_title: "البريد الإلكتروني",
+					email: "support@resumebuilder.com",
+					phone_title: "الهاتف",
+					phone: "+1 (555) 123-4567",
+					address_title: "العنوان",
+					address:
+						"شارع السيرة الذاتية 123، جناح 100\nسان فرانسيسكو، كاليفورنيا 94107",
+					hours_title: "ساعات العمل",
+					hours:
+						"الاثنين - الجمعة: 9:00 صباحًا - 6:00 مساءً\nالسبت: 10:00 صباحًا - 2:00 مساءً",
+				},
+				location_title: "موقعنا",
+				location_description:
+					"نحن موجودون في قلب سان فرانسيسكو. زورنا خلال ساعات العمل.",
+				faq_title: "الأسئلة الشائعة",
+				faqs: [
+					{
+						question: "كيف يمكنني الحصول على الدعم الفني؟",
+						answer:
+							"للحصول على الدعم الفني، أرسل بريدًا إلكترونيًا إلى فريق الدعم لدينا على support@resumebuilder.com أو استخدم نموذج الاتصال أعلاه.",
+					},
+					{
+						question: "هل تقدمون حلولًا للمؤسسات؟",
+						answer:
+							"نعم! اتصل بفريق المبيعات لدينا للحصول على حلول مؤسسية مخصصة وخصومات على الكميات.",
+					},
+					{
+						question: "كم من الوقت يستغرق تلقي رد؟",
+						answer: "عادةً ما نرد في غضون 24 ساعة في أيام العمل.",
+					},
+				],
+				cta_title: "مستعد للبدء؟",
+				cta_subtitle:
+					"أنشئ سيرتك الذاتية الاحترافية اليوم واتخذ الخطوة التالية في مسيرتك المهنية.",
+				cta_button1: "ابدأ النسخة التجريبية المجانية",
+				cta_button2: "عرض خطط الأسعار",
 			},
 		},
 		template_names: {
