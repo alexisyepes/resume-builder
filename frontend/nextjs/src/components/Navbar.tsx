@@ -90,6 +90,12 @@ const Navbar = () => {
 						>
 							{t.resume_builder.navigation.pricing}
 						</Link>
+						<Link
+							href="/contact"
+							className="hover:text-blue-500 capitalize transition"
+						>
+							{t.resume_builder.navigation.contact}
+						</Link>
 					</div>
 					{isAuthenticated ? (
 						<div className="flex ml-8 items-center">
@@ -202,6 +208,13 @@ const Navbar = () => {
 									onClick={() => setIsOpen(false)}
 								>
 									{t.resume_builder.navigation.pricing}
+								</Link>
+								<Link
+									href="/contact"
+									className="hover:text-blue-500 transition w-full text-center py-2"
+									onClick={() => setIsOpen(false)}
+								>
+									{t.resume_builder.navigation.contact}{" "}
 								</Link>
 								{isAuthenticated ? (
 									<div className="flex flex-col items-center space-y-3 w-full">

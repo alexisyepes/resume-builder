@@ -1,3 +1,5 @@
+import { a } from "node_modules/framer-motion/dist/types.d-DagZKalS"
+
 export default {
 	greeting: "你好，世界",
 	resume_builder: {
@@ -625,23 +627,23 @@ export default {
 				},
 				info: {
 					email_title: "电子邮件",
-					email: "support@resumebuilder.com",
+					email: "support@resbuilder.com",
 					phone_title: "电话",
 					phone: "+1 (555) 123-4567",
 					address_title: "地址",
-					address: "简历街123号，100套房\n旧金山，加利福尼亚州 94107",
+					address: "123 简历街, 套房 100\n多伦多, ON M5H 2N2, 加拿大",
 					hours_title: "营业时间",
 					hours: "周一至周五：上午9:00 - 下午6:00\n周六：上午10:00 - 下午2:00",
 				},
 				location_title: "我们的位置",
 				location_description:
-					"我们位于旧金山市中心。请在我们的营业时间内来访。",
+					"我们位于多伦多市中心。请在我们的营业时间内来访。",
 				faq_title: "常见问题",
 				faqs: [
 					{
 						question: "如何获得技术支持？",
 						answer:
-							"如需技术支持，请发送电子邮件至我们的支持团队：support@resumebuilder.com，或使用上面的联系表单。",
+							"如需技术支持，请发送电子邮件至我们的支持团队：support@resbuilder.com，或使用上面的联系表单。",
 					},
 					{
 						question: "你们提供企业解决方案吗？",

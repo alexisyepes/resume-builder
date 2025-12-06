@@ -88,8 +88,8 @@ const ContactPage = () => {
 		{
 			icon: FiMail,
 			title: contactTranslations?.info?.email_title || "Email",
-			content: contactTranslations?.info?.email || "support@resumebuilder.com",
-			link: "mailto:support@resumebuilder.com",
+			content: contactTranslations?.info?.email || "support@resbuilder.com",
+			link: "mailto:support@resbuilder.com",
 		},
 		{
 			icon: FiPhone,
@@ -121,7 +121,7 @@ const ContactPage = () => {
 				"How can I get technical support?",
 			answer:
 				contactTranslations?.faq1_answer ||
-				"For technical support, please email our support team at support@resumebuilder.com or use the contact form above.",
+				"For technical support, please email our support team at support@resbuilder.com or use the contact form above.",
 		},
 		{
 			question:
@@ -338,7 +338,7 @@ const ContactPage = () => {
 							</div>
 							<p className="text-gray-600 text-sm">
 								{contactTranslations?.location_description ||
-									"We're located in the heart of San Francisco. Feel free to visit us during business hours."}
+									"We're located in the heart of Toronto. Feel free to visit us during business hours."}
 							</p>
 						</div>
 
