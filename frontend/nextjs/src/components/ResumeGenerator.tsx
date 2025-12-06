@@ -320,11 +320,16 @@ const ResumeGenerator = () => {
 		<div className="w-full bg-white pt-12">
 			<div className="mb-4">
 				{width > 768 ? (
-					<TemplateSelector
-						t={t}
-						showSlider={showSlider}
-						setShowSlider={setShowSlider}
-					/>
+					<div>
+						<h2 className="mt-2 text-lg font-semibold uppercase text-center">
+							{t.resume_builder.labels.general.build_your_resume}
+						</h2>
+						<TemplateSelector
+							t={t}
+							showSlider={showSlider}
+							setShowSlider={setShowSlider}
+						/>
+					</div>
 				) : (
 					<div className="p-12 text-center">
 						<p>{t.resume_builder.general.software_on_large_screens}</p>
@@ -332,8 +337,8 @@ const ResumeGenerator = () => {
 					</div>
 				)}
 			</div>
-			<div className="">
-				<div className="">
+			<div>
+				<div>
 					{showSlider ? (
 						<div className="w-full bg-gray-950 rounded-md mr-2 p-8 border">
 							<div className="text-white flex justify-between text-center font-bold mb-2 text-xl relative">

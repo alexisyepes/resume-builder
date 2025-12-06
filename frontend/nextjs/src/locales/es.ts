@@ -1,17 +1,121 @@
+import { FiBriefcase, FiGlobe, FiStar, FiZap } from "react-icons/fi"
+
 export default {
 	greeting: "Hola mundo",
 	resume_builder: {
 		navigation: {
 			about: "Acerca de",
 			services: "Servicios",
+			pricing: "Precios",
 			contact: "Contacto",
 			signin: "Iniciar Sesión",
 			dashboard: "Panel de Control",
 			logout: "Cerrar Sesión",
 			home: "Inicio",
 		},
+		profile_modal: {
+			title: "Perfil",
+			tabs: {
+				profile_info: "Información del Perfil",
+				plan_billing: "Plan y Facturación",
+			},
+			profile: {
+				current_plan: "Plan Actual",
+				change_plan: "Cambiar Plan",
+				first_name: "Nombre",
+				last_name: "Apellido",
+				email_address: "Correo Electrónico",
+				email_cannot_change: "El correo no se puede cambiar",
+				not_set: "No establecido",
+				loading_error: "No se puede cargar la información del perfil",
+				downloads_remaining: "Descargas restantes:",
+				unlimited_downloads: "Descargas ilimitadas",
+				plan_features: "Características del Plan:",
+				plan: "Plan",
+			},
+			billing: {
+				current_plan_label: "Plan actual",
+				available_plans: "Planes Disponibles",
+				month: "mes",
+				free_plan: {
+					name: "Gratis",
+					description: "Para individuos",
+					price: "$0",
+					features: [
+						"1 Descarga de Currículum",
+						"3 Plantillas",
+						"Soporte Básico",
+					],
+				},
+				basic_plan: {
+					name: "Básico",
+					description: "Para profesionales",
+					price: "$9.99",
+					price_mo: "$9.99/mes",
+					features: [
+						"5 Descargas de Currículum",
+						"10 Plantillas",
+						"Soporte Prioritario",
+						"Sin Anuncios",
+					],
+				},
+				premium_plan: {
+					name: "Premium",
+					description: "Para usuarios avanzados",
+					price: "$19.99",
+					price_mo: "$19.99/mes",
+					features: [
+						"Descargas Ilimitadas",
+						"Todas las Plantillas",
+						"Funciones de IA",
+						"Exportar a DOCX",
+						"Soporte Prioritario",
+					],
+				},
+				enterprise_plan: {
+					name: "Empresa",
+					description: "Para equipos y compañías",
+					price: "Personalizado",
+					features: [
+						"Todo lo de Premium",
+						"Colaboración en Equipo",
+						"Plantillas Personalizadas",
+						"Soporte Dedicado",
+						"White Label",
+					],
+				},
+				view_all_plans: "Ver comparación detallada de todos los planes",
+				downgrade: "Degradar",
+				upgrade_to_basic: "Mejorar a Básico",
+				upgrade_to_premium: "Mejorar a Premium",
+				current_plan_text: "Plan Actual",
+			},
+			buttons: {
+				close: "Cerrar",
+				edit_profile: "Editar Perfil",
+				cancel: "Cancelar",
+				save_changes: "Guardar Cambios",
+				saving: "Guardando...",
+				view_all_plans: "Ver Todos los Planes",
+			},
+			alerts: {
+				unsaved_changes: "Tienes cambios sin guardar. ¿Cerrar de todos modos?",
+				save_success: "¡Cambios guardados exitosamente!",
+				save_error: "Error al guardar cambios. Por favor, inténtalo de nuevo.",
+				unexpected_error:
+					"Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+			},
+			plan_names: {
+				free: "Gratis",
+				basic: "Básico",
+				premium: "Premium",
+				enterprise: "Empresa",
+			},
+		},
+
 		labels: {
 			general: {
+				build_your_resume: "Crea tu currículum",
 				edit: "Editar",
 				layout: "Diseño",
 				next: "Siguiente",
@@ -362,6 +466,261 @@ export default {
 				create_resume_in_minutes:
 					"Crea un currículum profesional en minutos con nuestras herramientas con IA.",
 				pricing_plans: "Planes de Precios",
+			},
+			pricing: {
+				title: "Elige Tu Plan Perfecto",
+				subtitle:
+					"Ya seas un buscador de empleo, profesional o empresa, tenemos un plan que se adapta a tus necesidades.",
+				billing: {
+					monthly: "Mensual",
+					yearly: "Anual",
+					save_20: "Ahorra 20%",
+					no_contract:
+						"Sin contratos a largo plazo. Cancela en cualquier momento.",
+				},
+				plans: {
+					most_popular: "Más Popular",
+					billed_annually_a: "Facturado anualmente ($",
+					billed_annually_b: "/mes)",
+					custom_pricing: "Precio Personalizado",
+					plans: [
+						{
+							name: "Gratis",
+							description: "Perfecto para probar",
+							icon: FiZap,
+							features: [
+								{ text: "1 Descarga de Currículum", included: true },
+								{ text: "3 Plantillas Profesionales", included: true },
+								{ text: "Sugerencias Básicas de IA", included: true },
+								{ text: "Soporte por Email", included: true },
+								{ text: "Descargas Ilimitadas", included: false },
+								{ text: "Todas las Plantillas", included: false },
+								{ text: "Funciones Avanzadas de IA", included: false },
+								{ text: "Soporte Prioritario", included: false },
+								{ text: "Sin Anuncios", included: false },
+							],
+							cta: "Empieza Gratis",
+						},
+						{
+							name: "Básico",
+							icon: FiBriefcase,
+							description: "Para buscadores de empleo",
+							features: [
+								{ text: "5 Descargas de Currículum por mes", included: true },
+								{ text: "10 Plantillas Profesionales", included: true },
+								{ text: "Sugerencias Básicas de IA", included: true },
+								{ text: "Soporte Prioritario por Email", included: true },
+								{ text: "Sin Anuncios", included: true },
+								{ text: "Descargas Ilimitadas", included: false },
+								{ text: "Todas las Plantillas", included: false },
+								{ text: "Funciones Avanzadas de IA", included: false },
+								{ text: "Soporte Telefónico", included: false },
+							],
+							cta: "Elegir Básico",
+						},
+						{
+							name: "Premium",
+							description: "Para usuarios avanzados",
+							icon: FiStar,
+							features: [
+								{ text: "Descargas Ilimitadas de Currículum", included: true },
+								{ text: "Todas las Plantillas Profesionales", included: true },
+								{ text: "Asistente de Escritura IA Avanzado", included: true },
+								{
+									text: "Soporte Prioritario Telefónico y por Email",
+									included: true,
+								},
+								{ text: "Sin Anuncios", included: true },
+								{ text: "Exportar a PDF y DOCX", included: true },
+								{ text: "Optimización ATS", included: true },
+								{ text: "Analíticas de Currículum", included: true },
+								{ text: "Marca Personalizada", included: false },
+							],
+							cta: "Elegir Premium",
+						},
+						{
+							name: "Empresa",
+							description: "Para equipos y compañías",
+							icon: FiGlobe,
+							features: [
+								{ text: "Todo lo de Premium", included: true },
+								{ text: "Colaboración en Equipo", included: true },
+								{ text: "Diseño de Plantillas Personalizadas", included: true },
+								{ text: "Gerente de Cuenta Dedicado", included: true },
+								{ text: "Solución White Label", included: true },
+								{ text: "Acceso a API", included: true },
+								{ text: "SSO y Seguridad Avanzada", included: true },
+								{ text: "Flujos de Trabajo Personalizados", included: true },
+								{ text: "Capacitación y Onboarding", included: true },
+							],
+							cta: "Contactar Ventas",
+						},
+					],
+				},
+				comparison_table: {
+					header: "Comparar Todas las Características",
+					feature: "Característica",
+					plans: {
+						free: "Gratis",
+						basic: "Básico",
+						premium: "Premium",
+						enterprise: "Empresa",
+					},
+					featuresComparison: [
+						{
+							name: "Descargas de Currículum",
+							free: "1",
+							basic: "5/mes",
+							premium: "Ilimitadas",
+							enterprise: "Ilimitadas",
+						},
+						{
+							name: "Plantillas",
+							free: "3",
+							basic: "10",
+							premium: "Todas",
+							enterprise: "Personalizadas + Todas",
+						},
+						{
+							name: "Asistente de Escritura IA",
+							free: "Básico",
+							basic: "Básico",
+							premium: "Avanzado",
+							enterprise: "Avanzado",
+						},
+						{
+							name: "Formatos de Exportación",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "Soporte",
+							free: "Email",
+							basic: "Email Prioritario",
+							premium: "Teléfono y Email",
+							enterprise: "Dedicado",
+						},
+						{
+							name: "Colaboración en Equipo",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Sí",
+						},
+						{
+							name: "Marca Personalizada",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Sí",
+						},
+						{
+							name: "Acceso a API",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Sí",
+						},
+					],
+				},
+				faq: {
+					header: "Preguntas Frecuentes",
+					questions: [
+						{
+							question: "¿Puedo cambiar de plan en cualquier momento?",
+							answer:
+								"Sí, puedes actualizar o degradar tu plan en cualquier momento. Los cambios tienen efecto inmediato.",
+						},
+						{
+							question: "¿Hay una prueba gratuita?",
+							answer:
+								"El plan Gratis siempre es gratuito. Los planes de pago vienen con una prueba gratuita de 14 días.",
+						},
+						{
+							question: "¿Qué métodos de pago aceptan?",
+							answer:
+								"Aceptamos todas las tarjetas de crédito principales (Visa, MasterCard, American Express) y PayPal.",
+						},
+						{
+							question: "¿Puedo cancelar mi suscripción?",
+							answer:
+								"Sí, puedes cancelar en cualquier momento. Sin preguntas.",
+						},
+						{
+							question:
+								"¿Ofrecen descuentos para estudiantes o organizaciones sin fines de lucro?",
+							answer:
+								"¡Sí! Contacta a nuestro equipo de ventas para precios especiales.",
+						},
+					],
+					cta_section: {
+						title: "¿Listo para elevar tu carrera?",
+						subtitle:
+							"Únete a miles de profesionales que encontraron su trabajo soñado con nuestro creador de currículums.",
+						start_free_trial: "Iniciar Prueba Gratuita",
+						schedule_demo: "Programar una Demostración",
+					},
+				},
+			},
+			contact: {
+				title: "Contacto",
+				subtitle:
+					"¿Tienes preguntas? ¡Estamos aquí para ayudarte! Contáctanos y te responderemos lo antes posible.",
+				form: {
+					title: "Envíanos un Mensaje",
+					name_label: "Nombre Completo",
+					name_placeholder: "Juan Pérez",
+					email_label: "Correo Electrónico",
+					email_placeholder: "juan@ejemplo.com",
+					subject_label: "Asunto",
+					subject_placeholder: "¿Cómo podemos ayudarte?",
+					message_label: "Mensaje",
+					message_placeholder: "Cuéntanos más sobre tu consulta...",
+					submit_button: "Enviar Mensaje",
+					sending: "Enviando...",
+					success_message: "¡Gracias por tu mensaje! Te responderemos pronto.",
+					error_message:
+						"Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+				},
+				info: {
+					email_title: "Correo",
+					email: "soporte@resumebuilder.com",
+					phone_title: "Teléfono",
+					phone: "+1 (555) 123-4567",
+					address_title: "Dirección",
+					address: "Calle Resumé 123, Suite 100\nSan Francisco, CA 94107",
+					hours_title: "Horario",
+					hours:
+						"Lunes - Viernes: 9:00 AM - 6:00 PM\nSábado: 10:00 AM - 2:00 PM",
+				},
+				location_title: "Nuestra Ubicación",
+				location_description:
+					"Estamos ubicados en el corazón de San Francisco. Visítanos durante nuestro horario de atención.",
+				faq_title: "Preguntas Frecuentes",
+				faqs: [
+					{
+						question: "¿Cómo puedo obtener soporte técnico?",
+						answer:
+							"Para soporte técnico, envía un correo a nuestro equipo de soporte en soporte@resumebuilder.com o usa el formulario de contacto de arriba.",
+					},
+					{
+						question: "¿Ofrecen soluciones empresariales?",
+						answer:
+							"¡Sí! Contacta a nuestro equipo de ventas para soluciones empresariales personalizadas y descuentos por volumen.",
+					},
+					{
+						question: "¿Cuánto tiempo toma recibir una respuesta?",
+						answer:
+							"Normalmente respondemos dentro de 24 horas en días hábiles.",
+					},
+				],
+				cta_title: "¿Listo para Comenzar?",
+				cta_subtitle:
+					"Crea tu currículum profesional hoy y da el siguiente paso en tu carrera profesional.",
+				cta_button1: "Comenzar Prueba Gratuita",
+				cta_button2: "Ver Planes de Precios",
 			},
 		},
 		template_names: {

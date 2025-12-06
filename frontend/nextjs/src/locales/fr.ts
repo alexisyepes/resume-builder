@@ -4,14 +4,113 @@ export default {
 		navigation: {
 			about: "À propos",
 			services: "Services",
+			pricing: "Tarification",
 			contact: "Contact",
 			signin: "Se Connecter",
 			dashboard: "Tableau de Bord",
 			logout: "Déconnexion",
 			home: "Accueil",
 		},
+		profile_modal: {
+			title: "Profil",
+			tabs: {
+				profile_info: "Informations du Profil",
+				plan_billing: "Plan et Facturation",
+			},
+			profile: {
+				current_plan: "Plan Actuel",
+				change_plan: "Changer de Plan",
+				first_name: "Prénom",
+				last_name: "Nom de Famille",
+				email_address: "Adresse Email",
+				email_cannot_change: "L'email ne peut pas être modifié",
+				not_set: "Non défini",
+				loading_error: "Impossible de charger les données du profil",
+				downloads_remaining: "Téléchargements restants:",
+				unlimited_downloads: "Téléchargements illimités",
+				plan_features: "Fonctionnalités du Plan:",
+				plan: "Plan",
+			},
+			billing: {
+				current_plan_label: "Plan actuel",
+				available_plans: "Plans Disponibles",
+				month: "mois",
+				free_plan: {
+					name: "Gratuit",
+					description: "Pour les particuliers",
+					price: "$0",
+					features: ["1 Téléchargement de CV", "3 Modèles", "Support de Base"],
+				},
+				basic_plan: {
+					name: "Basique",
+					description: "Pour les professionnels",
+					price: "$9.99",
+					price_mo: "$9.99/mo",
+					features: [
+						"5 Téléchargements de CV",
+						"10 Modèles",
+						"Support Prioritaire",
+						"Sans Publicités",
+					],
+				},
+				premium_plan: {
+					name: "Premium",
+					description: "Pour utilisateurs avancés",
+					price: "$19.99",
+					price_mo: "$19.99/mo",
+					features: [
+						"Téléchargements Illimités",
+						"Tous les Modèles",
+						"Fonctionnalités IA",
+						"Export en DOCX",
+						"Support Prioritaire",
+					],
+				},
+				enterprise_plan: {
+					name: "Entreprise",
+					description: "Pour équipes et entreprises",
+					price: "Personnalisé",
+					features: [
+						"Tout ce qui est dans Premium",
+						"Collaboration d'Équipe",
+						"Modèles Personnalisés",
+						"Support Dédié",
+						"White Label",
+					],
+				},
+				view_all_plans: "Voir la comparaison détaillée de tous les plans",
+				downgrade: "Rétrograder",
+				upgrade_to_basic: "Passer à Basique",
+				upgrade_to_premium: "Passer à Premium",
+				current_plan_text: "Plan Actuel",
+			},
+			buttons: {
+				close: "Fermer",
+				edit_profile: "Modifier le Profil",
+				cancel: "Annuler",
+				save_changes: "Enregistrer les Modifications",
+				saving: "Enregistrement en cours...",
+				view_all_plans: "Voir Tous les Plans",
+			},
+			alerts: {
+				unsaved_changes:
+					"Vous avez des modifications non enregistrées. Fermer quand même ?",
+				save_success: "Modifications enregistrées avec succès !",
+				save_error:
+					"Échec de l'enregistrement des modifications. Veuillez réessayer.",
+				unexpected_error:
+					"Une erreur inattendue s'est produite. Veuillez réessayer.",
+			},
+			plan_names: {
+				free: "Gratuit",
+				basic: "Basique",
+				premium: "Premium",
+				enterprise: "Entreprise",
+			},
+		},
 		labels: {
 			general: {
+				build_your_resume: "Créez votre CV",
 				edit: "Éditer",
 				layout: "Disposition",
 				next: "Suivant",
@@ -358,6 +457,256 @@ export default {
 				create_resume_in_minutes:
 					"Créez un CV professionnel en quelques minutes avec nos outils alimentés par l'IA.",
 				pricing_plans: "Forfaits Tarifaires",
+			},
+			pricing: {
+				title: "Choisissez Votre Plan Parfait",
+				subtitle:
+					"Que vous soyez chercheur d'emploi, professionnel ou entreprise, nous avons un plan qui correspond à vos besoins.",
+				billing: {
+					monthly: "Mensuel",
+					yearly: "Annuel",
+					save_20: "Économisez 20%",
+					no_contract: "Pas de contrat à long terme. Annulez à tout moment.",
+				},
+				plans: {
+					most_popular: "Le Plus Populaire",
+					billed_annually_a: "Facturé annuellement ($",
+					billed_annually_b: "/mois)",
+					custom_pricing: "Tarification Personnalisée",
+					plans: [
+						{
+							name: "Gratuit",
+							description: "Parfait pour essayer",
+							features: [
+								{ text: "1 Téléchargement de CV", included: true },
+								{ text: "3 Modèles Professionnels", included: true },
+								{ text: "Suggestions IA de Base", included: true },
+								{ text: "Support Email", included: true },
+								{ text: "Téléchargements Illimités", included: false },
+								{ text: "Tous les Modèles", included: false },
+								{ text: "Fonctionnalités IA Avancées", included: false },
+								{ text: "Support Prioritaire", included: false },
+								{ text: "Sans Publicités", included: false },
+							],
+							cta: "Commencer Gratuitement",
+						},
+						{
+							name: "Basique",
+							description: "Pour chercheurs d'emploi",
+							features: [
+								{ text: "5 Téléchargements de CV par mois", included: true },
+								{ text: "10 Modèles Professionnels", included: true },
+								{ text: "Suggestions IA de Base", included: true },
+								{ text: "Support Email Prioritaire", included: true },
+								{ text: "Sans Publicités", included: true },
+								{ text: "Téléchargements Illimités", included: false },
+								{ text: "Tous les Modèles", included: false },
+								{ text: "Fonctionnalités IA Avancées", included: false },
+								{ text: "Support Téléphonique", included: false },
+							],
+							cta: "Choisir Basique",
+						},
+						{
+							name: "Premium",
+							description: "Pour utilisateurs avancés",
+							features: [
+								{ text: "Téléchargements de CV Illimités", included: true },
+								{ text: "Tous les Modèles Professionnels", included: true },
+								{ text: "Assistant d'Écriture IA Avancé", included: true },
+								{
+									text: "Support Prioritaire Téléphonique et Email",
+									included: true,
+								},
+								{ text: "Sans Publicités", included: true },
+								{ text: "Export en PDF et DOCX", included: true },
+								{ text: "Optimisation ATS", included: true },
+								{ text: "Analyses de CV", included: true },
+								{ text: "Marque Personnalisée", included: false },
+							],
+							cta: "Choisir Premium",
+						},
+						{
+							name: "Entreprise",
+							description: "Pour équipes et entreprises",
+							features: [
+								{ text: "Tout ce qui est dans Premium", included: true },
+								{ text: "Collaboration d'Équipe", included: true },
+								{ text: "Conception de Modèles Personnalisés", included: true },
+								{ text: "Gestionnaire de Compte Dédié", included: true },
+								{ text: "Solution White Label", included: true },
+								{ text: "Accès API", included: true },
+								{ text: "SSO et Sécurité Avancée", included: true },
+								{ text: "Flux de Travail Personnalisés", included: true },
+								{ text: "Formation et Intégration", included: true },
+							],
+							cta: "Contacter les Ventes",
+						},
+					],
+				},
+				comparison_table: {
+					header: "Comparer Toutes les Fonctionnalités",
+					feature: "Fonctionnalité",
+					plans: {
+						free: "Gratuit",
+						basic: "Basique",
+						premium: "Premium",
+						enterprise: "Entreprise",
+					},
+					featuresComparison: [
+						{
+							name: "Téléchargements de CV",
+							free: "1",
+							basic: "5/mois",
+							premium: "Illimités",
+							enterprise: "Illimités",
+						},
+						{
+							name: "Modèles",
+							free: "3",
+							basic: "10",
+							premium: "Tous",
+							enterprise: "Personnalisés + Tous",
+						},
+						{
+							name: "Assistant d'Écriture IA",
+							free: "Basique",
+							basic: "Basique",
+							premium: "Avancé",
+							enterprise: "Avancé",
+						},
+						{
+							name: "Formats d'Export",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "Support",
+							free: "Email",
+							basic: "Email Prioritaire",
+							premium: "Téléphone et Email",
+							enterprise: "Dédié",
+						},
+						{
+							name: "Collaboration d'Équipe",
+							free: "Non",
+							basic: "Non",
+							premium: "Non",
+							enterprise: "Oui",
+						},
+						{
+							name: "Marque Personnalisée",
+							free: "Non",
+							basic: "Non",
+							premium: "Non",
+							enterprise: "Oui",
+						},
+						{
+							name: "Accès API",
+							free: "Non",
+							basic: "Non",
+							premium: "Non",
+							enterprise: "Oui",
+						},
+					],
+				},
+				faq: {
+					header: "Questions Fréquemment Posées",
+					questions: [
+						{
+							question: "Puis-je changer de plan à tout moment ?",
+							answer:
+								"Oui, vous pouvez mettre à niveau ou rétrograder votre plan à tout moment. Les changements prennent effet immédiatement.",
+						},
+						{
+							question: "Y a-t-il un essai gratuit ?",
+							answer:
+								"Le plan Gratuit est toujours gratuit. Les plans payants offrent un essai gratuit de 14 jours.",
+						},
+						{
+							question: "Quels modes de paiement acceptez-vous ?",
+							answer:
+								"Nous acceptons toutes les cartes de crédit majeures (Visa, MasterCard, American Express) et PayPal.",
+						},
+						{
+							question: "Puis-je annuler mon abonnement ?",
+							answer: "Oui, vous pouvez annuler à tout moment. Sans questions.",
+						},
+						{
+							question:
+								"Offrez-vous des réductions pour les étudiants ou les organisations à but non lucratif ?",
+							answer:
+								"Oui ! Contactez notre équipe commerciale pour des tarifs spéciaux.",
+						},
+					],
+					cta_section: {
+						title: "Prêt à faire décoller votre carrière ?",
+						subtitle:
+							"Rejoignez des milliers de professionnels qui ont trouvé leur emploi de rêve avec notre créateur de CV.",
+						start_free_trial: "Commencer l'Essai Gratuit",
+						schedule_demo: "Programmer une Démo",
+					},
+				},
+			},
+			contact: {
+				title: "Contactez-nous",
+				subtitle:
+					"Des questions ? Nous sommes là pour vous aider ! Contactez-nous et nous vous répondrons dès que possible.",
+				form: {
+					title: "Envoyez-nous un Message",
+					name_label: "Nom Complet",
+					name_placeholder: "Jean Dupont",
+					email_label: "Adresse Email",
+					email_placeholder: "jean@exemple.com",
+					subject_label: "Sujet",
+					subject_placeholder: "Comment pouvons-nous vous aider ?",
+					message_label: "Message",
+					message_placeholder: "Dites-nous-en plus sur votre demande...",
+					submit_button: "Envoyer le Message",
+					sending: "Envoi en cours...",
+					success_message:
+						"Merci pour votre message ! Nous vous répondrons bientôt.",
+					error_message:
+						"Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+				},
+				info: {
+					email_title: "Email",
+					email: "support@resumebuilder.com",
+					phone_title: "Téléphone",
+					phone: "+1 (555) 123-4567",
+					address_title: "Adresse",
+					address: "Rue du CV 123, Suite 100\nSan Francisco, CA 94107",
+					hours_title: "Heures d'Ouverture",
+					hours:
+						"Lundi - Vendredi: 9:00 AM - 6:00 PM\nSamedi: 10:00 AM - 2:00 PM",
+				},
+				location_title: "Notre Localisation",
+				location_description:
+					"Nous sommes situés au cœur de San Francisco. Rendez-nous visite pendant nos heures d'ouverture.",
+				faq_title: "Questions Fréquemment Posées",
+				faqs: [
+					{
+						question: "Comment puis-je obtenir un support technique ?",
+						answer:
+							"Pour le support technique, envoyez un email à notre équipe de support à support@resumebuilder.com ou utilisez le formulaire de contact ci-dessus.",
+					},
+					{
+						question: "Proposez-vous des solutions d'entreprise ?",
+						answer:
+							"Oui ! Contactez notre équipe commerciale pour des solutions d'entreprise personnalisées et des remises sur volume.",
+					},
+					{
+						question: "Combien de temps faut-il pour recevoir une réponse ?",
+						answer:
+							"Nous répondons généralement dans les 24 heures les jours ouvrables.",
+					},
+				],
+				cta_title: "Prêt à Commencer ?",
+				cta_subtitle:
+					"Créez votre CV professionnel aujourd'hui et passez à l'étape suivante de votre carrière.",
+				cta_button1: "Commencer l'Essai Gratuit",
+				cta_button2: "Voir les Tarifs",
 			},
 		},
 		template_names: {

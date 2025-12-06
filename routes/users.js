@@ -1,8 +1,110 @@
-// routes/users.js
 const express = require("express")
 const router = express.Router()
 const { User, Resume } = require("../models")
 const { checkDownloadLimit } = require("../utils/downloadLimiter")
+
+router.get("/:userId/profile", async (req, res) => {
+	try {
+		const { userId } = req.params
+
+		const user = await User.findByPk(userId, {
+			attributes: [
+				"id",
+				"email",
+				"firstName",
+				"lastName",
+				"createdAt",
+				"planType",
+				"totalDownloads",
+				"downloadsRemaining",
+				"subscriptionStatus",
+				"subscriptionEndDate",
+			],
+		})
+
+		if (!user) {
+			return res.status(404).json({
+				success: false,
+				error: "User not found",
+			})
+		}
+
+		const downloadedResumesCount = await Resume.count({
+			where: { userId },
+		})
+
+		let downloadsRemaining
+		if (user.planType === "free") {
+			downloadsRemaining = Math.max(0, 1 - downloadedResumesCount)
+		} else {
+			downloadsRemaining = "unlimited"
+		}
+
+		const profileData = {
+			id: user.id,
+			email: user.email,
+			firstName: user.firstName || "",
+			lastName: user.lastName || "",
+			createdAt: user.createdAt,
+			planType: user.planType,
+			totalDownloads: user.totalDownloads || 0,
+			downloadsRemaining,
+			resumesDownloaded: downloadedResumesCount,
+			subscriptionStatus: user.subscriptionStatus,
+			subscriptionEndDate: user.subscriptionEndDate,
+		}
+
+		res.json(profileData)
+	} catch (error) {
+		console.error("Error fetching user profile:", error)
+		res.status(500).json({
+			success: false,
+			error: "Internal server error",
+		})
+	}
+})
+
+router.put("/:userId/profile", async (req, res) => {
+	try {
+		const { userId } = req.params
+		const { firstName, lastName } = req.body
+
+		const user = await User.findByPk(userId)
+
+		if (!user) {
+			return res.status(404).json({
+				success: false,
+				error: "User not found",
+			})
+		}
+
+		const updateData = {}
+		if (firstName !== undefined) updateData.firstName = firstName
+		if (lastName !== undefined) updateData.lastName = lastName
+
+		await user.update(updateData)
+
+		const updatedUser = await User.findByPk(userId, {
+			attributes: [
+				"id",
+				"email",
+				"firstName",
+				"lastName",
+				"createdAt",
+				"planType",
+				"totalDownloads",
+			],
+		})
+
+		res.json(updatedUser)
+	} catch (error) {
+		console.error("Error updating user profile:", error)
+		res.status(500).json({
+			success: false,
+			error: "Internal server error",
+		})
+	}
+})
 
 router.get("/:userId/download-limit", async (req, res) => {
 	try {

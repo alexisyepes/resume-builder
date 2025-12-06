@@ -1,9 +1,12 @@
+import { FiBriefcase, FiGlobe, FiStar, FiZap } from "react-icons/fi"
+
 export default {
 	greeting: "Hello world",
 	resume_builder: {
 		navigation: {
 			about: "about",
 			services: "services",
+			pricing: "pricing",
 			contact: "contact",
 			signin: "sign in",
 			dashboard: "Dashboard",
@@ -12,6 +15,7 @@ export default {
 		},
 		labels: {
 			general: {
+				build_your_resume: "Build your resume",
 				edit: "edit",
 				layout: "layout",
 				next: "next",
@@ -356,6 +360,368 @@ export default {
 				create_resume_in_minutes:
 					"Create a professional resume in minutes with our AI-powered tools.",
 				pricing_plans: "Pricing Plans",
+			},
+			pricing: {
+				title: "Choose Your Perfect Plan",
+				subtitle:
+					"Whether you're a job seeker, professional, or enterprise, we have aplan that fits your needs.",
+				billing: {
+					monthly: "Monthly",
+					yearly: "Yearly",
+					save_20: "Save 20%",
+					no_contract: "No long-term contracts. Cancel anytime.",
+				},
+				plans: {
+					most_popular: "Most Popular",
+					billed_annually_a: "Billed annually ($",
+					billed_annually_b: "/month)",
+					custom_pricing: "Custom Pricing",
+					plans: [
+						{
+							id: "free",
+							name: "Free",
+							description: "Perfect for trying out",
+							monthlyPrice: 0,
+							yearlyPrice: 0,
+							icon: FiZap,
+							color: "from-gray-600 to-gray-700",
+							features: [
+								{ text: "1 Resume Download", included: true },
+								{ text: "3 Professional Templates", included: true },
+								{ text: "Basic AI Suggestions", included: true },
+								{ text: "Email Support", included: true },
+								{ text: "Unlimited Downloads", included: false },
+								{ text: "All Templates", included: false },
+								{ text: "Advanced AI Features", included: false },
+								{ text: "Priority Support", included: false },
+								{ text: "No Ads", included: false },
+							],
+							cta: "Get Started Free",
+							popular: false,
+						},
+						{
+							id: "basic",
+							name: "Basic",
+							description: "For job seekers",
+							monthlyPrice: 9.99,
+							yearlyPrice: 95.99, // 20% discount
+							icon: FiBriefcase,
+							color: "from-blue-600 to-cyan-600",
+							features: [
+								{ text: "5 Resume Downloads per month", included: true },
+								{ text: "10 Professional Templates", included: true },
+								{ text: "Basic AI Suggestions", included: true },
+								{ text: "Priority Email Support", included: true },
+								{ text: "No Ads", included: true },
+								{ text: "Unlimited Downloads", included: false },
+								{ text: "All Templates", included: false },
+								{ text: "Advanced AI Features", included: false },
+								{ text: "Phone Support", included: false },
+							],
+							cta: "Choose Basic",
+							popular: true,
+						},
+						{
+							id: "premium",
+							name: "Premium",
+							description: "For power users",
+							monthlyPrice: 19.99,
+							yearlyPrice: 191.99, // 20% discount
+							icon: FiStar,
+							color: "from-pink-600 to-rose-600",
+							features: [
+								{ text: "Unlimited Resume Downloads", included: true },
+								{ text: "All Professional Templates", included: true },
+								{ text: "Advanced AI Writing Assistant", included: true },
+								{ text: "Priority Phone & Email Support", included: true },
+								{ text: "No Ads", included: true },
+								{ text: "Export to PDF & DOCX", included: true },
+								{ text: "ATS Optimization", included: true },
+								{ text: "Resume Analytics", included: true },
+								{ text: "Custom Branding", included: false },
+							],
+							cta: "Choose Premium",
+							popular: false,
+						},
+						{
+							id: "enterprise",
+							name: "Enterprise",
+							description: "For teams & companies",
+							monthlyPrice: null,
+							yearlyPrice: null,
+							icon: FiGlobe,
+							color: "from-purple-600 to-indigo-600",
+							features: [
+								{ text: "Everything in Premium", included: true },
+								{ text: "Team Collaboration", included: true },
+								{ text: "Custom Template Design", included: true },
+								{ text: "Dedicated Account Manager", included: true },
+								{ text: "White Label Solution", included: true },
+								{ text: "API Access", included: true },
+								{ text: "SSO & Advanced Security", included: true },
+								{ text: "Custom Workflows", included: true },
+								{ text: "Training & Onboarding", included: true },
+							],
+							cta: "Contact Sales",
+							popular: false,
+						},
+					],
+				},
+				comparison_table: {
+					header: "Compare All Features",
+					feature: "Feature",
+					plans: {
+						free: "Free",
+						basic: "Basic",
+						premium: "Premium",
+						enterprise: "Enterprise",
+					},
+					featuresComparison: [
+						{
+							name: "Resume Downloads",
+							free: "1",
+							basic: "5/month",
+							premium: "Unlimited",
+							enterprise: "Unlimited",
+						},
+						{
+							name: "Templates",
+							free: "3",
+							basic: "10",
+							premium: "All",
+							enterprise: "Custom + All",
+						},
+						{
+							name: "AI Writing Assistant",
+							free: "Basic",
+							basic: "Basic",
+							premium: "Advanced",
+							enterprise: "Advanced",
+						},
+						{
+							name: "Export Formats",
+							free: "PDF",
+							basic: "PDF",
+							premium: "PDF, DOCX",
+							enterprise: "PDF, DOCX, HTML",
+						},
+						{
+							name: "Support",
+							free: "Email",
+							basic: "Priority Email",
+							premium: "Phone & Email",
+							enterprise: "Dedicated",
+						},
+						{
+							name: "Team Collaboration",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Yes",
+						},
+						{
+							name: "Custom Branding",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Yes",
+						},
+						{
+							name: "API Access",
+							free: "No",
+							basic: "No",
+							premium: "No",
+							enterprise: "Yes",
+						},
+					],
+				},
+				faq: {
+					header: "Frequently Asked Questions",
+					questions: [
+						{
+							question: "Can I switch plans at any time?",
+							answer:
+								"Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.",
+						},
+						{
+							question: "Is there a free trial?",
+							answer:
+								"The Free plan is always free. Paid plans come with a 14-day free trial.",
+						},
+						{
+							question: "What payment methods do you accept?",
+							answer:
+								"We accept all major credit cards (Visa, MasterCard, American Express) and PayPal.",
+						},
+						{
+							question: "Can I cancel my subscription?",
+							answer: "Yes, you can cancel anytime. No questions asked.",
+						},
+						{
+							question: "Do you offer discounts for students or nonprofits?",
+							answer: "Yes! Contact our sales team for special pricing.",
+						},
+					],
+					cta_section: {
+						title: "Ready to elevate your career?",
+						subtitle:
+							"Join thousands of professionals who found their dream job with our resume builder.",
+						start_free_trial: "Start Free Trial",
+						schedule_demo: "Schedule a Demo",
+					},
+				},
+			},
+			contact: {
+				title: "Contact Us",
+				subtitle:
+					"Have questions? We're here to help! Contact us and we'll get back to you as soon as possible.",
+				form: {
+					title: "Send Us a Message",
+					name_label: "Full Name",
+					name_placeholder: "John Doe",
+					email_label: "Email Address",
+					email_placeholder: "john@example.com",
+					subject_label: "Subject",
+					subject_placeholder: "How can we help you?",
+					message_label: "Message",
+					message_placeholder: "Tell us more about your inquiry...",
+					submit_button: "Send Message",
+					sending: "Sending...",
+					success_message:
+						"Thank you for your message! We'll get back to you soon.",
+					error_message:
+						"There was an error sending the message. Please try again.",
+				},
+				info: {
+					email_title: "Email",
+					email: "support@resumebuilder.com",
+					phone_title: "Phone",
+					phone: "+1 (555) 123-4567",
+					address_title: "Address",
+					address: "Resume Street 123, Suite 100\nSan Francisco, CA 94107",
+					hours_title: "Business Hours",
+					hours:
+						"Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 2:00 PM",
+				},
+				location_title: "Our Location",
+				location_description:
+					"We're located in the heart of San Francisco. Visit us during our business hours.",
+				faq_title: "Frequently Asked Questions",
+				faqs: [
+					{
+						question: "How can I get technical support?",
+						answer:
+							"For technical support, email our support team at support@resumebuilder.com or use the contact form above.",
+					},
+					{
+						question: "Do you offer enterprise solutions?",
+						answer:
+							"Yes! Contact our sales team for customized enterprise solutions and volume discounts.",
+					},
+					{
+						question: "How long does it take to receive a response?",
+						answer: "We typically respond within 24 hours on business days.",
+					},
+				],
+				cta_title: "Ready to Get Started?",
+				cta_subtitle:
+					"Create your professional resume today and take the next step in your career.",
+				cta_button1: "Start Free Trial",
+				cta_button2: "View Pricing Plans",
+			},
+		},
+		profile_modal: {
+			title: "Profile",
+			tabs: {
+				profile_info: "Profile Information",
+				plan_billing: "Plan & Billing",
+			},
+			profile: {
+				current_plan: "Current Plan",
+				change_plan: "Change Plan",
+				first_name: "First Name",
+				last_name: "Last Name",
+				email_address: "Email Address",
+				email_cannot_change: "Email cannot be changed",
+				not_set: "Not set",
+				loading_error: "Unable to load profile data",
+				downloads_remaining: "Downloads remaining:",
+				unlimited_downloads: "Unlimited downloads",
+				plan_features: "Plan Features:",
+				plan: "Plan",
+			},
+			billing: {
+				current_plan_label: "Current plan",
+				available_plans: "Available Plans",
+				month: "month",
+				free_plan: {
+					name: "Free",
+					description: "For individuals",
+					price: "$0",
+					features: ["1 Resume Download", "3 Templates", "Basic Support"],
+				},
+				basic_plan: {
+					name: "Basic",
+					description: "For professionals",
+					price: "$9.99",
+					price_mo: "$9.99/mo",
+					features: [
+						"5 Resume Downloads",
+						"10 Templates",
+						"Priority Support",
+						"No Ads",
+					],
+				},
+				premium_plan: {
+					name: "Premium",
+					description: "For power users",
+					price: "$19.99",
+					price_mo: "$19.99/mo",
+					features: [
+						"Unlimited Downloads",
+						"All Templates",
+						"AI Features",
+						"Export to DOCX",
+						"Priority Support",
+					],
+				},
+				enterprise_plan: {
+					name: "Enterprise",
+					description: "For teams & companies",
+					price: "Custom",
+					features: [
+						"Everything in Premium",
+						"Team Collaboration",
+						"Custom Templates",
+						"Dedicated Support",
+						"White Label",
+					],
+				},
+				view_all_plans: "View detailed comparison of all plans",
+				downgrade: "Downgrade",
+				upgrade_to_basic: "Upgrade to Basic",
+				upgrade_to_premium: "Upgrade to Premium",
+				current_plan_text: "Current Plan",
+			},
+			buttons: {
+				close: "Close",
+				edit_profile: "Edit Profile",
+				cancel: "Cancel",
+				save_changes: "Save Changes",
+				saving: "Saving...",
+				view_all_plans: "View All Plans",
+			},
+			alerts: {
+				unsaved_changes: "You have unsaved changes. Close anyway?",
+				save_success: "Changes saved successfully!",
+				save_error: "Failed to save changes. Please try again.",
+				unexpected_error: "An unexpected error occurred. Please try again.",
+			},
+			plan_names: {
+				free: "Free",
+				basic: "Basic",
+				premium: "Premium",
+				enterprise: "Enterprise",
 			},
 		},
 		template_names: {
