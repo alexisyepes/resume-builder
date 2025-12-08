@@ -31,7 +31,7 @@ const Navbar = () => {
 		userProfile,
 		loading: profileLoading,
 		error: profileError,
-		isModalOpen,
+		isProfileModalOpen,
 		openModal,
 		closeModal,
 		updateUserProfile,
@@ -281,7 +281,7 @@ const Navbar = () => {
 
 			{/* Profile Modal */}
 			<ProfileModal
-				isOpen={isModalOpen}
+				isOpen={isProfileModalOpen}
 				onClose={closeModal}
 				userProfile={userProfile}
 				loading={profileLoading}

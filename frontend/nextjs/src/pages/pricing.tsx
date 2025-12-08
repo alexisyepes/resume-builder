@@ -11,11 +11,15 @@ import {
 } from "react-icons/fi"
 import { useRouter } from "next/navigation"
 import { useResumeContext } from "@/contexts/useResumeContext"
+import { useProfile } from "@/hooks/useProfile"
 
 const PricingPage = () => {
-	const { t } = useResumeContext()
+	const { t, user, apiBaseUrl } = useResumeContext()
 	const tAny = t as any
 	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
+	const userId = (user?.id as string) || null
+
+	const { openModal, closeModal } = useProfile(userId, apiBaseUrl)
 
 	const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
 		"monthly"
@@ -161,7 +165,7 @@ const PricingPage = () => {
 		if (planId === "enterprise") {
 			router.push("/contact")
 		} else {
-			alert(`Selected ${planId} plan - Stripe integration coming soon!`)
+			openModal()
 		}
 	}
 

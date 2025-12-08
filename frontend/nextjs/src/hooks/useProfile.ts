@@ -1,3 +1,4 @@
+import useResumeStore from "@/store/useResumeStore"
 import { useState, useEffect, useCallback, useRef } from "react"
 
 export interface UserProfile {
@@ -12,10 +13,10 @@ export interface UserProfile {
 }
 
 export const useProfile = (userId: string | null, apiBaseUrl: string) => {
+	const { isProfileModalOpen, setIsProfileModalOpen } = useResumeStore()
 	const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
-	const [isModalOpen, setIsModalOpen] = useState(false)
 	const hasFetchedRef = useRef(false)
 
 	const fetchUserProfile = useCallback(async () => {
@@ -79,19 +80,20 @@ export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 	)
 
 	const openModal = useCallback(() => {
-		setIsModalOpen(true)
+		console.log("Opening modal")
+		setIsProfileModalOpen(true)
 	}, [])
 
 	const closeModal = useCallback(() => {
-		setIsModalOpen(false)
+		setIsProfileModalOpen(false)
 		setError(null)
 	}, [])
 
 	useEffect(() => {
-		if (isModalOpen && userId && !hasFetchedRef.current) {
+		if (isProfileModalOpen && userId && !hasFetchedRef.current) {
 			fetchUserProfile()
 		}
-	}, [isModalOpen, userId, fetchUserProfile])
+	}, [isProfileModalOpen, userId, fetchUserProfile])
 
 	useEffect(() => {
 		hasFetchedRef.current = false
@@ -101,7 +103,7 @@ export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 		userProfile,
 		loading,
 		error,
-		isModalOpen,
+		isProfileModalOpen,
 		openModal,
 		closeModal,
 		fetchUserProfile,

@@ -208,6 +208,9 @@ const useResumeStore = create<ResumeStore>()(
 			authError: null,
 			setAuthError: (authError) => set({ authError }),
 
+			isProfileModalOpen: false,
+			setIsProfileModalOpen: (isOpen) => set({ isProfileModalOpen: isOpen }),
+
 			reset: () =>
 				set({
 					firstName: "",
@@ -227,6 +230,7 @@ const useResumeStore = create<ResumeStore>()(
 						EMPLOYMENT_HISTORY,
 						EDUCATION,
 					],
+					template: "classic-ats",
 					skills: [],
 					suggestedSkills: [],
 					languages: [],
