@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		user,
 		setUser,
 		setAuthError,
+		reset,
 	} = useResumeStore()
 	const router = useRouter()
 	const t = loadTranslations(router)
@@ -141,6 +142,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const logout = () => {
 		localStorage.removeItem("token")
+		reset()
 		setUser(null)
 		setIsAuthenticated(false)
 		router.push("/signin")

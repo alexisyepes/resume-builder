@@ -672,24 +672,24 @@ export default {
 				},
 				info: {
 					email_title: "Email",
-					email: "support@resumebuilder.com",
+					email: "support@resbuilder.com",
 					phone_title: "Téléphone",
 					phone: "+1 (555) 123-4567",
 					address_title: "Adresse",
-					address: "Rue du CV 123, Suite 100\nSan Francisco, CA 94107",
+					address: "Rue du CV 123, Suite 100\nToronto, CA 94107",
 					hours_title: "Heures d'Ouverture",
 					hours:
 						"Lundi - Vendredi: 9:00 AM - 6:00 PM\nSamedi: 10:00 AM - 2:00 PM",
 				},
 				location_title: "Notre Localisation",
 				location_description:
-					"Nous sommes situés au cœur de San Francisco. Rendez-nous visite pendant nos heures d'ouverture.",
+					"Nous sommes situés au cœur de Toronto. Rendez-nous visite pendant nos heures d'ouverture.",
 				faq_title: "Questions Fréquemment Posées",
 				faqs: [
 					{
 						question: "Comment puis-je obtenir un support technique ?",
 						answer:
-							"Pour le support technique, envoyez un email à notre équipe de support à support@resumebuilder.com ou utilisez le formulaire de contact ci-dessus.",
+							"Pour le support technique, envoyez un email à notre équipe de support à support@resbuilder.com ou utilisez le formulaire de contact ci-dessus.",
 					},
 					{
 						question: "Proposez-vous des solutions d'entreprise ?",

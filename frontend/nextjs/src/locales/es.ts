@@ -690,14 +690,14 @@ export default {
 					phone_title: "Teléfono",
 					phone: "+1 (555) 123-4567",
 					address_title: "Dirección",
-					address: "Calle Resumé 123, Suite 100\nSan Francisco, CA 94107",
+					address: "Calle Resumé 123, Suite 100\nToronto, CA 94107",
 					hours_title: "Horario",
 					hours:
 						"Lunes - Viernes: 9:00 AM - 6:00 PM\nSábado: 10:00 AM - 2:00 PM",
 				},
 				location_title: "Nuestra Ubicación",
 				location_description:
-					"Estamos ubicados en el corazón de San Francisco. Visítanos durante nuestro horario de atención.",
+					"Estamos ubicados en el corazón de Toronto. Visítanos durante nuestro horario de atención.",
 				faq_title: "Preguntas Frecuentes",
 				faqs: [
 					{
