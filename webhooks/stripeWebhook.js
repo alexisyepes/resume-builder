@@ -287,6 +287,8 @@ async function handleSubscriptionUpdated(subscription) {
 			subscriptionStatus: mappedStatus,
 		}
 
+		console.log("USER TO BE UPDATED: ", updateData)
+
 		if (expiresAt) {
 			updateData.subscriptionEndDate = expiresAt
 		}
@@ -344,7 +346,6 @@ async function handleSubscriptionDeleted(subscription) {
 		await User.update(
 			{
 				planType: "free",
-				plan: "free",
 				subscriptionStatus: "canceled",
 				subscriptionId: null,
 				subscriptionEndDate: null,
@@ -444,7 +445,6 @@ router.post("/fix-user/:userId", async (req, res) => {
 
 		await user.update({
 			planType: planType,
-			plan: planType,
 			subscriptionStatus: "active",
 			subscriptionId: subscriptionId || user.subscriptionId,
 			subscriptionEndDate: expiresAt,
