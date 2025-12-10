@@ -44,8 +44,8 @@ export default {
 				basic_plan: {
 					name: "Base",
 					description: "Per professionisti",
-					price: "$9.99",
-					price_mo: "$9.99/mese",
+					price: "$4.99",
+					price_mo: "$4.99/mese",
 					features: [
 						"5 Download Curriculum",
 						"10 Modelli",
@@ -56,8 +56,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Per utenti avanzati",
-					price: "$19.99",
-					price_mo: "$19.99/mese",
+					price: "$4.99",
+					price_mo: "$4.99/mese",
 					features: [
 						"Download Illimitati",
 						"Tutti i Modelli",

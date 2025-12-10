@@ -44,8 +44,8 @@ export default {
 				basic_plan: {
 					name: "أساسي",
 					description: "للمحترفين",
-					price: "$9.99",
-					price_mo: "$9.99/شهر",
+					price: "$4.99",
+					price_mo: "$4.99/شهر",
 					features: [
 						"5 تحميلات سيرة ذاتية",
 						"10 قوالب",
@@ -56,8 +56,8 @@ export default {
 				premium_plan: {
 					name: "متميز",
 					description: "للمستخدمين المتقدمين",
-					price: "$19.99",
-					price_mo: "$19.99/شهر",
+					price: "$4.99",
+					price_mo: "$4.99/شهر",
 					features: [
 						"تحميلات غير محدودة",
 						"جميع القوالب",
@@ -437,7 +437,7 @@ export default {
 					},
 					{
 						title: "احترافي",
-						price: "9.99 دولار/شهر",
+						price: "4.99 دولار/شهر",
 						features: [
 							"سير ذاتية غير محدودة",
 							"قوالب مميزة",

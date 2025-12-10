@@ -50,8 +50,8 @@ export default {
 				basic_plan: {
 					name: "Básico",
 					description: "Para profesionales",
-					price: "$9.99",
-					price_mo: "$9.99/mes",
+					price: "$4.99",
+					price_mo: "$4.99/mes",
 					features: [
 						"5 Descargas de Currículum",
 						"10 Plantillas",
@@ -62,8 +62,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Para usuarios avanzados",
-					price: "$19.99",
-					price_mo: "$19.99/mes",
+					price: "$4.99",
+					price_mo: "$4.99/mes",
 					features: [
 						"Descargas Ilimitadas",
 						"Todas las Plantillas",
@@ -451,7 +451,7 @@ export default {
 					},
 					{
 						title: "Pro",
-						price: "$9.99/mes",
+						price: "$4.99/mes",
 						features: [
 							"Currículums Ilimitados",
 							"Plantillas Premium",

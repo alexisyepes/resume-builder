@@ -44,8 +44,8 @@ export default {
 				basic_plan: {
 					name: "Basique",
 					description: "Pour les professionnels",
-					price: "$9.99",
-					price_mo: "$9.99/mo",
+					price: "$4.99",
+					price_mo: "$4.99/mo",
 					features: [
 						"5 Téléchargements de CV",
 						"10 Modèles",
@@ -56,8 +56,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Pour utilisateurs avancés",
-					price: "$19.99",
-					price_mo: "$19.99/mo",
+					price: "$4.99",
+					price_mo: "$4.99/mo",
 					features: [
 						"Téléchargements Illimités",
 						"Tous les Modèles",

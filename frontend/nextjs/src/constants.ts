@@ -12,50 +12,55 @@ export const LANGUAGES = "Languages"
 export const CUSTOM_SECTION = "Custom Section"
 
 export type TemplateDesign = {
-    name: string
-    value: string
-    image: string
+	name: string
+	value: string
+	image: string
 }
 
 export const templateDesigns: TemplateDesign[] = [
-    {
-        name: "Classic",
-        value: "classic",
-        image: "/images/templateDesigns/classic.png",
-    },
-    {
-        name: "Classic - ATS",
-        value: "classic-ats",
-        image: "/images/templateDesigns/classic.png",
-    },
-    {
-        name: "Elegant",
-        value: "elegant",
-        image: "/images/templateDesigns/elegant.png",
-    },
-    {
-        name: "Modern",
-        value: "modern",
-        image: "/images/templateDesigns/modern.png",
-    },
-    // {
-    // 	name: "Creative - ATS",
-    // 	value: "creative-ats",
-    // 	image: "/images/creative-ats.png",
-    // },
+	{
+		name: "Classic",
+		value: "classic",
+		image: "/images/templateDesigns/classic.png",
+	},
+	{
+		name: "Classic - ATS",
+		value: "classic-ats",
+		image: "/images/templateDesigns/classic.png",
+	},
+	{
+		name: "Elegant",
+		value: "elegant",
+		image: "/images/templateDesigns/elegant.png",
+	},
+	{
+		name: "Modern",
+		value: "modern",
+		image: "/images/templateDesigns/modern.png",
+	},
+	// {
+	// 	name: "Creative - ATS",
+	// 	value: "creative-ats",
+	// 	image: "/images/creative-ats.png",
+	// },
 ] as const
 
 export const translationKeyMap: Record<string, string> = {
-    personal_information: "personal_information",
-    contact_information: "contact_information",
-    professional_summary: "professional_summary",
-    employment_history: "employment_history",
-    skills: "skills",
-    education: "education",
-    references: "references",
-    certifications: "certifications",
-    links: "links",
-    hobbies: "hobbies",
-    languages: "languages",
-    customSection: "custom_section",
+	personal_information: "personal_information",
+	contact_information: "contact_information",
+	professional_summary: "professional_summary",
+	employment_history: "employment_history",
+	skills: "skills",
+	education: "education",
+	references: "references",
+	certifications: "certifications",
+	links: "links",
+	hobbies: "hobbies",
+	languages: "languages",
+	customSection: "custom_section",
 }
+
+export const PRICING_BASIC_PLAN_MONTHLY = (4.99).toFixed(2)
+export const PRICING_BASIC_PLAN_YEARLY = (47.9).toFixed(2) // 20% discount
+export const PRICING_PREMIUM_PLAN_MONTHLY = (9.99).toFixed(2)
+export const PRICING_PREMIUM_PLAN_YEARLY = (95.9).toFixed(2) // 20% discount

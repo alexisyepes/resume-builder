@@ -1,328 +1,447 @@
-import { FiZap, FiBriefcase, FiStar, FiCheck } from "react-icons/fi"
+import { useState } from "react"
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_BASIC_PLAN_YEARLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_YEARLY,
+} from "@/constants"
+import { useResumeContext } from "@/contexts/useResumeContext"
+import { FiCheck, FiX, FiStar, FiZap, FiBriefcase } from "react-icons/fi"
+import { loadStripe } from "@stripe/stripe-js"
+import {
+	EmbeddedCheckoutProvider,
+	EmbeddedCheckout,
+} from "@stripe/react-stripe-js"
+
+// Inicializar Stripe fuera del componente
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
+
+// Mapeo de precios a IDs de Stripe
+const stripePriceIds = {
+	basic: {
+		monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_BASIC_MONTHLY,
+		yearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_BASIC_YEARLY,
+	},
+	premium: {
+		monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_MONTHLY,
+		yearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_YEARLY,
+	},
+}
 
 export default function Plans({
-	profileModalTranslations,
+	billingCycle,
+	getPlanTranslation,
+	selectedPlan,
+	isInModal,
 	userProfile,
-	isAuthenticated,
-	handleUpgradePlan,
-}: any) {
+}) {
+	const { t, isAuthenticated, apiBaseUrl, user } = useResumeContext()
+	const tAny = t as any
+	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
+	const planIds = ["free", "basic", "premium"]
+
+	// Estados para Stripe
+	const [showCheckout, setShowCheckout] = useState(false)
+	const [clientSecret, setClientSecret] = useState("")
+	const [isLoading, setIsLoading] = useState<string | null>(null)
+	const [checkoutPlan, setCheckoutPlan] = useState<string>("")
+
+	const staticPlanData = {
+		free: {
+			icon: FiZap,
+			color: "from-gray-600 to-gray-700",
+			monthlyPrice: 0,
+			yearlyPrice: 0,
+		},
+		basic: {
+			icon: FiBriefcase,
+			color: "from-blue-600 to-cyan-600",
+			monthlyPrice: PRICING_BASIC_PLAN_MONTHLY,
+			yearlyPrice: PRICING_BASIC_PLAN_YEARLY,
+		},
+		premium: {
+			icon: FiStar,
+			color: "from-pink-600 to-rose-600",
+			monthlyPrice: PRICING_PREMIUM_PLAN_MONTHLY,
+			yearlyPrice: PRICING_PREMIUM_PLAN_YEARLY,
+		},
+	}
+
+	// Función para manejar la actualización del plan con Stripe
+	const handlePlanUpgrade = async (planId: string) => {
+		if (planId === "free") {
+			// Plan gratuito - manejar downgrade
+			handleFreePlan(planId)
+			return
+		}
+
+		// Para planes pagados, usar Stripe
+		if (!isAuthenticated) {
+			// Redirigir a login
+			window.location.href = "/signin"
+			return
+		}
+
+		setIsLoading(planId)
+		setCheckoutPlan(planId)
+
+		try {
+			// Obtener el priceId según el plan y ciclo de facturación
+			const planPrices = stripePriceIds[planId as keyof typeof stripePriceIds]
+			if (!planPrices) {
+				throw new Error(`No Stripe prices configured for plan: ${planId}`)
+			}
+
+			const priceId =
+				billingCycle === "monthly" ? planPrices.monthly : planPrices.yearly
+
+			if (!priceId) {
+				throw new Error(`Price ID not found for ${planId} (${billingCycle})`)
+			}
+
+			// Crear sesión de checkout
+			const response = await fetch(
+				`${apiBaseUrl}/payments/create-checkout-session`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						priceId,
+						userId: user?.id,
+						planType: planId,
+						billingCycle,
+						customerEmail: userProfile?.email,
+					}),
+				}
+			)
+
+			if (!response.ok) {
+				const error = await response.json()
+				throw new Error(error.error || "Error creating checkout session")
+			}
+
+			const { clientSecret } = await response.json()
+			setClientSecret(clientSecret)
+			setShowCheckout(true)
+		} catch (error) {
+			console.error("Error creating checkout:", error)
+			alert(error instanceof Error ? error.message : "Error processing request")
+		} finally {
+			setIsLoading(null)
+		}
+	}
+
+	// Función para manejar plan gratuito
+	const handleFreePlan = async (planId: string) => {
+		if (!isAuthenticated) {
+			window.location.href = "/login"
+			return
+		}
+
+		if (userProfile?.planType === "free") {
+			// Ya está en plan free
+			alert("You are already on the Free plan")
+			return
+		}
+
+		if (confirm("Are you sure you want to downgrade to Free plan?")) {
+			setIsLoading(planId)
+
+			try {
+				const response = await fetch(`${apiBaseUrl}/users/change-plan`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						userId: userProfile?.id,
+						plan: "free",
+					}),
+				})
+
+				if (!response.ok) {
+					throw new Error("Error changing plan")
+				}
+
+				alert("Successfully changed to Free plan!")
+				window.location.reload()
+			} catch (error) {
+				console.error("Error:", error)
+				alert("Error changing plan")
+			} finally {
+				setIsLoading(null)
+			}
+		}
+	}
+
+	// Obtener texto del botón según el estado
+	const getButtonText = (planId: string, translation: any) => {
+		if (isLoading === planId) {
+			return (
+				<span className="flex items-center justify-center">
+					<svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+						<circle
+							className="opacity-25"
+							cx="12"
+							cy="12"
+							r="10"
+							stroke="currentColor"
+							strokeWidth="4"
+							fill="none"
+						/>
+						<path
+							className="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						/>
+					</svg>
+					Processing...
+				</span>
+			)
+		}
+
+		if (isAuthenticated && userProfile?.planType === planId) {
+			return pricingTranslations?.plans?.current_plan || "Current Plan"
+		}
+
+		return translation.cta
+	}
+
+	// Obtener si el botón debe estar deshabilitado
+	const isButtonDisabled = (planId: string) => {
+		return (
+			isLoading !== null ||
+			(isAuthenticated && userProfile?.planType === planId)
+		)
+	}
+
 	return (
-		<div>
-			<h3 className="text-lg font-bold text-gray-900 mb-4">
-				{profileModalTranslations.billing.available_plans || "Available Plans"}
-			</h3>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-				{/* Free Plan */}
-				<div
-					className={`flex flex-col h-full border rounded-xl p-6 ${
-						userProfile?.planType === "free"
-							? "border-blue-500 bg-blue-50"
-							: "border-gray-200"
-					}`}
-				>
-					{/* Header */}
-					<div className="flex items-center gap-3 mb-4">
-						<div className="p-2 bg-gray-600 rounded-lg">
-							<FiZap className="text-white" size={20} />
+		<>
+			{/* Modal de Stripe Checkout */}
+			{showCheckout && clientSecret && (
+				<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+					<div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-auto">
+						<div className="flex justify-between items-center p-6 border-b">
+							<div>
+								<h3 className="text-xl font-bold text-gray-900">
+									Complete your {checkoutPlan} subscription
+								</h3>
+								<p className="text-gray-600 text-sm mt-1">
+									Billed {billingCycle === "monthly" ? "monthly" : "annually"}
+								</p>
+							</div>
+							<button
+								onClick={() => setShowCheckout(false)}
+								className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors"
+								aria-label="Close checkout"
+							>
+								<FiX size={24} />
+							</button>
 						</div>
-						<div>
-							<h4 className="font-bold text-gray-900">
-								{profileModalTranslations.billing.free_plan.name || "Free"}
-							</h4>
-							<p className="text-sm text-gray-600">
-								{profileModalTranslations.billing.free_plan.description ||
-									"For individuals"}
+
+						<div className="p-6">
+							<EmbeddedCheckoutProvider
+								stripe={stripePromise}
+								options={{ clientSecret }}
+							>
+								<EmbeddedCheckout />
+							</EmbeddedCheckoutProvider>
+						</div>
+
+						<div className="p-6 border-t bg-gray-50">
+							<p className="text-sm text-gray-600 text-center">
+								Your payment is secure and encrypted. Cancel anytime.
 							</p>
 						</div>
-					</div>
-
-					{/* Price */}
-					<p className="text-3xl font-bold text-gray-900 mb-4">
-						$0
-						<span className="text-sm text-gray-600">
-							/{profileModalTranslations.billing.month || "month"}
-						</span>
-					</p>
-
-					{/* Features */}
-					<div className="flex-grow mb-6">
-						<ul className="space-y-2">
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.free_plan.features[0] ||
-										"1 Resume Download"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.free_plan.features[1] ||
-										"3 Templates"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.free_plan.features[2] ||
-										"Basic Support"}
-								</span>
-							</li>
-						</ul>
-					</div>
-
-					{/* Button */}
-					<div className="mt-auto">
-						{isAuthenticated ? (
-							<button
-								onClick={() =>
-									userProfile?.planType !== "free" && handleUpgradePlan("free")
-								}
-								disabled={userProfile?.planType === "free"}
-								className={`w-full py-2 rounded-lg font-medium ${
-									userProfile?.planType === "free"
-										? "bg-gray-100 text-gray-400 cursor-default"
-										: "bg-gray-200 text-gray-800 hover:bg-gray-300"
-								}`}
-							>
-								{userProfile?.planType === "free"
-									? profileModalTranslations.profile.current_plan ||
-									  "Current Plan"
-									: "Downgrade"}
-							</button>
-						) : (
-							<button
-								onClick={() =>
-									userProfile?.planType !== "free" && handleUpgradePlan("free")
-								}
-								className={`w-full py-2 rounded-lg font-medium ${
-									userProfile?.planType === "free"
-										? "bg-gray-200 text-gray-400 cursor-default"
-										: "bg-gray-300 text-gray-800 hover:bg-gray-300"
-								}`}
-							>
-								{profileModalTranslations.billing.free_plan.name}
-							</button>
-						)}
 					</div>
 				</div>
+			)}
 
-				{/* Basic Plan */}
-				<div
-					className={`flex flex-col h-full border rounded-xl p-6 ${
-						userProfile?.planType === "basic"
-							? "border-blue-500 bg-blue-50"
-							: "border-gray-200"
-					}`}
-				>
-					{/* Header */}
-					<div className="flex items-center gap-3 mb-4">
-						<div className="p-2 bg-blue-600 rounded-lg">
-							<FiBriefcase className="text-white" size={20} />
+			{/* Grid de Planes */}
+			<div
+				className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16`}
+			>
+				{planIds.map((planId) => {
+					const staticData =
+						staticPlanData[planId as keyof typeof staticPlanData]
+					const translation = getPlanTranslation(planId)
+					const IconComponent = staticData.icon
+					const isCurrentPlan =
+						isAuthenticated && userProfile?.planType === planId
+					const isFreePlan = planId === "free"
+
+					return (
+						<div
+							key={planId}
+							className={`relative flex flex-col h-full rounded-2xl border-2 p-8 transition-all hover:shadow-xl ${
+								(translation.popular && !isInModal) || selectedPlan === planId
+									? "border-blue-500 shadow-lg transform scale-105"
+									: "border-gray-200"
+							} ${isCurrentPlan ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
+						>
+							{/* Badge Popular */}
+							{translation.popular && !isInModal && (
+								<div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+									<span className="bg-gradient-to-r from-cyan-600 to-cyan-800 text-white px-4 py-1 rounded-full text-sm font-medium">
+										{pricingTranslations?.plans?.most_popular || "Most Popular"}
+									</span>
+								</div>
+							)}
+
+							{/* Badge Current Plan */}
+							{isCurrentPlan && (
+								<div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+									<span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center">
+										<FiCheck className="mr-1" size={12} />
+										{pricingTranslations?.plans?.current_plan || "Current Plan"}
+									</span>
+								</div>
+							)}
+
+							{/* Header section */}
+							<div className="mb-6">
+								<div
+									className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${staticData.color} mb-4`}
+								>
+									<IconComponent className="text-white" size={24} />
+								</div>
+								<h3 className="text-2xl font-bold text-gray-900">
+									{translation.name}
+								</h3>
+								<p className="text-gray-600 mt-1">{translation.description}</p>
+							</div>
+
+							{/* Pricing section */}
+							<div className="mb-6">
+								{staticData.monthlyPrice !== null ? (
+									<>
+										<div className="flex items-baseline">
+											<span className="text-4xl font-bold text-gray-900">
+												$
+												{billingCycle === "monthly"
+													? staticData.monthlyPrice
+													: staticData.yearlyPrice}
+											</span>
+											<span className="text-gray-600 ml-2">
+												/{billingCycle === "monthly" ? "month" : "year"}
+											</span>
+										</div>
+										{billingCycle === "yearly" &&
+											Number(staticData.yearlyPrice) > 0 && (
+												<div className="mt-2">
+													<p className="text-sm text-gray-500">
+														{pricingTranslations?.plans?.billed_annually_a ||
+															"Billed annually ($"}
+														{(Number(staticData.yearlyPrice) / 12).toFixed(2)}
+														{pricingTranslations?.plans?.billed_annually_b ||
+															"/month)"}
+													</p>
+													<p className="text-sm text-emerald-600 font-medium mt-1">
+														Save $
+														{(
+															Number(staticData.monthlyPrice) * 12 -
+															Number(staticData.yearlyPrice)
+														).toFixed(2)}{" "}
+														per year
+													</p>
+												</div>
+											)}
+									</>
+								) : (
+									<div className="text-2xl font-bold text-gray-900">
+										{pricingTranslations?.plans?.custom_pricing ||
+											"Custom Pricing"}
+									</div>
+								)}
+							</div>
+
+							{/* Features section */}
+							<div className="flex-grow mb-8">
+								<ul className="space-y-3">
+									{translation.features
+										.slice(0, 5)
+										.map((feature: any, index: number) => (
+											<li key={index} className="flex items-center">
+												{feature.included ? (
+													<FiCheck className="text-green-500 mr-3 flex-shrink-0" />
+												) : (
+													<FiX className="text-gray-300 mr-3 flex-shrink-0" />
+												)}
+												<span
+													className={
+														feature.included ? "text-gray-700" : "text-gray-400"
+													}
+												>
+													{feature.text}
+												</span>
+											</li>
+										))}
+								</ul>
+							</div>
+
+							{/* Button */}
+							<div className="mt-auto">
+								<button
+									onClick={() => handlePlanUpgrade(planId)}
+									disabled={isButtonDisabled(planId)}
+									className={`w-full py-3 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+										translation.popular
+											? "bg-gradient-to-r from-cyan-600 to-cyan-800 text-white hover:opacity-90"
+											: planId === "free"
+											? "bg-gray-100 text-gray-900 hover:bg-gray-200"
+											: "bg-gray-900 text-white hover:bg-gray-800"
+									}`}
+								>
+									{getButtonText(planId, translation)}
+								</button>
+
+								{/* Información adicional para usuarios autenticados */}
+								{isAuthenticated &&
+									userProfile?.planType === planId &&
+									planId !== "free" && (
+										<p className="text-xs text-gray-500 text-center mt-2">
+											Next billing: {userProfile?.subscriptionEndDate || "N/A"}
+										</p>
+									)}
+							</div>
 						</div>
-						<div>
-							<h4 className="font-bold text-gray-900">
-								{profileModalTranslations.billing.basic_plan.name || "Basic"}
-							</h4>
-							<p className="text-sm text-gray-600">
-								{profileModalTranslations.billing.basic_plan.description ||
-									"For professionals"}
-							</p>
+					)
+				})}
+			</div>
+
+			{/* Nota informativa */}
+			<div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+				<div className="flex items-start">
+					<div className="flex-shrink-0">
+						<div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+							<FiCheck className="text-blue-600" size={16} />
 						</div>
 					</div>
-
-					{/* Price */}
-					<p className="text-3xl font-bold text-gray-900 mb-4">
-						{profileModalTranslations.billing.basic_plan.price || "$9.99"}
-						<span className="text-sm text-gray-600">
-							/{profileModalTranslations.billing.month || "month"}
-						</span>
-					</p>
-
-					{/* Features */}
-					<div className="flex-grow mb-6">
-						<ul className="space-y-2">
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.basic_plan.features[0] ||
-										"5 Resume Downloads"}
-								</span>
+					<div className="ml-4">
+						<h4 className="text-sm font-medium text-blue-800">
+							{pricingTranslations?.security_title || "Secure & Flexible"}
+						</h4>
+						<ul className="mt-2 space-y-1 text-sm text-blue-700">
+							<li className="flex items-center">
+								<FiCheck className="mr-2" size={14} />
+								{pricingTranslations?.security_points?.[0] ||
+									"Secure payment processing with Stripe"}
 							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.basic_plan.features[1] ||
-										"10 Templates"}
-								</span>
+							<li className="flex items-center">
+								<FiCheck className="mr-2" size={14} />
+								{pricingTranslations?.security_points?.[1] || "Cancel anytime"}
 							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.basic_plan.features[2] ||
-										"Priority Support"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.basic_plan.features[3] ||
-										"No Ads"}
-								</span>
+							<li className="flex items-center">
+								<FiCheck className="mr-2" size={14} />
+								{pricingTranslations?.security_points?.[2] ||
+									"30-day money-back guarantee"}
 							</li>
 						</ul>
 					</div>
-
-					{/* Button */}
-					{isAuthenticated ? (
-						<div className="mt-auto">
-							<button
-								onClick={() =>
-									userProfile?.planType !== "basic" &&
-									handleUpgradePlan("basic")
-								}
-								disabled={userProfile?.planType === "basic"}
-								className={`w-full py-2 rounded-lg font-medium ${
-									userProfile?.planType === "basic"
-										? "bg-blue-100 text-blue-400 cursor-default"
-										: "bg-blue-600 text-white hover:bg-blue-700"
-								}`}
-							>
-								{userProfile?.planType === "basic"
-									? profileModalTranslations.billing.current_plan ||
-									  "Current Plan"
-									: profileModalTranslations.billing.upgrade_to_basic ||
-									  "Upgrade to Basic"}
-							</button>
-						</div>
-					) : (
-						<button
-							onClick={() =>
-								userProfile?.planType !== "basic" && handleUpgradePlan("free")
-							}
-							className={`w-full py-2 rounded-lg font-medium ${
-								userProfile?.planType === "basic"
-									? "bg-blue-100 text-blue-400 cursor-default"
-									: "bg-blue-600 text-white hover:bg-blue-700"
-							}`}
-						>
-							{profileModalTranslations.billing.basic_plan.name}
-						</button>
-					)}
-				</div>
-
-				{/* Premium Plan */}
-				<div
-					className={`flex flex-col h-full border rounded-xl p-6 ${
-						userProfile?.planType === "premium"
-							? "border-blue-500 bg-blue-50"
-							: "border-gray-200"
-					}`}
-				>
-					{/* Header */}
-					<div className="flex items-center gap-3 mb-4">
-						<div className="p-2 bg-pink-600 rounded-lg">
-							<FiStar className="text-white" size={20} />
-						</div>
-						<div>
-							<h4 className="font-bold text-gray-900">
-								{profileModalTranslations.billing.premium_plan.name ||
-									"Premium"}
-							</h4>
-							<p className="text-sm text-gray-600">
-								{profileModalTranslations.billing.premium_plan.description ||
-									"For power users"}
-							</p>
-						</div>
-					</div>
-
-					{/* Price */}
-					<p className="text-3xl font-bold text-gray-900 mb-4">
-						{profileModalTranslations.billing.premium_plan.price || "$19.99"}
-						<span className="text-sm text-gray-600">
-							/{profileModalTranslations.billing.month || "month"}
-						</span>
-					</p>
-
-					{/* Features */}
-					<div className="flex-grow mb-6">
-						<ul className="space-y-2">
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.premium_plan.features[0] ||
-										"Unlimited Downloads"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.premium_plan.features[1] ||
-										"All Templates"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.premium_plan.features[2] ||
-										"AI Features"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.premium_plan.features[3] ||
-										"Export to DOCX"}
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<FiCheck className="text-green-500" />
-								<span className="text-sm">
-									{profileModalTranslations.billing.premium_plan.features[4] ||
-										"Priority Support"}
-								</span>
-							</li>
-						</ul>
-					</div>
-
-					{/* Button*/}
-					{isAuthenticated ? (
-						<div className="mt-auto">
-							<button
-								onClick={() =>
-									userProfile?.planType !== "premium" &&
-									handleUpgradePlan("premium")
-								}
-								disabled={userProfile?.planType === "premium"}
-								className={`w-full py-2 rounded-lg font-medium ${
-									userProfile?.planType === "premium"
-										? "bg-pink-100 text-pink-400 cursor-default"
-										: "bg-gradient-to-r from-pink-600 to-rose-600 text-white hover:opacity-90"
-								}`}
-							>
-								{userProfile?.planType === "premium"
-									? profileModalTranslations.billing.current_plan ||
-									  "Current Plan"
-									: profileModalTranslations.billing.upgrade_to_premium ||
-									  "Upgrade to Premium"}
-							</button>
-						</div>
-					) : (
-						<button
-							onClick={() =>
-								userProfile?.planType !== "premium" && handleUpgradePlan("free")
-							}
-							className={`w-full py-2 rounded-lg font-medium ${
-								userProfile?.planType === "premium"
-									? "bg-pink-100 text-pink-400 cursor-default"
-									: "bg-gradient-to-r from-pink-600 to-rose-600 text-white hover:opacity-90"
-							}`}
-						>
-							{profileModalTranslations.billing.premium_plan.name}
-						</button>
-					)}
 				</div>
 			</div>
-		</div>
+		</>
 	)
 }
