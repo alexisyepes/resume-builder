@@ -44,8 +44,8 @@ export default {
 				basic_plan: {
 					name: "Básico",
 					description: "Para profissionais",
-					price: "$9.99/mês",
-					price_mo: "$9.99/mês",
+					price: "$4.99/mês",
+					price_mo: "$4.99/mês",
 					features: [
 						"5 Downloads de Currículo",
 						"10 Modelos",
@@ -56,8 +56,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Para usuários avançados",
-					price: "$19.99",
-					price_mo: "$19.99/mês",
+					price: "$4.99",
+					price_mo: "$4.99/mês",
 					features: [
 						"Downloads Ilimitados",
 						"Todos os Modelos",

@@ -1,54 +1,109 @@
 const express = require("express")
-const stripe = require("stripe")(process.env.STRIPE_SECRET)
-const { Order, Subscription } = require("../models")
-
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const { Order, Subscription, User } = require("../models")
 const router = express.Router()
 
-router.post(
-	"/webhook",
-	express.raw({ type: "application/json" }),
-	async (req, res) => {
-		let event
-		try {
-			event = stripe.webhooks.constructEvent(
-				req.body,
-				req.headers["stripe-signature"],
-				process.env.STRIPE_WEBHOOK_SECRET // @TODO: set this in env variables
-			)
-		} catch (err) {
-			return res.status(400).send(`Webhook Error: ${err.message}`)
+router.post("/create-checkout-session", async (req, res) => {
+	try {
+		const { priceId, userId, planType } = req.body
+
+		const user = await User.findByPk(userId)
+		if (!user) {
+			return res.status(404).json({ error: "Usuario no encontrado" })
 		}
 
-		if (event.type === "checkout.session.completed") {
-			const session = event.data.object
-			await Order.create({
-				userId: session.metadata.userId,
-				stripeSession: session.id,
-				amount: session.amount_total / 100,
-				currency: session.currency,
-				status: "paid",
+		// Verificar si el usuario ya tiene un customer ID en Stripe
+		let customerId = user.stripeCustomerId
+
+		if (!customerId) {
+			// Crear customer en Stripe si no existe
+			const customer = await stripe.customers.create({
+				email: user.email,
+				name: `${user.firstName} ${user.lastName}`,
+				metadata: {
+					userId: user.id.toString(),
+				},
 			})
+
+			customerId = customer.id
+			// Guardar customer ID en la base de datos
+			await user.update({ stripeCustomerId: customerId })
 		}
 
-		if (
-			event.type === "customer.subscription.updated" ||
-			event.type === "customer.subscription.created"
-		) {
-			const subscription = event.data.object
-			await Subscription.upsert({
-				userId: subscription.metadata.userId,
-				stripeSubId: subscription.id,
-				plan: subscription.items.data[0].price.id.includes("pro")
-					? "paid"
-					: "free",
-				status: subscription.status,
-				startDate: new Date(subscription.current_period_start * 1000),
-				endDate: new Date(subscription.current_period_end * 1000),
-			})
-		}
+		// Crear sesión de checkout
+		const session = await stripe.checkout.sessions.create({
+			ui_mode: "embedded",
+			customer: customerId,
+			line_items: [
+				{
+					price: priceId,
+					quantity: 1,
+				},
+			],
+			mode: "subscription",
+			return_url: `${process.env.FRONTEND_URL}/builder?session_id={CHECKOUT_SESSION_ID}`,
+			metadata: {
+				userId: user.id.toString(),
+				planType: planType,
+			},
+			subscription_data: {
+				metadata: {
+					userId: user.id.toString(),
+					planType: planType,
+				},
+			},
+		})
 
-		res.json({ received: true })
+		res.json({
+			clientSecret: session.client_secret,
+			sessionId: session.id,
+		})
+	} catch (error) {
+		console.error("Error creating checkout session:", error)
+		res.status(500).json({ error: error.message })
 	}
-)
+})
+
+// Obtener estado de la sesión
+router.get("/session-status", async (req, res) => {
+	const { session_id } = req.query
+
+	try {
+		const session = await stripe.checkout.sessions.retrieve(session_id)
+
+		res.json({
+			status: session.status,
+			customer_email: session.customer_details?.email,
+		})
+	} catch (error) {
+		console.error("Error retrieving session:", error)
+		res.status(500).json({ error: error.message })
+	}
+})
+
+// Cancelar suscripción
+router.post("/cancel-subscription", async (req, res) => {
+	try {
+		const { subscriptionId } = req.body
+
+		const deletedSubscription = await stripe.subscriptions.cancel(
+			subscriptionId
+		)
+
+		// Actualizar estado en tu base de datos
+		const subscription = await Subscription.findOne({
+			where: { stripeSubId: subscriptionId },
+		})
+
+		if (subscription) {
+			await subscription.update({ status: "canceled" })
+		}
+
+		res.json({ success: true, subscription: deletedSubscription })
+	} catch (error) {
+		console.error("Error canceling subscription:", error)
+		res.status(500).json({ error: error.message })
+	}
+})
 
 module.exports = router

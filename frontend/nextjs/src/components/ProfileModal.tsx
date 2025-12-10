@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import {
 	FiUser,
 	FiMail,
@@ -15,6 +15,9 @@ import { useRouter } from "next/navigation"
 import useResumeStore from "@/store/useResumeStore"
 import Plans from "./Plans"
 import PricePlansFooter from "./PricePlansFooter"
+import { usePlansContext } from "@/contexts/plansContext"
+import { useResumeContext } from "@/contexts/useResumeContext"
+import BillingToggle from "./BillingToggle"
 
 interface ProfileModalProps {
 	isOpen: boolean
@@ -35,13 +38,40 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	onUpdateProfile,
 	profileModalTranslations,
 }) => {
+	const modalRef = useRef<HTMLDivElement>(null)
 	const { isAuthenticated } = useResumeStore()
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedProfile, setEditedProfile] = useState<any>(null)
 	const [saveLoading, setSaveLoading] = useState(false)
 	const [saveError, setSaveError] = useState<string | null>(null)
 	const [activeTab, setActiveTab] = useState<"profile" | "billing">("profile")
+	const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+		"monthly"
+	)
 	const router = useRouter()
+	const { selectedPlan, setSelectedPlan } = usePlansContext()
+	const { t } = useResumeContext()
+	const tAny = t as any
+	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				modalRef.current &&
+				!modalRef.current.contains(event.target as Node)
+			) {
+				onClose()
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener("mousedown", handleClickOutside)
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside)
+		}
+	}, [isOpen, onClose])
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -107,9 +137,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	}
 
 	const handleUpgradePlan = (plan: string) => {
-		console.log(`Upgrading to ${plan} plan`)
+		setSelectedPlan(plan)
 		// TODO: Integrar con Stripe
-		alert(`Upgrading to ${plan} plan - Stripe integration coming soon!`)
+		// alert(`Upgrading to ${plan} plan - Stripe integration coming soon!`)
 	}
 
 	const getPlanColor = (planType: string) => {
@@ -187,6 +217,104 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 		return features[planType as keyof typeof features] || features.free
 	}
 
+	const getDefaultFeatures = (planId: string) => {
+		switch (planId) {
+			case "free":
+				return [
+					{ text: "1 Resume Download", included: true },
+					{ text: "3 Professional Templates", included: true },
+					{ text: "Basic AI Suggestions", included: true },
+					{ text: "Email Support", included: true },
+					{ text: "Unlimited Downloads", included: false },
+					{ text: "All Templates", included: false },
+					{ text: "Advanced AI Features", included: false },
+					{ text: "Priority Support", included: false },
+					{ text: "No Ads", included: false },
+				]
+			case "basic":
+				return [
+					{ text: "5 Resume Downloads per month", included: true },
+					{ text: "10 Professional Templates", included: true },
+					{ text: "Basic AI Suggestions", included: true },
+					{ text: "Priority Email Support", included: true },
+					{ text: "No Ads", included: true },
+					{ text: "Unlimited Downloads", included: false },
+					{ text: "All Templates", included: false },
+					{ text: "Advanced AI Features", included: false },
+					{ text: "Phone Support", included: false },
+				]
+			case "premium":
+				return [
+					{ text: "Unlimited Resume Downloads", included: true },
+					{ text: "All Professional Templates", included: true },
+					{ text: "Advanced AI Writing Assistant", included: true },
+					{ text: "Priority Phone & Email Support", included: true },
+					{ text: "No Ads", included: true },
+					{ text: "Export to PDF & DOCX", included: true },
+					{ text: "ATS Optimization", included: true },
+					{ text: "Resume Analytics", included: true },
+					{ text: "Custom Branding", included: false },
+				]
+			case "enterprise":
+				return [
+					{ text: "Everything in Premium", included: true },
+					{ text: "Team Collaboration", included: true },
+					{ text: "Custom Template Design", included: true },
+					{ text: "Dedicated Account Manager", included: true },
+					{ text: "White Label Solution", included: true },
+					{ text: "API Access", included: true },
+					{ text: "SSO & Advanced Security", included: true },
+					{ text: "Custom Workflows", included: true },
+					{ text: "Training & Onboarding", included: true },
+				]
+			default:
+				return []
+		}
+	}
+
+	const getPlanTranslation = (planId: string) => {
+		const planIndex =
+			{
+				free: 0,
+				basic: 1,
+				premium: 2,
+			}[planId] || 0
+
+		const translatedPlan = pricingTranslations?.plans?.plans?.[planIndex]
+
+		return {
+			name:
+				translatedPlan?.name ||
+				(planId === "free"
+					? "Free"
+					: planId === "basic"
+					? "Basic"
+					: planId === "premium"
+					? "Premium"
+					: "Enterprise"),
+			description:
+				translatedPlan?.description ||
+				(planId === "free"
+					? "Perfect for trying out"
+					: planId === "basic"
+					? "For job seekers"
+					: planId === "premium"
+					? "For power users"
+					: "For teams & companies"),
+			features: translatedPlan?.features || getDefaultFeatures(planId),
+			cta:
+				translatedPlan?.cta ||
+				(planId === "free"
+					? "Get Started Free"
+					: planId === "basic"
+					? "Choose Basic"
+					: planId === "premium"
+					? "Choose Premium"
+					: "Contact Sales"),
+			popular: translatedPlan?.popular || planId === "basic",
+		}
+	}
+
 	if (!isOpen) return null
 
 	return (
@@ -194,7 +322,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 			<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] transition-opacity duration-300" />
 
 			<div className="fixed inset-0 z-[101] flex items-center justify-center p-4">
-				<div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+				<div
+					ref={modalRef}
+					className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl maxh-[90vh] overflow-hidden"
+				>
 					{/* Header */}
 					{isAuthenticated ? (
 						<div className="bg-gradient-to-r from-cyan-600 to-cyan-800 p-6 relative">
@@ -265,7 +396,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 					</div>
 
 					{/* Content */}
-					<div className="p-6 overflow-y-auto max-h-[50vh]">
+					<div className="p-6 overflow-y-auto max-h-[60vh]">
 						{activeTab === "profile" ? (
 							<>
 								{error || saveError ? (
@@ -436,9 +567,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 													{userProfile?.planType === "free"
 														? profileModalTranslations.billing.free_plan.name
 														: userProfile?.planType === "basic"
-														? "$9.99/mo"
+														? "$4.99/mo"
 														: userProfile?.planType === "premium"
-														? "$19.99/mo"
+														? "$4.99/mo"
 														: "Custom"}
 												</p>
 												<p className="text-sm text-gray-600">
@@ -470,13 +601,34 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 									</div>
 								)}
 
+								<BillingToggle
+									billingCycle={billingCycle}
+									setBillingCycle={setBillingCycle}
+									pricingTranslations={pricingTranslations}
+								/>
+
 								{/* Available Plans */}
 								<Plans
-									profileModalTranslations={profileModalTranslations}
+									isInModal={true}
+									selectedPlan={selectedPlan}
+									billingCycle={billingCycle}
+									getPlanTranslation={getPlanTranslation}
 									userProfile={userProfile}
-									isAuthenticated={isAuthenticated}
-									handleUpgradePlan={handleUpgradePlan}
 								/>
+
+								{selectedPlan && (
+									<div className="flex justify-center">
+										<button
+											onClick={() => handleUpgradePlan(selectedPlan)}
+											className="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors z-[102]"
+										>
+											Confirm Selection
+											{/* {profileModalTranslations.billing.upgrade_to ||
+                                        "Upgrade to"}{" "}
+                                    {getPlanName(selectedPlan)} */}
+										</button>
+									</div>
+								)}
 
 								{/* View All Plans Button */}
 								<div className="text-center pt-4">

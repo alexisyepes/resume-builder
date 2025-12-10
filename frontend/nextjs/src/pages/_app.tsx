@@ -8,6 +8,7 @@ import { RESUME_CONTEXT } from "@/contexts/resumeContext"
 import type { TemplateDesign } from "@/constants"
 import useResumeStore from "@/store/useResumeStore"
 import { loadTranslations } from "@/utils"
+import { PLANS_CONTEXT } from "@/contexts/plansContext"
 
 export default function App({ Component, pageProps }: AppProps) {
 	const [resumeContentTriggered, setResumeContentTriggered] = useState(false)
@@ -21,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	const resolveTemplateName = (key: string, fallback: string) =>
 		(templateNames as Record<string, string | undefined>)[key] ?? fallback
 	const [templateDesigns, setTemplateDesigns] = useState<TemplateDesign[]>([])
+	const [selectedPlan, setSelectedPlan] = useState<string>("")
 
 	useEffect(() => {
 		getAllTemplates()
@@ -81,21 +83,28 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	return (
 		<AuthProvider>
-			<Layout>
-				<RESUME_CONTEXT.Provider
+			<RESUME_CONTEXT.Provider
+				value={{
+					t,
+					langPrefix,
+					handleImageUpload,
+					templateDesigns,
+					resumeContentTriggered,
+					setResumeContentTriggered,
+					...resumeStore,
+				}}
+			>
+				<PLANS_CONTEXT.Provider
 					value={{
-						t,
-						langPrefix,
-						handleImageUpload,
-						templateDesigns,
-						resumeContentTriggered,
-						setResumeContentTriggered,
-						...resumeStore,
+						selectedPlan,
+						setSelectedPlan,
 					}}
 				>
-					<Component {...pageProps} />
-				</RESUME_CONTEXT.Provider>
-			</Layout>
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
+				</PLANS_CONTEXT.Provider>
+			</RESUME_CONTEXT.Provider>
 		</AuthProvider>
 	)
 }

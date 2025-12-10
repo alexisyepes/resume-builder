@@ -345,7 +345,7 @@ export default {
 					},
 					{
 						title: "Pro",
-						price: "$9.99/month",
+						price: "$4.99/month",
 						features: [
 							"Unlimited Resumes",
 							"Premium Templates",
@@ -403,8 +403,8 @@ export default {
 							id: "basic",
 							name: "Basic",
 							description: "For job seekers",
-							monthlyPrice: 9.99,
-							yearlyPrice: 95.99, // 20% discount
+							monthlyPrice: 4.99,
+							yearlyPrice: 47.9, // 20% discount
 							icon: FiBriefcase,
 							color: "from-blue-600 to-cyan-600",
 							features: [
@@ -663,8 +663,8 @@ export default {
 				basic_plan: {
 					name: "Basic",
 					description: "For professionals",
-					price: "$9.99",
-					price_mo: "$9.99/mo",
+					price: "$4.99",
+					price_mo: "$4.99/mo",
 					features: [
 						"5 Resume Downloads",
 						"10 Templates",
@@ -675,8 +675,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "For power users",
-					price: "$19.99",
-					price_mo: "$19.99/mo",
+					price: "$4.99",
+					price_mo: "$4.99/mo",
 					features: [
 						"Unlimited Downloads",
 						"All Templates",

@@ -1,58 +1,27 @@
 "use client"
 
 import { useState } from "react"
-import {
-	FiCheck,
-	FiX,
-	FiStar,
-	FiZap,
-	FiBriefcase,
-	FiGlobe,
-} from "react-icons/fi"
 import { useRouter } from "next/navigation"
 import { useResumeContext } from "@/contexts/useResumeContext"
 import { useProfile } from "@/hooks/useProfile"
+import { usePlansContext } from "@/contexts/plansContext"
+
+import BillingToggle from "@/components/BillingToggle"
+import Plans from "@/components/Plans"
 
 const PricingPage = () => {
 	const { t, user, apiBaseUrl } = useResumeContext()
 	const tAny = t as any
 	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
 	const userId = (user?.id as string) || null
+	const { setSelectedPlan } = usePlansContext()
 
-	const { openModal, closeModal } = useProfile(userId, apiBaseUrl)
+	const { openModal } = useProfile(userId, apiBaseUrl)
 
 	const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
 		"monthly"
 	)
-	const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
 	const router = useRouter()
-
-	const staticPlanData = {
-		free: {
-			icon: FiZap,
-			color: "from-gray-600 to-gray-700",
-			monthlyPrice: 0,
-			yearlyPrice: 0,
-		},
-		basic: {
-			icon: FiBriefcase,
-			color: "from-blue-600 to-cyan-600",
-			monthlyPrice: 9.99,
-			yearlyPrice: 95.99,
-		},
-		premium: {
-			icon: FiStar,
-			color: "from-pink-600 to-rose-600",
-			monthlyPrice: 19.99,
-			yearlyPrice: 191.99,
-		},
-		enterprise: {
-			icon: FiGlobe,
-			color: "from-purple-600 to-indigo-600",
-			monthlyPrice: null,
-			yearlyPrice: null,
-		},
-	}
 
 	const getPlanTranslation = (planId: string) => {
 		const planIndex =
@@ -153,8 +122,6 @@ const PricingPage = () => {
 		}
 	}
 
-	const planIds = ["free", "basic", "premium", "enterprise"]
-
 	const featuresComparison =
 		pricingTranslations?.comparison_table?.featuresComparison || []
 
@@ -183,33 +150,12 @@ const PricingPage = () => {
 					</p>
 
 					{/* Billing Toggle */}
-					<div className="inline-flex items-center bg-gray-100 rounded-lg p-1 mb-2">
-						<button
-							onClick={() => setBillingCycle("monthly")}
-							className={`px-6 py-2 rounded-md font-medium transition-colors ${
-								billingCycle === "monthly"
-									? "bg-white text-gray-900 shadow"
-									: "text-gray-600 hover:text-gray-900"
-							}`}
-						>
-							{pricingTranslations?.billing?.monthly || "Monthly"}
-						</button>
-						<button
-							onClick={() => setBillingCycle("yearly")}
-							className={`px-6 py-2 rounded-md font-medium transition-colors ${
-								billingCycle === "yearly"
-									? "bg-white text-gray-900 shadow"
-									: "text-gray-600 hover:text-gray-900"
-							}`}
-						>
-							{pricingTranslations?.billing?.yearly || "Yearly"}{" "}
-							{pricingTranslations?.billing?.save_20 && (
-								<span className="ml-1 text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-									{pricingTranslations.billing.save_20}
-								</span>
-							)}
-						</button>
-					</div>
+					<BillingToggle
+						billingCycle={billingCycle}
+						setBillingCycle={setBillingCycle}
+						pricingTranslations={pricingTranslations}
+					/>
+
 					<p className="text-sm text-gray-500">
 						{pricingTranslations?.billing?.no_contract ||
 							"No long-term contracts. Cancel anytime."}
@@ -217,124 +163,13 @@ const PricingPage = () => {
 				</div>
 
 				{/* Plans Grid */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-					{planIds.map((planId) => {
-						const staticData =
-							staticPlanData[planId as keyof typeof staticPlanData]
-						const translation = getPlanTranslation(planId)
-						const IconComponent = staticData.icon
-
-						return (
-							<div
-								key={planId}
-								className={`relative flex flex-col h-full rounded-2xl border-2 p-8 transition-all hover:shadow-xl ${
-									translation.popular
-										? "border-blue-500 shadow-lg transform scale-105"
-										: "border-gray-200"
-								}`}
-							>
-								{translation.popular && (
-									<div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-										<span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-											{pricingTranslations?.plans?.most_popular ||
-												"Most Popular"}
-										</span>
-									</div>
-								)}
-
-								{/* Header section */}
-								<div className="mb-6">
-									<div
-										className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${staticData.color} mb-4`}
-									>
-										<IconComponent className="text-white" size={24} />
-									</div>
-									<h3 className="text-2xl font-bold text-gray-900">
-										{translation.name}
-									</h3>
-									<p className="text-gray-600 mt-1">
-										{translation.description}
-									</p>
-								</div>
-
-								{/* Pricing section */}
-								<div className="mb-6">
-									{staticData.monthlyPrice !== null ? (
-										<>
-											<div className="flex items-baseline">
-												<span className="text-4xl font-bold text-gray-900">
-													$
-													{billingCycle === "monthly"
-														? staticData.monthlyPrice
-														: staticData.yearlyPrice}
-												</span>
-												<span className="text-gray-600 ml-2">
-													/{billingCycle === "monthly" ? "month" : "year"}
-												</span>
-											</div>
-											{billingCycle === "yearly" &&
-												staticData.yearlyPrice > 0 && (
-													<p className="text-sm text-gray-500 mt-1">
-														{pricingTranslations?.plans?.billed_annually_a ||
-															"Billed annually ($"}
-														{(staticData.yearlyPrice / 12).toFixed(2)}
-														{pricingTranslations?.plans?.billed_annually_b ||
-															"/month)"}
-													</p>
-												)}
-										</>
-									) : (
-										<div className="text-2xl font-bold text-gray-900">
-											{pricingTranslations?.plans?.custom_pricing ||
-												"Custom Pricing"}
-										</div>
-									)}
-								</div>
-
-								{/* Features section - Esto empujará el botón hacia abajo */}
-								<div className="flex-grow mb-8">
-									<ul className="space-y-3">
-										{translation.features
-											.slice(0, 5)
-											.map((feature: any, index: number) => (
-												<li key={index} className="flex items-center">
-													{feature.included ? (
-														<FiCheck className="text-green-500 mr-3 flex-shrink-0" />
-													) : (
-														<FiX className="text-gray-300 mr-3 flex-shrink-0" />
-													)}
-													<span
-														className={
-															feature.included
-																? "text-gray-700"
-																: "text-gray-400"
-														}
-													>
-														{feature.text}
-													</span>
-												</li>
-											))}
-									</ul>
-								</div>
-
-								<div className="mt-auto">
-									<button
-										onClick={() => handleSelectPlan(planId)}
-										className={`w-full py-3 rounded-lg font-medium transition-all ${
-											translation.popular
-												? "bg-gradient-to-r from-cyan-600 to-cyan-800 text-white hover:opacity-90"
-												: planId === "free"
-												? "bg-gray-100 text-gray-900 hover:bg-gray-200"
-												: "bg-gray-900 text-white hover:bg-gray-800"
-										}`}
-									>
-										{translation.cta}
-									</button>
-								</div>
-							</div>
-						)
-					})}
-				</div>
+				<Plans
+					isInModal={false}
+					selectedPlan={null}
+					billingCycle={billingCycle}
+					getPlanTranslation={getPlanTranslation}
+					userProfile={useProfile}
+				/>
 
 				{/* Feature Comparison Table */}
 				<div className="mb-16">

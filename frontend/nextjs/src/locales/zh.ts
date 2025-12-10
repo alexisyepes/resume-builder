@@ -46,15 +46,15 @@ export default {
 				basic_plan: {
 					name: "基础版",
 					description: "适用于专业人士",
-					price: "$9.99",
-					price_mo: "$9.99/月",
+					price: "$4.99",
+					price_mo: "$4.99/月",
 					features: ["5次简历下载", "10个模板", "优先支持", "无广告"],
 				},
 				premium_plan: {
 					name: "高级版",
 					description: "适用于高级用户",
-					price: "$19.99/月",
-					price_mo: "$19.99/月",
+					price: "$4.99/月",
+					price_mo: "$4.99/月",
 					features: [
 						"无限下载",
 						"所有模板",
@@ -411,7 +411,7 @@ export default {
 					},
 					{
 						title: "专业版",
-						price: "$9.99/月",
+						price: "$4.99/月",
 						features: ["无限简历", "高级模板", "高级定制", "职业洞察"],
 						cta: "立即订阅",
 					},

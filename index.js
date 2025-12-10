@@ -6,6 +6,10 @@ const PORT = process.env.PORT || 4000
 
 require("dotenv").config()
 
+// Webhooks
+const stripeWebhookRoutes = require("./webhooks/stripeWebhook")
+app.use("/webhooks/stripe", stripeWebhookRoutes)
+
 // Middleware
 app.use(cors())
 // Use express.json with increased limit for larger payloads
@@ -17,11 +21,13 @@ const authRoutes = require("./routes/auth")
 const aiRoutes = require("./routes/ai")
 const resumeRoutes = require("./routes/resume")
 const userRoutes = require("./routes/users")
+const paymentRoutes = require("./routes/stripe")
 
 app.use("/auth", authRoutes)
 app.use("/ai", aiRoutes)
 app.use("/resumes", resumeRoutes)
 app.use("/users", userRoutes)
+app.use("/payments", paymentRoutes)
 
 sequelize.sync({ force: false }).then(function () {
 	app.listen(PORT, () => {
