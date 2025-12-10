@@ -451,7 +451,7 @@ const ResumeGenerator = () => {
 									</div>
 									<div className="element3_wrapper">
 										<ResumePreview
-											userPlan={user?.plan ? String(user.plan) : null}
+											userPlan={user?.planType ? String(user.planType) : null}
 											userId={user?.id ? String(user.id) : null}
 											t={t}
 											resumeRef={resumeRef}
@@ -681,7 +681,9 @@ const ResumeGenerator = () => {
 															>
 																<ResumePreview
 																	userPlan={
-																		user?.plan ? String(user.plan) : null
+																		user?.planType
+																			? String(user.planType)
+																			: null
 																	}
 																	userId={user?.id ? String(user.id) : null}
 																	t={t}
