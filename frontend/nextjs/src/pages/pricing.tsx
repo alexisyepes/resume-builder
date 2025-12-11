@@ -83,7 +83,7 @@ const PricingPage = () => {
 				]
 			case "basic":
 				return [
-					{ text: "5 Resume Downloads per month", included: true },
+					{ text: "10 Resume Downloads per month", included: true },
 					{ text: "10 Professional Templates", included: true },
 					{ text: "Basic AI Suggestions", included: true },
 					{ text: "Priority Email Support", included: true },

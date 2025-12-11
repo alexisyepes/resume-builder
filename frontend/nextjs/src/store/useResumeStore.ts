@@ -267,6 +267,10 @@ const useResumeStore = create<ResumeStore>()(
 
 					return { tabs: Array.from(new Set([...initialTabs, ...addedTabs])) }
 				}),
+
+			rehydrate: async () => {
+				await useResumeStore.persist.rehydrate()
+			},
 		}),
 		{
 			name: "resume-storage",

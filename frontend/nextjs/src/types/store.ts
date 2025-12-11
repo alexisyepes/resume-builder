@@ -12,6 +12,17 @@ import type {
 
 type ResumeUser = Record<string, unknown> | null
 
+export interface UserProfile {
+	id: string
+	email: string
+	firstName: string
+	lastName: string
+	createdAt: string
+	planType: "free" | "basic" | "premium"
+	totalDownloads: number
+	downloadsRemaining: number | "unlimited"
+}
+
 export interface ResumeStore {
 	apiBaseUrl: string | undefined
 
@@ -140,8 +151,8 @@ export interface ResumeStore {
 	setRunning: (value: boolean) => void
 
 	// Auth
-	user: ResumeUser
-	setUser: (value: ResumeUser) => void
+	user: UserProfile
+	setUser: (value: UserProfile) => void
 
 	authError: string | null
 	setAuthError: (value: string | null) => void
@@ -155,4 +166,5 @@ export interface ResumeStore {
 	// Reset actions
 	reset: () => void
 	resetOrderedTabs: () => void
+	rehydrate: () => void
 }

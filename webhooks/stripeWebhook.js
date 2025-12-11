@@ -20,7 +20,7 @@ const mapSubscriptionStatus = (stripeStatus) => {
 const updateDownloadLimits = (planType) => {
 	const downloadLimits = {
 		free: { downloadsRemaining: 1, totalDownloads: 0 },
-		basic: { downloadsRemaining: 5, totalDownloads: 0 },
+		basic: { downloadsRemaining: 10, totalDownloads: 0 },
 		premium: { downloadsRemaining: 9999, totalDownloads: 0 },
 		enterprise: { downloadsRemaining: 9999, totalDownloads: 0 },
 	}

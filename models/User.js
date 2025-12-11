@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
 				isEmail: true,
 			},
 		},
+		provider: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -32,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		subscriptionStatus: {
 			type: DataTypes.ENUM("active", "canceled", "past_due", "trialing"),
-			defaultValue: "active",
+			defaultValue: "canceled",
 		},
 		downloadsRemaining: {
 			type: DataTypes.INTEGER,

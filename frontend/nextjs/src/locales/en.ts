@@ -408,7 +408,7 @@ export default {
 							icon: FiBriefcase,
 							color: "from-blue-600 to-cyan-600",
 							features: [
-								{ text: "5 Resume Downloads per month", included: true },
+								{ text: "10 Resume Downloads per month", included: true },
 								{ text: "10 Professional Templates", included: true },
 								{ text: "Basic AI Suggestions", included: true },
 								{ text: "Priority Email Support", included: true },
@@ -666,7 +666,7 @@ export default {
 					price: "$4.99",
 					price_mo: "$4.99/mo",
 					features: [
-						"5 Resume Downloads",
+						"10 Resume Downloads",
 						"10 Templates",
 						"Priority Support",
 						"No Ads",

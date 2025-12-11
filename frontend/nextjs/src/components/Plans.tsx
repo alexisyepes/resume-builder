@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_BASIC_PLAN_YEARLY,
@@ -12,11 +12,9 @@ import {
 	EmbeddedCheckoutProvider,
 	EmbeddedCheckout,
 } from "@stripe/react-stripe-js"
+import { useProfile } from "@/hooks/useProfile"
 
-// Inicializar Stripe fuera del componente
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
-
-// Mapeo de precios a IDs de Stripe
 const stripePriceIds = {
 	basic: {
 		monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_BASIC_MONTHLY,
@@ -35,12 +33,15 @@ export default function Plans({
 	isInModal,
 	userProfile,
 }) {
-	const { t, isAuthenticated, apiBaseUrl, user } = useResumeContext()
+	const { t, isAuthenticated, apiBaseUrl, user, setUser, rehydrate } =
+		useResumeContext()
+	const userId = (user?.id as string) || null
+
+	const { fetchUserProfile } = useProfile(userId, apiBaseUrl)
 	const tAny = t as any
 	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
 	const planIds = ["free", "basic", "premium"]
 
-	// Estados para Stripe
 	const [showCheckout, setShowCheckout] = useState(false)
 	const [clientSecret, setClientSecret] = useState("")
 	const [isLoading, setIsLoading] = useState<string | null>(null)
@@ -67,17 +68,13 @@ export default function Plans({
 		},
 	}
 
-	// Función para manejar la actualización del plan con Stripe
 	const handlePlanUpgrade = async (planId: string) => {
 		if (planId === "free") {
-			// Plan gratuito - manejar downgrade
 			handleFreePlan(planId)
 			return
 		}
 
-		// Para planes pagados, usar Stripe
 		if (!isAuthenticated) {
-			// Redirigir a login
 			window.location.href = "/signin"
 			return
 		}
@@ -86,7 +83,6 @@ export default function Plans({
 		setCheckoutPlan(planId)
 
 		try {
-			// Obtener el priceId según el plan y ciclo de facturación
 			const planPrices = stripePriceIds[planId as keyof typeof stripePriceIds]
 			if (!planPrices) {
 				throw new Error(`No Stripe prices configured for plan: ${planId}`)
@@ -99,7 +95,6 @@ export default function Plans({
 				throw new Error(`Price ID not found for ${planId} (${billingCycle})`)
 			}
 
-			// Crear sesión de checkout
 			const response = await fetch(
 				`${apiBaseUrl}/payments/create-checkout-session`,
 				{
@@ -133,50 +128,55 @@ export default function Plans({
 		}
 	}
 
-	// Función para manejar plan gratuito
 	const handleFreePlan = async (planId: string) => {
 		if (!isAuthenticated) {
-			window.location.href = "/login"
+			window.location.href = "/signin"
 			return
 		}
 
 		if (userProfile?.planType === "free") {
-			// Ya está en plan free
 			alert("You are already on the Free plan")
 			return
 		}
 
-		if (confirm("Are you sure you want to downgrade to Free plan?")) {
-			setIsLoading(planId)
+		if (
+			!confirm(
+				"Are you sure you want to downgrade to Free plan? Your subscription will be cancelled immediately."
+			)
+		) {
+			return
+		}
 
-			try {
-				const response = await fetch(`${apiBaseUrl}/users/change-plan`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						userId: userProfile?.id,
-						plan: "free",
-					}),
-				})
+		setIsLoading(planId)
 
-				if (!response.ok) {
-					throw new Error("Error changing plan")
-				}
+		try {
+			const response = await fetch(`${apiBaseUrl}/users/change-to-free-plan`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: userProfile?.id,
+					plan: "free",
+				}),
+			})
 
-				alert("Successfully changed to Free plan!")
-				window.location.reload()
-			} catch (error) {
-				console.error("Error:", error)
-				alert("Error changing plan")
-			} finally {
-				setIsLoading(null)
+			const data = await response.json()
+			await fetchUserProfile()
+
+			if (!response.ok) {
+				throw new Error(data.error || "Error changing plan")
 			}
+
+			alert(data.message || "Successfully changed to Free plan!")
+		} catch (error) {
+			console.error("Error:", error)
+			alert(error instanceof Error ? error.message : "Error changing plan")
+		} finally {
+			setIsLoading(null)
 		}
 	}
 
-	// Obtener texto del botón según el estado
 	const getButtonText = (planId: string, translation: any) => {
 		if (isLoading === planId) {
 			return (
@@ -209,7 +209,6 @@ export default function Plans({
 		return translation.cta
 	}
 
-	// Obtener si el botón debe estar deshabilitado
 	const isButtonDisabled = (planId: string) => {
 		return (
 			isLoading !== null ||
@@ -219,7 +218,7 @@ export default function Plans({
 
 	return (
 		<>
-			{/* Modal de Stripe Checkout */}
+			{/* Modal Stripe Checkout */}
 			{showCheckout && clientSecret && (
 				<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
 					<div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-auto">
@@ -259,7 +258,7 @@ export default function Plans({
 				</div>
 			)}
 
-			{/* Grid de Planes */}
+			{/* Plans */}
 			<div
 				className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16`}
 			>
@@ -397,7 +396,6 @@ export default function Plans({
 									{getButtonText(planId, translation)}
 								</button>
 
-								{/* Información adicional para usuarios autenticados */}
 								{isAuthenticated &&
 									userProfile?.planType === planId &&
 									planId !== "free" && (
@@ -411,7 +409,6 @@ export default function Plans({
 				})}
 			</div>
 
-			{/* Nota informativa */}
 			<div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
 				<div className="flex items-start">
 					<div className="flex-shrink-0">
@@ -432,11 +429,6 @@ export default function Plans({
 							<li className="flex items-center">
 								<FiCheck className="mr-2" size={14} />
 								{pricingTranslations?.security_points?.[1] || "Cancel anytime"}
-							</li>
-							<li className="flex items-center">
-								<FiCheck className="mr-2" size={14} />
-								{pricingTranslations?.security_points?.[2] ||
-									"30-day money-back guarantee"}
 							</li>
 						</ul>
 					</div>

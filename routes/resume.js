@@ -43,6 +43,7 @@ router.post("/generate-pdf", async (req, res) => {
 			lastName,
 			resumeData,
 		} = req.body
+
 		if (!html) {
 			return res.status(400).json({ error: "No HTML content provided" })
 		}
@@ -53,21 +54,24 @@ router.post("/generate-pdf", async (req, res) => {
 			return res.status(404).json({ error: "User not found" })
 		}
 
-		if (user.planType === "free") {
-			const downloadedResumesCount = await Resume.count({
-				where: { userId },
-			})
+		// VERIFICAR USANDO EL NUEVO SISTEMA DE downloadsRemaining
+		// Importar la función checkDownloadLimit
+		const {
+			checkDownloadLimit,
+			incrementDownloadCount,
+		} = require("../utils/downloadLimiter")
 
-			if (downloadedResumesCount >= 1) {
-				return res.status(403).json({
-					error: "Download limit reached",
-					message:
-						"You've already downloaded your free resume. Please upgrade to a paid plan for unlimited downloads.",
-					code: "FREE_LIMIT_REACHED",
-					limit: 1,
-					used: downloadedResumesCount,
-				})
-			}
+		const limitCheck = await checkDownloadLimit(userId)
+
+		if (!limitCheck.canDownload) {
+			return res.status(403).json({
+				error: "Download limit reached",
+				message: limitCheck.message || "You have reached your download limit",
+				reason: limitCheck.reason,
+				userPlan: limitCheck.userPlan,
+				downloadsRemaining: limitCheck.downloadsRemaining,
+				code: "DOWNLOAD_LIMIT_REACHED",
+			})
 		}
 
 		let browser
@@ -166,8 +170,17 @@ router.post("/generate-pdf", async (req, res) => {
 
 		if (savedResume) {
 			try {
+				// Usar la nueva función incrementDownloadCount que maneja downloadsRemaining
 				await incrementDownloadCount(userId)
-				console.log("Download count incremented for user:", userId)
+				console.log(
+					"Download count incremented for user:",
+					userId,
+					`Downloads remaining: ${
+						limitCheck.downloadsRemaining !== 9999
+							? limitCheck.downloadsRemaining - 1
+							: "unlimited"
+					}`
+				)
 			} catch (incrementError) {
 				console.error("Error incrementing download count:", incrementError)
 			}

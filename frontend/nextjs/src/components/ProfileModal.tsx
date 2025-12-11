@@ -39,7 +39,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	profileModalTranslations,
 }) => {
 	const modalRef = useRef<HTMLDivElement>(null)
-	const { isAuthenticated } = useResumeStore()
+	const { isAuthenticated, user } = useResumeStore()
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedProfile, setEditedProfile] = useState<any>(null)
 	const [saveLoading, setSaveLoading] = useState(false)
@@ -82,10 +82,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	}, [isAuthenticated])
 
 	useEffect(() => {
-		if (userProfile) {
-			setEditedProfile({ ...userProfile })
+		if (user) {
+			setEditedProfile({ ...user })
 		}
-	}, [userProfile])
+	}, [user])
 
 	const handleClose = () => {
 		if (saveLoading) return
@@ -101,7 +101,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	}
 
 	const handleSave = async () => {
-		if (!editedProfile || !userProfile) return
+		if (!editedProfile || !user) return
 
 		setSaveLoading(true)
 		setSaveError(null)
@@ -109,11 +109,11 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 		try {
 			const updateData: any = {}
 
-			if (editedProfile.firstName !== userProfile.firstName) {
+			if (editedProfile.firstName !== user.firstName) {
 				updateData.firstName = editedProfile.firstName
 			}
 
-			if (editedProfile.lastName !== userProfile.lastName) {
+			if (editedProfile.lastName !== user.lastName) {
 				updateData.lastName = editedProfile.lastName
 			}
 
@@ -233,7 +233,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 				]
 			case "basic":
 				return [
-					{ text: "5 Resume Downloads per month", included: true },
+					{ text: "10 Resume Downloads per month", included: true },
 					{ text: "10 Professional Templates", included: true },
 					{ text: "Basic AI Suggestions", included: true },
 					{ text: "Priority Email Support", included: true },
@@ -337,18 +337,18 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 								<FiX size={24} />
 							</button>
 
-							{userProfile ? (
+							{user ? (
 								<div className="flex items-center space-x-4">
 									<div className="bg-white/20 p-3 rounded-full">
 										<FaUserCircle size={48} className="text-white" />
 									</div>
 									<div>
 										<h2 className="text-2xl font-bold text-white">
-											{userProfile.firstName} {userProfile.lastName}
+											{user.firstName} {user.lastName}
 										</h2>
 										<p className="text-white/80 flex items-center gap-2 mt-1">
 											<FiMail size={14} />
-											{userProfile.email}
+											{user.email}
 										</p>
 									</div>
 								</div>
@@ -417,7 +417,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 											))}
 										</div>
 									</div>
-								) : userProfile && editedProfile ? (
+								) : user && editedProfile ? (
 									<div className="space-y-6">
 										{/* Current Plan Summary */}
 										<div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border p-4">
@@ -428,7 +428,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 															"Current Plan"}
 													</p>
 													<p className="text-xl font-bold text-gray-900">
-														{getPlanName(userProfile.planType)}{" "}
+														{getPlanName(user.planType)}{" "}
 														{profileModalTranslations.profile.plan || "Plan"}
 													</p>
 												</div>
@@ -466,7 +466,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 														/>
 													) : (
 														<div className="px-4 py-3 bg-gray-50 rounded-lg border">
-															{userProfile.firstName || "Not set"}
+															{user.firstName || "Not set"}
 														</div>
 													)}
 												</div>
@@ -492,7 +492,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 														/>
 													) : (
 														<div className="px-4 py-3 bg-gray-50 rounded-lg border">
-															{userProfile.lastName || "Not set"}
+															{user.lastName || "Not set"}
 														</div>
 													)}
 												</div>
@@ -505,7 +505,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 														"Email Address"}
 												</label>
 												<div className="px-4 py-3 bg-gray-50 rounded-lg border text-gray-600">
-													{userProfile.email}
+													{user.email}
 												</div>
 												<p className="text-xs text-gray-500">
 													{profileModalTranslations.profile
@@ -537,38 +537,38 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 											<div className="flex items-center gap-3">
 												<div
 													className={`p-3 rounded-lg ${getPlanColor(
-														userProfile?.planType || "free"
+														user.planType || "free"
 													)}`}
 												>
-													{getPlanIcon(userProfile?.planType || "free")}
+													{getPlanIcon(user.planType || "free")}
 												</div>
 												<div>
 													<h3 className="text-lg font-bold text-gray-900">
-														{getPlanName(userProfile?.planType || "free")}{" "}
+														{getPlanName(user.planType || "free")}{" "}
 														{profileModalTranslations.profile.plan || "Plan"}
 													</h3>
 													<p
 														className={`${
-															userProfile?.downloadsRemaining === 0
+															user.downloadsRemaining === 0
 																? "text-red-600"
 																: "text-gray-600"
 														}`}
 													>
-														{userProfile?.planType === "free"
-															? profileModalTranslations.profile
-																	.downloads_remaining || 1
-															: "Unlimited downloads"}{" "}
-														{userProfile?.downloadsRemaining}
+														{
+															profileModalTranslations.profile
+																.downloads_remaining
+														}{" "}
+														{user.downloadsRemaining}
 													</p>
 												</div>
 											</div>
 											<div className="text-right">
 												<p className="text-2xl font-bold text-gray-900">
-													{userProfile?.planType === "free"
+													{user.planType === "free"
 														? profileModalTranslations.billing.free_plan.name
-														: userProfile?.planType === "basic"
+														: user.planType === "basic"
 														? "$4.99/mo"
-														: userProfile?.planType === "premium"
+														: user.planType === "premium"
 														? "$4.99/mo"
 														: "Custom"}
 												</p>
@@ -585,7 +585,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 													"Plan Features:"}
 											</h4>
 											<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-												{getPlanFeatures(userProfile?.planType || "free").map(
+												{getPlanFeatures(user.planType || "free").map(
 													(feature, index) => (
 														<div
 															key={index}
@@ -613,7 +613,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 									selectedPlan={selectedPlan}
 									billingCycle={billingCycle}
 									getPlanTranslation={getPlanTranslation}
-									userProfile={userProfile}
+									userProfile={user}
 								/>
 
 								{selectedPlan && (
@@ -661,7 +661,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 					{isAuthenticated && (
 						<PricePlansFooter
 							activeTab={activeTab}
-							userProfile={userProfile}
+							userProfile={user}
 							loading={loading}
 							isEditing={isEditing}
 							saveLoading={saveLoading}

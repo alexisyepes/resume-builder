@@ -13,8 +13,9 @@ export interface UserProfile {
 }
 
 export const useProfile = (userId: string | null, apiBaseUrl: string) => {
-	const { isProfileModalOpen, setIsProfileModalOpen } = useResumeStore()
-	const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+	const { isProfileModalOpen, setIsProfileModalOpen, user, setUser } =
+		useResumeStore()
+	// const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const hasFetchedRef = useRef(false)
@@ -33,7 +34,7 @@ export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 			}
 
 			const data = await response.json()
-			setUserProfile(data)
+			setUser(data)
 			hasFetchedRef.current = true
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Unknown error")
@@ -64,7 +65,7 @@ export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 				}
 
 				const updatedProfile = await response.json()
-				setUserProfile(updatedProfile)
+				setUser(updatedProfile)
 				return true
 			} catch (err) {
 				setError(
@@ -100,7 +101,7 @@ export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 	}, [userId])
 
 	return {
-		userProfile,
+		userProfile: user,
 		loading,
 		error,
 		isProfileModalOpen,
