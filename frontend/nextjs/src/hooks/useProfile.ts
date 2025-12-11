@@ -1,21 +1,10 @@
 import useResumeStore from "@/store/useResumeStore"
+import { UserProfile } from "@/types/store"
 import { useState, useEffect, useCallback, useRef } from "react"
-
-export interface UserProfile {
-	id: string
-	email: string
-	firstName: string
-	lastName: string
-	createdAt: string
-	planType: "free" | "basic" | "premium" | "enterprise"
-	totalDownloads: number
-	downloadsRemaining: number | "unlimited"
-}
 
 export const useProfile = (userId: string | null, apiBaseUrl: string) => {
 	const { isProfileModalOpen, setIsProfileModalOpen, user, setUser } =
 		useResumeStore()
-	// const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const hasFetchedRef = useRef(false)
