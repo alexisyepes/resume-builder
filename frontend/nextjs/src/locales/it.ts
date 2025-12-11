@@ -497,7 +497,7 @@ export default {
 							name: "Base",
 							description: "Per cercatori di lavoro",
 							features: [
-								{ text: "5 Download Curriculum al mese", included: true },
+								{ text: "10 Download Curriculum al mese", included: true },
 								{ text: "10 Modelli Professionali", included: true },
 								{ text: "Suggerimenti IA Base", included: true },
 								{ text: "Supporto Email Prioritario", included: true },

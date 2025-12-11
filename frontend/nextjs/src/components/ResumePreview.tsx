@@ -409,7 +409,7 @@ export default function ResumePreview({
 
 		if (!limitCheck.canDownload) {
 			// Mostrar alerta apropiada
-			if (limitCheck.reason === "free_limit_reached") {
+			if (limitCheck.reason === "download_limit_reached") {
 				alert(
 					limitCheck.userPlan === "free"
 						? "You've already downloaded your free resume included in the free plan. Please subscribe to a paid plan to enjoy unlimited downloads."
@@ -455,35 +455,35 @@ export default function ResumePreview({
 		const bgStyle = TEMPLATE_STYLES[template] || ""
 
 		const htmlContent = `
-			<!DOCTYPE html>
-			<html lang="${langPrefix}">
-			<head>
-				<meta charset="UTF-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Resume - ${firstName}</title>
-				<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-				<link rel="stylesheet" href="${baseUrl}/tailwind.css">
-				<link rel="stylesheet" href="${baseUrl}/styles/globals.css">
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
+		<!DOCTYPE html>
+		<html lang="${langPrefix}">
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Resume - ${firstName}</title>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+			<link rel="stylesheet" href="${baseUrl}/tailwind.css">
+			<link rel="stylesheet" href="${baseUrl}/styles/globals.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
+			
+			<style>
+				body { font-family: "Inter", system-ui, Arial, Helvetica, sans-serif; }
 				
-				<style>
-					body { font-family: "Inter", system-ui, Arial, Helvetica, sans-serif; }
-					
-					@font-face {
-						font-family: 'Noto Sans CJK SC';
-						src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk/NotoSansSC-Regular.otf') format('opentype');
-					}
-					
-					:lang(${langPrefix}) {
-						font-family: "Noto Sans CJK SC", "Inter", system-ui, Arial, Helvetica, sans-serif;
-					}
-					${bgStyle}
-				</style>
-			</head>
-			<body>
-				${ReactDOMServer.renderToString(selectedTemplate)}
-			</body>
-			</html>`
+				@font-face {
+					font-family: 'Noto Sans CJK SC';
+					src: url('https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk/NotoSansSC-Regular.otf') format('opentype');
+				}
+				
+				:lang(${langPrefix}) {
+					font-family: "Noto Sans CJK SC", "Inter", system-ui, Arial, Helvetica, sans-serif;
+				}
+				${bgStyle}
+			</style>
+		</head>
+		<body>
+			${ReactDOMServer.renderToString(selectedTemplate)}
+		</body>
+		</html>`
 
 		try {
 			const response = await fetch(`${apiBaseUrl}/resumes/generate-pdf`, {

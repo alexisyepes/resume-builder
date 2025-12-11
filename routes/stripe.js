@@ -1,6 +1,6 @@
 const express = require("express")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-const { Order, Subscription, User } = require("../models")
+const { Subscription, User } = require("../models")
 const router = express.Router()
 
 router.post("/create-checkout-session", async (req, res) => {
@@ -64,7 +64,6 @@ router.post("/create-checkout-session", async (req, res) => {
 	}
 })
 
-// Obtener estado de la sesión
 router.get("/session-status", async (req, res) => {
 	const { session_id } = req.query
 
@@ -81,28 +80,53 @@ router.get("/session-status", async (req, res) => {
 	}
 })
 
-// Cancelar suscripción
 router.post("/cancel-subscription", async (req, res) => {
 	try {
-		const { subscriptionId } = req.body
+		const { subscriptionId, userId } = req.body
 
-		const deletedSubscription = await stripe.subscriptions.cancel(
+		if (!subscriptionId) {
+			return res.status(400).json({
+				error: "subscriptionId is required",
+			})
+		}
+
+		const canceledSubscription = await stripe.subscriptions.cancel(
 			subscriptionId
 		)
 
-		// Actualizar estado en tu base de datos
-		const subscription = await Subscription.findOne({
-			where: { stripeSubId: subscriptionId },
-		})
-
-		if (subscription) {
-			await subscription.update({ status: "canceled" })
+		if (userId) {
+			await User.update(
+				{
+					planType: "free",
+					subscriptionStatus: "canceled",
+					subscriptionId: null,
+					subscriptionEndDate: null,
+					downloadsRemaining: 1,
+					totalDownloads: 0,
+				},
+				{ where: { id: userId } }
+			)
 		}
 
-		res.json({ success: true, subscription: deletedSubscription })
+		await Subscription.update(
+			{
+				plan: "free",
+				expiresAt: null,
+			},
+			{ where: { stripeSubscriptionId: subscriptionId } }
+		)
+
+		res.json({
+			success: true,
+			message: "Subscription cancelled successfully",
+			subscription: canceledSubscription,
+		})
 	} catch (error) {
 		console.error("Error canceling subscription:", error)
-		res.status(500).json({ error: error.message })
+		res.status(500).json({
+			error: error.message,
+			code: error.code,
+		})
 	}
 })
 

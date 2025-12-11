@@ -5,16 +5,23 @@ import { useRouter } from "next/router"
 
 import useResumeStore from "@/store/useResumeStore"
 import { loadTranslations } from "@/utils"
+import { UserProfile } from "@/types/store"
 
-interface User {
-	id?: string
-	firstName?: string
-	lastName?: string
-	email?: string
-	plan?: string
+export interface User {
+	id: string
+	email: string
 	provider?: string
+	password?: string
+	firstName?: string | null
+	lastName?: string | null
+	planType?: "free" | "basic" | "premium" | "enterprise"
+	subscriptionStatus?: "active" | "canceled" | "past_due" | "trialing"
+	downloadsRemaining?: number
+	totalDownloads?: number
+	subscriptionId?: string | null
+	subscriptionEndDate?: string | null
+	createdAt?: string
 	updatedAt?: string
-	[key: string]: unknown
 }
 
 type AuthResponse = {
@@ -23,7 +30,7 @@ type AuthResponse = {
 }
 
 type AuthContextValue = {
-	user: User | null
+	user: UserProfile | null
 	isAuthenticated: boolean
 	login: (email: string, password: string) => Promise<void>
 	register: (
@@ -91,7 +98,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 				}
 			)
 			localStorage.setItem("token", response.data.token)
-			setUser(response.data.user)
+			setUser(response.data.user as UserProfile)
 			setIsAuthenticated(true)
 			router.push("/builder")
 		} catch (error) {
@@ -122,7 +129,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			)
 
 			localStorage.setItem("token", response.data.token)
-			setUser(response.data.user)
+			setUser(response.data.user as UserProfile)
 			setIsAuthenticated(true)
 			router.push("/builder")
 		} catch (error) {
@@ -136,7 +143,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const signInWithGoogle = async () => {
 		// TODO: integrate OAuth provider
-		setUser({ email: "googleuser@example.com" })
+		// setUser({ email: "googleuser@example.com" })
 		setIsAuthenticated(true)
 	}
 

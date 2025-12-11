@@ -495,7 +495,7 @@ export default {
 							name: "बेसिक",
 							description: "नौकरी चाहने वालों के लिए",
 							features: [
-								{ text: "प्रति माह 5 रेज़्यूमे डाउनलोड", included: true },
+								{ text: "प्रति माह 10 रेज़्यूमे डाउनलोड", included: true },
 								{ text: "10 पेशेवर टेम्प्लेट", included: true },
 								{ text: "बेसिक एआई सुझाव", included: true },
 								{ text: "प्राथमिकता ईमेल सपोर्ट", included: true },

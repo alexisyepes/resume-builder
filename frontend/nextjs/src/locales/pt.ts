@@ -498,7 +498,7 @@ export default {
 							name: "Básico",
 							description: "Para candidatos a emprego",
 							features: [
-								{ text: "5 Downloads de Currículo por mês", included: true },
+								{ text: "10 Downloads de Currículo por mês", included: true },
 								{ text: "10 Modelos Profissionais", included: true },
 								{ text: "Sugestões Básicas de IA", included: true },
 								{ text: "Suporte Prioritário por Email", included: true },

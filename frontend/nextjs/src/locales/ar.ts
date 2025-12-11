@@ -489,7 +489,7 @@ export default {
 							name: "أساسي",
 							description: "لباحثي العمل",
 							features: [
-								{ text: "5 تحميلات سيرة ذاتية شهريًا", included: true },
+								{ text: "10 تحميلات سيرة ذاتية شهريًا", included: true },
 								{ text: "10 قوالب احترافية", included: true },
 								{ text: "اقتراحات ذكاء اصطناعي أساسية", included: true },
 								{ text: "دعم ذو أولوية عبر البريد الإلكتروني", included: true },

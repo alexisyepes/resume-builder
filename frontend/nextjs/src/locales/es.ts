@@ -506,7 +506,7 @@ export default {
 							icon: FiBriefcase,
 							description: "Para buscadores de empleo",
 							features: [
-								{ text: "5 Descargas de Currículum por mes", included: true },
+								{ text: "10 Descargas de Currículum por mes", included: true },
 								{ text: "10 Plantillas Profesionales", included: true },
 								{ text: "Sugerencias Básicas de IA", included: true },
 								{ text: "Soporte Prioritario por Email", included: true },

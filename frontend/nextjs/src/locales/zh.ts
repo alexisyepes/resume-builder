@@ -458,7 +458,7 @@ export default {
 							name: "基础版",
 							description: "适合求职者",
 							features: [
-								{ text: "每月5份简历下载", included: true },
+								{ text: "每月10份简历下载", included: true },
 								{ text: "10个专业模板", included: true },
 								{ text: "基础AI建议", included: true },
 								{ text: "优先电子邮件支持", included: true },

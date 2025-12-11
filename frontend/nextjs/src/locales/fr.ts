@@ -494,7 +494,7 @@ export default {
 							name: "Basique",
 							description: "Pour chercheurs d'emploi",
 							features: [
-								{ text: "5 Téléchargements de CV par mois", included: true },
+								{ text: "10 Téléchargements de CV par mois", included: true },
 								{ text: "10 Modèles Professionnels", included: true },
 								{ text: "Suggestions IA de Base", included: true },
 								{ text: "Support Email Prioritaire", included: true },
