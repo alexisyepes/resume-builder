@@ -431,6 +431,8 @@ export default {
 					yearly: "年度",
 					save_20: "节省20%",
 					no_contract: "无长期合同。随时取消。",
+					next_billing: "下次账单",
+					plan_expires_on: "计划到期时间",
 				},
 				plans: {
 					most_popular: "最受欢迎",

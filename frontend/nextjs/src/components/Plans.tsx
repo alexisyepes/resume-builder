@@ -13,6 +13,8 @@ import {
 	EmbeddedCheckout,
 } from "@stripe/react-stripe-js"
 import { useProfile } from "@/hooks/useProfile"
+import { toast, ToastContainer } from "react-toastify"
+import { DateTime } from "luxon"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
 const stripePriceIds = {
@@ -107,7 +109,7 @@ export default function Plans({
 						userId: user?.id,
 						planType: planId,
 						billingCycle,
-						customerEmail: userProfile?.email,
+						customerEmail: user.email,
 					}),
 				}
 			)
@@ -134,8 +136,8 @@ export default function Plans({
 			return
 		}
 
-		if (userProfile?.planType === "free") {
-			alert("You are already on the Free plan")
+		if (user.planType === "free") {
+			toast.warn("You are already on the Free plan")
 			return
 		}
 
@@ -156,7 +158,7 @@ export default function Plans({
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					userId: userProfile?.id,
+					userId: user.id,
 					plan: "free",
 				}),
 			})
@@ -202,7 +204,7 @@ export default function Plans({
 			)
 		}
 
-		if (isAuthenticated && userProfile?.planType === planId) {
+		if (isAuthenticated && user.planType === planId) {
 			return pricingTranslations?.plans?.current_plan || "Current Plan"
 		}
 
@@ -210,14 +212,12 @@ export default function Plans({
 	}
 
 	const isButtonDisabled = (planId: string) => {
-		return (
-			isLoading !== null ||
-			(isAuthenticated && userProfile?.planType === planId)
-		)
+		return isLoading !== null || (isAuthenticated && user.planType === planId)
 	}
 
 	return (
 		<>
+			<ToastContainer theme="dark" />
 			{/* Modal Stripe Checkout */}
 			{showCheckout && clientSecret && (
 				<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -267,9 +267,7 @@ export default function Plans({
 						staticPlanData[planId as keyof typeof staticPlanData]
 					const translation = getPlanTranslation(planId)
 					const IconComponent = staticData.icon
-					const isCurrentPlan =
-						isAuthenticated && userProfile?.planType === planId
-					const isFreePlan = planId === "free"
+					const isCurrentPlan = isAuthenticated && user.planType === planId
 
 					return (
 						<div
@@ -397,10 +395,13 @@ export default function Plans({
 								</button>
 
 								{isAuthenticated &&
-									userProfile?.planType === planId &&
+									user.planType === planId &&
 									planId !== "free" && (
 										<p className="text-xs text-gray-500 text-center mt-2">
-											Next billing: {userProfile?.subscriptionEndDate || "N/A"}
+											{pricingTranslations.billing.next_billing}:
+											{DateTime.fromISO(user.subscriptionEndDate).toFormat(
+												"yyyy-mm-dd"
+											) || "N/A"}
 										</p>
 									)}
 							</div>
