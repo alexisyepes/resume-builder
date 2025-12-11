@@ -291,9 +291,9 @@ export default function Plans({
 
 							{/* Badge Current Plan */}
 							{isCurrentPlan && (
-								<div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-									<span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center">
-										<FiCheck className="mr-1" size={12} />
+								<div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+									<span className="bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center min-w-[140px] justify-center">
+										<FiCheck className="mr-1" size={16} />
 										{pricingTranslations?.plans?.current_plan || "Current Plan"}
 									</span>
 								</div>
