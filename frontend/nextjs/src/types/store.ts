@@ -21,6 +21,9 @@ export interface UserProfile {
 	planType: "free" | "basic" | "premium"
 	totalDownloads: number
 	downloadsRemaining: number | "unlimited"
+	subscriptionId?: string | null
+	subscriptionEndDate?: string | null
+	updatedAt?: string
 }
 
 export interface ResumeStore {

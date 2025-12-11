@@ -470,6 +470,8 @@ export default {
 					save_20: "Risparmia il 20%",
 					no_contract:
 						"Nessun contratto a lungo termine. Cancella in qualsiasi momento.",
+					next_billing: "Prossima Fatturazione",
+					plan_expires_on: "Il piano scade il",
 				},
 				plans: {
 					most_popular: "Più Popolare",

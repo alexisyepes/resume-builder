@@ -370,6 +370,8 @@ export default {
 					yearly: "Yearly",
 					save_20: "Save 20%",
 					no_contract: "No long-term contracts. Cancel anytime.",
+					next_billing: "Next Billing",
+					plan_expires_on: "Plan expires on",
 				},
 				plans: {
 					most_popular: "Most Popular",

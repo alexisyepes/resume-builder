@@ -22,7 +22,6 @@ router.post("/change-to-free-plan", async (req, res) => {
 			})
 		}
 
-		// Si ya está en free plan, no hacer nada
 		if (user.planType === "free") {
 			return res.json({
 				success: true,
@@ -37,7 +36,7 @@ router.post("/change-to-free-plan", async (req, res) => {
 
 		console.log(`Changing user ${userId} from ${user.planType} to free plan`)
 
-		// Cancelar suscripción en Stripe si tiene una
+		// Cancel Stripe subscription if it exists
 		if (user.subscriptionId) {
 			try {
 				const canceledSubscription = await stripe.subscriptions.cancel(
@@ -46,11 +45,9 @@ router.post("/change-to-free-plan", async (req, res) => {
 
 				console.log(`Cancelled Stripe subscription: ${user.subscriptionId}`)
 
-				// Actualizar registro en Subscription table
 				await Subscription.update(
 					{
 						plan: "free",
-						expiresAt: null,
 					},
 					{ where: { stripeSubscriptionId: user.subscriptionId } }
 				)
@@ -59,32 +56,17 @@ router.post("/change-to-free-plan", async (req, res) => {
 			}
 		}
 
-		// MANTENER LOS DOWNLOADS REMAINING QUE TENÍA
-		// Si tenía 10 descargas en basic, mantiene 10
-		// Pero el límite free es 1, así que solo podrá usar 1
-		let newDownloadsRemaining = user.downloadsRemaining
-
-		// Asegurar que no sea negativo
-		if (newDownloadsRemaining < 0) {
-			newDownloadsRemaining = 0
-		}
-
 		const updateData = {
 			planType: "free",
-			downloadsRemaining: newDownloadsRemaining,
 			subscriptionStatus: "canceled",
-			subscriptionId: null,
-			subscriptionEndDate: null,
 		}
 
 		await user.update(updateData)
 
 		console.log(`Successfully changed user ${userId} to free plan`, {
-			downloadsRemaining: {
-				previous: user.downloadsRemaining,
-				new: newDownloadsRemaining,
-				note: "User keeps their remaining downloads, but free plan limit is 1",
-			},
+			downloadsRemaining: user.downloadsRemaining,
+			subscriptionEndDate: user.subscriptionEndDate,
+			note: "User can use remaining downloads until subscriptionEndDate",
 		})
 
 		const updatedUser = await User.findByPk(userId, {
@@ -102,16 +84,31 @@ router.post("/change-to-free-plan", async (req, res) => {
 			],
 		})
 
+		let daysRemaining = 0
+		if (updatedUser.subscriptionEndDate) {
+			const now = new Date()
+			const endDate = new Date(updatedUser.subscriptionEndDate)
+			daysRemaining = Math.max(
+				0,
+				Math.ceil((endDate - now) / (1000 * 60 * 60 * 24))
+			)
+		}
+
 		res.json({
 			success: true,
-			message: "Successfully changed to free plan",
+			message: `Successfully changed to free plan. You can use your remaining ${updatedUser.downloadsRemaining} downloads for the next ${daysRemaining} days.`,
 			user: updatedUser,
+			daysRemaining: daysRemaining,
 			changes: {
 				previousPlan: user.planType,
 				newPlan: "free",
-				previousDownloads: user.downloadsRemaining,
-				newDownloads: newDownloadsRemaining,
-				note: "User keeps remaining downloads, but free plan monthly limit is 1",
+				downloadsRemaining: updatedUser.downloadsRemaining,
+				subscriptionEndDate: updatedUser.subscriptionEndDate,
+				note: `Can use ${
+					updatedUser.downloadsRemaining
+				} downloads until ${new Date(
+					updatedUser.subscriptionEndDate
+				).toLocaleDateString()} (${daysRemaining} days)`,
 			},
 		})
 	} catch (error) {

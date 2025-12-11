@@ -468,6 +468,8 @@ export default {
 					yearly: "वार्षिक",
 					save_20: "20% बचत",
 					no_contract: "कोई लंबे समय के अनुबंध नहीं। कभी भी रद्द करें।",
+					next_billing: "अगली बिलिंग",
+					plan_expires_on: "योजना समाप्त होती है",
 				},
 				plans: {
 					most_popular: "सबसे लोकप्रिय",

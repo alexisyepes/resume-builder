@@ -471,6 +471,8 @@ export default {
 					save_20: "Economize 20%",
 					no_contract:
 						"Sem contratos de longo prazo. Cancele a qualquer momento.",
+					next_billing: "Próxima Cobrança",
+					plan_expires_on: "Plano expira em",
 				},
 				plans: {
 					most_popular: "Mais Popular",

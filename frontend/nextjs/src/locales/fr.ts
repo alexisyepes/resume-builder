@@ -40,6 +40,8 @@ export default {
 					description: "Pour les particuliers",
 					price: "$0",
 					features: ["1 Téléchargement de CV", "3 Modèles", "Support de Base"],
+					next_billing: "Prochaine Facturation",
+					plan_expires_on: "Le plan expire le",
 				},
 				basic_plan: {
 					name: "Basique",

@@ -1,10 +1,9 @@
 const express = require("express")
 const { Resume, Template, User } = require("../models")
-const { save } = require("pdfkit")
+// const { save } = require("pdfkit")
 const router = express.Router()
 const { Op } = require("sequelize")
 const { uploadPdfDirectToCloudinary } = require("../utils/cloudinaryService")
-const { incrementDownloadCount } = require("../utils/downloadLimiter")
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -54,8 +53,6 @@ router.post("/generate-pdf", async (req, res) => {
 			return res.status(404).json({ error: "User not found" })
 		}
 
-		// VERIFICAR USANDO EL NUEVO SISTEMA DE downloadsRemaining
-		// Importar la función checkDownloadLimit
 		const {
 			checkDownloadLimit,
 			incrementDownloadCount,

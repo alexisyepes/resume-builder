@@ -462,6 +462,8 @@ export default {
 					yearly: "سنوي",
 					save_20: "وفر 20%",
 					no_contract: "لا عقود طويلة الأجل. إلغاء في أي وقت.",
+					next_billing: "الفواتير القادمة",
+					plan_expires_on: "تنتهي الخطة في",
 				},
 				plans: {
 					most_popular: "الأكثر شعبية",

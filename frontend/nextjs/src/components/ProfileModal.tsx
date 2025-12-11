@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import {
 	FiUser,
 	FiMail,
@@ -11,6 +11,7 @@ import {
 	FiGlobe,
 } from "react-icons/fi"
 import { FaUserCircle } from "react-icons/fa"
+import { DateTime } from "luxon"
 import { useRouter } from "next/navigation"
 import useResumeStore from "@/store/useResumeStore"
 import Plans from "./Plans"
@@ -560,6 +561,23 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 														}{" "}
 														{user.downloadsRemaining}
 													</p>
+													{user.subscriptionEndDate && (
+														<p
+															className={`${
+																user.downloadsRemaining === 0
+																	? "text-red-600"
+																	: "text-gray-600"
+															}`}
+														>
+															{pricingTranslations.billing.plan_expires_on}{" "}
+															(yyyy-mm-dd):
+															<span className="ml-2">
+																{DateTime.fromISO(
+																	user.subscriptionEndDate
+																).toFormat("yyyy-MM-dd")}
+															</span>
+														</p>
+													)}
 												</div>
 											</div>
 											<div className="text-right">

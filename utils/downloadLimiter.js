@@ -6,6 +6,17 @@ const checkDownloadLimit = async (userId) => {
 			attributes: ["id", "planType", "downloadsRemaining", "totalDownloads"],
 		})
 
+		const now = new Date()
+		const isPaidPeriodExpired =
+			user.subscriptionEndDate && new Date(user.subscriptionEndDate) < now
+
+		if (isPaidPeriodExpired && user.plan !== "free") {
+			return {
+				canDownload: false,
+				reason: "Plan has expired",
+			}
+		}
+
 		if (!user) {
 			return {
 				canDownload: false,
@@ -13,16 +24,6 @@ const checkDownloadLimit = async (userId) => {
 			}
 		}
 
-		// Plan limits
-		const planLimits = {
-			free: 1, // Máximo 1 descarga por mes
-			basic: 10, // 10 descargas por mes
-			premium: 9999, // Ilimitado
-		}
-
-		const userLimit = planLimits[user.planType] || 1
-
-		// Premium es ilimitado
 		if (user.planType === "premium" || user.downloadsRemaining >= 9999) {
 			return {
 				canDownload: true,
@@ -32,49 +33,27 @@ const checkDownloadLimit = async (userId) => {
 			}
 		}
 
-		// Para free plan: puede usar máximo 1, aunque tenga más en downloadsRemaining
-		if (user.planType === "free") {
-			// Si ya usó su descarga gratuita este mes
-			if (user.downloadsRemaining <= 0) {
-				return {
-					canDownload: false,
-					reason: "free_monthly_limit_reached",
-					userPlan: "free",
-					downloadsRemaining: user.downloadsRemaining,
-					limit: 1,
-					message:
-						"You've used your free download for this month. Monthly limit: 1 download.",
-				}
-			}
-
-			// Puede descargar (máximo 1 este mes)
-			return {
-				canDownload: true,
-				userPlan: "free",
-				downloadsRemaining: Math.min(user.downloadsRemaining, 1),
-				limit: 1,
-				note: "Free plan: monthly limit is 1 download",
-			}
-		}
-
-		// Para basic plan: verificar downloadsRemaining
+		// Verify downloadsRemaining
 		if (user.downloadsRemaining <= 0) {
 			return {
 				canDownload: false,
 				reason: "download_limit_reached",
 				userPlan: user.planType,
 				downloadsRemaining: user.downloadsRemaining,
-				limit: userLimit,
-				message: `You've reached your monthly download limit (${userLimit} resumes).`,
+				limit: user.planType === "free" ? 1 : 5,
+				message:
+					user.planType === "free"
+						? "You've used your free download. Upgrade to download more."
+						: "You've reached your download limit for this period.",
 			}
 		}
 
-		// Puede descargar
+		// Can download
 		return {
 			canDownload: true,
 			userPlan: user.planType,
 			downloadsRemaining: user.downloadsRemaining,
-			limit: userLimit,
+			limit: user.planType === "free" ? 1 : 5,
 		}
 	} catch (error) {
 		console.error("Error checking download limit:", error)
@@ -111,7 +90,6 @@ const incrementDownloadCount = async (userId) => {
 				`Decremented downloads for user ${userId}: ${user.downloadsRemaining} -> ${newRemaining}`
 			)
 		} else {
-			// Para premium, solo incrementar totalDownloads
 			await user.update({
 				totalDownloads: user.totalDownloads + 1,
 			})
