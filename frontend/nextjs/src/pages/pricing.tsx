@@ -168,7 +168,6 @@ const PricingPage = () => {
 					selectedPlan={null}
 					billingCycle={billingCycle}
 					getPlanTranslation={getPlanTranslation}
-					userProfile={useProfile}
 				/>
 
 				{/* Feature Comparison Table */}
