@@ -162,7 +162,7 @@ const PricingPage = () => {
 					</p>
 				</div>
 
-				{/* Plans Grid */}
+				{/* Plans Grid  */}
 				<Plans
 					isInModal={false}
 					selectedPlan={null}
