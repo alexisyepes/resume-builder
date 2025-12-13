@@ -718,6 +718,28 @@ export default {
 			organize_sections: "تنظيم أقسام السيرة الذاتية",
 			fill_in_information: "املأ معلوماتك",
 			preview_your_resume: "معاينة سيرتك الذاتية",
+			user_already_on_free_plan: "أنت بالفعل في الخطة المجانية",
+		},
+		server_responses: {
+			plan_expired: "انتهت صلاحية الخطة",
+			user_not_found: "المستخدم غير موجود",
+			you_used_all_downloads_upgrade:
+				"لقد استخدمت تحميلك المجاني. قم بالترقية لتحميل المزيد.",
+			you_used_your_download_limit:
+				"لقد وصلت إلى حد التحميل الخاص بك لهذه الفترة.",
+			user_already_in_free_plan: "المستخدم بالفعل في الخطة المجانية",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`تم تغيير الخطة إلى المجانية بنجاح. يمكنك استخدام ${downloadsRemaining} تحميلات المتبقية خلال ${daysRemaining} أيام القادمة.`,
+		},
+		confirm_questions: {
+			confirm_action: "تأكيد الإجراء",
+			confirm_yes: "نعم، متابعة",
+			confirm_cancel: "إلغاء",
+			confirm_free_downgrade:
+				"هل أنت متأكد أنك تريد التخفيض إلى الخطة المجانية؟ سيتم إلغاء اشتراكك على الفور.",
 		},
 	},
 }

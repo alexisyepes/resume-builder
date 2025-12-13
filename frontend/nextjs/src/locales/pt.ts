@@ -735,6 +735,28 @@ export default {
 			organize_sections: "Organizar seções do currículo",
 			fill_in_information: "Preencha suas informações",
 			preview_your_resume: "Visualizar seu currículo",
+			user_already_on_free_plan: "Você já está no plano Grátis",
+		},
+		server_responses: {
+			plan_expired: "Plano expirou",
+			user_not_found: "Usuário não encontrado",
+			you_used_all_downloads_upgrade:
+				"Você usou seu download gratuito. Faça upgrade para baixar mais.",
+			you_used_your_download_limit:
+				"Você atingiu seu limite de download para este período.",
+			user_already_in_free_plan: "O usuário já está no plano gratuito",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`Alteração para o plano gratuito bem-sucedida. Você pode usar seus ${downloadsRemaining} downloads restantes pelos próximos ${daysRemaining} dias.`,
+		},
+		confirm_questions: {
+			confirm_action: "Confirmar Ação",
+			confirm_yes: "Sim, continuar",
+			confirm_cancel: "Cancelar",
+			confirm_free_downgrade:
+				"Tem certeza de que deseja fazer downgrade para o plano Grátis? Sua assinatura será cancelada imediatamente.",
 		},
 	},
 }

@@ -682,6 +682,25 @@ export default {
 			organize_sections: "组织简历部分",
 			fill_in_information: "填写您的信息",
 			preview_your_resume: "预览您的简历",
+			user_already_on_free_plan: "您已在免费计划中",
+		},
+		server_responses: {
+			plan_expired: "计划已过期",
+			user_not_found: "用户未找到",
+			you_used_all_downloads_upgrade: "您已使用免费下载次数。升级以下载更多。",
+			you_used_your_download_limit: "您已达到此期间的下载限制。",
+			user_already_in_free_plan: "用户已在免费计划中",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`成功切换到免费计划。您可以在接下来的 ${daysRemaining} 天内使用剩余的 ${downloadsRemaining} 次下载。`,
+		},
+		confirm_questions: {
+			confirm_action: "确认操作",
+			confirm_yes: "是的，继续",
+			confirm_cancel: "取消",
+			confirm_free_downgrade: "您确定要降级到免费计划吗？您的订阅将立即取消。",
 		},
 	},
 }

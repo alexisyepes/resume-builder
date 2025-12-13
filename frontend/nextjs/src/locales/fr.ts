@@ -731,6 +731,28 @@ export default {
 			organize_sections: "Organiser les sections du CV",
 			fill_in_information: "Remplissez vos informations",
 			preview_your_resume: "Aperçu de votre CV",
+			user_already_on_free_plan: "Vous êtes déjà sur le plan Gratuit",
+		},
+		server_responses: {
+			plan_expired: "Le plan a expiré",
+			user_not_found: "Utilisateur non trouvé",
+			you_used_all_downloads_upgrade:
+				"Vous avez utilisé votre téléchargement gratuit. Passez à un plan supérieur pour télécharger plus.",
+			you_used_your_download_limit:
+				"Vous avez atteint votre limite de téléchargement pour cette période.",
+			user_already_in_free_plan: "L'utilisateur est déjà sur le plan gratuit",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`Passage au plan gratuit réussi. Vous pouvez utiliser vos ${downloadsRemaining} téléchargements restants pendant les ${daysRemaining} prochains jours.`,
+		},
+		confirm_questions: {
+			confirm_action: "Confirmer l'Action",
+			confirm_yes: "Oui, continuer",
+			confirm_cancel: "Annuler",
+			confirm_free_downgrade:
+				"Êtes-vous sûr de vouloir rétrograder vers le plan Gratuit ? Votre abonnement sera annulé immédiatement.",
 		},
 	},
 }
