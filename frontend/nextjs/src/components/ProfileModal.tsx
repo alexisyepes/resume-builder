@@ -631,7 +631,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 									selectedPlan={selectedPlan}
 									billingCycle={billingCycle}
 									getPlanTranslation={getPlanTranslation}
-									userProfile={user}
 								/>
 
 								{selectedPlan && (

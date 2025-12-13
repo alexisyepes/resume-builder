@@ -1,4 +1,5 @@
 const { User } = require("../models")
+const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes")
 
 const checkDownloadLimit = async (userId) => {
 	try {
@@ -13,14 +14,14 @@ const checkDownloadLimit = async (userId) => {
 		if (isPaidPeriodExpired && user.plan !== "free") {
 			return {
 				canDownload: false,
-				reason: "Plan has expired",
+				reason: SERVER_RESPONSE_MESSAGES.PLAN_EXPIRED,
 			}
 		}
 
 		if (!user) {
 			return {
 				canDownload: false,
-				reason: "User not found",
+				reason: SERVER_RESPONSE_MESSAGES.USER_NOT_FOUND,
 			}
 		}
 
@@ -43,8 +44,8 @@ const checkDownloadLimit = async (userId) => {
 				limit: user.planType === "free" ? 1 : 5,
 				message:
 					user.planType === "free"
-						? "You've used your free download. Upgrade to download more."
-						: "You've reached your download limit for this period.",
+						? SERVER_RESPONSE_MESSAGES.YOU_USED_ALL_DOWNLOADS_UPGRADE
+						: SERVER_RESPONSE_MESSAGES.YOU_USED_YOUR_DOWNLOAD_LIMIT,
 			}
 		}
 

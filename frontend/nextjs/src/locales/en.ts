@@ -746,6 +746,28 @@ export default {
 			organize_sections: "Organize resume sections",
 			fill_in_information: "Fill in your information",
 			preview_your_resume: "Preview your resume",
+			user_already_on_free_plan: "You are already on the Free plan",
+		},
+		server_responses: {
+			plan_expired: "Plan has expired",
+			user_not_found: "User not found",
+			you_used_all_downloads_upgrade:
+				"You've used your free download. Upgrade to download more.",
+			you_used_your_download_limit:
+				"You've reached your download limit for this period.",
+			user_already_in_free_plan: "User is already on free plan",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`Successfully changed to free plan. You can use your remaining ${downloadsRemaining} downloads for the next ${daysRemaining} days.`,
+		},
+		confirm_questions: {
+			confirm_action: "Confirm Action",
+			confirm_yes: "Yes, continue",
+			confirm_cancel: "Cancel",
+			confirm_free_downgrade:
+				"Are you sure you want to downgrade to Free plan? Your subscription will be cancelled immediately.",
 		},
 	},
 }

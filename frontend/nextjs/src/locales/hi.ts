@@ -730,6 +730,28 @@ export default {
 			organize_sections: "रेज़्यूमे सेक्शन व्यवस्थित करें",
 			fill_in_information: "अपनी जानकारी भरें",
 			preview_your_resume: "अपने रेज़्यूमे का पूर्वावलोकन करें",
+			user_already_on_free_plan: "आप पहले से ही मुफ्त योजना पर हैं",
+		},
+		server_responses: {
+			plan_expired: "योजना की समय सीमा समाप्त हो गई है",
+			user_not_found: "उपयोगकर्ता नहीं मिला",
+			you_used_all_downloads_upgrade:
+				"आपने अपना मुफ्त डाउनलोड उपयोग कर लिया है। अधिक डाउनलोड करने के लिए अपग्रेड करें।",
+			you_used_your_download_limit:
+				"आप इस अवधि के लिए अपनी डाउनलोड सीमा तक पहुंच गए हैं।",
+			user_already_in_free_plan: "उपयोगकर्ता पहले से ही मुफ्त योजना पर है",
+			success_plan_change_and_downloads_remaining: (
+				downloadsRemaining: number,
+				daysRemaining: number
+			) =>
+				`मुफ्त योजना में सफलतापूर्वक बदल गया। आप अपने शेष ${downloadsRemaining} डाउनलोड अगले ${daysRemaining} दिनों के लिए उपयोग कर सकते हैं।`,
+		},
+		confirm_questions: {
+			confirm_action: "कार्रवाई की पुष्टि करें",
+			confirm_yes: "हाँ, जारी रखें",
+			confirm_cancel: "रद्द करें",
+			confirm_free_downgrade:
+				"क्या आप वाकई मुफ्त योजना में डाउनग्रेड करना चाहते हैं? आपकी सदस्यता तुरंत रद्द कर दी जाएगी।",
 		},
 	},
 }

@@ -162,13 +162,12 @@ const PricingPage = () => {
 					</p>
 				</div>
 
-				{/* Plans Grid */}
+				{/* Plans Grid  */}
 				<Plans
 					isInModal={false}
 					selectedPlan={null}
 					billingCycle={billingCycle}
 					getPlanTranslation={getPlanTranslation}
-					userProfile={useProfile}
 				/>
 
 				{/* Feature Comparison Table */}

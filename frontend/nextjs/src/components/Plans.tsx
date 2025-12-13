@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_BASIC_PLAN_YEARLY,
@@ -15,6 +15,7 @@ import {
 import { useProfile } from "@/hooks/useProfile"
 import { toast, ToastContainer } from "react-toastify"
 import { DateTime } from "luxon"
+import { useConfirm } from "./ConfirmWindow"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
 const stripePriceIds = {
@@ -33,15 +34,16 @@ export default function Plans({
 	getPlanTranslation,
 	selectedPlan,
 	isInModal,
-	userProfile,
 }) {
-	const { t, isAuthenticated, apiBaseUrl, user, setUser, rehydrate } =
-		useResumeContext()
+	const { t, isAuthenticated, apiBaseUrl, user } = useResumeContext()
 	const userId = (user?.id as string) || null
+	const { confirm } = useConfirm()
 
 	const { fetchUserProfile } = useProfile(userId, apiBaseUrl)
 	const tAny = t as any
 	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
+	const serverResponseTranslations = tAny?.resume_builder?.server_responses
+	const confirmQuestionsTranslations = tAny?.resume_builder?.confirm_questions
 	const planIds = ["free", "basic", "premium"]
 
 	const [showCheckout, setShowCheckout] = useState(false)
@@ -137,15 +139,19 @@ export default function Plans({
 		}
 
 		if (user.planType === "free") {
-			toast.warn("You are already on the Free plan")
+			toast.warn(tAny?.resume_builder?.general.user_already_on_free_plan)
 			return
 		}
 
-		if (
-			!confirm(
-				"Are you sure you want to downgrade to Free plan? Your subscription will be cancelled immediately."
-			)
-		) {
+		const confirmation = await confirm({
+			title: confirmQuestionsTranslations.confirm_action,
+			message: confirmQuestionsTranslations.confirm_free_downgrade,
+			confirmText: confirmQuestionsTranslations.confirm_yes,
+			cancelText: confirmQuestionsTranslations.confirm_cancel,
+			variant: "danger",
+		})
+
+		if (!confirmation) {
 			return
 		}
 
@@ -164,13 +170,20 @@ export default function Plans({
 			})
 
 			const data = await response.json()
+			const { daysRemaining, downloadsRemaining } = data
 			await fetchUserProfile()
 
 			if (!response.ok) {
 				throw new Error(data.error || "Error changing plan")
 			}
 
-			alert(data.message || "Successfully changed to Free plan!")
+			const serverResponse =
+				serverResponseTranslations.success_plan_change_and_downloads_remaining(
+					downloadsRemaining,
+					daysRemaining
+				)
+
+			toast.success(serverResponse || "Successfully changed to Free plan!")
 		} catch (error) {
 			console.error("Error:", error)
 			alert(error instanceof Error ? error.message : "Error changing plan")
@@ -217,7 +230,7 @@ export default function Plans({
 
 	return (
 		<>
-			<ToastContainer theme="dark" />
+			<ToastContainer autoClose={8000} theme="dark" />
 			{/* Modal Stripe Checkout */}
 			{showCheckout && clientSecret && (
 				<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">

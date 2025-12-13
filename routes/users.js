@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { User, Resume } = require("../models")
 const { checkDownloadLimit } = require("../utils/downloadLimiter")
+const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes")
 
 router.post("/change-to-free-plan", async (req, res) => {
 	try {
@@ -25,7 +26,7 @@ router.post("/change-to-free-plan", async (req, res) => {
 		if (user.planType === "free") {
 			return res.json({
 				success: true,
-				message: "User is already on free plan",
+				message: SERVER_RESPONSE_MESSAGES.USER_ALREADY_IN_FREE_PLAN,
 				user: {
 					id: user.id,
 					planType: user.planType,
@@ -96,9 +97,10 @@ router.post("/change-to-free-plan", async (req, res) => {
 
 		res.json({
 			success: true,
-			message: `Successfully changed to free plan. You can use your remaining ${updatedUser.downloadsRemaining} downloads for the next ${daysRemaining} days.`,
+			message: SERVER_RESPONSE_MESSAGES.PLAN_CHANGE_TO_FREE_SUCCESS,
 			user: updatedUser,
 			daysRemaining: daysRemaining,
+			downloadsRemaining: updatedUser.downloadsRemaining,
 			changes: {
 				previousPlan: user.planType,
 				newPlan: "free",
