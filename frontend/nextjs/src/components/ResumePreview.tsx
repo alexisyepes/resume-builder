@@ -50,6 +50,7 @@ import type { SectionRefs } from "@/types/sections"
 import { uploadBase64ToCloudinary, type Translation } from "@/utils"
 import { useProfile } from "@/hooks/useProfile"
 import { SERVER_RESPONSE_MESSAGES } from "../../shared/response-codes"
+import { toast } from "react-toastify"
 
 type ResumePreviewProps = {
 	userPlan: string | null | undefined
@@ -83,7 +84,6 @@ type ResumePreviewProps = {
 const LETTER_SIZE_HEIGHT = 850
 
 export default function ResumePreview({
-	userPlan,
 	userId,
 	t,
 	generatedResume,
@@ -415,7 +415,7 @@ export default function ResumePreview({
 		if (!limitCheck.canDownload) {
 			switch (limitCheck.reason) {
 				case SERVER_RESPONSE_MESSAGES.DOWNLOAD_LIMIT_REACHED:
-					alert(
+					toast.warn(
 						limitCheck.userPlan === "free"
 							? serverResponseTranslations.you_used_all_downloads_upgrade
 							: serverResponseTranslations.you_used_your_download_limit
@@ -423,20 +423,20 @@ export default function ResumePreview({
 					break
 
 				case SERVER_RESPONSE_MESSAGES.PLAN_EXPIRED:
-					alert(serverResponseTranslations.paid_plan_expired)
+					toast.warn(serverResponseTranslations.paid_plan_expired)
 					break
 				case SERVER_RESPONSE_MESSAGES.USER_NOT_FOUND:
-					alert(serverResponseTranslations.user_not_found)
+					toast.warn(serverResponseTranslations.user_not_found)
 					break
 				case SERVER_RESPONSE_MESSAGES.YOU_USED_ALL_DOWNLOADS_UPGRADE:
-					alert(serverResponseTranslations.you_used_all_downloads_upgrade)
+					toast.warn(serverResponseTranslations.you_used_all_downloads_upgrade)
 					break
 				case SERVER_RESPONSE_MESSAGES.YOU_USED_YOUR_DOWNLOAD_LIMIT:
-					alert(serverResponseTranslations)
+					toast.warn(serverResponseTranslations)
 					break
 
 				default:
-					alert(serverResponseTranslations.general_unable_to_download)
+					toast.warn(serverResponseTranslations.general_unable_to_download)
 					break
 			}
 

@@ -636,9 +636,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 													{user.planType === "free"
 														? profileModalTranslations.billing.free_plan.name
 														: user.planType === "basic"
-														? "$4.99/mo"
+														? "$PRICING_BASIC_PLAN_MONTHLY/mo"
 														: user.planType === "premium"
-														? "$4.99/mo"
+														? "$PRICING_BASIC_PLAN_MONTHLY/mo"
 														: "Custom"}
 												</p>
 												<p className="text-sm text-gray-600">
