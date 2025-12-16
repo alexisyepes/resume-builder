@@ -1,3 +1,8 @@
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
+
 export default {
 	greeting: "नमस्ते दुनिया",
 	resume_builder: {
@@ -45,8 +50,8 @@ export default {
 				basic_plan: {
 					name: "बेसिक",
 					description: "पेशेवरों के लिए",
-					price: "$4.99",
-					price_mo: "$4.99/माह",
+					price: `$${PRICING_BASIC_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_BASIC_PLAN_MONTHLY}/माह`,
 					features: [
 						"5 रेज़्यूमे डाउनलोड",
 						"10 टेम्प्लेट",
@@ -57,8 +62,8 @@ export default {
 				premium_plan: {
 					name: "प्रीमियम",
 					description: "पावर यूज़र्स के लिए",
-					price: "$4.99",
-					price_mo: "$4.99/माह",
+					price: `$${PRICING_PREMIUM_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_PREMIUM_PLAN_MONTHLY}/माह`,
 					features: [
 						"असीमित डाउनलोड",
 						"सभी टेम्प्लेट",
@@ -444,7 +449,7 @@ export default {
 					},
 					{
 						title: "प्रो",
-						price: "$4.99/माह",
+						price: `$${PRICING_BASIC_PLAN_MONTHLY}/माह`,
 						features: [
 							"असीमित रेज़्यूमे",
 							"प्रीमियम टेम्प्लेट्स",

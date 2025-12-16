@@ -17,50 +17,18 @@ export type TemplateDesign = {
 	image: string
 }
 
-export const templateDesigns: TemplateDesign[] = [
-	{
-		name: "Classic",
-		value: "classic",
-		image: "/images/templateDesigns/classic.png",
-	},
-	{
-		name: "Classic - ATS",
-		value: "classic-ats",
-		image: "/images/templateDesigns/classic.png",
-	},
-	{
-		name: "Elegant",
-		value: "elegant",
-		image: "/images/templateDesigns/elegant.png",
-	},
-	{
-		name: "Modern",
-		value: "modern",
-		image: "/images/templateDesigns/modern.png",
-	},
-	// {
-	// 	name: "Creative - ATS",
-	// 	value: "creative-ats",
-	// 	image: "/images/creative-ats.png",
-	// },
-] as const
-
-export const translationKeyMap: Record<string, string> = {
-	personal_information: "personal_information",
-	contact_information: "contact_information",
-	professional_summary: "professional_summary",
-	employment_history: "employment_history",
-	skills: "skills",
-	education: "education",
-	references: "references",
-	certifications: "certifications",
-	links: "links",
-	hobbies: "hobbies",
-	languages: "languages",
-	customSection: "custom_section",
-}
-
-export const PRICING_BASIC_PLAN_MONTHLY = (4.99).toFixed(2)
-export const PRICING_BASIC_PLAN_YEARLY = (47.9).toFixed(2) // 20% discount
-export const PRICING_PREMIUM_PLAN_MONTHLY = (9.99).toFixed(2)
-export const PRICING_PREMIUM_PLAN_YEARLY = (95.9).toFixed(2) // 20% discount
+const BASIC_PLAN_PRICE = 4.99
+const PREMIUM_PLAN_PRICE = 9.99
+export const YEARLY_DISCOUNT_PERCENT = 20
+export const PRICING_BASIC_PLAN_MONTHLY = BASIC_PLAN_PRICE.toFixed(2)
+export const PRICING_BASIC_PLAN_YEARLY = (
+	Number(PRICING_BASIC_PLAN_MONTHLY) *
+	12 *
+	(1 - YEARLY_DISCOUNT_PERCENT / 100)
+).toFixed(2)
+export const PRICING_PREMIUM_PLAN_MONTHLY = PREMIUM_PLAN_PRICE.toFixed(2)
+export const PRICING_PREMIUM_PLAN_YEARLY = (
+	Number(PRICING_PREMIUM_PLAN_MONTHLY) *
+	12 *
+	(1 - YEARLY_DISCOUNT_PERCENT / 100)
+).toFixed(2)

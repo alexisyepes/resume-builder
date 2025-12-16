@@ -1,3 +1,7 @@
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
 import { FiBriefcase, FiGlobe, FiStar, FiZap } from "react-icons/fi"
 
 export default {
@@ -345,7 +349,7 @@ export default {
 					},
 					{
 						title: "Pro",
-						price: "$4.99/month",
+						price: `$${PRICING_BASIC_PLAN_MONTHLY}/month`,
 						features: [
 							"Unlimited Resumes",
 							"Premium Templates",
@@ -406,7 +410,7 @@ export default {
 							id: "basic",
 							name: "Basic",
 							description: "For job seekers",
-							monthlyPrice: 4.99,
+							monthlyPrice: PRICING_BASIC_PLAN_MONTHLY,
 							yearlyPrice: 47.9, // 20% discount
 							icon: FiBriefcase,
 							color: "from-blue-600 to-cyan-600",
@@ -667,8 +671,8 @@ export default {
 				basic_plan: {
 					name: "Basic",
 					description: "For professionals",
-					price: "$4.99",
-					price_mo: "$4.99/mo",
+					price: `$${PRICING_BASIC_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_BASIC_PLAN_MONTHLY}/mo`,
 					features: [
 						"10 Resume Downloads",
 						"10 Templates",
@@ -679,8 +683,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "For power users",
-					price: "$4.99",
-					price_mo: "$4.99/mo",
+					price: `$${PRICING_PREMIUM_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_PREMIUM_PLAN_MONTHLY}/mo`,
 					features: [
 						"Unlimited Downloads",
 						"All Templates",
