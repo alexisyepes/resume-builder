@@ -35,6 +35,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "Plan actual",
+				cancel_subscription: "Cancelar Suscripción",
 				available_plans: "Planes Disponibles",
 				month: "mes",
 				free_plan: {
@@ -482,6 +483,7 @@ export default {
 				},
 				plans: {
 					most_popular: "Más Popular",
+					current_plan: "Plan Actual",
 					billed_annually_a: "Facturado anualmente ($",
 					billed_annually_b: "/mes)",
 					custom_pricing: "Precio Personalizado",
@@ -748,10 +750,12 @@ export default {
 			user_already_on_free_plan: "Ya estás en el plan Gratis",
 		},
 		server_responses: {
+			general_unable_to_download:
+				"No se puede descargar. Por favor, inténtalo de nuevo más tarde.",
 			plan_expired: "El plan ha expirado",
 			user_not_found: "Usuario no encontrado",
 			you_used_all_downloads_upgrade:
-				"Has usado tu descarga gratuita. Mejora tu plan para descargar más.",
+				"Ya has descargado tu currículum gratuito incluido en el plan gratuito. Por favor, suscríbete a un plan de pago para disfrutar de más o descargas ilimitadas.",
 			you_used_your_download_limit:
 				"Has alcanzado tu límite de descargas para este período.",
 			user_already_in_free_plan: "El usuario ya está en el plan gratuito",
@@ -760,6 +764,9 @@ export default {
 				daysRemaining: number
 			) =>
 				`Cambio exitoso al plan gratuito. Puedes usar tus ${downloadsRemaining} descargas restantes durante los próximos ${daysRemaining} días.`,
+			cancel_subscription_success: "Tu suscripción ha sido cancelada.",
+			paid_plan_expired:
+				"Tu plan de pago ha expirado. Por favor, actualiza tu suscripción.",
 		},
 		confirm_questions: {
 			confirm_action: "Confirmar Acción",
@@ -767,6 +774,8 @@ export default {
 			confirm_cancel: "Cancelar",
 			confirm_free_downgrade:
 				"¿Estás seguro de que quieres degradar al plan Gratis? Tu suscripción será cancelada inmediatamente.",
+			confirm_cancel_plan:
+				"¿Estás seguro de que quieres cancelar tu plan actual? Tu suscripción será cancelada inmediatamente y automáticamente cambiada al plan Gratis.",
 		},
 	},
 }

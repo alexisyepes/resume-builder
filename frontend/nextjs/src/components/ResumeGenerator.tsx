@@ -7,26 +7,14 @@ import { FaRegHandPointUp } from "react-icons/fa"
 import ResumePreview from "./ResumePreview"
 import TabSelector from "./TabSelector"
 import Inputs from "./Inputs"
-import html2canvas from "html2canvas"
-import jsPDF from "jspdf"
 import TemplateSelector from "./TemplateSelector"
 import TemplateSlider from "./TemplateSlider"
 import { useResumeContext } from "@/contexts/useResumeContext"
 import useResumeStore from "@/store/useResumeStore"
 import { useWindowSize } from "@/hooks/useWindowSize"
-import {
-	CERTIFICATIONS,
-	EDUCATION,
-	EMPLOYMENT_HISTORY,
-	HOBBIES,
-	LANGUAGES,
-	LINKS,
-	PROFESSIONAL_SUMMARY,
-	REFERENCES,
-	SKILLS,
-} from "@/constants"
 import { defaultResume } from "@/defaultResume"
 import { AnimatePresence, motion } from "framer-motion"
+import { useProfile } from "@/hooks/useProfile"
 
 const ResumeGenerator = () => {
 	const {
@@ -90,6 +78,8 @@ const ResumeGenerator = () => {
 	} = useResumeStore()
 	const { t, langPrefix, templateDesigns } = useResumeContext()
 	const { width = 0 } = useWindowSize()
+	const userId = (user?.id as string) || null
+	const { openModal } = useProfile(userId, apiBaseUrl)
 	const resumeRef = useRef<HTMLDivElement | null>(null)
 	const inputRef = useRef<HTMLInputElement | null>(null)
 	const [activeMobileView, setActiveMobileView] = useState("")
@@ -201,128 +191,34 @@ const ResumeGenerator = () => {
 		setTabs((prevTabs) => [...prevTabs, newTab])
 	}
 
-	const handleDownload = async (format) => {
-		if (!resumeRef.current) return
-
-		if (!firstName || !lastName || !jobTitle) {
-			return alert("Add the missing fields!")
-		}
-
-		let base64Photo = null
-		if (photo) {
-			const response = await fetch(photo)
-			const blob = await response.blob()
-			const reader = new FileReader()
-
-			base64Photo = await new Promise((resolve) => {
-				reader.onloadend = () => resolve(reader.result)
-				reader.readAsDataURL(blob)
-			})
-		}
-
-		const resumeObj = {
-			resume: {
-				professional_summary_title:
-					customTitles[PROFESSIONAL_SUMMARY] ||
-					t.resume_builder.labels.professional_summary.title,
-				employment_history_title:
-					customTitles[EMPLOYMENT_HISTORY] ||
-					t.resume_builder.labels.employment_history.title,
-				certifications_title:
-					customTitles[CERTIFICATIONS] ||
-					t.resume_builder.labels.certifications.title,
-				links_title: customTitles[LINKS] || t.resume_builder.labels.links.title,
-				skills_title:
-					customTitles[SKILLS] || t.resume_builder.labels.skills.title,
-				education_title:
-					customTitles[EDUCATION] || t.resume_builder.labels.education.title,
-				hobbies_title:
-					customTitles[HOBBIES] || t.resume_builder.labels.hobbies.title,
-				references_title:
-					customTitles[REFERENCES] || t.resume_builder.labels.references.title,
-				languages_title:
-					customTitles[LANGUAGES] || t.resume_builder.labels.languages.title,
-				email,
-				phone,
-				address,
-				cityPostCode,
-				firstName,
-				lastName,
-				skills,
-				experience,
-				objective: objective ? objective : generatedResume.resume.objective,
-				jobTitle,
-				tabs,
-				certifications,
-				educations,
-				references,
-				links,
-				hobbies,
-				languages,
-				photo: base64Photo,
-				customSections: customSections.map((section) => ({
-					...section,
-					content: section.content,
-				})),
-				orderedTabs: tabs,
-				template,
-			},
-		}
-
-		if (template === "classic-ats") {
-			try {
-				const response = await axios.post(
-					`/api/download?format=${format}`,
-					resumeObj,
-					{ responseType: "blob" }
-				)
-
-				const blob = new Blob([response.data], {
-					type:
-						format === "pdf"
-							? "application/pdf"
-							: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-				})
-
-				const link = document.createElement("a")
-				link.href = URL.createObjectURL(blob)
-				link.download = `resume.${format}`
-				document.body.appendChild(link)
-				link.click()
-				document.body.removeChild(link)
-			} catch (error) {
-				console.error(`Error generating ${format} file:`, error)
-			}
-			return // Stop further execution
-		}
-
-		// Generate a simple screenshot-based PDF if API fails (fallback)
-		const pdf = new jsPDF({
-			orientation: "portrait",
-			unit: "pt",
-			format: [612, 792], // 8.5 x 11 inches in points
-		})
-
-		if (!resumeRef.current) {
-			return
-		}
-		const canvas = await html2canvas(resumeRef.current, { scale: 2 })
-		const imgData = canvas.toDataURL("image/png")
-
-		const pdfWidth = 612 // 8.5 inches * 72 dpi
-		const pdfHeight = 792 // 11 inches * 72 dpi
-
-		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
-		pdf.save(`${firstName || "resume"}.pdf`)
-	}
-
 	return (
 		<div className="w-full bg-white pt-12">
 			<div className="mb-4">
 				{width > 768 ? (
 					<div>
-						<h2 className="mt-2 text-lg font-semibold uppercase text-center">
-							{t.resume_builder.labels.general.build_your_resume}
+						<h2 className="mt-2 flex items-center justify-center">
+							<span className="text-lg font-semibold uppercase text-center">
+								{t.resume_builder.profile_modal.profile.downloads_remaining}
+							</span>
+							<span
+								className={`${
+									Number(user.downloadsRemaining) < 4
+										? "text-red-500"
+										: "text-cyan-700"
+								}  ml-2`}
+							>
+								{user.downloadsRemaining}
+							</span>
+							{((user.downloadsRemaining &&
+								Number(user.downloadsRemaining) < 4) ||
+								user.planType === "free") && (
+								<span
+									onClick={openModal}
+									className="bg-yellow-500 ml-4 text-sm py-1 px-2 rounded-md text-white cursor-pointer hover:bg-yellow-200 hover:text-black"
+								>
+									Upgrade plan
+								</span>
+							)}
 						</h2>
 						<TemplateSelector
 							t={t}

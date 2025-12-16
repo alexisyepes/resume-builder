@@ -35,6 +35,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "当前计划",
+				cancel_subscription: "取消订阅",
 				available_plans: "可用计划",
 				month: "月",
 				free_plan: {
@@ -436,6 +437,7 @@ export default {
 				},
 				plans: {
 					most_popular: "最受欢迎",
+					current_plan: "当前计划",
 					billed_annually_a: "按年计费 ($",
 					billed_annually_b: "/月)",
 					custom_pricing: "定制定价",
@@ -685,9 +687,11 @@ export default {
 			user_already_on_free_plan: "您已在免费计划中",
 		},
 		server_responses: {
+			general_unable_to_download: "无法下载。请稍后再试。",
 			plan_expired: "计划已过期",
 			user_not_found: "用户未找到",
-			you_used_all_downloads_upgrade: "您已使用免费下载次数。升级以下载更多。",
+			you_used_all_downloads_upgrade:
+				"您已经下载了免费计划中包含的免费简历。请订阅付费计划以享受更多或无限下载。",
 			you_used_your_download_limit: "您已达到此期间的下载限制。",
 			user_already_in_free_plan: "用户已在免费计划中",
 			success_plan_change_and_downloads_remaining: (
@@ -695,12 +699,16 @@ export default {
 				daysRemaining: number
 			) =>
 				`成功切换到免费计划。您可以在接下来的 ${daysRemaining} 天内使用剩余的 ${downloadsRemaining} 次下载。`,
+			cancel_subscription_success: "您的订阅已取消。",
+			paid_plan_expired: "您的付费计划已过期。请更新您的订阅。",
 		},
 		confirm_questions: {
 			confirm_action: "确认操作",
 			confirm_yes: "是的，继续",
 			confirm_cancel: "取消",
 			confirm_free_downgrade: "您确定要降级到免费计划吗？您的订阅将立即取消。",
+			confirm_cancel_plan:
+				"您确定要取消当前计划吗？您的订阅将立即取消并自动切换到免费计划。",
 		},
 	},
 }

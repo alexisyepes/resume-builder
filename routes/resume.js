@@ -167,7 +167,6 @@ router.post("/generate-pdf", async (req, res) => {
 
 		if (savedResume) {
 			try {
-				// Usar la nueva función incrementDownloadCount que maneja downloadsRemaining
 				await incrementDownloadCount(userId)
 				console.log(
 					"Download count incremented for user:",

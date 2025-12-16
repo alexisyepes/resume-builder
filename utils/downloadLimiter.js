@@ -4,24 +4,33 @@ const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes")
 const checkDownloadLimit = async (userId) => {
 	try {
 		const user = await User.findByPk(userId, {
-			attributes: ["id", "planType", "downloadsRemaining", "totalDownloads"],
+			attributes: [
+				"id",
+				"planType",
+				"downloadsRemaining",
+				"totalDownloads",
+				"subscriptionEndDate",
+			],
 		})
-
-		const now = new Date()
-		const isPaidPeriodExpired =
-			user.subscriptionEndDate && new Date(user.subscriptionEndDate) < now
-
-		if (isPaidPeriodExpired && user.plan !== "free") {
-			return {
-				canDownload: false,
-				reason: SERVER_RESPONSE_MESSAGES.PLAN_EXPIRED,
-			}
-		}
 
 		if (!user) {
 			return {
 				canDownload: false,
 				reason: SERVER_RESPONSE_MESSAGES.USER_NOT_FOUND,
+			}
+		}
+
+		const now = new Date()
+		const isPaidPeriodExpired =
+			user.subscriptionEndDate && new Date(user.subscriptionEndDate) < now
+
+		if (
+			isPaidPeriodExpired ||
+			(isPaidPeriodExpired && user.planType !== "free")
+		) {
+			return {
+				canDownload: false,
+				reason: SERVER_RESPONSE_MESSAGES.PLAN_EXPIRED,
 			}
 		}
 
@@ -38,7 +47,7 @@ const checkDownloadLimit = async (userId) => {
 		if (user.downloadsRemaining <= 0) {
 			return {
 				canDownload: false,
-				reason: "download_limit_reached",
+				reason: SERVER_RESPONSE_MESSAGES.DOWNLOAD_LIMIT_REACHED,
 				userPlan: user.planType,
 				downloadsRemaining: user.downloadsRemaining,
 				limit: user.planType === "free" ? 1 : 5,
@@ -78,18 +87,18 @@ const incrementDownloadCount = async (userId) => {
 			return
 		}
 
-		// Solo decrementar downloadsRemaining si no es premium/ilimitado
 		if (user.planType !== "premium" && user.downloadsRemaining < 9999) {
 			const newRemaining = Math.max(0, user.downloadsRemaining - 1)
-
 			await user.update({
 				totalDownloads: user.totalDownloads + 1,
-				downloadsRemaining: newRemaining,
+				downloadsRemaining:
+					user.planType === "free" ? user.downloadsRemaining - 1 : newRemaining,
 			})
-
-			console.log(
-				`Decremented downloads for user ${userId}: ${user.downloadsRemaining} -> ${newRemaining}`
-			)
+		} else if (user.planType === "free") {
+			await user.update({
+				totalDownloads: user.totalDownloads + 1,
+				downloadsRemaining: user.downloadsRemaining - 1,
+			})
 		} else {
 			await user.update({
 				totalDownloads: user.totalDownloads + 1,

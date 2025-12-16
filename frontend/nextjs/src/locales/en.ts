@@ -375,6 +375,7 @@ export default {
 				},
 				plans: {
 					most_popular: "Most Popular",
+					current_plan: "Current Plan",
 					billed_annually_a: "Billed annually ($",
 					billed_annually_b: "/month)",
 					custom_pricing: "Custom Pricing",
@@ -654,6 +655,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "Current plan",
+				cancel_subscription: "Cancel Subscription",
 				available_plans: "Available Plans",
 				month: "month",
 				free_plan: {
@@ -749,10 +751,11 @@ export default {
 			user_already_on_free_plan: "You are already on the Free plan",
 		},
 		server_responses: {
+			general_unable_to_download: "Unable to download. Please try again later.",
 			plan_expired: "Plan has expired",
 			user_not_found: "User not found",
 			you_used_all_downloads_upgrade:
-				"You've used your free download. Upgrade to download more.",
+				"You've already downloaded your free resume included in the free plan. Please subscribe to a paid plan to enjoy more or unlimited downloads.",
 			you_used_your_download_limit:
 				"You've reached your download limit for this period.",
 			user_already_in_free_plan: "User is already on free plan",
@@ -761,6 +764,9 @@ export default {
 				daysRemaining: number
 			) =>
 				`Successfully changed to free plan. You can use your remaining ${downloadsRemaining} downloads for the next ${daysRemaining} days.`,
+			cancel_subscription_success: "Your subscription has been canceled.",
+			paid_plan_expired:
+				"Your paid plan has expired. Please update your subscription.",
 		},
 		confirm_questions: {
 			confirm_action: "Confirm Action",
@@ -768,6 +774,8 @@ export default {
 			confirm_cancel: "Cancel",
 			confirm_free_downgrade:
 				"Are you sure you want to downgrade to Free plan? Your subscription will be cancelled immediately.",
+			confirm_cancel_plan:
+				"Are you sure you want to cancel your current Plan? Your subscription will be cancelled immediately and automatically switched to the Free plan.",
 		},
 	},
 }

@@ -33,6 +33,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "الخطة الحالية",
+				cancel_subscription: "إلغاء الاشتراك",
 				available_plans: "الخطط المتاحة",
 				month: "شهر",
 				free_plan: {
@@ -467,6 +468,7 @@ export default {
 				},
 				plans: {
 					most_popular: "الأكثر شعبية",
+					current_plan: "الخطة الحالية",
 					billed_annually_a: "فاتورة سنوية ($",
 					billed_annually_b: "/شهر)",
 					custom_pricing: "تسعير مخصص",
@@ -721,10 +723,12 @@ export default {
 			user_already_on_free_plan: "أنت بالفعل في الخطة المجانية",
 		},
 		server_responses: {
+			general_unable_to_download:
+				"غير قادر على التحميل. يرجى المحاولة مرة أخرى لاحقًا.",
 			plan_expired: "انتهت صلاحية الخطة",
 			user_not_found: "المستخدم غير موجود",
 			you_used_all_downloads_upgrade:
-				"لقد استخدمت تحميلك المجاني. قم بالترقية لتحميل المزيد.",
+				"لقد قمت بالفعل بتحميل سيرتك الذاتية المجانية المضمنة في الخطة المجانية. يرجى الاشتراك في خطة مدفوعة للاستمتاع بالمزيد من التحميلات أو التحميلات غير المحدودة.",
 			you_used_your_download_limit:
 				"لقد وصلت إلى حد التحميل الخاص بك لهذه الفترة.",
 			user_already_in_free_plan: "المستخدم بالفعل في الخطة المجانية",
@@ -733,13 +737,18 @@ export default {
 				daysRemaining: number
 			) =>
 				`تم تغيير الخطة إلى المجانية بنجاح. يمكنك استخدام ${downloadsRemaining} تحميلات المتبقية خلال ${daysRemaining} أيام القادمة.`,
+			cancel_subscription_success: "تم إلغاء اشتراكك.",
+			paid_plan_expired: "انتهت صلاحية خطتك المدفوعة. يرجى تحديث اشتراكك.",
 		},
+
 		confirm_questions: {
 			confirm_action: "تأكيد الإجراء",
 			confirm_yes: "نعم، متابعة",
 			confirm_cancel: "إلغاء",
 			confirm_free_downgrade:
 				"هل أنت متأكد أنك تريد التخفيض إلى الخطة المجانية؟ سيتم إلغاء اشتراكك على الفور.",
+			confirm_cancel_plan:
+				"هل أنت متأكد أنك تريد إلغاء خطتك الحالية؟ سيتم إلغاء اشتراكك على الفور وسيتم التبديل تلقائيًا إلى الخطة المجانية.",
 		},
 	},
 }

@@ -9,6 +9,7 @@ import {
 	FiZap,
 	FiBriefcase,
 	FiGlobe,
+	FiXCircle,
 } from "react-icons/fi"
 import { FaUserCircle } from "react-icons/fa"
 import { DateTime } from "luxon"
@@ -19,6 +20,9 @@ import PricePlansFooter from "./PricePlansFooter"
 import { usePlansContext } from "@/contexts/plansContext"
 import { useResumeContext } from "@/contexts/useResumeContext"
 import BillingToggle from "./BillingToggle"
+import { useProfile } from "@/hooks/useProfile"
+import { useConfirm } from "./ConfirmWindow"
+import { toast } from "react-toastify"
 
 interface ProfileModalProps {
 	isOpen: boolean
@@ -33,7 +37,6 @@ interface ProfileModalProps {
 const ProfileModal: React.FC<ProfileModalProps> = ({
 	isOpen,
 	onClose,
-	userProfile,
 	loading,
 	error,
 	onUpdateProfile,
@@ -41,6 +44,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 }) => {
 	const modalRef = useRef<HTMLDivElement>(null)
 	const { isAuthenticated, user } = useResumeStore()
+	const { confirm } = useConfirm()
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedProfile, setEditedProfile] = useState<any>(null)
 	const [saveLoading, setSaveLoading] = useState(false)
@@ -51,9 +55,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	)
 	const router = useRouter()
 	const { selectedPlan, setSelectedPlan } = usePlansContext()
-	const { t } = useResumeContext()
+	const { t, apiBaseUrl } = useResumeContext()
+	const userId = (user?.id as string) || null
 	const tAny = t as any
 	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
+	const confirmQuestionsTranslations = tAny?.resume_builder?.confirm_questions
+	const serverResponseTranslations = tAny?.resume_builder?.server_responses
+	const priceComparisonTranslations =
+		tAny?.resume_builder?.pages.pricing.comparison_table.featuresComparison
+
+	const { fetchUserProfile } = useProfile(userId, apiBaseUrl)
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -135,6 +146,43 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 	const handleViewPlans = () => {
 		onClose()
 		router.push("/pricing")
+	}
+
+	const handleCancelPlan = async () => {
+		const confirmation = await confirm({
+			title: confirmQuestionsTranslations.confirm_action,
+			message: confirmQuestionsTranslations.confirm_cancel_plan,
+			confirmText: confirmQuestionsTranslations.confirm_yes,
+			cancelText: confirmQuestionsTranslations.confirm_cancel,
+			variant: "danger",
+		})
+
+		if (!confirmation) {
+			return
+		}
+
+		try {
+			const response = await fetch(`${apiBaseUrl}/users/change-to-free-plan`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: user.id,
+					plan: "free",
+					action: "cancel",
+				}),
+			})
+			await fetchUserProfile()
+
+			toast.success(
+				serverResponseTranslations.cancel_subscription_success ||
+					"Your Plan has been canceled!"
+			)
+		} catch (error) {
+			console.error("Error:", error)
+			alert(error instanceof Error ? error.message : "Error changing plan")
+		}
 	}
 
 	const handleUpgradePlan = (plan: string) => {
@@ -559,7 +607,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 															profileModalTranslations.profile
 																.downloads_remaining
 														}{" "}
-														{user.downloadsRemaining}
+														{user.planType !== "free" &&
+														Number(user.downloadsRemaining) >= 9999
+															? priceComparisonTranslations[0].premium // Unlimited
+															: user.downloadsRemaining}
 													</p>
 													{user.subscriptionEndDate && (
 														<p
@@ -615,6 +666,19 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 													)
 												)}
 											</div>
+											{(user.planType === "basic" ||
+												user.planType === "premium") && (
+												<div className="pt-4 flex justify-end mt-4 border-t border-gray-200">
+													<button
+														onClick={handleCancelPlan}
+														className="w-100 px-4 py-2.5 text-sm bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+													>
+														<FiXCircle className="w-4 h-4" />
+														{profileModalTranslations.billing
+															?.cancel_subscription || "Cancel Subscription"}
+													</button>
+												</div>
+											)}
 										</div>
 									</div>
 								)}

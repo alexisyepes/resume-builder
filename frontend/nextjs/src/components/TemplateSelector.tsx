@@ -19,10 +19,10 @@ export default function TemplateSelector({
 	const resetResume = useResumeStore((state) => state.reset)
 
 	return (
-		<div className="flex template_selector_buttons px-2 items-center mx-auto justify-start mt-2 gap-4">
+		<div className="flex template_selector_buttons px-2 items-center mx-auto justify-center mt-2 gap-4">
 			<button
 				onClick={() => setShowSlider(false)}
-				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
+				className={`border-cyan-500 border capitalize text-black text-lg font-medium w-30 py-1 px-3 rounded-md transition-all duration-200 hover:bg-cyan-100 ${
 					!showSlider ? "ring-teal-500 ring-2" : ""
 				}`}
 			>
@@ -31,7 +31,7 @@ export default function TemplateSelector({
 			</button>
 			<button
 				onClick={() => setShowSlider(true)}
-				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100 ${
+				className={`border-cyan-700 border capitalize text-black text-lg font-medium w-30 py-1 px-3 rounded-md transition-all duration-200 hover:bg-cyan-100 ${
 					showSlider ? "ring-teal-500 ring-2" : ""
 				}`}
 			>
@@ -45,7 +45,7 @@ export default function TemplateSelector({
 					)
 						resetResume()
 				}}
-				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-full p-3 rounded-sm transition-all duration-200 hover:bg-cyan-100
+				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-80 py-1 px-3 rounded-md transition-all duration-200 hover:bg-cyan-100
 				}`}
 			>
 				<RxReload className="inline mr-2" />{" "}
