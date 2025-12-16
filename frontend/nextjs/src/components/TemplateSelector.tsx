@@ -38,19 +38,23 @@ export default function TemplateSelector({
 				<IoHammerOutline className="inline mr-2" />{" "}
 				{t.resume_builder.labels.general.layout}
 			</button>
-			<button
-				onClick={() => {
-					if (
-						window.confirm(t.resume_builder.labels.general.confirm_clear_inputs)
-					)
-						resetResume()
-				}}
-				className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-80 py-1 px-3 rounded-md transition-all duration-200 hover:bg-cyan-100
+			{!showSlider && (
+				<button
+					onClick={() => {
+						if (
+							window.confirm(
+								t.resume_builder.labels.general.confirm_clear_inputs
+							)
+						)
+							resetResume()
+					}}
+					className={`border-cyan-700 border capitalize text-red-500 text-lg font-medium w-80 py-1 px-3 rounded-md transition-all duration-200 hover:bg-cyan-100
 				}`}
-			>
-				<RxReload className="inline mr-2" />{" "}
-				{t.resume_builder.labels.general.reset_all_inputs}
-			</button>
+				>
+					<RxReload className="inline mr-2" />{" "}
+					{t.resume_builder.labels.general.reset_all_inputs}
+				</button>
+			)}
 		</div>
 	)
 }
