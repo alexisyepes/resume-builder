@@ -348,9 +348,6 @@ async function handleSubscriptionDeleted(subscription) {
 				planType: "free",
 				subscriptionStatus: "canceled",
 				subscriptionId: null,
-				subscriptionEndDate: null,
-				downloadsRemaining: 1,
-				totalDownloads: 0,
 			},
 			{ where: { id: userId } }
 		)
@@ -358,7 +355,6 @@ async function handleSubscriptionDeleted(subscription) {
 		await Subscription.update(
 			{
 				plan: "free",
-				expiresAt: null,
 			},
 			{ where: { stripeSubscriptionId: subscription.id } }
 		)
@@ -429,52 +425,5 @@ async function handleInvoicePaid(invoice) {
 		console.error("Error processing invoice payment:", error)
 	}
 }
-
-router.post("/fix-user/:userId", async (req, res) => {
-	try {
-		const { userId } = req.params
-		const { planType = "basic", subscriptionId } = req.body
-
-		const user = await User.findByPk(userId)
-		if (!user) {
-			return res.status(404).json({ error: "User not found" })
-		}
-
-		const downloadLimits = updateDownloadLimits(planType)
-		const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-
-		await user.update({
-			planType: planType,
-			subscriptionStatus: "active",
-			subscriptionId: subscriptionId || user.subscriptionId,
-			subscriptionEndDate: expiresAt,
-			downloadsRemaining: downloadLimits.downloadsRemaining,
-			totalDownloads: downloadLimits.totalDownloads,
-		})
-
-		if (subscriptionId) {
-			await Subscription.upsert({
-				userId: userId,
-				stripeSubscriptionId: subscriptionId,
-				plan: planType,
-				expiresAt: expiresAt,
-			})
-		}
-
-		res.json({
-			success: true,
-			message: "User fixed",
-			user: {
-				id: user.id,
-				planType: planType,
-				subscriptionStatus: "active",
-				downloadsRemaining: downloadLimits.downloadsRemaining,
-			},
-		})
-	} catch (error) {
-		console.error("Error fixing user:", error)
-		res.status(500).json({ error: error.message })
-	}
-})
 
 module.exports = router

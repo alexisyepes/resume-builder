@@ -3,10 +3,11 @@ const router = express.Router()
 const { User, Resume } = require("../models")
 const { checkDownloadLimit } = require("../utils/downloadLimiter")
 const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes")
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 router.post("/change-to-free-plan", async (req, res) => {
 	try {
-		const { userId } = req.body
+		const { userId, action } = req.body
 
 		if (!userId) {
 			return res.status(400).json({
@@ -40,9 +41,7 @@ router.post("/change-to-free-plan", async (req, res) => {
 		// Cancel Stripe subscription if it exists
 		if (user.subscriptionId) {
 			try {
-				const canceledSubscription = await stripe.subscriptions.cancel(
-					user.subscriptionId
-				)
+				await stripe.subscriptions.cancel(user.subscriptionId)
 
 				console.log(`Cancelled Stripe subscription: ${user.subscriptionId}`)
 
@@ -60,6 +59,7 @@ router.post("/change-to-free-plan", async (req, res) => {
 		const updateData = {
 			planType: "free",
 			subscriptionStatus: "canceled",
+			subscriptionId: null,
 		}
 
 		await user.update(updateData)
@@ -95,9 +95,14 @@ router.post("/change-to-free-plan", async (req, res) => {
 			)
 		}
 
+		const messageResponse =
+			action === SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE
+				? SERVER_RESPONSE_MESSAGES.PLAN_CHANGE_TO_FREE_SUCCESS
+				: SERVER_RESPONSE_MESSAGES.PLAN_CANCELED_SUCCESS
+
 		res.json({
 			success: true,
-			message: SERVER_RESPONSE_MESSAGES.PLAN_CHANGE_TO_FREE_SUCCESS,
+			message: messageResponse,
 			user: updatedUser,
 			daysRemaining: daysRemaining,
 			downloadsRemaining: updatedUser.downloadsRemaining,
@@ -224,6 +229,8 @@ router.get("/:userId/download-limit", async (req, res) => {
 		const { userId } = req.params
 
 		const limitCheck = await checkDownloadLimit(userId)
+
+		console.log("LIMIT CHECK", limitCheck)
 
 		res.json({
 			success: true,

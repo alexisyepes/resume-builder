@@ -33,6 +33,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "Piano attuale",
+				cancel_subscription: "Annulla Abbonamento",
 				available_plans: "Piani Disponibili",
 				month: "mese",
 				free_plan: {
@@ -475,6 +476,7 @@ export default {
 				},
 				plans: {
 					most_popular: "Più Popolare",
+					current_plan: "Piano Attuale",
 					billed_annually_a: "Fatturazione annuale ($",
 					billed_annually_b: "/mese)",
 					custom_pricing: "Prezzo Personalizzato",
@@ -741,10 +743,11 @@ export default {
 			user_already_on_free_plan: "Sei già sul piano Gratuito",
 		},
 		server_responses: {
+			general_unable_to_download: "Impossibile scaricare. Riprova più tardi.",
 			plan_expired: "Il piano è scaduto",
 			user_not_found: "Utente non trovato",
 			you_used_all_downloads_upgrade:
-				"Hai utilizzato il tuo download gratuito. Passa a un piano superiore per scaricare di più.",
+				"Hai già scaricato il tuo curriculum gratuito incluso nel piano gratuito. Iscriviti a un piano a pagamento per godere di più download o download illimitati.",
 			you_used_your_download_limit:
 				"Hai raggiunto il tuo limite di download per questo periodo.",
 			user_already_in_free_plan: "L'utente è già sul piano gratuito",
@@ -753,6 +756,9 @@ export default {
 				daysRemaining: number
 			) =>
 				`Passaggio al piano gratuito riuscito. Puoi utilizzare i tuoi ${downloadsRemaining} download rimanenti per i prossimi ${daysRemaining} giorni.`,
+			cancel_subscription_success: "Il tuo abbonamento è stato annullato.",
+			paid_plan_expired:
+				"Il tuo piano a pagamento è scaduto. Aggiorna il tuo abbonamento.",
 		},
 		confirm_questions: {
 			confirm_action: "Conferma Azione",
@@ -760,6 +766,8 @@ export default {
 			confirm_cancel: "Annulla",
 			confirm_free_downgrade:
 				"Sei sicuro di voler retrocedere al piano Gratuito? Il tuo abbonamento verrà annullato immediatamente.",
+			confirm_cancel_plan:
+				"Sei sicuro di voler annullare il tuo piano attuale? Il tuo abbonamento verrà annullato immediatamente e verrà automaticamente passato al piano Gratuito.",
 		},
 	},
 }

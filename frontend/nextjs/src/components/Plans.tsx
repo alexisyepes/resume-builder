@@ -13,9 +13,10 @@ import {
 	EmbeddedCheckout,
 } from "@stripe/react-stripe-js"
 import { useProfile } from "@/hooks/useProfile"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import { DateTime } from "luxon"
 import { useConfirm } from "./ConfirmWindow"
+import { SERVER_RESPONSE_MESSAGES } from "../../shared/response-codes"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
 const stripePriceIds = {
@@ -166,11 +167,12 @@ export default function Plans({
 				body: JSON.stringify({
 					userId: user.id,
 					plan: "free",
+					action: SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE,
 				}),
 			})
 
 			const data = await response.json()
-			const { daysRemaining, downloadsRemaining } = data
+			const { daysRemaining, downloadsRemaining, message } = data
 			await fetchUserProfile()
 
 			if (!response.ok) {
@@ -178,10 +180,12 @@ export default function Plans({
 			}
 
 			const serverResponse =
-				serverResponseTranslations.success_plan_change_and_downloads_remaining(
-					downloadsRemaining,
-					daysRemaining
-				)
+				message === SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE
+					? serverResponseTranslations.success_plan_change_and_downloads_remaining(
+							downloadsRemaining,
+							daysRemaining
+					  )
+					: serverResponseTranslations.cancel_subscription_success
 
 			toast.success(serverResponse || "Successfully changed to Free plan!")
 		} catch (error) {
@@ -230,7 +234,6 @@ export default function Plans({
 
 	return (
 		<>
-			<ToastContainer autoClose={8000} theme="dark" />
 			{/* Modal Stripe Checkout */}
 			{showCheckout && clientSecret && (
 				<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">

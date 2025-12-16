@@ -1,6 +1,6 @@
 const express = require("express")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-const { Subscription, User } = require("../models")
+const { User } = require("../models")
 const router = express.Router()
 
 router.post("/create-checkout-session", async (req, res) => {
@@ -77,56 +77,6 @@ router.get("/session-status", async (req, res) => {
 	} catch (error) {
 		console.error("Error retrieving session:", error)
 		res.status(500).json({ error: error.message })
-	}
-})
-
-router.post("/cancel-subscription", async (req, res) => {
-	try {
-		const { subscriptionId, userId } = req.body
-
-		if (!subscriptionId) {
-			return res.status(400).json({
-				error: "subscriptionId is required",
-			})
-		}
-
-		const canceledSubscription = await stripe.subscriptions.cancel(
-			subscriptionId
-		)
-
-		if (userId) {
-			await User.update(
-				{
-					planType: "free",
-					subscriptionStatus: "canceled",
-					subscriptionId: null,
-					subscriptionEndDate: null,
-					downloadsRemaining: 1,
-					totalDownloads: 0,
-				},
-				{ where: { id: userId } }
-			)
-		}
-
-		await Subscription.update(
-			{
-				plan: "free",
-				expiresAt: null,
-			},
-			{ where: { stripeSubscriptionId: subscriptionId } }
-		)
-
-		res.json({
-			success: true,
-			message: "Subscription cancelled successfully",
-			subscription: canceledSubscription,
-		})
-	} catch (error) {
-		console.error("Error canceling subscription:", error)
-		res.status(500).json({
-			error: error.message,
-			code: error.code,
-		})
 	}
 })
 

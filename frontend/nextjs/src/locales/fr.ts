@@ -33,6 +33,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "Plan actuel",
+				cancel_subscription: "Annuler l'Abonnement",
 				available_plans: "Plans Disponibles",
 				month: "mois",
 				free_plan: {
@@ -472,6 +473,7 @@ export default {
 				},
 				plans: {
 					most_popular: "Le Plus Populaire",
+					current_plan: "Plan Actuel",
 					billed_annually_a: "Facturé annuellement ($",
 					billed_annually_b: "/mois)",
 					custom_pricing: "Tarification Personnalisée",
@@ -734,10 +736,12 @@ export default {
 			user_already_on_free_plan: "Vous êtes déjà sur le plan Gratuit",
 		},
 		server_responses: {
+			general_unable_to_download:
+				"Impossible de télécharger. Veuillez réessayer plus tard.",
 			plan_expired: "Le plan a expiré",
 			user_not_found: "Utilisateur non trouvé",
 			you_used_all_downloads_upgrade:
-				"Vous avez utilisé votre téléchargement gratuit. Passez à un plan supérieur pour télécharger plus.",
+				"Vous avez déjà téléchargé votre CV gratuit inclus dans le plan gratuit. Veuillez souscrire à un plan payant pour bénéficier de plus de téléchargements ou de téléchargements illimités.",
 			you_used_your_download_limit:
 				"Vous avez atteint votre limite de téléchargement pour cette période.",
 			user_already_in_free_plan: "L'utilisateur est déjà sur le plan gratuit",
@@ -746,6 +750,9 @@ export default {
 				daysRemaining: number
 			) =>
 				`Passage au plan gratuit réussi. Vous pouvez utiliser vos ${downloadsRemaining} téléchargements restants pendant les ${daysRemaining} prochains jours.`,
+			cancel_subscription_success: "Votre abonnement a été annulé.",
+			paid_plan_expired:
+				"Votre plan payant a expiré. Veuillez mettre à jour votre abonnement.",
 		},
 		confirm_questions: {
 			confirm_action: "Confirmer l'Action",
@@ -753,6 +760,8 @@ export default {
 			confirm_cancel: "Annuler",
 			confirm_free_downgrade:
 				"Êtes-vous sûr de vouloir rétrograder vers le plan Gratuit ? Votre abonnement sera annulé immédiatement.",
+			confirm_cancel_plan:
+				"Êtes-vous sûr de vouloir annuler votre plan actuel ? Votre abonnement sera annulé immédiatement et automatiquement basculé vers le plan Gratuit.",
 		},
 	},
 }

@@ -33,6 +33,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "Plano atual",
+				cancel_subscription: "Cancelar Assinatura",
 				available_plans: "Planos Disponíveis",
 				month: "mês",
 				free_plan: {
@@ -476,6 +477,7 @@ export default {
 				},
 				plans: {
 					most_popular: "Mais Popular",
+					current_plan: "Plano Atual",
 					billed_annually_a: "Cobrado anualmente ($",
 					billed_annually_b: "/mês)",
 					custom_pricing: "Preço Personalizado",
@@ -738,10 +740,12 @@ export default {
 			user_already_on_free_plan: "Você já está no plano Grátis",
 		},
 		server_responses: {
+			general_unable_to_download:
+				"Não foi possível fazer o download. Por favor, tente novamente mais tarde.",
 			plan_expired: "Plano expirou",
 			user_not_found: "Usuário não encontrado",
 			you_used_all_downloads_upgrade:
-				"Você usou seu download gratuito. Faça upgrade para baixar mais.",
+				"Você já baixou seu currículo gratuito incluído no plano grátis. Assine um plano pago para aproveitar mais downloads ou downloads ilimitados.",
 			you_used_your_download_limit:
 				"Você atingiu seu limite de download para este período.",
 			user_already_in_free_plan: "O usuário já está no plano gratuito",
@@ -750,6 +754,8 @@ export default {
 				daysRemaining: number
 			) =>
 				`Alteração para o plano gratuito bem-sucedida. Você pode usar seus ${downloadsRemaining} downloads restantes pelos próximos ${daysRemaining} dias.`,
+			cancel_subscription_success: "Sua assinatura foi cancelada.",
+			paid_plan_expired: "Seu plano pago expirou. Atualize sua assinatura.",
 		},
 		confirm_questions: {
 			confirm_action: "Confirmar Ação",
@@ -757,6 +763,8 @@ export default {
 			confirm_cancel: "Cancelar",
 			confirm_free_downgrade:
 				"Tem certeza de que deseja fazer downgrade para o plano Grátis? Sua assinatura será cancelada imediatamente.",
+			confirm_cancel_plan:
+				"Tem certeza de que deseja cancelar seu plano atual? Sua assinatura será cancelada imediatamente e automaticamente mudará para o plano Grátis.",
 		},
 	},
 }

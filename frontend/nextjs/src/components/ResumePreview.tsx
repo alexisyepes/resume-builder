@@ -48,6 +48,9 @@ import type {
 import type { TemplateCommonProps } from "@/types/templates"
 import type { SectionRefs } from "@/types/sections"
 import { uploadBase64ToCloudinary, type Translation } from "@/utils"
+import { useProfile } from "@/hooks/useProfile"
+import { SERVER_RESPONSE_MESSAGES } from "../../shared/response-codes"
+import { toast } from "react-toastify"
 
 type ResumePreviewProps = {
 	userPlan: string | null | undefined
@@ -81,7 +84,6 @@ type ResumePreviewProps = {
 const LETTER_SIZE_HEIGHT = 850
 
 export default function ResumePreview({
-	userPlan,
 	userId,
 	t,
 	generatedResume,
@@ -110,6 +112,9 @@ export default function ResumePreview({
 	const [pages, setPages] = useState<React.ReactNode[][]>([])
 	const [templateKey, setTemplateKey] = useState(0)
 	const { customTitles, apiBaseUrl, template } = useResumeStore()
+	const { fetchUserProfile } = useProfile(userId, apiBaseUrl)
+	const tAny = t as any
+	const serverResponseTranslations = tAny?.resume_builder?.server_responses
 
 	// Section refs
 	const personalDetailsRef = useRef<HTMLDivElement | null>(null)
@@ -408,22 +413,36 @@ export default function ResumePreview({
 		const limitCheck = await limitCheckResponse.json()
 
 		if (!limitCheck.canDownload) {
-			// Mostrar alerta apropiada
-			if (limitCheck.reason === "download_limit_reached") {
-				alert(
-					limitCheck.userPlan === "free"
-						? "You've already downloaded your free resume included in the free plan. Please subscribe to a paid plan to enjoy unlimited downloads."
-						: "You have reached your download limit. Please upgrade your plan to download more resumes."
-				)
-			} else {
-				alert("Unable to download. Please try again later.")
+			switch (limitCheck.reason) {
+				case SERVER_RESPONSE_MESSAGES.DOWNLOAD_LIMIT_REACHED:
+					toast.warn(
+						limitCheck.userPlan === "free"
+							? serverResponseTranslations.you_used_all_downloads_upgrade
+							: serverResponseTranslations.you_used_your_download_limit
+					)
+					break
+
+				case SERVER_RESPONSE_MESSAGES.PLAN_EXPIRED:
+					toast.warn(serverResponseTranslations.paid_plan_expired)
+					break
+				case SERVER_RESPONSE_MESSAGES.USER_NOT_FOUND:
+					toast.warn(serverResponseTranslations.user_not_found)
+					break
+				case SERVER_RESPONSE_MESSAGES.YOU_USED_ALL_DOWNLOADS_UPGRADE:
+					toast.warn(serverResponseTranslations.you_used_all_downloads_upgrade)
+					break
+				case SERVER_RESPONSE_MESSAGES.YOU_USED_YOUR_DOWNLOAD_LIMIT:
+					toast.warn(serverResponseTranslations)
+					break
+
+				default:
+					toast.warn(serverResponseTranslations.general_unable_to_download)
+					break
 			}
 
 			setDownloadInProgress(false)
 			return
 		}
-
-		console.log("Download limit check passed:", limitCheck)
 
 		await paginateContent()
 
@@ -517,6 +536,8 @@ export default function ResumePreview({
 			a.click()
 			document.body.removeChild(a)
 			window.URL.revokeObjectURL(url)
+
+			await fetchUserProfile()
 		} catch (error) {
 			console.error("Error generating PDF:", error)
 		} finally {
@@ -531,12 +552,6 @@ export default function ResumePreview({
 		firstName,
 		apiBaseUrl,
 	])
-
-	// Refresh handler
-	const handleRefreshContent = useCallback(async () => {
-		console.log("🔄 Manual refresh triggered")
-		await paginateContent()
-	}, [paginateContent])
 
 	// UI helpers
 	const renderDownloadButton = () => (

@@ -33,6 +33,7 @@ export default {
 			},
 			billing: {
 				current_plan_label: "वर्तमान योजना",
+				cancel_subscription: "सदस्यता रद्द करें",
 				available_plans: "उपलब्ध योजनाएं",
 				month: "माह",
 				free_plan: {
@@ -473,6 +474,7 @@ export default {
 				},
 				plans: {
 					most_popular: "सबसे लोकप्रिय",
+					current_plan: "वर्तमान योजना",
 					billed_annually_a: "वार्षिक बिल ($",
 					billed_annually_b: "/माह)",
 					custom_pricing: "कस्टम मूल्य निर्धारण",
@@ -733,10 +735,12 @@ export default {
 			user_already_on_free_plan: "आप पहले से ही मुफ्त योजना पर हैं",
 		},
 		server_responses: {
+			general_unable_to_download:
+				"डाउनलोड करने में असमर्थ। कृपया बाद में पुनः प्रयास करें।",
 			plan_expired: "योजना की समय सीमा समाप्त हो गई है",
 			user_not_found: "उपयोगकर्ता नहीं मिला",
 			you_used_all_downloads_upgrade:
-				"आपने अपना मुफ्त डाउनलोड उपयोग कर लिया है। अधिक डाउनलोड करने के लिए अपग्रेड करें।",
+				"आपने पहले ही अपना मुफ्त रेज़्यूमे डाउनलोड कर लिया है जो मुफ्त योजना में शामिल है। अधिक या असीमित डाउनलोड का आनंद लेने के लिए कृपया एक भुगतान योजना की सदस्यता लें।",
 			you_used_your_download_limit:
 				"आप इस अवधि के लिए अपनी डाउनलोड सीमा तक पहुंच गए हैं।",
 			user_already_in_free_plan: "उपयोगकर्ता पहले से ही मुफ्त योजना पर है",
@@ -745,6 +749,9 @@ export default {
 				daysRemaining: number
 			) =>
 				`मुफ्त योजना में सफलतापूर्वक बदल गया। आप अपने शेष ${downloadsRemaining} डाउनलोड अगले ${daysRemaining} दिनों के लिए उपयोग कर सकते हैं।`,
+			cancel_subscription_success: "आपकी सदस्यता रद्द कर दी गई है।",
+			paid_plan_expired:
+				"आपकी भुगतान योजना की समय सीमा समाप्त हो गई है। कृपया अपनी सदस्यता अपडेट करें।",
 		},
 		confirm_questions: {
 			confirm_action: "कार्रवाई की पुष्टि करें",
@@ -752,6 +759,8 @@ export default {
 			confirm_cancel: "रद्द करें",
 			confirm_free_downgrade:
 				"क्या आप वाकई मुफ्त योजना में डाउनग्रेड करना चाहते हैं? आपकी सदस्यता तुरंत रद्द कर दी जाएगी।",
+			confirm_cancel_plan:
+				"क्या आप वाकई अपनी वर्तमान योजना रद्द करना चाहते हैं? आपकी सदस्यता तुरंत रद्द कर दी जाएगी और स्वचालित रूप से मुफ्त योजना में बदल दी जाएगी।",
 		},
 	},
 }
