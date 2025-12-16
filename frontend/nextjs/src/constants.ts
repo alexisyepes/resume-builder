@@ -19,7 +19,7 @@ export type TemplateDesign = {
 
 const BASIC_PLAN_PRICE = 4.99
 const PREMIUM_PLAN_PRICE = 9.99
-export const YEARLY_DISCOUNT_PERCENT = 20
+export const YEARLY_DISCOUNT_PERCENT = 30
 export const PRICING_BASIC_PLAN_MONTHLY = BASIC_PLAN_PRICE.toFixed(2)
 export const PRICING_BASIC_PLAN_YEARLY = (
 	Number(PRICING_BASIC_PLAN_MONTHLY) *

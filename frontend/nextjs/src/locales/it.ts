@@ -1,6 +1,7 @@
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_PREMIUM_PLAN_MONTHLY,
+	YEARLY_DISCOUNT_PERCENT,
 } from "@/constants"
 
 export default {
@@ -473,7 +474,7 @@ export default {
 				billing: {
 					monthly: "Mensile",
 					yearly: "Annuale",
-					save_20: "Risparmia il 20%",
+					save_20: `Risparmia il ${YEARLY_DISCOUNT_PERCENT}%`,
 					no_contract:
 						"Nessun contratto a lungo termine. Cancella in qualsiasi momento.",
 					next_billing: "Prossima Fatturazione",

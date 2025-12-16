@@ -1,6 +1,7 @@
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_PREMIUM_PLAN_MONTHLY,
+	YEARLY_DISCOUNT_PERCENT,
 } from "@/constants"
 import { FiBriefcase, FiGlobe, FiStar, FiZap } from "react-icons/fi"
 
@@ -372,7 +373,7 @@ export default {
 				billing: {
 					monthly: "Monthly",
 					yearly: "Yearly",
-					save_20: "Save 20%",
+					save_20: `Save ${YEARLY_DISCOUNT_PERCENT}%`,
 					no_contract: "No long-term contracts. Cancel anytime.",
 					next_billing: "Next Billing",
 					plan_expires_on: "Plan expires on",

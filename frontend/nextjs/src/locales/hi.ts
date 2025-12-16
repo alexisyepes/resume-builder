@@ -1,6 +1,7 @@
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_PREMIUM_PLAN_MONTHLY,
+	YEARLY_DISCOUNT_PERCENT,
 } from "@/constants"
 
 export default {
@@ -472,7 +473,7 @@ export default {
 				billing: {
 					monthly: "मासिक",
 					yearly: "वार्षिक",
-					save_20: "20% बचत",
+					save_20: `${YEARLY_DISCOUNT_PERCENT}% बचत`,
 					no_contract: "कोई लंबे समय के अनुबंध नहीं। कभी भी रद्द करें।",
 					next_billing: "अगली बिलिंग",
 					plan_expires_on: "योजना समाप्त होती है",
