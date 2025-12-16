@@ -1,3 +1,7 @@
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
 import { FiBriefcase, FiGlobe, FiStar, FiZap } from "react-icons/fi"
 
 export default {
@@ -51,8 +55,8 @@ export default {
 				basic_plan: {
 					name: "Básico",
 					description: "Para profesionales",
-					price: "$4.99",
-					price_mo: "$4.99/mes",
+					price: `$${PRICING_BASIC_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_BASIC_PLAN_MONTHLY}/mes`,
 					features: [
 						"5 Descargas de Currículum",
 						"10 Plantillas",
@@ -63,8 +67,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Para usuarios avanzados",
-					price: "$4.99",
-					price_mo: "$4.99/mes",
+					price: `$${PRICING_PREMIUM_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_PREMIUM_PLAN_MONTHLY}/mes`,
 					features: [
 						"Descargas Ilimitadas",
 						"Todas las Plantillas",

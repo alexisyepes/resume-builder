@@ -1,3 +1,8 @@
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
+
 export default {
 	greeting: "Bonjour le monde",
 	resume_builder: {
@@ -47,8 +52,8 @@ export default {
 				basic_plan: {
 					name: "Basique",
 					description: "Pour les professionnels",
-					price: "$4.99",
-					price_mo: "$4.99/mo",
+					price: `$${PRICING_BASIC_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_BASIC_PLAN_MONTHLY}/mo`,
 					features: [
 						"5 Téléchargements de CV",
 						"10 Modèles",
@@ -59,8 +64,8 @@ export default {
 				premium_plan: {
 					name: "Premium",
 					description: "Pour utilisateurs avancés",
-					price: "$4.99",
-					price_mo: "$4.99/mo",
+					price: `$${PRICING_PREMIUM_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_PREMIUM_PLAN_MONTHLY}/mo`,
 					features: [
 						"Téléchargements Illimités",
 						"Tous les Modèles",

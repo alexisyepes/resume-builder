@@ -1,3 +1,8 @@
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
+
 export default {
 	greeting: "مرحبا بالعالم",
 	resume_builder: {
@@ -45,8 +50,8 @@ export default {
 				basic_plan: {
 					name: "أساسي",
 					description: "للمحترفين",
-					price: "$4.99",
-					price_mo: "$4.99/شهر",
+					price: `$${PRICING_BASIC_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_BASIC_PLAN_MONTHLY}/شهر`,
 					features: [
 						"5 تحميلات سيرة ذاتية",
 						"10 قوالب",
@@ -57,8 +62,8 @@ export default {
 				premium_plan: {
 					name: "متميز",
 					description: "للمستخدمين المتقدمين",
-					price: "$4.99",
-					price_mo: "$4.99/شهر",
+					price: `$${PRICING_PREMIUM_PLAN_MONTHLY}`,
+					price_mo: `$${PRICING_PREMIUM_PLAN_MONTHLY}/شهر`,
 					features: [
 						"تحميلات غير محدودة",
 						"جميع القوالب",
@@ -438,7 +443,7 @@ export default {
 					},
 					{
 						title: "احترافي",
-						price: "4.99 دولار/شهر",
+						price: `${PRICING_BASIC_PLAN_MONTHLY} دولار/شهر`,
 						features: [
 							"سير ذاتية غير محدودة",
 							"قوالب مميزة",
