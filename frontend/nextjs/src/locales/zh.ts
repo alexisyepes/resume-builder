@@ -1,6 +1,7 @@
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_PREMIUM_PLAN_MONTHLY,
+	YEARLY_DISCOUNT_PERCENT,
 } from "@/constants"
 import { a } from "node_modules/framer-motion/dist/types.d-DagZKalS"
 
@@ -434,7 +435,7 @@ export default {
 				billing: {
 					monthly: "月度",
 					yearly: "年度",
-					save_20: "节省20%",
+					save_20: `"节省${YEARLY_DISCOUNT_PERCENT}%`,
 					no_contract: "无长期合同。随时取消。",
 					next_billing: "下次账单",
 					plan_expires_on: "计划到期时间",
