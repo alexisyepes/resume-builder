@@ -22,12 +22,14 @@ const aiRoutes = require("./routes/ai")
 const resumeRoutes = require("./routes/resume")
 const userRoutes = require("./routes/users")
 const paymentRoutes = require("./routes/stripe")
+const resumeAnalyzerRoutes = require("./routes/resumeAnalyzer")
 
 app.use("/auth", authRoutes)
 app.use("/ai", aiRoutes)
 app.use("/resumes", resumeRoutes)
 app.use("/users", userRoutes)
 app.use("/payments", paymentRoutes)
+app.use("/analyzer", resumeAnalyzerRoutes)
 
 sequelize.sync({ force: false }).then(function () {
 	app.listen(PORT, () => {

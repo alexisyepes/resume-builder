@@ -15,6 +15,8 @@ import { useWindowSize } from "@/hooks/useWindowSize"
 import { defaultResume } from "@/defaultResume"
 import { AnimatePresence, motion } from "framer-motion"
 import { useProfile } from "@/hooks/useProfile"
+import { RESUME_VIEW_TAB } from "@/constants"
+import ResumeAnalyzer from "./ResumeAnalyzer"
 
 const ResumeGenerator = () => {
 	const {
@@ -64,6 +66,8 @@ const ResumeGenerator = () => {
 		setGeneratedResume,
 		activeTab,
 		setActiveTab,
+		activeResumeViewTab,
+		setActiveResumeViewTab,
 		isLoading,
 		setIsLoading,
 		template,
@@ -193,10 +197,39 @@ const ResumeGenerator = () => {
 
 	return (
 		<div className="w-full bg-white pt-12">
-			<div className="mb-4">
-				{width > 768 ? (
-					<div>
-						<h2 className="mt-2 flex items-center justify-center">
+			{width > 768 && (
+				<div className="flex justify-between border-b border-b-slate-300 pb-3 mt-2 pl-2 ">
+					<div className="space-x-2">
+						<button
+							onClick={() =>
+								setActiveResumeViewTab(RESUME_VIEW_TAB.build_resume)
+							}
+							className={`bg-slate-500 rounded-md hover:bg-slate-700 text-white px-4 py-2 ${
+								activeResumeViewTab === RESUME_VIEW_TAB.build_resume
+									? "bg-slate-700"
+									: ""
+							}`}
+						>
+							Build a resume
+						</button>
+						{user.planType === "premium" && (
+							<button
+								onClick={() =>
+									setActiveResumeViewTab(RESUME_VIEW_TAB.analyze_resume)
+								}
+								className={`bg-slate-500 rounded-md hover:bg-slate-700 text-white px-4 py-2 ${
+									activeResumeViewTab === RESUME_VIEW_TAB.analyze_resume
+										? "bg-slate-700"
+										: ""
+								}`}
+							>
+								Analize a resume
+							</button>
+						)}
+					</div>
+
+					{activeResumeViewTab === RESUME_VIEW_TAB.build_resume && (
+						<h2 className="flex mr-4 items-center justify-center">
 							<span className="text-lg font-semibold uppercase text-center">
 								{t.resume_builder.profile_modal.profile.downloads_remaining}
 							</span>
@@ -220,21 +253,34 @@ const ResumeGenerator = () => {
 								</span>
 							)}
 						</h2>
-						<TemplateSelector
-							t={t}
-							showSlider={showSlider}
-							setShowSlider={setShowSlider}
-						/>
-					</div>
-				) : (
-					<div className="p-12 text-center">
-						<p>{t.resume_builder.general.software_on_large_screens}</p>
-						<GiLaptop color="purple" size={60} className="mx-auto mt-8" />
-					</div>
-				)}
-			</div>
-			<div>
+					)}
+				</div>
+			)}
+
+			{/* Analyze resume */}
+			{activeResumeViewTab === RESUME_VIEW_TAB.analyze_resume && (
+				<ResumeAnalyzer />
+			)}
+
+			{/* Build Resume */}
+			{activeResumeViewTab === RESUME_VIEW_TAB.build_resume && (
 				<div>
+					<div className="mb-4">
+						{width > 768 ? (
+							<div>
+								<TemplateSelector
+									t={t}
+									showSlider={showSlider}
+									setShowSlider={setShowSlider}
+								/>
+							</div>
+						) : (
+							<div className="p-12 text-center">
+								<p>{t.resume_builder.general.software_on_large_screens}</p>
+								<GiLaptop color="purple" size={60} className="mx-auto mt-8" />
+							</div>
+						)}
+					</div>
 					{showSlider ? (
 						<div className="w-full bg-gray-950 rounded-md mr-2 p-8 border">
 							<div className="text-white flex justify-between text-center font-bold mb-2 text-xl relative">
@@ -331,7 +377,6 @@ const ResumeGenerator = () => {
 												setHobbies={setHobbies}
 												customSections={customSections}
 												setCustomSections={setCustomSections}
-												// handleImageUpload={handleImageUpload}
 												photo={photo}
 												removeTabHandler={removeTabHandler}
 												activeTab={activeTab}
@@ -477,7 +522,6 @@ const ResumeGenerator = () => {
 										</>
 										{activeMobileView && (
 											<div className="">
-												{/* <div className="wrapper"> */}
 												<div className="w-full px-12 mt-4">
 													{activeMobileView === "tab" && (
 														<AnimatePresence mode="wait">
@@ -553,7 +597,6 @@ const ResumeGenerator = () => {
 															setHobbies={setHobbies}
 															customSections={customSections}
 															setCustomSections={setCustomSections}
-															// handleImageUpload={handleImageUpload}
 															photo={photo}
 															removeTabHandler={removeTabHandler}
 															activeTab={activeTab}
@@ -618,7 +661,7 @@ const ResumeGenerator = () => {
 						</div>
 					)}
 				</div>
-			</div>
+			)}
 		</div>
 	)
 }

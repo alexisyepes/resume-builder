@@ -229,6 +229,101 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "Analyseur de CV IA",
+					description:
+						"Téléchargez votre CV au format PDF et recevez une analyse détaillée avec notation et suggestions d'amélioration utilisant l'intelligence artificielle.",
+				},
+				uploadSection: {
+					title: "Télécharger le CV",
+					form: {
+						jobTitle: {
+							label: "Intitulé du Poste (Optionnel)",
+							placeholder:
+								"ex. Ingénieur Logiciel, Responsable Marketing, Pilote",
+							helperText:
+								"Ajouter un intitulé de poste personnalisera l'analyse pour les exigences spécifiques du rôle",
+						},
+						fileUpload: {
+							mainText: "Glissez votre fichier PDF ici",
+							secondaryText: "ou cliquez pour sélectionner",
+							sizeRestriction: "Taille maximale: 5MB • PDF uniquement",
+							selectedFile: "fichier sélectionné",
+						},
+						error: {
+							prefix: "Erreur: ",
+						},
+						submitButton: {
+							default: {
+								text: "Analyser le CV avec l'IA",
+								iconAlt: "Icône de fichier",
+							},
+							uploading: {
+								text: "Analyse en cours...",
+								iconAlt: "Icône de chargement",
+							},
+						},
+					},
+					instructions: {
+						title: "Que analysons-nous ?",
+						items: [
+							"Structure et mise en forme du CV",
+							"Mots-clés et optimisation ATS",
+							"Clarté et concision du contenu",
+							"Réalisations quantifiables et métriques",
+							"Grammaire, orthographe et ton professionnel",
+						],
+					},
+				},
+				resultsSection: {
+					title: "Résultats de l'Analyse",
+					emptyState: {
+						title: "Aucune analyse pour le moment",
+						description:
+							"Téléchargez un CV au format PDF pour recevoir une analyse détaillée avec notation personnalisée et suggestions d'amélioration.",
+						iconAlt: "Icône de fichier",
+					},
+					analysis: {
+						overallScore: {
+							title: "Note Globale",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "Analysé pour: {jobTitle}",
+						},
+						aiFeedback: {
+							title: "Retour de l'IA",
+						},
+						strengths: {
+							title: "Points Forts",
+							iconAlt: "Icône de vérification",
+						},
+						suggestions: {
+							title: "Suggestions d'Amélioration",
+							iconAlt: "Icône d'alerte",
+						},
+						actionButtons: {
+							print: "Imprimer l'Analyse",
+							analyzeAnother: "Analyser un Autre",
+						},
+					},
+				},
+				icons: {
+					fileText: "Icône de document",
+					briefcase: "Icône de mallette",
+					upload: "Icône de téléchargement",
+					alertCircle: "Icône d'alerte",
+					checkCircle: "Icône de coche",
+					star: "Icône d'étoile",
+					loader: "Icône de chargement",
+				},
+				accessibility: {
+					fileUploadArea:
+						"Zone de téléchargement de fichier. Glissez-déposez ou cliquez pour sélectionner un fichier PDF",
+					jobTitleInput: "Champ de saisie de l'intitulé du poste",
+					uploadButton: "Bouton de téléchargement et d'analyse du CV",
+				},
+			},
 			home: {
 				title: "Créez votre CV professionnel facilement",
 				description:

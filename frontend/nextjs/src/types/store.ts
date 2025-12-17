@@ -10,8 +10,6 @@ import type {
 	ReferenceItem,
 } from "./resume"
 
-type ResumeUser = Record<string, unknown> | null
-
 export interface UserProfile {
 	id: string
 	email: string
@@ -123,6 +121,9 @@ export interface ResumeStore {
 	// UI
 	activeTab: string
 	setActiveTab: (value: string) => void
+
+	activeResumeViewTab: string
+	setActiveResumeViewTab: (value: string) => void
 
 	isLoading: boolean
 	setIsLoading: (value: boolean) => void

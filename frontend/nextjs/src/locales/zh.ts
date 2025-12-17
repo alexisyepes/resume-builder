@@ -3,7 +3,6 @@ import {
 	PRICING_PREMIUM_PLAN_MONTHLY,
 	YEARLY_DISCOUNT_PERCENT,
 } from "@/constants"
-import { a } from "node_modules/framer-motion/dist/types.d-DagZKalS"
 
 export default {
 	greeting: "你好，世界",
@@ -219,6 +218,98 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "简历分析器 AI",
+					description:
+						"上传您的PDF格式简历，通过人工智能获取详细的评分分析和改进建议。",
+				},
+				uploadSection: {
+					title: "上传简历",
+					form: {
+						jobTitle: {
+							label: "职位名称 (可选)",
+							placeholder: "例如：软件工程师、营销经理、飞行员",
+							helperText: "添加职位名称将使分析针对特定职位要求",
+						},
+						fileUpload: {
+							mainText: "将PDF文件拖放到此处",
+							secondaryText: "或点击选择",
+							sizeRestriction: "最大尺寸：5MB • 仅限PDF",
+							selectedFile: "已选择文件",
+						},
+						error: {
+							prefix: "错误：",
+						},
+						submitButton: {
+							default: {
+								text: "使用AI分析简历",
+								iconAlt: "文件图标",
+							},
+							uploading: {
+								text: "分析中...",
+								iconAlt: "加载图标",
+							},
+						},
+					},
+					instructions: {
+						title: "我们分析什么？",
+						items: [
+							"简历结构和格式",
+							"关键词和ATS优化",
+							"内容清晰度和简洁性",
+							"可量化成就和指标",
+							"语法、拼写和专业语气",
+						],
+					},
+				},
+				resultsSection: {
+					title: "分析结果",
+					emptyState: {
+						title: "暂无分析",
+						description:
+							"上传PDF格式的简历以获取详细的个性化评分分析和改进建议。",
+						iconAlt: "文件图标",
+					},
+					analysis: {
+						overallScore: {
+							title: "总体评分",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "分析对象：{jobTitle}",
+						},
+						aiFeedback: {
+							title: "AI反馈",
+						},
+						strengths: {
+							title: "优势",
+							iconAlt: "勾选图标",
+						},
+						suggestions: {
+							title: "改进建议",
+							iconAlt: "警报图标",
+						},
+						actionButtons: {
+							print: "打印分析",
+							analyzeAnother: "分析另一个",
+						},
+					},
+				},
+				icons: {
+					fileText: "文档图标",
+					briefcase: "公文包图标",
+					upload: "上传图标",
+					alertCircle: "警报图标",
+					checkCircle: "勾选标记图标",
+					star: "星星图标",
+					loader: "加载图标",
+				},
+				accessibility: {
+					fileUploadArea: "文件上传区域。拖放或点击选择PDF文件",
+					jobTitleInput: "职位名称输入字段",
+					uploadButton: "上传并分析简历按钮",
+				},
+			},
 			home: {
 				title: "轻松创建您的专业简历",
 				description: "使用我们的 AI 驱动简历生成器，在几分钟内创建出色的简历。",

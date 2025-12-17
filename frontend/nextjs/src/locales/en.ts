@@ -130,6 +130,100 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "Resume Analyzer AI",
+					description:
+						"Upload your resume in PDF format and receive a detailed analysis with scoring and suggestions for improvement using artificial intelligence.",
+				},
+				uploadSection: {
+					title: "Upload Resume",
+					form: {
+						jobTitle: {
+							label: "Job Title (Optional)",
+							placeholder: "e.g., Software Engineer, Marketing Manager, Pilot",
+							helperText:
+								"Adding a job title will tailor the analysis to specific role requirements",
+						},
+						fileUpload: {
+							mainText: "Drag your PDF file here",
+							secondaryText: "or click to select",
+							sizeRestriction: "Maximum size: 5MB • PDF only",
+							selectedFile: "file selected",
+						},
+						error: {
+							prefix: "Error: ",
+						},
+						submitButton: {
+							default: {
+								text: "Analyze Resume with AI",
+								iconAlt: "File icon",
+							},
+							uploading: {
+								text: "Analyzing...",
+								iconAlt: "Loading spinner",
+							},
+						},
+					},
+					instructions: {
+						title: "What we analyze?",
+						items: [
+							"Resume structure and formatting",
+							"Keywords and ATS optimization",
+							"Content clarity and conciseness",
+							"Quantifiable achievements and metrics",
+							"Grammar, spelling, and professional tone",
+						],
+					},
+				},
+				resultsSection: {
+					title: "Analysis Results",
+					emptyState: {
+						title: "No analysis yet",
+						description:
+							"Upload a resume in PDF format to receive a detailed analysis with personalized scoring and improvement suggestions.",
+						iconAlt: "File icon",
+					},
+					analysis: {
+						overallScore: {
+							title: "Overall Score",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "Analyzed for: {jobTitle}",
+						},
+						aiFeedback: {
+							title: "AI Feedback",
+						},
+						strengths: {
+							title: "Strengths",
+							iconAlt: "Check icon",
+						},
+						suggestions: {
+							title: "Improvement Suggestions",
+							iconAlt: "Alert icon",
+						},
+						actionButtons: {
+							print: "Print Analysis",
+							analyzeAnother: "Analyze Another",
+						},
+					},
+				},
+				icons: {
+					fileText: "Document icon",
+					briefcase: "Briefcase icon",
+					upload: "Upload icon",
+					alertCircle: "Alert icon",
+					checkCircle: "Check mark icon",
+					star: "Star icon",
+					loader: "Loading spinner",
+				},
+				accessibility: {
+					fileUploadArea:
+						"File upload area. Drag and drop or click to select PDF file",
+					jobTitleInput: "Job title input field",
+					uploadButton: "Upload and analyze resume button",
+				},
+			},
 			home: {
 				title: "Create Your Professional Resume Easily",
 				description:
