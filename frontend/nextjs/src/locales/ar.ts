@@ -225,6 +225,100 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "محلل السيرة الذاتية بالذكاء الاصطناعي",
+					description:
+						"قم بتحميل سيرتك الذاتية بصيغة PDF واحصل على تحليل مفصل مع التقييم واقتراحات التحسين باستخدام الذكاء الاصطناعي.",
+				},
+				uploadSection: {
+					title: "رفع السيرة الذاتية",
+					form: {
+						jobTitle: {
+							label: "المسمى الوظيفي (اختياري)",
+							placeholder: "مثلاً: مهندس برمجيات، مدير تسويق، طيار",
+							helperText:
+								"إضافة مسمى وظيفي سيجعل التحليل مخصصًا لمتطلبات الدور المحدد",
+						},
+						fileUpload: {
+							mainText: "اسحب ملف PDF هنا",
+							secondaryText: "أو انقر للاختيار",
+							sizeRestriction: "الحد الأقصى للحجم: 5 ميجابايت • PDF فقط",
+							selectedFile: "تم اختيار الملف",
+						},
+						error: {
+							prefix: "خطأ: ",
+						},
+						submitButton: {
+							default: {
+								text: "تحليل السيرة الذاتية بالذكاء الاصطناعي",
+								iconAlt: "أيقونة الملف",
+							},
+							uploading: {
+								text: "جارٍ التحليل...",
+								iconAlt: "أيقونة التحميل",
+							},
+						},
+					},
+					instructions: {
+						title: "ماذا نحلل؟",
+						items: [
+							"هيكل وتنسيق السيرة الذاتية",
+							"الكلمات المفتاحية وتحسين ATS",
+							"وضوح وإيجاز المحتوى",
+							"الإنجازات القابلة للقياس والمقاييس",
+							"القواعد النحوية والإملائية والنبرة المهنية",
+						],
+					},
+				},
+				resultsSection: {
+					title: "نتائج التحليل",
+					emptyState: {
+						title: "لا يوجد تحليل بعد",
+						description:
+							"قم بتحميل سيرة ذاتية بصيغة PDF للحصول على تحليل مفصل مع تقييم مخصص واقتراحات تحسين.",
+						iconAlt: "أيقونة الملف",
+					},
+					analysis: {
+						overallScore: {
+							title: "التقييم العام",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "تم التحليل لـ: {jobTitle}",
+						},
+						aiFeedback: {
+							title: "ملاحظات الذكاء الاصطناعي",
+						},
+						strengths: {
+							title: "نقاط القوة",
+							iconAlt: "أيقونة التحقق",
+						},
+						suggestions: {
+							title: "اقتراحات التحسين",
+							iconAlt: "أيقونة التنبيه",
+						},
+						actionButtons: {
+							print: "طباعة التحليل",
+							analyzeAnother: "تحليل آخر",
+						},
+					},
+				},
+				icons: {
+					fileText: "أيقونة المستند",
+					briefcase: "أيقونة الحقيبة",
+					upload: "أيقونة الرفع",
+					alertCircle: "أيقونة التنبيه",
+					checkCircle: "أيقونة علامة الاختيار",
+					star: "أيقونة النجمة",
+					loader: "أيقونة التحميل",
+				},
+				accessibility: {
+					fileUploadArea:
+						"منطقة رفع الملفات. اسحب وأفلت أو انقر لاختيار ملف PDF",
+					jobTitleInput: "حقل إدخال المسمى الوظيفي",
+					uploadButton: "زر رفع وتحليل السيرة الذاتية",
+				},
+			},
 			home: {
 				title: "قم بإنشاء سيرتك الذاتية المهنية بسهولة",
 				description:

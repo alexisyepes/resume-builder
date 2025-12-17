@@ -12,6 +12,7 @@ import {
 	CERTIFICATIONS,
 	REFERENCES,
 	LANGUAGES,
+	RESUME_VIEW_TAB,
 } from "@/constants"
 
 import { defaultResume } from "@/defaultResume"
@@ -173,6 +174,10 @@ const useResumeStore = create<ResumeStore>()(
 			activeTab: PERSONAL_DETAILS,
 			setActiveTab: (activeTab) => set({ activeTab }),
 
+			activeResumeViewTab: RESUME_VIEW_TAB.build_resume,
+			setActiveResumeViewTab: (activeResumeViewTab) =>
+				set({ activeResumeViewTab }),
+
 			isLoading: false,
 			setIsLoading: (isLoading) => set({ isLoading }),
 
@@ -302,6 +307,7 @@ const useResumeStore = create<ResumeStore>()(
 				generatedResume: state.generatedResume,
 				template: state.template,
 				activeTab: state.activeTab,
+				activeResumeViewTab: state.activeResumeViewTab,
 				customSections: state.customSections,
 				customTitles: state.customTitles,
 			}),

@@ -23,6 +23,10 @@ import BillingToggle from "./BillingToggle"
 import { useProfile } from "@/hooks/useProfile"
 import { useConfirm } from "./ConfirmWindow"
 import { toast } from "react-toastify"
+import {
+	PRICING_BASIC_PLAN_MONTHLY,
+	PRICING_PREMIUM_PLAN_MONTHLY,
+} from "@/constants"
 
 interface ProfileModalProps {
 	isOpen: boolean
@@ -636,9 +640,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 													{user.planType === "free"
 														? profileModalTranslations.billing.free_plan.name
 														: user.planType === "basic"
-														? "$PRICING_BASIC_PLAN_MONTHLY/mo"
+														? `$${PRICING_BASIC_PLAN_MONTHLY}/mo`
 														: user.planType === "premium"
-														? "$PRICING_BASIC_PLAN_MONTHLY/mo"
+														? `$${PRICING_PREMIUM_PLAN_MONTHLY}/mo`
 														: "Custom"}
 												</p>
 												<p className="text-sm text-gray-600">

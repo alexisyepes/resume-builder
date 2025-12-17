@@ -231,6 +231,101 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "Analizador de Currículum IA",
+					description:
+						"Sube tu currículum en formato PDF y recibe un análisis detallado con puntuación y sugerencias de mejora utilizando inteligencia artificial.",
+				},
+				uploadSection: {
+					title: "Subir Currículum",
+					form: {
+						jobTitle: {
+							label: "Título del Trabajo (Opcional)",
+							placeholder:
+								"ej. Ingeniero de Software, Gerente de Marketing, Piloto",
+							helperText:
+								"Añadir un título de trabajo personalizará el análisis para requisitos específicos del rol",
+						},
+						fileUpload: {
+							mainText: "Arrastra tu archivo PDF aquí",
+							secondaryText: "o haz clic para seleccionar",
+							sizeRestriction: "Tamaño máximo: 5MB • Solo PDF",
+							selectedFile: "archivo seleccionado",
+						},
+						error: {
+							prefix: "Error: ",
+						},
+						submitButton: {
+							default: {
+								text: "Analizar Currículum con IA",
+								iconAlt: "Icono de archivo",
+							},
+							uploading: {
+								text: "Analizando...",
+								iconAlt: "Icono de carga",
+							},
+						},
+					},
+					instructions: {
+						title: "¿Qué analizamos?",
+						items: [
+							"Estructura y formato del currículum",
+							"Palabras clave y optimización ATS",
+							"Claridad y concisión del contenido",
+							"Logros cuantificables y métricas",
+							"Gramática, ortografía y tono profesional",
+						],
+					},
+				},
+				resultsSection: {
+					title: "Resultados del Análisis",
+					emptyState: {
+						title: "Sin análisis aún",
+						description:
+							"Sube un currículum en formato PDF para recibir un análisis detallado con puntuación personalizada y sugerencias de mejora.",
+						iconAlt: "Icono de archivo",
+					},
+					analysis: {
+						overallScore: {
+							title: "Puntuación General",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "Analizado para: {jobTitle}",
+						},
+						aiFeedback: {
+							title: "Comentarios de IA",
+						},
+						strengths: {
+							title: "Fortalezas",
+							iconAlt: "Icono de verificación",
+						},
+						suggestions: {
+							title: "Sugerencias de Mejora",
+							iconAlt: "Icono de alerta",
+						},
+						actionButtons: {
+							print: "Imprimir Análisis",
+							analyzeAnother: "Analizar Otro",
+						},
+					},
+				},
+				icons: {
+					fileText: "Icono de documento",
+					briefcase: "Icono de maletín",
+					upload: "Icono de subida",
+					alertCircle: "Icono de alerta",
+					checkCircle: "Icono de marca de verificación",
+					star: "Icono de estrella",
+					loader: "Icono de carga",
+				},
+				accessibility: {
+					fileUploadArea:
+						"Área de subida de archivos. Arrastra y suelta o haz clic para seleccionar archivo PDF",
+					jobTitleInput: "Campo de entrada para título de trabajo",
+					uploadButton: "Botón de subir y analizar currículum",
+				},
+			},
 			home: {
 				title: "Crea tu currículum profesional fácilmente",
 				description:

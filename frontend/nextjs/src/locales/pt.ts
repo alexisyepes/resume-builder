@@ -225,6 +225,101 @@ export default {
 			},
 		},
 		pages: {
+			analyzer: {
+				header: {
+					title: "Analisador de Currículo IA",
+					description:
+						"Faça upload do seu currículo em formato PDF e receba uma análise detalhada com pontuação e sugestões de melhoria usando inteligência artificial.",
+				},
+				uploadSection: {
+					title: "Upload de Currículo",
+					form: {
+						jobTitle: {
+							label: "Título do Cargo (Opcional)",
+							placeholder:
+								"ex. Engenheiro de Software, Gerente de Marketing, Piloto",
+							helperText:
+								"Adicionar um título de cargo personalizará a análise para requisitos específicos da função",
+						},
+						fileUpload: {
+							mainText: "Arraste seu arquivo PDF aqui",
+							secondaryText: "ou clique para selecionar",
+							sizeRestriction: "Tamanho máximo: 5MB • Apenas PDF",
+							selectedFile: "arquivo selecionado",
+						},
+						error: {
+							prefix: "Erro: ",
+						},
+						submitButton: {
+							default: {
+								text: "Analisar Currículo com IA",
+								iconAlt: "Ícone de arquivo",
+							},
+							uploading: {
+								text: "Analisando...",
+								iconAlt: "Ícone de carregamento",
+							},
+						},
+					},
+					instructions: {
+						title: "O que analisamos?",
+						items: [
+							"Estrutura e formatação do currículo",
+							"Palavras-chave e otimização ATS",
+							"Clareza e concisão do conteúdo",
+							"Conquistas quantificáveis e métricas",
+							"Gramática, ortografia e tom profissional",
+						],
+					},
+				},
+				resultsSection: {
+					title: "Resultados da Análise",
+					emptyState: {
+						title: "Nenhuma análise ainda",
+						description:
+							"Faça upload de um currículo em formato PDF para receber uma análise detalhada com pontuação personalizada e sugestões de melhoria.",
+						iconAlt: "Ícone de arquivo",
+					},
+					analysis: {
+						overallScore: {
+							title: "Pontuação Geral",
+							scoreTemplate: "{score}/100",
+							scoreSuffix: "/100",
+							tailoredFor: "Analisado para: {jobTitle}",
+						},
+						aiFeedback: {
+							title: "Feedback da IA",
+						},
+						strengths: {
+							title: "Pontos Fortes",
+							iconAlt: "Ícone de verificação",
+						},
+						suggestions: {
+							title: "Sugestões de Melhoria",
+							iconAlt: "Ícone de alerta",
+						},
+						actionButtons: {
+							print: "Imprimir Análise",
+							analyzeAnother: "Analisar Outro",
+						},
+					},
+				},
+				icons: {
+					fileText: "Ícone de documento",
+					briefcase: "Ícone de maleta",
+					upload: "Ícone de upload",
+					alertCircle: "Ícone de alerta",
+					checkCircle: "Ícone de marca de verificação",
+					star: "Ícone de estrela",
+					loader: "Ícone de carregamento",
+				},
+				accessibility: {
+					fileUploadArea:
+						"Área de upload de arquivo. Arraste e solte ou clique para selecionar arquivo PDF",
+					jobTitleInput: "Campo de entrada do título do cargo",
+					uploadButton: "Botão de upload e análise de currículo",
+				},
+			},
 			home: {
 				title: "Crie seu currículo profissional facilmente",
 				description:

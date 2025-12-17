@@ -10,6 +10,10 @@ export const LINKS = "Links"
 export const HOBBIES = "Hobbies"
 export const LANGUAGES = "Languages"
 export const CUSTOM_SECTION = "Custom Section"
+export const RESUME_VIEW_TAB = {
+	build_resume: "build_resume",
+	analyze_resume: "analyze_resume",
+}
 
 export type TemplateDesign = {
 	name: string
