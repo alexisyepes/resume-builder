@@ -3,7 +3,8 @@ const OpenAI = require("openai")
 const multer = require("multer")
 const fs = require("fs")
 const path = require("path")
-const { PdfReader } = require("pdfreader")
+const { PDFParse } = require("pdf-parse")
+
 const { authenticateToken } = require("../middlewares/auth")
 
 const openai = new OpenAI({
@@ -39,67 +40,41 @@ if (!fs.existsSync("uploads")) {
 	fs.mkdirSync("uploads", { recursive: true })
 }
 
-/**
- * Extract text from PDF using pdfreader
- */
-const extractTextFromPDF = (filePath) => {
-	return new Promise((resolve, reject) => {
-		let text = ""
-		let pageTexts = {}
-		let currentPage = 0
-		let itemCount = 0
-		let textItemCount = 0
+const extractTextFromPDF = async (filePath) => {
+	let parser
 
-		new PdfReader().parseFileItems(filePath, (err, item) => {
-			if (err) {
-				reject(err)
-			} else if (!item) {
-				// End of file
-				console.log(
-					`PDF parsing complete. Items processed: ${itemCount}, Text items: ${textItemCount}`
-				)
+	try {
+		console.log(`Reading PDF from: ${filePath}`)
+		const fs = require("fs")
 
-				// Combine all page texts in order
-				const sortedPages = Object.keys(pageTexts)
-					.sort((a, b) => parseInt(a) - parseInt(b))
-					.map((page) => pageTexts[page])
+		const dataBuffer = fs.readFileSync(filePath)
 
-				const combinedText = sortedPages.join("\n\n")
+		console.log(`PDF file size: ${dataBuffer.length} bytes`)
 
-				// Log detailed extraction info
-				console.log(`Pages extracted: ${Object.keys(pageTexts).length}`)
-				console.log(`Total text length: ${combinedText.length} chars`)
-				console.log(
-					`Non-whitespace chars: ${combinedText.replace(/\s/g, "").length}`
-				)
+		try {
+			parser = new PDFParse({ data: dataBuffer })
+			const result = await parser.getText()
+			console.log(`✅ PDF processed with pdf-parse/v2`)
+			console.log(`📄 Text extracted: ${result.text.length} characters`)
+			return result.text
+		} catch (parseError) {
+			console.log("pdf-parse/v2 failed...")
+		}
 
-				resolve(combinedText)
-			} else {
-				itemCount++
+		const pdfParse = require("pdf-parse")
+		const data = await pdfParse(dataBuffer)
+		console.log(`✅ PDF processed with pdf-parse`)
+		console.log(`📄 Texto extracted: ${data.text.length} characters`)
 
-				if (item.page) {
-					// Update current page
-					currentPage = item.page
-					if (!pageTexts[currentPage]) {
-						pageTexts[currentPage] = ""
-					}
-				}
-
-				if (item.text) {
-					textItemCount++
-					if (!pageTexts[currentPage]) {
-						pageTexts[currentPage] = ""
-					}
-					pageTexts[currentPage] += item.text + " "
-
-					// Log first few text items for debugging
-					if (textItemCount <= 5) {
-						console.log(`Text item ${textItemCount}: "${item.text}"`)
-					}
-				}
-			}
-		})
-	})
+		return data.text
+	} catch (error) {
+		console.error("❌ Error when extracting text from PDF:", error)
+		throw error
+	} finally {
+		if (parser) {
+			await parser.destroy?.()
+		}
+	}
 }
 
 /**
@@ -418,13 +393,14 @@ router.post(
 			// Prepare prompts for OpenAI with language support
 			console.log("\n--- Preparing AI Analysis ---")
 
-			const systemPrompt = `You are a professional resume analyzer with high standards. Your primary task is to evaluate how RELEVANT the resume is for the specific job title provided.
+			const systemPrompt = `You are a professional resume analyzer with medium to high standards. Your primary task is to evaluate how RELEVANT the resume is for the specific job title provided.
 				CRITICAL EVALUATION CRITERIA (in order of importance):
-				1. **RELEVANCE TO JOB TITLE** (MOST IMPORTANT): Score should be LOW if the resume has no relevant experience, skills, or education for the job title. Be STRICT about this.
-				2. **EXPERIENCE MATCH**: Does the candidate have actual experience in similar roles or industries?
+				1. **RELEVANCE TO JOB TITLE** (MOST IMPORTANT): Score should be LOW if the resume has no relevant experience, skills, or education for the job title.
+				2. **EXPERIENCE MATCH**: Does the candidate have actual experience, or has taken any relevant courses in similar roles or industries?
 				3. **SKILLS MATCH**: Does the candidate have the specific hard and soft skills required for this position?
 				4. **QUALIFICATIONS**: Does the candidate have the necessary education, certifications, or licenses?
 				5. **CAREER PROGRESSION**: Is there logical career progression toward this role?
+				6. **BILINGUAL**: Does the candidate speak more than one language?
 
 				SCORING GUIDELINES (be strict - these are real hiring standards):
 				- 90-100: Exceptional match - Has DIRECT, recent experience and EXACT qualifications for this specific role
