@@ -160,6 +160,79 @@ const validateAndCleanText = (text) => {
 }
 
 /**
+ * Get job-specific context for better evaluation
+ */
+function getJobSpecificContext(jobTitle) {
+	if (!jobTitle || jobTitle.trim() === "") {
+		return "Evaluate based on general professional standards."
+	}
+
+	const jobContexts = {
+		pilot:
+			"Requires: Flight training, aviation certifications, flight hours, medical clearance, instrument rating, FAA/Transport Canada licenses.",
+		"forklift driver":
+			"Requires: Forklift certification (counterbalance, reach truck), warehouse experience, safety training, physical stamina, inventory management.",
+		"fast food cook":
+			"Requires: Food handling certificate, kitchen experience, ability to work under pressure, knowledge of food safety standards, team coordination.",
+		"software engineer":
+			"Requires: Programming skills (JavaScript, Python, Java, etc.), CS degree/certifications, project experience, version control (Git), problem-solving.",
+		nurse:
+			"Requires: Nursing license (RN/LPN), medical training, clinical experience, BLS/CPR certification, patient care skills.",
+		teacher:
+			"Requires: Teaching certification, education degree, classroom experience, lesson planning, student assessment, curriculum development.",
+		manager:
+			"Requires: Leadership experience, team management, budgeting, strategic planning, project management, decision-making skills.",
+		receptionist:
+			"Requires: Customer service skills, phone/computer skills, organizational ability, multi-tasking, appointment scheduling.",
+		doctor:
+			"Requires: Medical degree, residency training, medical license, board certification, clinical experience.",
+		engineer:
+			"Requires: Engineering degree, technical certifications, project experience, problem-solving, CAD software knowledge.",
+		accountant:
+			"Requires: Accounting degree, CPA certification, bookkeeping skills, tax knowledge, financial software experience.",
+		sales:
+			"Requires: Sales experience, communication skills, negotiation, customer relationship management, target achievement.",
+		marketing:
+			"Requires: Marketing experience, digital skills (SEO, social media), analytics, campaign management, creativity.",
+		construction:
+			"Requires: Physical fitness, safety certifications, trade skills, equipment operation, blueprint reading.",
+		driver:
+			"Requires: Valid driver's license, clean driving record, knowledge of traffic laws, vehicle maintenance, delivery experience.",
+	}
+
+	const lowerTitle = jobTitle.toLowerCase()
+
+	// Find the best matching job context
+	for (const [key, context] of Object.entries(jobContexts)) {
+		if (lowerTitle.includes(key)) {
+			return `POSITION: ${jobTitle}\nREQUIREMENTS: ${context}`
+		}
+	}
+
+	// If no specific match found, check for partial matches
+	const partialMatches = {
+		junior:
+			"Entry-level position: More lenient with experience but require foundational skills and willingness to learn.",
+		senior:
+			"Senior position: Requires extensive experience, leadership, and specialized expertise.",
+		assistant:
+			"Assistant position: Requires support skills, organizational ability, and willingness to follow instructions.",
+		trainee:
+			"Training position: Requires basic education and strong learning attitude rather than experience.",
+		intern:
+			"Internship: Focus on educational background, coursework, and willingness to learn rather than professional experience.",
+	}
+
+	for (const [key, context] of Object.entries(partialMatches)) {
+		if (lowerTitle.includes(key)) {
+			return `POSITION: ${jobTitle}\nCONTEXT: ${context}`
+		}
+	}
+
+	return `POSITION: ${jobTitle}\nEvaluate based on general professional requirements for this role.`
+}
+
+/**
  * Parse OpenAI response to JSON
  */
 const parseAIResponse = (responseText) => {
@@ -179,6 +252,12 @@ const parseAIResponse = (responseText) => {
 			) {
 				// Ensure score is within range
 				parsed.score = Math.max(1, Math.min(100, parsed.score))
+
+				// Add relevanceExplanation if missing
+				if (!parsed.relevanceExplanation) {
+					parsed.relevanceExplanation =
+						"Score based on overall resume quality and relevance to position."
+				}
 
 				return parsed
 			}
@@ -201,6 +280,13 @@ const parseAIResponse = (responseText) => {
 					Array.isArray(parsed.suggestions)
 				) {
 					parsed.score = Math.max(1, Math.min(100, parsed.score))
+
+					// Add relevanceExplanation if missing
+					if (!parsed.relevanceExplanation) {
+						parsed.relevanceExplanation =
+							"Score based on overall resume quality and relevance to position."
+					}
+
 					return parsed
 				}
 			} catch (error) {
@@ -220,6 +306,8 @@ const parseAIResponse = (responseText) => {
 				cleanText.length > 0
 					? cleanText
 					: "Resume analysis completed successfully.",
+			relevanceExplanation:
+				"Unable to generate specific relevance analysis due to response format issues.",
 		}
 	} catch (error) {
 		console.error("Error parsing AI response:", error)
@@ -231,6 +319,8 @@ const parseAIResponse = (responseText) => {
 			summary: "Unable to generate detailed analysis.",
 			aiFeedback:
 				"The resume was processed but analysis could not be completed.",
+			relevanceExplanation:
+				"Analysis incomplete - unable to assess job relevance.",
 		}
 	}
 }
@@ -321,45 +411,74 @@ router.post(
 			console.log(`Job title: ${jobTitle || "Not specified"}`)
 			console.log(`Language: ${locale}`)
 
+			// Get job-specific context
+			const jobContext = getJobSpecificContext(jobTitle)
+			console.log(`Job context: ${jobContext.substring(0, 100)}...`)
+
 			// Prepare prompts for OpenAI with language support
 			console.log("\n--- Preparing AI Analysis ---")
 
-			const systemPrompt = `You are a professional resume analyzer. Analyze the resume and provide constructive feedback.
+			const systemPrompt = `You are a professional resume analyzer with high standards. Your primary task is to evaluate how RELEVANT the resume is for the specific job title provided.
+				CRITICAL EVALUATION CRITERIA (in order of importance):
+				1. **RELEVANCE TO JOB TITLE** (MOST IMPORTANT): Score should be LOW if the resume has no relevant experience, skills, or education for the job title. Be STRICT about this.
+				2. **EXPERIENCE MATCH**: Does the candidate have actual experience in similar roles or industries?
+				3. **SKILLS MATCH**: Does the candidate have the specific hard and soft skills required for this position?
+				4. **QUALIFICATIONS**: Does the candidate have the necessary education, certifications, or licenses?
+				5. **CAREER PROGRESSION**: Is there logical career progression toward this role?
 
-IMPORTANT: 
-1. Respond ONLY with a valid JSON object in this exact format:
-{
-    "score": [number between 1-100],
-    "strengths": ["strength1", "strength2", "strength3"],
-    "suggestions": ["suggestion1", "suggestion2", "suggestion3"],
-    "summary": "brief summary here",
-    "aiFeedback": "detailed feedback here"
-}
+				SCORING GUIDELINES (be strict - these are real hiring standards):
+				- 90-100: Exceptional match - Has DIRECT, recent experience and EXACT qualifications for this specific role
+				- 80-89: Strong match - Has highly relevant experience and most required qualifications
+				- 70-79: Good match - Has relevant transferable skills and some related experience
+				- 60-69: Fair match - Limited relevant experience but shows some potential and willingness to learn
+				- 40-59: Weak match - Minimal relevant experience or qualifications, major gaps exist
+				- 20-39: Poor match - Very little relevant experience, not qualified for the role
+				- 1-19: Very poor match - NO relevant experience or qualifications, completely unsuitable
 
-2. Provide your entire response in ${locale} language.
+				SPECIAL EVALUATION RULES:
+				1. For entry-level positions (junior, assistant, trainee, intern): Be more lenient with experience but strict with foundational skills and attitude
+				2. For senior/technical roles (pilot, engineer, doctor, manager): Be VERY strict with qualifications and experience - no exceptions
+				3. For students/young candidates: Consider education, extracurriculars, and transferable skills more heavily
+				4. If job title is NOT provided: Evaluate resume quality generically but still be objective
+				5. If resume is very brief or from a student: Provide constructive feedback but don't artificially inflate the score
 
-3. Even if the resume is brief or incomplete, provide the best analysis you can based on available content.`
+				RESPONSE FORMAT:
+				You MUST respond ONLY with a valid JSON object in this EXACT format:
+				{
+					"score": [number between 1-100],
+					"strengths": ["strength1", "strength2", "strength3"],
+					"suggestions": ["suggestion1", "suggestion2", "suggestion3"],
+					"summary": "brief summary here",
+					"aiFeedback": "detailed feedback here",
+					"relevanceExplanation": "Explain specifically why this score was given based on job relevance. Mention missing qualifications explicitly."
+				}
 
-			const userPrompt = `Analyze this resume${
-				jobTitle ? ` for a ${jobTitle} position` : ""
-			}:
+				IMPORTANT: Provide your entire response in ${locale} language.`
 
-RESUME CONTENT:
-${cleanText}
+			const userPrompt = `Analyze this resume for a ${
+				jobTitle || "general"
+			} position:
 
-${
-	cleanText.length < 100
-		? "NOTE: This is a brief resume. Please provide analysis based on the available content."
-		: ""
-}
+				RESUME CONTENT:
+				${cleanText}
+				${jobTitle ? `JOB TITLE: ${jobTitle}` : "GENERAL RESUME ANALYSIS"}
+				${jobContext}
 
-Provide your analysis in ${locale} language and in the required JSON format.`
+				CRITICAL EVALUATION INSTRUCTIONS:
+				1. Be OBJECTIVE and REALISTIC about hiring standards
+				2. If the resume has NO relevant experience for "${jobTitle}", the score MUST be LOW (1-40 range)
+				3. Explicitly identify MISSING qualifications for "${jobTitle}"
+				4. Consider if this candidate would realistically pass the first screening for this position
+				5. For student/young candidates: Focus on transferable skills but don't exaggerate qualifications
+				6. If this is clearly a mismatch (e.g., student resume for senior pilot position), give appropriate low score
+
+				Provide your analysis in ${locale} language and in the required JSON format.`
 
 			console.log("Calling OpenAI API...")
 
 			// Call OpenAI API
 			const response = await openai.chat.completions.create({
-				model: "gpt-3.5-turbo", // Using 3.5-turbo for better JSON reliability
+				model: "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "system",
@@ -370,8 +489,8 @@ Provide your analysis in ${locale} language and in the required JSON format.`
 						content: userPrompt,
 					},
 				],
-				max_tokens: 1500,
-				temperature: 0.7,
+				max_tokens: 1800,
+				temperature: 0.5, // Lower temperature for more consistent, strict evaluations
 			})
 
 			console.log("✓ OpenAI response received")
@@ -388,6 +507,11 @@ Provide your analysis in ${locale} language and in the required JSON format.`
 			console.log(`Score: ${analysisData.score}/100`)
 			console.log(`Strengths: ${analysisData.strengths.length} items`)
 			console.log(`Suggestions: ${analysisData.suggestions.length} items`)
+			if (analysisData.relevanceExplanation) {
+				console.log(
+					`Relevance: ${analysisData.relevanceExplanation.substring(0, 100)}...`
+				)
+			}
 
 			// Cleanup
 			cleanupFile(filePath)
@@ -405,13 +529,16 @@ Provide your analysis in ${locale} language and in the required JSON format.`
 					fileSize: req.file.size,
 					textLength: cleanText.length,
 					jobTitle: jobTitle || null,
+					jobContext:
+						jobContext.substring(0, 150) +
+						(jobContext.length > 150 ? "..." : ""),
 					language: locale,
 					extractedLines: lines.length,
 					analyzedAt: new Date().toISOString(),
 					note:
 						cleanText.length < 100
-							? "Brief resume analyzed"
-							: "Standard resume analyzed",
+							? "Brief resume analyzed - strict relevance scoring applied"
+							: "Standard resume analyzed - strict relevance scoring applied",
 				},
 			})
 		} catch (error) {
