@@ -14,6 +14,11 @@ export const RESUME_VIEW_TAB = {
 	build_resume: "build_resume",
 	analyze_resume: "analyze_resume",
 }
+export const PLAN_TYPES = {
+	FREE: "free",
+	BASIC: "basic",
+	PREMIUM: "premium",
+}
 
 export type TemplateDesign = {
 	name: string

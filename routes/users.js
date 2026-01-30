@@ -1,27 +1,27 @@
-const express = require("express")
-const router = express.Router()
-const { User, Resume } = require("../models")
-const { checkDownloadLimit } = require("../utils/downloadLimiter")
-const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes")
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const express = require("express");
+const router = express.Router();
+const { User, Resume, Subscription } = require("../models");
+const { checkDownloadLimit } = require("../utils/downloadLimiter");
+const { SERVER_RESPONSE_MESSAGES } = require("../shared/response-codes");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 router.post("/change-to-free-plan", async (req, res) => {
 	try {
-		const { userId, action } = req.body
+		const { userId, action } = req.body;
 
 		if (!userId) {
 			return res.status(400).json({
 				success: false,
 				error: "userId is required",
-			})
+			});
 		}
 
-		const user = await User.findByPk(userId)
+		const user = await User.findByPk(userId);
 		if (!user) {
 			return res.status(404).json({
 				success: false,
 				error: "User not found",
-			})
+			});
 		}
 
 		if (user.planType === "free") {
@@ -33,26 +33,26 @@ router.post("/change-to-free-plan", async (req, res) => {
 					planType: user.planType,
 					subscriptionStatus: user.subscriptionStatus,
 				},
-			})
+			});
 		}
 
-		console.log(`Changing user ${userId} from ${user.planType} to free plan`)
+		console.log(`Changing user ${userId} from ${user.planType} to free plan`);
 
 		// Cancel Stripe subscription if it exists
 		if (user.subscriptionId) {
 			try {
-				await stripe.subscriptions.cancel(user.subscriptionId)
+				await stripe.subscriptions.cancel(user.subscriptionId);
 
-				console.log(`Cancelled Stripe subscription: ${user.subscriptionId}`)
+				console.log(`Cancelled Stripe subscription: ${user.subscriptionId}`);
 
 				await Subscription.update(
 					{
 						plan: "free",
 					},
-					{ where: { stripeSubscriptionId: user.subscriptionId } }
-				)
+					{ where: { stripeSubscriptionId: user.subscriptionId } },
+				);
 			} catch (stripeError) {
-				console.error("Error cancelling Stripe subscription:", stripeError)
+				console.error("Error cancelling Stripe subscription:", stripeError);
 			}
 		}
 
@@ -60,15 +60,15 @@ router.post("/change-to-free-plan", async (req, res) => {
 			planType: "free",
 			subscriptionStatus: "canceled",
 			subscriptionId: null,
-		}
+		};
 
-		await user.update(updateData)
+		await user.update(updateData);
 
 		console.log(`Successfully changed user ${userId} to free plan`, {
 			downloadsRemaining: user.downloadsRemaining,
 			subscriptionEndDate: user.subscriptionEndDate,
 			note: "User can use remaining downloads until subscriptionEndDate",
-		})
+		});
 
 		const updatedUser = await User.findByPk(userId, {
 			attributes: [
@@ -83,22 +83,22 @@ router.post("/change-to-free-plan", async (req, res) => {
 				"subscriptionId",
 				"subscriptionEndDate",
 			],
-		})
+		});
 
-		let daysRemaining = 0
+		let daysRemaining = 0;
 		if (updatedUser.subscriptionEndDate) {
-			const now = new Date()
-			const endDate = new Date(updatedUser.subscriptionEndDate)
+			const now = new Date();
+			const endDate = new Date(updatedUser.subscriptionEndDate);
 			daysRemaining = Math.max(
 				0,
-				Math.ceil((endDate - now) / (1000 * 60 * 60 * 24))
-			)
+				Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)),
+			);
 		}
 
 		const messageResponse =
 			action === SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE
 				? SERVER_RESPONSE_MESSAGES.PLAN_CHANGE_TO_FREE_SUCCESS
-				: SERVER_RESPONSE_MESSAGES.PLAN_CANCELED_SUCCESS
+				: SERVER_RESPONSE_MESSAGES.PLAN_CANCELED_SUCCESS;
 
 		res.json({
 			success: true,
@@ -114,23 +114,23 @@ router.post("/change-to-free-plan", async (req, res) => {
 				note: `Can use ${
 					updatedUser.downloadsRemaining
 				} downloads until ${new Date(
-					updatedUser.subscriptionEndDate
+					updatedUser.subscriptionEndDate,
 				).toLocaleDateString()} (${daysRemaining} days)`,
 			},
-		})
+		});
 	} catch (error) {
-		console.error("Error changing to free plan:", error)
+		console.error("Error changing to free plan:", error);
 		res.status(500).json({
 			success: false,
 			error: "Internal server error",
 			details: error.message,
-		})
+		});
 	}
-})
+});
 
 router.get("/:userId/profile", async (req, res) => {
 	try {
-		const { userId } = req.params
+		const { userId } = req.params;
 
 		const user = await User.findByPk(userId, {
 			attributes: [
@@ -145,18 +145,18 @@ router.get("/:userId/profile", async (req, res) => {
 				"subscriptionStatus",
 				"subscriptionEndDate",
 			],
-		})
+		});
 
 		if (!user) {
 			return res.status(404).json({
 				success: false,
 				error: "User not found",
-			})
+			});
 		}
 
 		const downloadedResumesCount = await Resume.count({
 			where: { userId },
-		})
+		});
 
 		const profileData = {
 			id: user.id,
@@ -170,37 +170,37 @@ router.get("/:userId/profile", async (req, res) => {
 			resumesDownloaded: downloadedResumesCount,
 			subscriptionStatus: user.subscriptionStatus,
 			subscriptionEndDate: user.subscriptionEndDate,
-		}
+		};
 
-		res.json(profileData)
+		res.json(profileData);
 	} catch (error) {
-		console.error("Error fetching user profile:", error)
+		console.error("Error fetching user profile:", error);
 		res.status(500).json({
 			success: false,
 			error: "Internal server error",
-		})
+		});
 	}
-})
+});
 
 router.put("/:userId/profile", async (req, res) => {
 	try {
-		const { userId } = req.params
-		const { firstName, lastName } = req.body
+		const { userId } = req.params;
+		const { firstName, lastName } = req.body;
 
-		const user = await User.findByPk(userId)
+		const user = await User.findByPk(userId);
 
 		if (!user) {
 			return res.status(404).json({
 				success: false,
 				error: "User not found",
-			})
+			});
 		}
 
-		const updateData = {}
-		if (firstName !== undefined) updateData.firstName = firstName
-		if (lastName !== undefined) updateData.lastName = lastName
+		const updateData = {};
+		if (firstName !== undefined) updateData.firstName = firstName;
+		if (lastName !== undefined) updateData.lastName = lastName;
 
-		await user.update(updateData)
+		await user.update(updateData);
 
 		const updatedUser = await User.findByPk(userId, {
 			attributes: [
@@ -212,54 +212,54 @@ router.put("/:userId/profile", async (req, res) => {
 				"planType",
 				"totalDownloads",
 			],
-		})
+		});
 
-		res.json(updatedUser)
+		res.json(updatedUser);
 	} catch (error) {
-		console.error("Error updating user profile:", error)
+		console.error("Error updating user profile:", error);
 		res.status(500).json({
 			success: false,
 			error: "Internal server error",
-		})
+		});
 	}
-})
+});
 
 router.get("/:userId/download-limit", async (req, res) => {
 	try {
-		const { userId } = req.params
+		const { userId } = req.params;
 
-		const limitCheck = await checkDownloadLimit(userId)
+		const limitCheck = await checkDownloadLimit(userId);
 
-		console.log("LIMIT CHECK", limitCheck)
+		console.log("LIMIT CHECK", limitCheck);
 
 		res.json({
 			success: true,
 			...limitCheck,
-		})
+		});
 	} catch (error) {
-		console.error("Error checking download limit:", error)
+		console.error("Error checking download limit:", error);
 		res.status(500).json({
 			success: false,
 			error: "Internal server error",
-		})
+		});
 	}
-})
+});
 
 router.get("/:userId/download-stats", async (req, res) => {
 	try {
-		const { userId } = req.params
+		const { userId } = req.params;
 
 		const user = await User.findByPk(userId, {
 			attributes: ["id", "planType", "downloadsRemaining", "totalDownloads"],
-		})
+		});
 
 		if (!user) {
-			return res.status(404).json({ error: "User not found" })
+			return res.status(404).json({ error: "User not found" });
 		}
 
 		const downloadedResumesCount = await Resume.count({
 			where: { userId },
-		})
+		});
 
 		res.json({
 			planType: user.planType,
@@ -270,11 +270,11 @@ router.get("/:userId/download-stats", async (req, res) => {
 					: "unlimited",
 			totalDownloads: user.totalDownloads,
 			limit: user.planType === "free" ? 1 : "unlimited",
-		})
+		});
 	} catch (error) {
-		console.error("Error getting download stats:", error)
-		res.status(500).json({ error: "Internal server error" })
+		console.error("Error getting download stats:", error);
+		res.status(500).json({ error: "Internal server error" });
 	}
-})
+});
 
-module.exports = router
+module.exports = router;
