@@ -1,7 +1,7 @@
 // app/resume-analyzer/page.tsx
 "use client"
 
-import { useState, useRef, ChangeEvent, FormEvent } from "react"
+import { useState, useRef, ChangeEvent, FormEvent, useEffect } from "react"
 import {
 	Upload,
 	FileText,
@@ -14,6 +14,9 @@ import {
 import { useResumeContext } from "@/contexts/useResumeContext"
 import { useRouter } from "next/router"
 import { BsStars } from "react-icons/bs"
+import { UserProfile } from "@/types/store"
+import { PLAN_TYPES, RESUME_VIEW_TAB } from "@/constants"
+import useResumeStore from "@/store/useResumeStore"
 
 interface AnalysisResult {
 	score: number
@@ -23,7 +26,11 @@ interface AnalysisResult {
 	aiFeedback: string
 }
 
-export default function ResumeAnalyzer() {
+interface ResumeAnalyzerProps {
+	user: UserProfile
+}
+
+export default function ResumeAnalyzer({ user }: ResumeAnalyzerProps) {
 	const [file, setFile] = useState<File | null>(null)
 	const [jobTitle, setJobTitle] = useState<string>("")
 	const [isUploading, setIsUploading] = useState(false)
@@ -31,11 +38,18 @@ export default function ResumeAnalyzer() {
 	const [error, setError] = useState<string>("")
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const { t, apiBaseUrl } = useResumeContext()
+	const { setActiveResumeViewTab } = useResumeStore()
 	const tAny = t as any
 	const analyzer = tAny?.resume_builder?.pages.analyzer
 
 	const router = useRouter()
 	const { locale } = router
+
+	useEffect(() => {
+		if (user.planType !== PLAN_TYPES.PREMIUM) {
+			setActiveResumeViewTab(RESUME_VIEW_TAB.build_resume)
+		}
+	}, [user])
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files?.[0]

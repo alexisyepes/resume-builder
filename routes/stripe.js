@@ -1,19 +1,19 @@
-const express = require("express")
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-const { User } = require("../models")
-const router = express.Router()
+const express = require("express");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { User } = require("../models");
+const router = express.Router();
 
 router.post("/create-checkout-session", async (req, res) => {
 	try {
-		const { priceId, userId, planType } = req.body
+		const { priceId, userId, planType } = req.body;
 
-		const user = await User.findByPk(userId)
+		const user = await User.findByPk(userId);
 		if (!user) {
-			return res.status(404).json({ error: "Usuario no encontrado" })
+			return res.status(404).json({ error: "Usuario no encontrado" });
 		}
 
 		// Verificar si el usuario ya tiene un customer ID en Stripe
-		let customerId = user.stripeCustomerId
+		let customerId = user.stripeCustomerId;
 
 		if (!customerId) {
 			// Crear customer en Stripe si no existe
@@ -23,11 +23,11 @@ router.post("/create-checkout-session", async (req, res) => {
 				metadata: {
 					userId: user.id.toString(),
 				},
-			})
+			});
 
-			customerId = customer.id
+			customerId = customer.id;
 			// Guardar customer ID en la base de datos
-			await user.update({ stripeCustomerId: customerId })
+			await user.update({ stripeCustomerId: customerId });
 		}
 
 		// Crear sesión de checkout
@@ -52,32 +52,32 @@ router.post("/create-checkout-session", async (req, res) => {
 					planType: planType,
 				},
 			},
-		})
+		});
 
 		res.json({
 			clientSecret: session.client_secret,
 			sessionId: session.id,
-		})
+		});
 	} catch (error) {
-		console.error("Error creating checkout session:", error)
-		res.status(500).json({ error: error.message })
+		console.error("Error creating checkout session:", error);
+		res.status(500).json({ error: error.message });
 	}
-})
+});
 
 router.get("/session-status", async (req, res) => {
-	const { session_id } = req.query
+	const { session_id } = req.query;
 
 	try {
-		const session = await stripe.checkout.sessions.retrieve(session_id)
+		const session = await stripe.checkout.sessions.retrieve(session_id);
 
 		res.json({
 			status: session.status,
 			customer_email: session.customer_details?.email,
-		})
+		});
 	} catch (error) {
-		console.error("Error retrieving session:", error)
-		res.status(500).json({ error: error.message })
+		console.error("Error retrieving session:", error);
+		res.status(500).json({ error: error.message });
 	}
-})
+});
 
-module.exports = router
+module.exports = router;

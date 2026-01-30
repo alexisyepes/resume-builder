@@ -1,24 +1,24 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
 	PRICING_BASIC_PLAN_MONTHLY,
 	PRICING_BASIC_PLAN_YEARLY,
 	PRICING_PREMIUM_PLAN_MONTHLY,
 	PRICING_PREMIUM_PLAN_YEARLY,
-} from "@/constants"
-import { useResumeContext } from "@/contexts/useResumeContext"
-import { FiCheck, FiX, FiStar, FiZap, FiBriefcase } from "react-icons/fi"
-import { loadStripe } from "@stripe/stripe-js"
+} from "@/constants";
+import { useResumeContext } from "@/contexts/useResumeContext";
+import { FiCheck, FiX, FiStar, FiZap, FiBriefcase } from "react-icons/fi";
+import { loadStripe } from "@stripe/stripe-js";
 import {
 	EmbeddedCheckoutProvider,
 	EmbeddedCheckout,
-} from "@stripe/react-stripe-js"
-import { useProfile } from "@/hooks/useProfile"
-import { toast } from "react-toastify"
-import { DateTime } from "luxon"
-import { useConfirm } from "./ConfirmWindow"
-import { SERVER_RESPONSE_MESSAGES } from "../../shared/response-codes"
+} from "@stripe/react-stripe-js";
+import { useProfile } from "@/hooks/useProfile";
+import { toast } from "react-toastify";
+import { DateTime } from "luxon";
+import { useConfirm } from "./ConfirmWindow";
+import { SERVER_RESPONSE_MESSAGES } from "../../shared/response-codes";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const stripePriceIds = {
 	basic: {
 		monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_BASIC_MONTHLY,
@@ -28,7 +28,7 @@ const stripePriceIds = {
 		monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_MONTHLY,
 		yearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PREMIUM_YEARLY,
 	},
-}
+};
 
 export default function Plans({
 	billingCycle,
@@ -36,21 +36,22 @@ export default function Plans({
 	selectedPlan,
 	isInModal,
 }) {
-	const { t, isAuthenticated, apiBaseUrl, user } = useResumeContext()
-	const userId = (user?.id as string) || null
-	const { confirm } = useConfirm()
+	const { t, isAuthenticated, apiBaseUrl, user } = useResumeContext();
 
-	const { fetchUserProfile } = useProfile(userId, apiBaseUrl)
-	const tAny = t as any
-	const pricingTranslations = tAny?.resume_builder?.pages?.pricing
-	const serverResponseTranslations = tAny?.resume_builder?.server_responses
-	const confirmQuestionsTranslations = tAny?.resume_builder?.confirm_questions
-	const planIds = ["free", "basic", "premium"]
+	const userId = (user?.id as string) || null;
+	const { confirm } = useConfirm();
 
-	const [showCheckout, setShowCheckout] = useState(false)
-	const [clientSecret, setClientSecret] = useState("")
-	const [isLoading, setIsLoading] = useState<string | null>(null)
-	const [checkoutPlan, setCheckoutPlan] = useState<string>("")
+	const { fetchUserProfile } = useProfile(userId, apiBaseUrl);
+	const tAny = t as any;
+	const pricingTranslations = tAny?.resume_builder?.pages?.pricing;
+	const serverResponseTranslations = tAny?.resume_builder?.server_responses;
+	const confirmQuestionsTranslations = tAny?.resume_builder?.confirm_questions;
+	const planIds = ["free", "basic", "premium"];
+
+	const [showCheckout, setShowCheckout] = useState(false);
+	const [clientSecret, setClientSecret] = useState("");
+	const [isLoading, setIsLoading] = useState<string | null>(null);
+	const [checkoutPlan, setCheckoutPlan] = useState<string>("");
 
 	const staticPlanData = {
 		free: {
@@ -71,33 +72,33 @@ export default function Plans({
 			monthlyPrice: PRICING_PREMIUM_PLAN_MONTHLY,
 			yearlyPrice: PRICING_PREMIUM_PLAN_YEARLY,
 		},
-	}
+	};
 
 	const handlePlanUpgrade = async (planId: string) => {
 		if (planId === "free") {
-			handleFreePlan(planId)
-			return
+			handleFreePlan(planId);
+			return;
 		}
 
 		if (!isAuthenticated) {
-			window.location.href = "/signin"
-			return
+			window.location.href = "/signin";
+			return;
 		}
 
-		setIsLoading(planId)
-		setCheckoutPlan(planId)
+		setIsLoading(planId);
+		setCheckoutPlan(planId);
 
 		try {
-			const planPrices = stripePriceIds[planId as keyof typeof stripePriceIds]
+			const planPrices = stripePriceIds[planId as keyof typeof stripePriceIds];
 			if (!planPrices) {
-				throw new Error(`No Stripe prices configured for plan: ${planId}`)
+				throw new Error(`No Stripe prices configured for plan: ${planId}`);
 			}
 
 			const priceId =
-				billingCycle === "monthly" ? planPrices.monthly : planPrices.yearly
+				billingCycle === "monthly" ? planPrices.monthly : planPrices.yearly;
 
 			if (!priceId) {
-				throw new Error(`Price ID not found for ${planId} (${billingCycle})`)
+				throw new Error(`Price ID not found for ${planId} (${billingCycle})`);
 			}
 
 			const response = await fetch(
@@ -114,34 +115,36 @@ export default function Plans({
 						billingCycle,
 						customerEmail: user.email,
 					}),
-				}
-			)
+				},
+			);
 
 			if (!response.ok) {
-				const error = await response.json()
-				throw new Error(error.error || "Error creating checkout session")
+				const error = await response.json();
+				throw new Error(error.error || "Error creating checkout session");
 			}
 
-			const { clientSecret } = await response.json()
-			setClientSecret(clientSecret)
-			setShowCheckout(true)
+			const { clientSecret } = await response.json();
+			setClientSecret(clientSecret);
+			setShowCheckout(true);
 		} catch (error) {
-			console.error("Error creating checkout:", error)
-			alert(error instanceof Error ? error.message : "Error processing request")
+			console.error("Error creating checkout:", error);
+			alert(
+				error instanceof Error ? error.message : "Error processing request",
+			);
 		} finally {
-			setIsLoading(null)
+			setIsLoading(null);
 		}
-	}
+	};
 
 	const handleFreePlan = async (planId: string) => {
 		if (!isAuthenticated) {
-			window.location.href = "/signin"
-			return
+			window.location.href = "/signin";
+			return;
 		}
 
 		if (user.planType === "free") {
-			toast.warn(tAny?.resume_builder?.general.user_already_on_free_plan)
-			return
+			toast.warn(tAny?.resume_builder?.general.user_already_on_free_plan);
+			return;
 		}
 
 		const confirmation = await confirm({
@@ -150,13 +153,13 @@ export default function Plans({
 			confirmText: confirmQuestionsTranslations.confirm_yes,
 			cancelText: confirmQuestionsTranslations.confirm_cancel,
 			variant: "danger",
-		})
+		});
 
 		if (!confirmation) {
-			return
+			return;
 		}
 
-		setIsLoading(planId)
+		setIsLoading(planId);
 
 		try {
 			const response = await fetch(`${apiBaseUrl}/users/change-to-free-plan`, {
@@ -169,32 +172,32 @@ export default function Plans({
 					plan: "free",
 					action: SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE,
 				}),
-			})
+			});
 
-			const data = await response.json()
-			const { daysRemaining, downloadsRemaining, message } = data
-			await fetchUserProfile()
+			const data = await response.json();
+			const { daysRemaining, downloadsRemaining, message } = data;
+			await fetchUserProfile();
 
 			if (!response.ok) {
-				throw new Error(data.error || "Error changing plan")
+				throw new Error(data.error || "Error changing plan");
 			}
 
 			const serverResponse =
 				message === SERVER_RESPONSE_MESSAGES.DOWNGRADE_TO_FREE
 					? serverResponseTranslations.success_plan_change_and_downloads_remaining(
 							downloadsRemaining,
-							daysRemaining
-					  )
-					: serverResponseTranslations.cancel_subscription_success
+							daysRemaining,
+						)
+					: serverResponseTranslations.cancel_subscription_success;
 
-			toast.success(serverResponse || "Successfully changed to Free plan!")
+			toast.success(serverResponse || "Successfully changed to Free plan!");
 		} catch (error) {
-			console.error("Error:", error)
-			alert(error instanceof Error ? error.message : "Error changing plan")
+			console.error("Error:", error);
+			alert(error instanceof Error ? error.message : "Error changing plan");
 		} finally {
-			setIsLoading(null)
+			setIsLoading(null);
 		}
-	}
+	};
 
 	const getButtonText = (planId: string, translation: any) => {
 		if (isLoading === planId) {
@@ -218,19 +221,19 @@ export default function Plans({
 					</svg>
 					Processing...
 				</span>
-			)
+			);
 		}
 
 		if (isAuthenticated && user.planType === planId) {
-			return pricingTranslations?.plans?.current_plan || "Current Plan"
+			return pricingTranslations?.plans?.current_plan || "Current Plan";
 		}
 
-		return translation.cta
-	}
+		return translation.cta;
+	};
 
 	const isButtonDisabled = (planId: string) => {
-		return isLoading !== null || (isAuthenticated && user.planType === planId)
-	}
+		return isLoading !== null || (isAuthenticated && user.planType === planId);
+	};
 
 	return (
 		<>
@@ -280,10 +283,10 @@ export default function Plans({
 			>
 				{planIds.map((planId) => {
 					const staticData =
-						staticPlanData[planId as keyof typeof staticPlanData]
-					const translation = getPlanTranslation(planId)
-					const IconComponent = staticData.icon
-					const isCurrentPlan = isAuthenticated && user.planType === planId
+						staticPlanData[planId as keyof typeof staticPlanData];
+					const translation = getPlanTranslation(planId);
+					const IconComponent = staticData.icon;
+					const isCurrentPlan = isAuthenticated && user.planType === planId;
 
 					return (
 						<div
@@ -403,8 +406,8 @@ export default function Plans({
 										translation.popular
 											? "bg-gradient-to-r from-cyan-600 to-cyan-800 text-white hover:opacity-90"
 											: planId === "free"
-											? "bg-gray-100 text-gray-900 hover:bg-gray-200"
-											: "bg-gray-900 text-white hover:bg-gray-800"
+												? "bg-gray-100 text-gray-900 hover:bg-gray-200"
+												: "bg-gray-900 text-white hover:bg-gray-800"
 									}`}
 								>
 									{getButtonText(planId, translation)}
@@ -416,13 +419,13 @@ export default function Plans({
 										<p className="text-xs text-gray-500 text-center mt-2">
 											{pricingTranslations.billing.next_billing}:
 											{DateTime.fromISO(user.subscriptionEndDate).toFormat(
-												"yyyy-mm-dd"
+												"yyyy-mm-dd",
 											) || "N/A"}
 										</p>
 									)}
 							</div>
 						</div>
-					)
+					);
 				})}
 			</div>
 
@@ -452,5 +455,5 @@ export default function Plans({
 				</div>
 			</div>
 		</>
-	)
+	);
 }

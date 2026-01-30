@@ -1,22 +1,27 @@
-import { useRef, useEffect, useState } from "react"
-import axios from "axios"
-import { FaEye, FaKeyboard, FaLongArrowAltLeft, FaThList } from "react-icons/fa"
-import { GiLaptop } from "react-icons/gi"
-import { IoIosClose } from "react-icons/io"
-import { FaRegHandPointUp } from "react-icons/fa"
-import ResumePreview from "./ResumePreview"
-import TabSelector from "./TabSelector"
-import Inputs from "./Inputs"
-import TemplateSelector from "./TemplateSelector"
-import TemplateSlider from "./TemplateSlider"
-import { useResumeContext } from "@/contexts/useResumeContext"
-import useResumeStore from "@/store/useResumeStore"
-import { useWindowSize } from "@/hooks/useWindowSize"
-import { defaultResume } from "@/defaultResume"
-import { AnimatePresence, motion } from "framer-motion"
-import { useProfile } from "@/hooks/useProfile"
-import { RESUME_VIEW_TAB } from "@/constants"
-import ResumeAnalyzer from "./ResumeAnalyzer"
+import { useRef, useEffect, useState } from "react";
+import axios from "axios";
+import {
+	FaEye,
+	FaKeyboard,
+	FaLongArrowAltLeft,
+	FaThList,
+} from "react-icons/fa";
+import { GiLaptop } from "react-icons/gi";
+import { IoIosClose } from "react-icons/io";
+import { FaRegHandPointUp } from "react-icons/fa";
+import ResumePreview from "./ResumePreview";
+import TabSelector from "./TabSelector";
+import Inputs from "./Inputs";
+import TemplateSelector from "./TemplateSelector";
+import TemplateSlider from "./TemplateSlider";
+import { useResumeContext } from "@/contexts/useResumeContext";
+import useResumeStore from "@/store/useResumeStore";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { defaultResume } from "@/defaultResume";
+import { AnimatePresence, motion } from "framer-motion";
+import { useProfile } from "@/hooks/useProfile";
+import { RESUME_VIEW_TAB } from "@/constants";
+import ResumeAnalyzer from "./ResumeAnalyzer";
 
 const ResumeGenerator = () => {
 	const {
@@ -79,71 +84,71 @@ const ResumeGenerator = () => {
 		editing,
 		setEditing,
 		resetOrderedTabs,
-	} = useResumeStore()
-	const { t, langPrefix, templateDesigns } = useResumeContext()
-	const { width = 0 } = useWindowSize()
-	const userId = (user?.id as string) || null
-	const { openModal } = useProfile(userId, apiBaseUrl)
-	const resumeRef = useRef<HTMLDivElement | null>(null)
-	const inputRef = useRef<HTMLInputElement | null>(null)
-	const [activeMobileView, setActiveMobileView] = useState("")
+	} = useResumeStore();
+	const { t, langPrefix, templateDesigns } = useResumeContext();
+	const { width = 0 } = useWindowSize();
+	const userId = (user?.id as string) || null;
+	const { openModal } = useProfile(userId, apiBaseUrl);
+	const resumeRef = useRef<HTMLDivElement | null>(null);
+	const inputRef = useRef<HTMLInputElement | null>(null);
+	const [activeMobileView, setActiveMobileView] = useState("");
 
 	useEffect(() => {
 		if (template === "modern") {
 			// Resets the tabs order so skills section becomes unmutable for the moder design
-			resetOrderedTabs()
+			resetOrderedTabs();
 		}
-	}, [template])
+	}, [template]);
 
 	useEffect(() => {
-		setGeneratedResume(defaultResume)
-	}, [])
+		setGeneratedResume(defaultResume);
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (inputRef.current && !inputRef.current.contains(event.target)) {
-				setEditing(null)
+				setEditing(null);
 			}
-		}
+		};
 
 		if (editing) {
-			document.addEventListener("mousedown", handleClickOutside)
+			document.addEventListener("mousedown", handleClickOutside);
 		} else {
-			document.removeEventListener("mousedown", handleClickOutside)
+			document.removeEventListener("mousedown", handleClickOutside);
 		}
 
-		return () => document.removeEventListener("mousedown", handleClickOutside)
-	}, [editing])
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, [editing]);
 
 	const handleCustomTitleOnChange = (e) => {
-		const { name, value } = e.target
-		setCustomTitles({ [name]: value })
-	}
+		const { name, value } = e.target;
+		setCustomTitles({ [name]: value });
+	};
 
 	const handleTabChange = (tab) => {
-		setActiveTab(tab)
-	}
+		setActiveTab(tab);
+	};
 
 	const nextTab = () => {
-		const currentIndex = tabs.indexOf(activeTab)
+		const currentIndex = tabs.indexOf(activeTab);
 		if (currentIndex < tabs.length - 1) {
-			setActiveTab(tabs[currentIndex + 1])
+			setActiveTab(tabs[currentIndex + 1]);
 		}
-	}
+	};
 
 	const moveTabHandler = (fromIndex, toIndex) => {
 		useResumeStore.setState((state) => {
-			const updatedTabs = [...state.tabs]
-			const [movedTab] = updatedTabs.splice(fromIndex, 1)
-			updatedTabs.splice(toIndex, 0, movedTab)
-			return { tabs: updatedTabs }
-		})
-	}
+			const updatedTabs = [...state.tabs];
+			const [movedTab] = updatedTabs.splice(fromIndex, 1);
+			updatedTabs.splice(toIndex, 0, movedTab);
+			return { tabs: updatedTabs };
+		});
+	};
 
 	const regenerateSkillsSuggestions = async () => {
-		const token = localStorage.getItem("token")
+		const token = localStorage.getItem("token");
 		try {
-			setIsLoading(true)
+			setIsLoading(true);
 			const response = await axios.post(
 				`${process.env.NEXT_PUBLIC_BACKEND_SERVER}/ai/generate-skills`,
 				{
@@ -152,20 +157,20 @@ const ResumeGenerator = () => {
 				},
 				{
 					headers: { Authorization: `Bearer ${token}` },
-				}
-			)
-			setIsLoading(false)
-			setSuggestedSkills(response.data.resume.skills)
+				},
+			);
+			setIsLoading(false);
+			setSuggestedSkills(response.data.resume.skills);
 		} catch (error) {
-			setIsLoading(false)
-			console.error("Error generating skills:", error)
+			setIsLoading(false);
+			console.error("Error generating skills:", error);
 		}
-	}
+	};
 
 	const handleGenerateResume = async () => {
-		const token = localStorage.getItem("token")
+		const token = localStorage.getItem("token");
 		try {
-			setIsLoading(true)
+			setIsLoading(true);
 			const response = await axios.post(
 				`${apiBaseUrl}/ai/generate-objective`,
 				{
@@ -176,24 +181,24 @@ const ResumeGenerator = () => {
 				},
 				{
 					headers: { Authorization: `Bearer ${token}` },
-				}
-			)
-			setIsLoading(false)
-			setSuggestedSkills(response.data.resume.skills)
-			setObjective(response.data.resume.objective)
+				},
+			);
+			setIsLoading(false);
+			setSuggestedSkills(response.data.resume.skills);
+			setObjective(response.data.resume.objective);
 		} catch (error) {
-			setIsLoading(false)
-			console.error("Error generating objective:", error)
+			setIsLoading(false);
+			console.error("Error generating objective:", error);
 		}
-	}
+	};
 
 	const removeTabHandler = (index) => {
-		setTabs((prevTabs) => prevTabs.filter((_, i) => i !== index))
-	}
+		setTabs((prevTabs) => prevTabs.filter((_, i) => i !== index));
+	};
 
 	const addTabHandler = (newTab) => {
-		setTabs((prevTabs) => [...prevTabs, newTab])
-	}
+		setTabs((prevTabs) => [...prevTabs, newTab]);
+	};
 
 	return (
 		<div className="w-full bg-white pt-12">
@@ -240,7 +245,10 @@ const ResumeGenerator = () => {
 										: "text-cyan-700"
 								}  ml-2`}
 							>
-								{user.downloadsRemaining}
+								{Number(user.downloadsRemaining) < 9999
+									? user.downloadsRemaining
+									: t.resume_builder.pages?.pricing.comparison_table
+											.featuresComparison[0].premium}
 							</span>
 							{((user.downloadsRemaining &&
 								Number(user.downloadsRemaining) < 4) ||
@@ -259,7 +267,7 @@ const ResumeGenerator = () => {
 
 			{/* Analyze resume */}
 			{activeResumeViewTab === RESUME_VIEW_TAB.analyze_resume && (
-				<ResumeAnalyzer />
+				<ResumeAnalyzer user={user} />
 			)}
 
 			{/* Build Resume */}
@@ -663,7 +671,7 @@ const ResumeGenerator = () => {
 				</div>
 			)}
 		</div>
-	)
-}
+	);
+};
 
-export default ResumeGenerator
+export default ResumeGenerator;
